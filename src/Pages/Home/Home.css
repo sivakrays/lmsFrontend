@@ -1,0 +1,128 @@
+.heroImg {
+  width: 500px;
+}
+
+.hero_container {
+  background-image: url("../../Assets/HeroSection/pngkey.com-map-png-158921.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.heroLeft {
+  padding-top: 20px;
+  /* width: 45%; */
+}
+
+.herobtn {
+  background-image: url("../../Assets/HeroSection/btn.png");
+  width: 200px;
+  height: 85px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.btnImg {
+  width: 70px;
+}
+
+.universityImg {
+  width: 170px;
+  height: 25px;
+}
+
+/* Course Section */
+
+/* Media Query */
+
+@media (min-width: 320px) {
+  .universityImg {
+    width: 80px;
+    height: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroImg {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 475px) {}
+
+@media (max-width: 500px) {
+  .heading {
+    padding: 0;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroImg {
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .universityImg {
+    width: 100px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroImg {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .heroImg {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroLeft {
+    width: 40%;
+  }
+
+  .universityImg {
+    width: 100px;
+    height: 25px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroImg {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* course Section */
+
+  .course_container {
+    background-image: url("../../Assets/courseCard/coursePath.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    height: 250px;
+  }
+}
+
+@media (min-width: 1280px) {}

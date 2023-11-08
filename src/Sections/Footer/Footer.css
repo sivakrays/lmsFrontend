@@ -1,0 +1,26 @@
+/* Media Query */
+
+@media(min-width:320px) {}
+
+@media (min-width:375px) {
+    .p-375px {
+        padding-left: 10px;
+    }
+}
+
+@media(min-width:425px) {
+    .p-375px {
+        padding-left: 0;
+    }
+}
+
+@media(min-width:475px) {}
+
+@media(min-width:640px) {}
+
+@media(min-width:768px) {}
+
+@media(min-width:1024px) {}
+
+
+@media(min-width:1280px) {}

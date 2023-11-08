@@ -1,0 +1,8 @@
+.navbar {
+    position: fixed;
+    z-index: 1;
+}
+
+.logo {
+    z-index: 1;
+}
