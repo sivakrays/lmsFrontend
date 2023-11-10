@@ -1,0 +1,45 @@
+/* Media Query */
+
+@media(min-width:320px) {
+    .searchContainer {
+        padding: 0 16px 0px 16px;
+    }
+}
+
+@media (min-width:375px) {
+    .searchContainer {
+        padding: 0 22px 0px 22px;
+    }
+}
+
+@media(min-width:425px) {
+    .searchContainer {
+        padding: 0 28px 0px 28px;
+    }
+}
+
+@media(min-width:475px) {
+    .searchContainer {
+        padding: 0 5rem 0px 5rem;
+    }
+}
+
+@media(min-width:500px) {
+    .searchContainer {
+        padding: 0 50px 0px 50px;
+    }
+}
+
+@media(min-width:640px) {
+    .searchContainer {
+        padding: initial;
+    }
+}
+
+
+@media(min-width:768px) {}
+
+@media(min-width:1024px) {}
+
+
+@media(min-width:1280px) {}

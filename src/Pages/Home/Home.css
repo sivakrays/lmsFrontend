@@ -23,9 +23,7 @@
   background-position: center;
 }
 
-.btnImg {
-  width: 70px;
-}
+
 
 .universityImg {
   width: 170px;
@@ -70,6 +68,10 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  .btnImg {
+    width: 57px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -84,6 +86,10 @@
     width: 400px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .btnImg {
+    width: 70px;
   }
 }
 

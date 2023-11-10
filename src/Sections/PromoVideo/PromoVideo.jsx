@@ -5,6 +5,7 @@ import reviewer1 from "../../Assets/Promo/reviewer1.jpg";
 import reviewer2 from "../../Assets/Promo/reviewer2.jpg";
 import star from "../../Assets/courseCard/star.png";
 import halfStar from "../../Assets/courseCard/halfStar.png";
+import Button from "../../Components/Button/Button";
 
 const PromoVideo = () => {
   return (
@@ -27,7 +28,7 @@ const PromoVideo = () => {
           />
         </div>
       </div>
-      <div className="testimonials">
+      <div className="testimonialsbg" id="testimonials">
         <div className="testimonialsHeading flex flex-col items-center justify-center gap-3 sm:gap-3 md:gap-5 lg:flex-row xl:gap-16 xl:py-14">
           <p className="dayOne text-2xl text-textColor md:text-3xl">
             What our clients say
@@ -94,9 +95,7 @@ const PromoVideo = () => {
           </div>
         </div>
         <div className=" mt-10 flex items-center justify-center">
-          <button className="herobtn font-semibold text-textColor">
-            View all Testimonials
-          </button>
+          <Button name={"View All Testimonials"} path="/" />
         </div>
       </div>
     </div>

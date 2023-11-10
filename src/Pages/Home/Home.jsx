@@ -14,10 +14,7 @@ import feature3 from "../../Assets/courseCard/c3.png";
 import cardImg from "../../Assets/courseCard/courseImg.jpg";
 import cardImg1 from "../../Assets/courseCard/courseImg1.jpg";
 
-import facebook from "../../Assets/Footer/facebook.svg";
-import twitter from "../../Assets/Footer/twitter.svg";
-import instagram from "../../Assets/Footer/instagram.svg";
-
+import Button from "../../Components/Button/Button";
 import CourseCard from "../../Components/CourseCard/CourseCard";
 import CategorySection from "../../Sections/CategorySection/CategorySection";
 import PromoVideo from "../../Sections/PromoVideo/PromoVideo";
@@ -72,7 +69,10 @@ const Home = () => {
   return (
     <main className="w-full bg-herobg">
       {/* Hero Section */}
-      <section className="hero  hero_container h-full pt-14 md:pt-20 lg:pt-28">
+      <section
+        className="hero  hero_container h-full pt-14 md:pt-20 lg:pt-28"
+        id="/"
+      >
         <div className="md:px-16  lg:flex">
           <div className="heroLeft my-9 space-y-5 sm:my-14 sm:space-y-8 md:space-y-8 lg:space-y-10">
             <div className=" mx-auto  flex sm:w-[85%] md:w-[90%] lg:w-[100%]">
@@ -87,9 +87,7 @@ const Home = () => {
               sed do eiusmod temporidunt ut labore veniam...
             </p>
             <div className=" flex gap-8 px-8 sm:px-28 md:gap-14 lg:px-0">
-              <button className="herobtn font-semibold text-textColor">
-                Explore courses
-              </button>
+              <Button path="/course" name="Explore courses" />
               <img src={img1} alt="" className="btnImg" />
             </div>
 
@@ -234,7 +232,10 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="courseHeading flex flex-col items-center justify-center gap-3 sm:gap-3 md:gap-5 lg:flex-row xl:gap-16 xl:py-14">
+        <div
+          id="courses"
+          className="courseHeading flex flex-col items-center justify-center gap-3 sm:gap-3 md:gap-5 lg:flex-row xl:gap-16 xl:py-14"
+        >
           <p className="dayOne text-2xl text-textColor md:text-3xl">
             Featured Courses
           </p>
@@ -246,13 +247,13 @@ const Home = () => {
         <div className="cardSection">
           <div className="cardDiv mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
             {courseData.map((course) => (
-              <CourseCard course={course} />
+              <div key={course.id}>
+                <CourseCard course={course} />
+              </div>
             ))}
           </div>
           <div className="courseBtn mx-auto flex w-[75%] items-center justify-center pb-12">
-            <button className="herobtn font-semibold text-textColor">
-              Explore courses
-            </button>
+            <Button path="/course" name="Explore courses" />
           </div>
         </div>
       </section>
@@ -273,39 +274,7 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <div>
-        <footer className="footer bg-coursebg  py-9">
-          <Footer />
-        </footer>
-        <div className="flex flex-wrap justify-around py-3">
-          <p className="text-footerColor">
-            © 2022 | course desk. All rights reserved.
-          </p>
-          <ul className="flex gap-6">
-            <li>
-              <img
-                src={facebook}
-                alt="sociallmedia"
-                className="h-3 w-3 cursor-pointer object-contain sm:h-5 sm:w-5"
-              />
-            </li>
-            <li>
-              <img
-                src={twitter}
-                alt="sociallmedia"
-                className="h-3 w-3 cursor-pointer object-contain sm:h-5 sm:w-5"
-              />
-            </li>
-            <li>
-              <img
-                src={instagram}
-                alt="sociallmedia"
-                className="h-3 w-3 cursor-pointer object-contain sm:h-5 sm:w-5"
-              />
-            </li>
-          </ul>
-        </div>
-      </div>
+      <Footer />
     </main>
   );
 };

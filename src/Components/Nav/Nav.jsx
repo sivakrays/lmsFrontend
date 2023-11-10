@@ -1,40 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Nav.css";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 const Nav = () => {
+  const location = useLocation();
   const [toggle, setToggle] = useState(false);
+  const [currentPath, setCurrentPath] = useState("");
+
+  useEffect(() => {
+    setCurrentPath(location.pathname);
+  }, [location.pathname]);
 
   return (
     <>
       <div className="navbar w-full">
-        <nav className="flex h-20 items-center justify-around bg-herobg md:h-28">
-          <div className="logo flex items-center justify-center gap-2">
-            <span className=" dayOne rounded-md bg-textColor px-4 py-1 text-lg font-bold text-white">
-              Course
-            </span>
-            <span className="text-lg font-bold text-textColor">desk</span>
-          </div>
+        <nav
+          className={`flex h-20 items-center justify-around ${
+            currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
+          } md:h-28 `}
+        >
+          <Link to={"/"}>
+            <div className=" flex items-center justify-center gap-2">
+              <span className=" dayOne rounded-md bg-textColor px-4 py-1 text-lg font-bold text-white">
+                Course
+              </span>
+              <span className="text-lg font-bold text-textColor">desk</span>
+            </div>
+          </Link>
 
           <div className="nav_link">
             <ul className="hidden gap-12 text-textColor lg:flex">
               <li>
+                {/* <a href="#home" className="text-md font-semibold">
+                  Home
+                </a> */}
                 <Link to={"/"} className="text-md font-semibold">
-                  Online Degree
+                  Home
                 </Link>
               </li>
               <li>
-                <Link to={"/"} className="text-md font-semibold">
-                  Find your New Career
-                </Link>
+                <a href="#courses" className="text-md font-semibold">
+                  Featured Courses
+                </a>
+                {/* <Link to={"#course"} className="text-md font-semibold">
+                  Featured Courses
+                </Link> */}
               </li>
               <li>
-                <Link to={"/"} className="text-md font-semibold">
-                  Blog
-                </Link>
+                <a href="#testimonials" className="text-md font-semibold">
+                  Testimonials
+                </a>
+                {/* <Link to={"#testimonials"} className="text-md font-semibold">
+                  Testimonials
+                </Link> */}
               </li>
               <li>
-                <Link to={"/"} className="text-md font-semibold">
+                <Link to={"/contact"} className="text-md font-semibold">
                   Contact
                 </Link>
               </li>
@@ -61,7 +82,7 @@ const Nav = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="text-textColo h-11 w-11"
+                className="h-11 w-11 text-textColor"
               >
                 <path
                   strokeLinecap="round"
@@ -79,7 +100,7 @@ const Nav = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="text-textColo h-11 w-11"
+                className="h-11 w-11 text-textColor"
               >
                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
               </svg>
