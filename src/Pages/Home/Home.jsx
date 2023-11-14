@@ -71,7 +71,7 @@ const Home = () => {
       {/* Hero Section */}
       <section
         className="hero  hero_container h-full pt-14 md:pt-20 lg:pt-28"
-        id="/"
+        id="home"
       >
         <div className="md:px-16  lg:flex">
           <div className="heroLeft my-9 space-y-5 sm:my-14 sm:space-y-8 md:space-y-8 lg:space-y-10">

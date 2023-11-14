@@ -31,12 +31,15 @@ const Nav = () => {
           <div className="nav_link">
             <ul className="hidden gap-12 text-textColor lg:flex">
               <li>
-                {/* <a href="#home" className="text-md font-semibold">
+                <a
+                  href={`${currentPath === "/course" ? "/" : "#home"}`}
+                  className="text-md font-semibold"
+                >
                   Home
-                </a> */}
-                <Link to={"/"} className="text-md font-semibold">
+                </a>
+                {/* <Link to={"/"} className="text-md font-semibold">
                   Home
-                </Link>
+                </Link> */}
               </li>
               <li>
                 <a href="#courses" className="text-md font-semibold">

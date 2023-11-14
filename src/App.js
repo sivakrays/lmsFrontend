@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Nav from "./Components/Nav/Nav";
 import Course from "./Pages/Course/Course";
+import Video from "./Components/Video/Video";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Route element={<Nav />}>
           <Route path="/" element={<Home />} />
           <Route path="/course" element={<Course />} />
+          <Route path="/video" element={<Video />} />
         </Route>
       </Routes>
     </BrowserRouter>
