@@ -21,7 +21,7 @@ const Modal = ({ toggleModal, isModalOpen, setIsModalOpen, handleAccept }) => {
       {/* Main modal */}
       {isModalOpen && (
         <div
-          className=" fixed  flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+          className=" fixed top-0  flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
           data-modal-backdrop="static"
           style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
         >
