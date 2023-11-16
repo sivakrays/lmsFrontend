@@ -4,11 +4,9 @@ import Modal from "../Modal/Modal";
 
 const Video = () => {
   const playerRef = useRef(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [playedSecondsWhole, setPlayedSecondsWhole] = useState(0);
   const [shouldPause, setShouldPause] = useState(false);
   const [videoAccepted, setVideoAccepted] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -26,66 +24,63 @@ const Video = () => {
     setShouldPause(false);
   };
 
-  const handleDuration = (videoDuration) => {
-    setDuration(videoDuration);
+  const handleProgress = (state) => {
+    const currentSecondsWhole = Math.round(state.playedSeconds);
+    setPlayedSecondsWhole(currentSecondsWhole);
+
+    if (playedSecondsWhole === 5) {
+      handlePause(5);
+    }
+    if (playedSecondsWhole === 10) {
+      handlePause1(10);
+    }
   };
 
-  const handleProgress = (state) => {
-    setCurrentTime(state.playedSeconds);
+  const handlePause1 = (specificTimeToPause) => {
+    const tolerance = 0.5;
 
-    // Pause the video at a specific time (e.g., 5 seconds)
-    const specificTimeToPause = 10;
     if (
-      state.playedSeconds >= specificTimeToPause &&
+      Math.abs(playedSecondsWhole - specificTimeToPause) < tolerance &&
       !shouldPause &&
       !videoAccepted
     ) {
+      console.log("handlePause1 not working");
+    } else {
+      console.log("Pausing at", specificTimeToPause, "seconds");
       setShouldPause(true);
       setIsModalOpen(true);
     }
   };
 
-  const handleReady = () => {
-    if (playerRef.current) {
-      setDuration(playerRef.current.getDuration());
+  const handlePause = (specificTimeToPause) => {
+    const tolerance = 0.5;
+    if (
+      Math.abs(playedSecondsWhole - specificTimeToPause) < tolerance &&
+      !shouldPause &&
+      !videoAccepted
+    ) {
+      console.log("working");
+      console.log("Pausing at", specificTimeToPause, "seconds");
+      setShouldPause(true);
+      setIsModalOpen(true);
     }
   };
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-  };
-
-  console.log(formatTime(currentTime));
-  console.log(formatTime(duration));
-
   return (
     <div className="h-screen overflow-y-hidden bg-herobg pt-28">
-      <div className="video mx-auto w-[95%]  sm:w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
+      <div className="video mx-auto w-[95%] sm:w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
         <ReactPlayer
           ref={playerRef}
           url="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
           controls
           width="100%"
           height="10%"
-          playing={!shouldPause && !videoAccepted}
+          playing={!shouldPause}
           onPlay={() => console.log("Playing")}
-          config={{
-            file: {
-              attributes: {
-                controlsList: "nodownload nofullscreen noremoteplayback",
-                disablePictureInPicture: true,
-              },
-            },
-          }}
           onContextMenu={(e) => e.preventDefault()}
           onProgress={handleProgress}
-          onDuration={handleDuration}
-          onReady={handleReady}
         />
-        <p>Current Time: {formatTime(currentTime)}</p>
-        <p>Video Duration: {formatTime(duration)}</p>
+        <p>PlayedSeconds : {playedSecondsWhole}</p>
       </div>
 
       <Modal
