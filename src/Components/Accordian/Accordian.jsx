@@ -19,7 +19,7 @@ const NestedAccordionItem = ({ title, previewText }) => {
         <button
           type="button"
           onClick={toggleNestedAccordion}
-          className="flex w-full items-center gap-5 border  border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-800"
+          className="0 flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
         >
           <div className="flex w-3/4  items-center gap-5">
             <button onClick={showPreview}>
@@ -45,8 +45,8 @@ const NestedAccordionItem = ({ title, previewText }) => {
         </button>
       </h2>
       <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
-        <div className="border border-b-0 border-gray-200 p-5 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400">{previewText}</p>
+        <div className="border border-b-0  p-5 ">
+          <p className="text-textLigntColor ">{previewText}</p>
         </div>
       </div>
     </>
@@ -67,9 +67,8 @@ const AccordionItem = ({ title, nestedItems }) => {
           type="button"
           onClick={toggleAccordion}
           className="flex w-full items-center justify-between gap-3  border 
-           border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 focus:ring-4
-            focus:ring-gray-200 rtl:text-right dark:border-gray-700 dark:text-gray-400
-             dark:hover:bg-gray-800 dark:focus:ring-gray-800"
+           p-5 font-medium text-textColor hover:bg-gray-100 
+             rtl:text-right "
         >
           <span className=" md:text-md text-sm text-textColor">{title}</span>
           <img
