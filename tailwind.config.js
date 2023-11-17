@@ -12,6 +12,7 @@ module.exports = {
         herobg: "#FCFAF0",
         coursebg: "#FFF7E0",
         cardbg: "#F9F8F4",
+        yellowColor: "#FACC48",
       },
     },
   },

@@ -1,0 +1,18 @@
+.centerImg {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.centerText {
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.fixedCard {
+  position: fixed;
+  top: 30%;
+  right: 70px; /* Adjust this value based on your design */
+  z-index: 1000; /* Adjust the z-index as needed */
+}

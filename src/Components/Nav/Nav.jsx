@@ -58,7 +58,7 @@ const Nav = () => {
                 </Link> */}
               </li>
               <li>
-                <Link to={"/contact"} className="text-md font-semibold">
+                <Link to={"Contact"} className="text-md font-semibold">
                   Contact
                 </Link>
               </li>
@@ -67,10 +67,10 @@ const Nav = () => {
 
           <div className="nav_btn hidden gap-11 lg:flex">
             <button className="text-md cursor-pointer font-semibold  text-textColor">
-              Login
+              <Link to="login">Login</Link>
             </button>
             <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
-              Sign Up
+              <Link to="signup">Sign Up</Link>
             </button>
           </div>
 
