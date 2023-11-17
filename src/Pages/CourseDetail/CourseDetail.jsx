@@ -236,7 +236,9 @@ const CourseDetails = () => {
       <section className=" mx-auto  lg:mt-44 xl:mt-20 xl:w-[80%]">
         <div className="mb-20 border bg-white px-4 py-2 xl:w-[80ch]">
           <div className="mb-3   xl:w-full">
-            <h1 className="text-xl font-bold">What you'll learn</h1>
+            <h1 className="text-xl font-bold text-textColor">
+              What you'll learn
+            </h1>
             <div className="">
               <ul class="place-iems-center  grid list-outside list-disc grid-cols-1  gap-4   p-4 text-sm md:grid-cols-2">
                 {itemsToShow.map((item, index) => (
@@ -267,7 +269,9 @@ const CourseDetails = () => {
       <section className=" mx-auto  xl:w-[80%]">
         <div className="px-4  sm:py-2 xl:w-[80ch]">
           <div className="mb-8 ">
-            <h1 className=" p-2 text-xl font-bold">Course content</h1>
+            <h1 className=" p-2 text-xl font-bold text-textColor">
+              Course content
+            </h1>
             <div className="p-2 sm:flex sm:justify-between ">
               <p className=" text-xs sm:text-sm">
                 7 sections • 29 lectures • 4h 9m total length
