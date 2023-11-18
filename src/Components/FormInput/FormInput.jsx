@@ -11,7 +11,7 @@ const FormInput = (props) => {
   return (
     <>
       {path ? (
-        <div class="mt-4 sm:col-span-7">
+        <div className="mt-4 sm:col-span-7">
           <label
             className="block text-sm
             font-normal
@@ -21,8 +21,8 @@ const FormInput = (props) => {
             {label}
           </label>
 
-          <div class="mt-2 ">
-            <div class="flex  flex-col rounded-lg  sm:max-w-md">
+          <div className="mt-2 ">
+            <div className="flex  flex-col rounded-lg  sm:max-w-md">
               <input
                 className="input block flex-1 rounded-lg border border-gray-300 py-1.5  pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm  sm:leading-6"
                 {...inputProps}
@@ -37,7 +37,7 @@ const FormInput = (props) => {
           </div>
         </div>
       ) : (
-        <div class="mt-4 sm:col-span-7">
+        <div className="mt-4 sm:col-span-7">
           <label
             className="block text-lg 
             font-medium 
@@ -47,8 +47,8 @@ const FormInput = (props) => {
             {label}
           </label>
 
-          <div class="mt-2 ">
-            <div class="flex  flex-col rounded-lg  sm:max-w-md">
+          <div className="mt-2 ">
+            <div className="flex  flex-col rounded-lg  sm:max-w-md">
               <input
                 className="input block flex-1 rounded-lg border border-gray-300 py-1.5  pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm  sm:leading-6"
                 {...inputProps}

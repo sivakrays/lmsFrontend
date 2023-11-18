@@ -54,10 +54,10 @@ const Login = () => {
             />
           ))}
 
-          <div class="mt-6 sm:col-span-7">
+          <div className="mt-6 sm:col-span-7">
             <button
               type="submit"
-              class="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              className="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
             >
               LOGIN
             </button>

@@ -14,23 +14,35 @@ import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
 
 const Card = () => {
   const [isCardFixed, setIscardFixed] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
     const isFixed = scrollPosition > 200;
+    const windowHeight = window.innerHeight;
+    console.log("WindowHeight", windowHeight);
+    const documentHeight = document.documentElement.scrollHeight;
+    console.log("documentHeight", documentHeight);
+    const reachedBottom = scrollPosition + windowHeight >= 0.9 * documentHeight;
+    console.log("reachedBottom", reachedBottom);
     setIscardFixed(isFixed);
+    setIsAtBottom(reachedBottom);
   };
   useEffect(() => {
+    console.log("IScardFixed", isCardFixed);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isCardFixed]);
 
   return (
     <div
-      className={`hidden h-[730px] w-80 rounded-lg border-2 bg-white xl:block ${
-        isCardFixed ? "fixed right-[10%] top-20 z-10" : ""
+      className={`${
+        isAtBottom ? "hidden xl:hidden" : "" // Hide the div when at the bottom
+      } hidden h-[650px] w-80 rounded-lg border-2 bg-white  xl:block ${
+        isCardFixed ? "fixedCard z-10 overflow-hidden  xl:h-[432px]" : ""
       }`}
     >
       <div className="relative">
@@ -99,20 +111,20 @@ const Card = () => {
               28 downloadable resources
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span>
               <img src={mobile} alt="" className="w-4 object-contain" />
             </span>
             <span className="text-sm text-textColor">
               Access on mobile and TV
             </span>
-          </div>
-          <div className="flex items-center gap-2">
+          </div> */}
+          {/* <div className="flex items-center gap-2">
             <span>
               <img src={infinity} alt="" className="w-4 object-contain" />
             </span>
             <span className="text-sm text-textColor">Full lifetime access</span>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2">
             <span>
               <img src={trophy} alt="" className="w-4 object-contain" />

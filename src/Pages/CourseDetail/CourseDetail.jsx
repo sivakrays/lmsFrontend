@@ -51,8 +51,6 @@ const CourseDetails = () => {
             "The Complete Personal Finance for Kids and Teenagers Course by Steeve Simbert is a comprehensive, engaging, and fun online program, designed to boost the financial literacy of the younger generation. It uses entertaining animated cartoon videos to simplify complex financial, business, and economic concepts, covering everything from basic personal finance to investment strategies and retirement savings. ",
           quiz: "",
         },
-
-        // Add other nested items as needed
       ],
     },
     {
@@ -73,8 +71,6 @@ const CourseDetails = () => {
             " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
           quiz: "Financial Freedom Quiz",
         },
-
-        // Add other nested items as needed
       ],
     },
     {
@@ -95,11 +91,8 @@ const CourseDetails = () => {
             " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
           quiz: "Financial Freedom Quiz",
         },
-
-        // Add other nested items as needed
       ],
     },
-    // Add other items as needed
   ];
 
   const itemsToShow = readMore ? allListItems : allListItems.slice(0, 8);
@@ -133,7 +126,7 @@ const CourseDetails = () => {
               <p className="my-2 text-sm text-[#C0C3FA]">Accounting</p>
             </div>
 
-            <h1 className="text-3xl font-medium leading-normal text-textColor xl:text-white">
+            <h1 className="dayOne text-3xl font-medium leading-normal text-textColor xl:text-white">
               The Complete Personal Finance For Kids and Teenagers Course
             </h1>
             <p className="my-3 text-lg leading-normal text-textColor  xl:text-white">
@@ -187,7 +180,7 @@ const CourseDetails = () => {
               </div>
             </div>
             {/* display till 1024 */}
-            <div className="lg: mx-2 mt-4 flex h-52 flex-col xl:hidden">
+            <div className="lg: mx-1 mt-4 flex h-52 flex-col xl:hidden">
               <div className="flex flex-col">
                 <p className="text-2xl font-bold text-textColor">
                   ₹449{" "}
@@ -212,7 +205,7 @@ const CourseDetails = () => {
               </div>
               <div className="mb-2 flex flex-col  items-center space-y-4 md:items-start  ">
                 <button className=" boxShadow w-full border-2 border-textColor bg-mobilebg p-3 md:w-3/4">
-                  Add to cart
+                  Buy Now
                 </button>
 
                 <p className="text-text-color text-sm">
@@ -233,29 +226,29 @@ const CourseDetails = () => {
         </div>
       </section>
       {/* what you will learn section */}
-      <section className=" mx-auto  lg:mt-44 xl:mt-20 xl:w-[80%]">
-        <div className="mb-20 border bg-white px-4 py-2 xl:w-[80ch]">
+      <section className=" mx-auto  w-[90%] lg:mt-44 xl:mt-20 xl:w-[80%] ">
+        <div className="topShadow mb-10  border bg-white px-4 py-2 xl:w-[80ch]">
           <div className="mb-3   xl:w-full">
-            <h1 className="text-xl font-bold text-textColor">
+            <h1 className="dayOne text-xl font-bold text-textColor">
               What you'll learn
             </h1>
             <div className="">
-              <ul class="place-iems-center  grid list-outside list-disc grid-cols-1  gap-4   p-4 text-sm md:grid-cols-2">
+              <ul className="place-iems-center  grid list-outside list-disc grid-cols-1  gap-4   p-4 text-sm md:grid-cols-2">
                 {itemsToShow.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
-              <div className="flex flex-row  shadow-2xl">
+              <div className="  flex h-11 w-full flex-row">
                 <button
-                  className=" flex "
+                  className="  flex "
                   onClick={() => setReadMore(!readMore)}
                 >
                   {readMore ? "Show less" : "Show more"}
                   <span>
                     {readMore ? (
-                      <img src={downArrow} alt="" srcset="" />
+                      <img src={downArrow} alt="" />
                     ) : (
-                      <img src={upArrow} alt="" srcset="" />
+                      <img src={upArrow} alt="" />
                     )}
                   </span>
                 </button>
@@ -266,10 +259,10 @@ const CourseDetails = () => {
       </section>
 
       {/* Accordian Section */}
-      <section className=" mx-auto  xl:w-[80%]">
-        <div className="px-4  sm:py-2 xl:w-[80ch]">
+      <section className=" mx-auto w-[90%] xl:w-[80%]">
+        <div className="sm:py-2 xl:w-[80ch]">
           <div className="mb-8 ">
-            <h1 className=" p-2 text-xl font-bold text-textColor">
+            <h1 className=" dayOne p-2  text-xl font-bold text-textColor">
               Course content
             </h1>
             <div className="p-2 sm:flex sm:justify-between ">
@@ -277,7 +270,7 @@ const CourseDetails = () => {
                 7 sections • 29 lectures • 4h 9m total length
               </p>
               <span className="text-sm">
-                <button className="text-yellowColor  text-xs sm:text-sm">
+                <button className="text-xs  text-yellowColor sm:text-sm">
                   Expand all sections
                 </button>
               </span>
