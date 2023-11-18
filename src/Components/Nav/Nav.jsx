@@ -7,9 +7,15 @@ const Nav = () => {
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
 
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
   useEffect(() => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
+
+  console.log(location.pathname);
 
   return (
     <>
@@ -31,31 +37,43 @@ const Nav = () => {
           <div className="nav_link">
             <ul className="hidden gap-12 text-textColor lg:flex">
               <li>
-                <a
-                  href={`${currentPath === "/course" ? "/" : "#home"}`}
-                  className="text-md font-semibold"
-                >
-                  Home
-                </a>
-                {/* <Link to={"/"} className="text-md font-semibold">
-                  Home
-                </Link> */}
+                {currentPath === "/Contact" ||
+                currentPath === "/coursedetails" ||
+                currentPath === "/course" ? (
+                  <Link to={"/"} className="text-md font-semibold">
+                    Home
+                  </Link>
+                ) : (
+                  <a href="#home" className="text-md font-semibold">
+                    Home
+                  </a>
+                )}
               </li>
               <li>
-                <a href="#courses" className="text-md font-semibold">
-                  Featured Courses
-                </a>
-                {/* <Link to={"#course"} className="text-md font-semibold">
-                  Featured Courses
-                </Link> */}
+                {currentPath === "/Contact" ||
+                currentPath === "/coursedetails" ||
+                currentPath === "/course" ? (
+                  <Link to={"/"} className="text-md font-semibold">
+                    Featured Courses
+                  </Link>
+                ) : (
+                  <a href="#courses" className="text-md font-semibold">
+                    Featured Courses
+                  </a>
+                )}
               </li>
               <li>
-                <a href="#testimonials" className="text-md font-semibold">
-                  Testimonials
-                </a>
-                {/* <Link to={"#testimonials"} className="text-md font-semibold">
-                  Testimonials
-                </Link> */}
+                {currentPath === "/Contact" ||
+                currentPath === "/coursedetails" ||
+                currentPath === "/course" ? (
+                  <Link to={"/"} className="text-md font-semibold">
+                    Testimonials
+                  </Link>
+                ) : (
+                  <a href="#testimonials" className="text-md font-semibold">
+                    Testimonials
+                  </a>
+                )}
               </li>
               <li>
                 <Link to={"Contact"} className="text-md font-semibold">
@@ -118,22 +136,77 @@ const Nav = () => {
             }`}
           >
             <li>
-              <Link to={"/"} className="text-lg font-semibold">
-                Online Degree
-              </Link>
+              {currentPath === "/Contact" ||
+              currentPath === "/contact" ||
+              currentPath === "/coursedetails" ||
+              currentPath === "/course" ? (
+                <Link
+                  to={"/"}
+                  className="text-md font-semibold"
+                  onClick={handleToggle}
+                >
+                  Home
+                </Link>
+              ) : (
+                <a
+                  href="#home"
+                  className="text-lg font-semibold"
+                  onClick={handleToggle}
+                >
+                  Home
+                </a>
+              )}
             </li>
             <li>
-              <Link to={"/"} className="text-lg font-semibold">
-                Find your New Career
-              </Link>
+              {currentPath === "/Contact" ||
+              currentPath === "/contact" ||
+              currentPath === "/coursedetails" ||
+              currentPath === "/course" ? (
+                <Link
+                  to={"/"}
+                  className="text-md font-semibold"
+                  onClick={handleToggle}
+                >
+                  Featured Courses
+                </Link>
+              ) : (
+                <a
+                  href="#courses"
+                  className="text-lg font-semibold"
+                  onClick={handleToggle}
+                >
+                  Featured Courses
+                </a>
+              )}
             </li>
             <li>
-              <Link to={"/"} className="text-lg font-semibold">
-                Blog
-              </Link>
+              {currentPath === "/Contact" ||
+              currentPath === "/contact" ||
+              currentPath === "/coursedetails" ||
+              currentPath === "/course" ? (
+                <Link
+                  to={"/"}
+                  className="text-md font-semibold"
+                  onClick={handleToggle}
+                >
+                  Testimonials
+                </Link>
+              ) : (
+                <a
+                  href="#testimonials"
+                  className="text-lg font-semibold"
+                  onClick={handleToggle}
+                >
+                  Testimonials
+                </a>
+              )}
             </li>
             <li>
-              <Link to={"/"} className="text-lg font-semibold">
+              <Link
+                to={"/contact"}
+                className="text-lg font-semibold"
+                onClick={handleToggle}
+              >
                 Contact
               </Link>
             </li>
