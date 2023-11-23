@@ -1,11 +1,15 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../../Components/FormInput/FormInput";
-import { useMyContext } from "../../Context/AuthContext";
+import { authContext } from "../../Context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 
 const Login = () => {
-  // const { login } = useContext(useMyContext);
+  const navigate = useNavigate();
+  const { login } = useContext(authContext);
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -23,26 +27,51 @@ const Login = () => {
       id: 2,
       name: "password",
       label: "Password",
-      type: "text",
+      type: "password",
       errorMsg:
         "Password must contain 8 characters including one special character and one number",
       required: true,
       pattern: `^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8}$`,
     },
   ];
+
+  const successNotify = () =>
+    toast.success("Register Successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  console.log(values);
+  //console.log(values);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Login successfull", values);
-    const data = JSON.stringify(values);
-    // login(data);
+    //const data = JSON.stringify(values);
+    login(values, successNotify, errorNotify);
+    navigate("/home");
   };
+
   return (
     <div className="imageBg flex h-screen w-full items-center justify-center bg-herobg px-1">
-      <div className="boxShadow flex  h-auto w-96 flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0]  p-5">
+      <div className="flex h-auto  w-96 flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow">
         <form action="" onSubmit={handleSubmit}>
           <h1 className="text-text text-center text-3xl uppercase">Login</h1>
           {inputs.map((input) => (
@@ -73,6 +102,18 @@ const Login = () => {
           </p>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

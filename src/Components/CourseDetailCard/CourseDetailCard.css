@@ -12,7 +12,6 @@
 }
 .fixedCard {
   position: fixed;
-  top: 30%;
-  right: 70px; /* Adjust this value based on your design */
-  z-index: 1000; /* Adjust the z-index as needed */
+  top: 15%;
+  right: 150px;
 }

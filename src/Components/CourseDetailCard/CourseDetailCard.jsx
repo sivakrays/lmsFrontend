@@ -20,16 +20,20 @@ const Card = () => {
     const scrollPosition = window.scrollY;
     const isFixed = scrollPosition > 200;
     const windowHeight = window.innerHeight;
-    console.log("WindowHeight", windowHeight);
+    //console.log("WindowHeight", windowHeight);
     const documentHeight = document.documentElement.scrollHeight;
-    console.log("documentHeight", documentHeight);
-    const reachedBottom = scrollPosition + windowHeight >= 0.9 * documentHeight;
-    console.log("reachedBottom", reachedBottom);
+    //console.log("documentHeight", documentHeight);
+    const reachedBottom =
+      scrollPosition + windowHeight >= 0.85 * documentHeight;
+    //console.log("reachedBottom", reachedBottom);
     setIscardFixed(isFixed);
     setIsAtBottom(reachedBottom);
+    if (reachedBottom == true) {
+      setIscardFixed(false);
+    }
   };
   useEffect(() => {
-    console.log("IScardFixed", isCardFixed);
+    // console.log("IScardFixed", isCardFixed);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -39,10 +43,8 @@ const Card = () => {
 
   return (
     <div
-      className={`${
-        isAtBottom ? "hidden xl:hidden" : "" // Hide the div when at the bottom
-      } hidden h-[650px] w-80 rounded-lg border-2 bg-white  xl:block ${
-        isCardFixed ? "fixedCard z-10 overflow-hidden  xl:h-[432px]" : ""
+      className={` hidden h-[650px] w-80 rounded-lg border-2 bg-white  xl:block ${
+        isCardFixed ? "fixedCard" : ""
       }`}
     >
       <div className="relative">
@@ -76,14 +78,12 @@ const Card = () => {
           </div>
         </div>
         <div className="mb-2 flex flex-col  items-center space-y-4 ">
-          <button className=" boxShadow w-full border-2 border-textColor bg-mobilebg p-3">
+          <button className=" w-full border-2 border-textColor bg-mobilebg p-3 boxShadow">
             Add to cart
           </button>
-          <button className=" boxShadow w-full border-2 border-textColor p-3">
+          <button className=" w-full border-2 border-textColor p-3 boxShadow">
             Buy now
           </button>
-
-          <p className="text-text-color text-sm">30-Day Money-Back Guarantee</p>
         </div>
 
         <div className="space-y-3">

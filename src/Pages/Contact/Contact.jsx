@@ -53,7 +53,7 @@ const Contact = () => {
       id: 4,
       name: "phoneNumber",
       label: "Phone Number",
-      type: "number",
+      type: "text",
       errorMsg: "Please enter valid phone number",
       required: true,
     },
@@ -78,13 +78,14 @@ const Contact = () => {
       </div>
 
       <div
-        className="md:boxShadow mx-auto mb-6 flex h-auto w-[95%] flex-wrap items-center rounded-lg 
-      p-1 md:mx-auto md:mt-2 md:flex md:h-[600px]
-       md:w-5/6 md:flex-nowrap md:bg-mobilebg md:p-3 lg:w-4/6"
+        className="mx-auto mb-6 flex h-auto w-[95%] flex-wrap items-center rounded-lg 
+        p-1 md:mx-auto md:mb-10 md:mt-2
+      md:flex md:h-auto md:w-5/6 md:flex-nowrap md:border-2
+       md:border-textColor md:bg-mobilebg md:p-3 md:boxShadow lg:w-4/6"
       >
         <div
-          className="relative mx-auto h-96 w-full overflow-hidden rounded-lg border 
-        bg-yellowColor px-6 sm:h-[400px] sm:w-4/5 md:mx-auto md:h-full md:w-full lg:w-1/2"
+          className="relative mx-auto h-96 w-full overflow-hidden rounded-lg border bg-yellowColor 
+        px-6 sm:h-[400px] sm:w-4/5 md:mx-auto md:h-[600px] md:w-full lg:w-1/2"
         >
           <div
             className=" flex flex-col  items-center justify-center py-3 sm:flex  
@@ -158,13 +159,14 @@ const Contact = () => {
                 <FormInput
                   key={input.id}
                   {...input}
-                  value={values[contactInput.name]}
+                  value={values[input.name]}
                   onChange={() => {}}
                   path
                 />
               ))}
               <div className="sm:pr-8 md:pr-0">
                 <label
+                  htmlFor="Message"
                   className="block
             py-2
             text-sm
@@ -173,11 +175,11 @@ const Contact = () => {
                   Message
                 </label>
                 <textarea
-                  name=""
-                  id=""
+                  name="message"
+                  id="Message"
                   cols="28"
                   rows="3"
-                  className=" inputContact w-full  rounded-lg border"
+                  className="inputContact w-full  rounded-lg border"
                 ></textarea>
               </div>
               <div className="mt-6  w-full sm:pr-8 md:pr-0">

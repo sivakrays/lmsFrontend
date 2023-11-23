@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https:/lms/api/auth/";
+const BASE_URL = "http://192.168.80.70:8080/lms/api/auth/";
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,

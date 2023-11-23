@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Video from "../Video/Video";
 import "./Modal.css";
 
 const Modal = ({
@@ -8,6 +9,9 @@ const Modal = ({
   handleAccept,
   quiz,
   quiztitle,
+  isModalOpen1,
+  toggleModal1,
+  path,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -32,7 +36,40 @@ const Modal = ({
   };
 
   return (
-    <div className="mt-24 flex h-full items-center justify-center">
+    <div className="mt-24 flex  items-center justify-center">
+      {/* Main modal */}
+      {isModalOpen1 && path && (
+        <div
+          className=" fixed  top-0 flex   w-full items-center justify-center overflow-y-auto overflow-x-hidden border-2 pt-28 md:inset-0 "
+          data-modal-backdrop="static"
+          style={{ backgroundColor: "rgba(252, 250, 240, 0.7)" }}
+        >
+          <div className="relative  max-h-full w-full max-w-2xl">
+            {/* Modal content */}
+            <div className="relative h-auto rounded-lg border-2 bg-coursebg shadow ">
+              {/* Modal header */}
+              <div className=" rounded-t border-b p-4  md:p-5">
+                <div className="flex items-center justify-between">
+                  <h6 className="text-sm text-textColor">Course Preview</h6>
+                  <button onClick={toggleModal1}>X</button>
+                </div>
+                <div>
+                  <h2 className="dayOne text-textColor">
+                    The Complete Personal Finance for Kids and Teenagers Course
+                  </h2>
+                </div>
+              </div>
+
+              {/* Modal body */}
+              <div className="w-full">
+                <Video />
+              </div>
+              {/* Modal footer */}
+            </div>
+          </div>
+        </div>
+      )}
+
       {isModalOpen && (
         <div
           className="fixed top-0 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"

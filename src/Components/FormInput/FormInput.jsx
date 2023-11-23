@@ -4,7 +4,7 @@ import "./FormInput.css";
 const FormInput = (props) => {
   const [focused, setFocused] = useState(false);
   const { label, id, errorMsg, path, ...inputProps } = props;
-  console.log(props);
+  //console.log(props);
   const handleFocus = (e) => {
     setFocused(true);
   };
@@ -17,6 +17,8 @@ const FormInput = (props) => {
             font-normal
             leading-6
              text-gray-900"
+            data-testid="labelText"
+            htmlFor={label}
           >
             {label}
           </label>
@@ -24,13 +26,18 @@ const FormInput = (props) => {
           <div className="mt-2 ">
             <div className="flex  flex-col rounded-lg  sm:max-w-md">
               <input
+                id={label}
+                data-testid="inputBox"
                 className="input block flex-1 rounded-lg border border-gray-300 py-1.5  pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm  sm:leading-6"
                 {...inputProps}
                 onFocus={handleFocus}
                 focused={focused.toString()}
                 autoComplete="off"
               />
-              <span className="errSpan mt-2 text-sm text-red-800">
+              <span
+                className="errSpan mt-2 text-sm text-red-800"
+                data-testid="errMsg"
+              >
                 {errorMsg}
               </span>
             </div>
@@ -43,6 +50,7 @@ const FormInput = (props) => {
             font-medium 
             leading-6
              text-gray-900"
+            data-testid="labelText"
           >
             {label}
           </label>
@@ -50,13 +58,17 @@ const FormInput = (props) => {
           <div className="mt-2 ">
             <div className="flex  flex-col rounded-lg  sm:max-w-md">
               <input
+                data-testid="inputBox"
                 className="input block flex-1 rounded-lg border border-gray-300 py-1.5  pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm  sm:leading-6"
                 {...inputProps}
                 onFocus={handleFocus}
                 focused={focused.toString()}
                 autoComplete="off"
               />
-              <span className="errSpan mt-2 text-sm text-red-800">
+              <span
+                className="errSpan mt-2 text-sm text-red-800"
+                data-testid="errMsg"
+              >
                 {errorMsg}
               </span>
             </div>

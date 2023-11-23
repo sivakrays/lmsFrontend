@@ -21,6 +21,7 @@ const CourseDetails = () => {
     window.scrollTo(0, 0);
   }, []);
   const [readMore, setReadMore] = useState(false);
+  const [isAllOpen, setIsAllOpen] = useState(false);
   const allListItems = [
     "Learn about personal finance, budgeting and how to manage your money",
     "Better understand money and the economy",
@@ -96,6 +97,13 @@ const CourseDetails = () => {
   ];
 
   const itemsToShow = readMore ? allListItems : allListItems.slice(0, 8);
+
+  const showAll = () => {
+    console.log("Working");
+    setIsAllOpen(!isAllOpen);
+  };
+
+  console.log("isAllOpen", isAllOpen);
 
   return (
     <div className=" bg-herobg pt-16 md:pt-24 lg:pt-20   xl:pt-28">
@@ -204,7 +212,7 @@ const CourseDetails = () => {
                 </div>
               </div>
               <div className="mb-2 flex flex-col  items-center space-y-4 md:items-start  ">
-                <button className=" boxShadow w-full border-2 border-textColor bg-mobilebg p-3 md:w-3/4">
+                <button className=" w-full border-2 border-textColor bg-mobilebg p-3 boxShadow md:w-3/4">
                   Buy Now
                 </button>
 
@@ -226,14 +234,14 @@ const CourseDetails = () => {
         </div>
       </section>
       {/* what you will learn section */}
-      <section className=" mx-auto  w-[90%] lg:mt-44 xl:mt-20 xl:w-[80%] ">
-        <div className="topShadow mb-10  border bg-white px-4 py-2 xl:w-[80ch]">
+      <section className=" mx-auto w-[90%]   lg:mt-44 xl:mt-20 xl:w-[80%] ">
+        <div className="topShadow mb-10  border  bg-white px-4 py-2  xl:w-[80ch]">
           <div className="mb-3   xl:w-full">
             <h1 className="dayOne text-xl font-bold text-textColor">
               What you'll learn
             </h1>
             <div className="">
-              <ul className="place-iems-center  grid list-outside list-disc grid-cols-1  gap-4   p-4 text-sm md:grid-cols-2">
+              <ul className="place-iems-center grid list-outside list-disc grid-cols-1 gap-4  p-4   text-sm duration-500 md:grid-cols-2">
                 {itemsToShow.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
@@ -269,15 +277,32 @@ const CourseDetails = () => {
               <p className=" text-xs sm:text-sm">
                 7 sections • 29 lectures • 4h 9m total length
               </p>
-              <span className="text-sm">
-                <button className="text-xs  text-yellowColor sm:text-sm">
-                  Expand all sections
-                </button>
-              </span>
+              {isAllOpen ? (
+                <span className="text-sm">
+                  <button
+                    className="text-xs  text-yellowColor sm:text-sm"
+                    onClick={showAll}
+                  >
+                    Collapse all sections
+                  </button>
+                </span>
+              ) : (
+                <span className="text-sm">
+                  <button
+                    className="text-xs  text-yellowColor sm:text-sm"
+                    onClick={showAll}
+                  >
+                    Expand all sections
+                  </button>
+                </span>
+              )}
             </div>
           </div>
           <div>
-            <Accordion accordianDetails={accordianDetails} />
+            <Accordion
+              accordianDetails={accordianDetails}
+              isAllOpen={isAllOpen}
+            />
           </div>
         </div>
       </section>

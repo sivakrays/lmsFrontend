@@ -1,11 +1,14 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { post } from "../../ApiCall/ApiCall";
 import FormInput from "../../Components/FormInput/FormInput";
-import { useMyContext } from "../../Context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css";
 
 const Signup = () => {
-  const { signUp } = useMyContext();
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     fullname: "",
     email: "",
@@ -41,7 +44,7 @@ const Signup = () => {
     },
     {
       id: 4,
-      name: "confirmpassword",
+      name: "confirmPassword",
       label: "Confirm Paasword",
       type: "password",
       errorMsg: "Password does not matched",
@@ -54,17 +57,67 @@ const Signup = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handle submit called");
+    //console.log("handle submit called");
     if (values !== "") {
-      console.log("Signup successfull", values);
-      const data = JSON.stringify(values);
-      console.log("Data from signup", data);
+      // console.log("Signup successfull", values);
+      //const data = JSON.stringify(values);
+      //console.log("Data from signup", data);
       signUp(values);
     }
   };
+
+  const successNotify = () =>
+    toast.success("Register Successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const signUp = async ({ fullname, email, password, confirmPassword }) => {
+    // console.log("signup called");
+    //API Call
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const data = {
+      name: fullname,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+
+    console.log("Dataaaa", data);
+    return await post(`/register`, data, config)
+      .then((res) => {
+        successNotify();
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        errorNotify(error.message);
+      });
+  };
+
   return (
-    <div className="imageBg flex  w-full items-center justify-center bg-herobg px-1 pt-20">
-      <div className="boxShadow mb-10  flex h-auto w-96 flex-col rounded-md border-2 border-[#334456bf]  bg-[#FFF7E0] p-5 md:mt-20">
+    <div className="imageBg flex  h-screen w-full items-center justify-center bg-herobg px-1 pt-20">
+      <div className="mb-10 flex  h-auto w-96 flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0]  p-5 boxShadow md:mt-20">
         <form action="" onSubmit={handleSubmit}>
           <h1 className="text-text text-center text-3xl uppercase">Signup</h1>
           {inputs.map((input) => (
@@ -94,6 +147,18 @@ const Signup = () => {
           </p>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
