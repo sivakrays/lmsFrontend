@@ -39,6 +39,8 @@ const Nav = () => {
               <li>
                 {currentPath === "/Contact" ||
                 currentPath === "/coursedetails" ||
+                currentPath === "/login" ||
+                currentPath === "/signup" ||
                 currentPath === "/course" ? (
                   <Link to={"/"} className="text-md font-semibold">
                     Home
@@ -52,6 +54,8 @@ const Nav = () => {
               <li>
                 {currentPath === "/Contact" ||
                 currentPath === "/coursedetails" ||
+                currentPath === "/login" ||
+                currentPath === "/signup" ||
                 currentPath === "/course" ? (
                   <Link to={"/"} className="text-md font-semibold">
                     Featured Courses
@@ -65,6 +69,8 @@ const Nav = () => {
               <li>
                 {currentPath === "/Contact" ||
                 currentPath === "/coursedetails" ||
+                currentPath === "/login" ||
+                currentPath === "/signup" ||
                 currentPath === "/course" ? (
                   <Link to={"/"} className="text-md font-semibold">
                     Testimonials
@@ -96,6 +102,7 @@ const Nav = () => {
             <button
               className="z-10 block lg:hidden"
               onClick={() => setToggle(!toggle)}
+              data-testid="toggleBtn"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,11 +141,13 @@ const Nav = () => {
             className={`fixed flex h-full w-full flex-col items-center justify-center gap-5  bg-mobilebg uppercase text-textColor duration-500 ${
               !toggle ? "top-[-100%]" : "top-0"
             }`}
+            data-testid="mobile_menu"
           >
             <li>
               {currentPath === "/Contact" ||
-              currentPath === "/contact" ||
               currentPath === "/coursedetails" ||
+              currentPath === "/login" ||
+              currentPath === "/signup" ||
               currentPath === "/course" ? (
                 <Link
                   to={"/"}
@@ -159,8 +168,9 @@ const Nav = () => {
             </li>
             <li>
               {currentPath === "/Contact" ||
-              currentPath === "/contact" ||
               currentPath === "/coursedetails" ||
+              currentPath === "/login" ||
+              currentPath === "/signup" ||
               currentPath === "/course" ? (
                 <Link
                   to={"/"}
@@ -172,7 +182,7 @@ const Nav = () => {
               ) : (
                 <a
                   href="#courses"
-                  className="text-lg font-semibold"
+                  className="text-md font-semibold"
                   onClick={handleToggle}
                 >
                   Featured Courses
@@ -181,8 +191,9 @@ const Nav = () => {
             </li>
             <li>
               {currentPath === "/Contact" ||
-              currentPath === "/contact" ||
               currentPath === "/coursedetails" ||
+              currentPath === "/login" ||
+              currentPath === "/signup" ||
               currentPath === "/course" ? (
                 <Link
                   to={"/"}
@@ -194,7 +205,7 @@ const Nav = () => {
               ) : (
                 <a
                   href="#testimonials"
-                  className="text-lg font-semibold"
+                  className="text-md font-semibold"
                   onClick={handleToggle}
                 >
                   Testimonials
@@ -204,11 +215,27 @@ const Nav = () => {
             <li>
               <Link
                 to={"/contact"}
-                className="text-lg font-semibold"
+                className="text-md font-semibold"
                 onClick={handleToggle}
               >
                 Contact
               </Link>
+            </li>
+            <li>
+              <button
+                className="text-md w-[110px] cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5  font-semibold text-white hover:bg-transparent hover:text-textColor hover:duration-500"
+                onClick={handleToggle}
+              >
+                <Link to="/login">Login</Link>
+              </button>
+            </li>
+            <li>
+              <button
+                className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500"
+                onClick={handleToggle}
+              >
+                <Link to="/signup">Sign Up</Link>
+              </button>
             </li>
           </ul>
         </nav>

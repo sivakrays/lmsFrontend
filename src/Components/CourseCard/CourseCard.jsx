@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 const CourseCard = ({ course }) => {
   return (
-    <Link to="coursedetails">
-      <div className="boxShadow mt-6 cursor-pointer rounded duration-500 ease-in-out">
+    <Link to="/coursedetails">
+      <div className="mt-6 cursor-pointer rounded duration-500 ease-in-out boxShadow">
         <div className="courseCard flex h-[430px] w-[290px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg">
           <div className="cardImg p-3">
             <img
