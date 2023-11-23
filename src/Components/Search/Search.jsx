@@ -5,7 +5,7 @@ const Search = () => {
   return (
     <>
       <div className=" searchContainer w-full sm:mx-auto sm:w-3/4 ">
-        <div className="boxShadow mx-auto sm:w-3/4 md:mb-5 md:mt-5 lg:w-2/4">
+        <div className="mx-auto boxShadow sm:w-3/4 md:mb-5 md:mt-5 lg:w-2/4">
           <form>
             <label
               htmlFor="default-search"
@@ -39,6 +39,7 @@ const Search = () => {
                 required
               />
               <button
+                data-testid="Search"
                 type="submit"
                 className="absolute bottom-2.5 right-2.5 rounded-lg bg-textColor px-4 py-2 text-sm font-medium text-white focus:outline-none "
               >

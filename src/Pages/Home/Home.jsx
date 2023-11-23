@@ -3,10 +3,7 @@ import "./Home.css";
 import heroImg from "../../Assets/HeroSection/Mask group.svg";
 import frame from "../../Assets/HeroSection/Frame.svg";
 import img1 from "../../Assets/HeroSection/Exclude.svg";
-import star from "../../Assets/HeroSection/start.svg";
-import university1 from "../../Assets/HeroSection/university1.svg";
-import university2 from "../../Assets/HeroSection/university2.svg";
-import university3 from "../../Assets/HeroSection/university3.svg";
+import videoImg from "../../Assets/HeroSection/Video.svg";
 
 import feature1 from "../../Assets/courseCard/c1.png";
 import feature2 from "../../Assets/courseCard/c2.png";
@@ -19,8 +16,12 @@ import CourseCard from "../../Components/CourseCard/CourseCard";
 import CategorySection from "../../Sections/CategorySection/CategorySection";
 import PromoVideo from "../../Sections/PromoVideo/PromoVideo";
 import Footer from "../../Sections/Footer/Footer";
+import { get } from "../../ApiCall/ApiCall";
 
 const Home = () => {
+  // get('',config).then((res)=>{
+
+  // })
   const courseData = [
     {
       id: "1",
@@ -79,7 +80,7 @@ const Home = () => {
               <h1 className="heading dayOne px-5 text-3xl font-bold text-textColor sm:text-5xl md:text-5xl lg:px-0 lg:text-3xl xl:text-6xl">
                 Boost your skill <br /> with experts
               </h1>
-              <img src={star} alt="" className="w-7 sm:w-10 md:w-12 " />
+              {/* <img src={star} alt="" className="w-7 sm:w-10 md:w-12 " /> */}
             </div>
 
             <p className="mx-auto w-[85%] flex-1 text-lg font-semibold  text-textLigntColor sm:w-4/5 lg:w-[100%]">
@@ -91,15 +92,20 @@ const Home = () => {
               <img src={img1} alt="" className="btnImg" />
             </div>
 
-            <div className="universities flex  gap-0 px-5 md:mt-6 lg:mt-20 lg:px-2 xl:px-0">
+            {/* <div className="universities flex  gap-0 px-5 md:mt-6 lg:mt-20 lg:px-2 xl:px-0">
               <img src={university1} alt="" className="universityImg" />
               <img src={university2} alt="" className="universityImg" />
               <img src={university3} alt="" className="universityImg" />
-            </div>
+            </div> */}
           </div>
 
-          <div className="heroCenter flex items-center justify-center ">
+          <div className="heroCenter relative flex items-center justify-center">
             <img src={heroImg} alt="" className="heroImg" />
+            <img
+              src={videoImg}
+              alt=""
+              className="videoImg  absolute left-[55%] top-11 w-24 "
+            />
           </div>
 
           <div className="heroRight mx-auto mt-11 flex w-[80%] flex-col justify-center sm:w-[90%] sm:flex-row sm:gap-5 md:w-[90%] lg:mt-20 lg:w-[10%] lg:flex-col lg:gap-2 xl:w-[15%] xl:gap-4">

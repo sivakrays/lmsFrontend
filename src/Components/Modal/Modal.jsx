@@ -1,117 +1,122 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Modal.css";
 
-const Modal = ({ toggleModal, isModalOpen, setIsModalOpen, handleAccept }) => {
-  //   const handleDecline = () => {
-  //     // Handle the decline action
-  //     closeModal();
-  //   };
+const Modal = ({
+  toggleModal,
+  isModalOpen,
+  setIsModalOpen,
+  handleAccept,
+  quiz,
+  quiztitle,
+}) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const itemsPerPage = 2;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const totalPages = Math.ceil(quiz && quiz.length / itemsPerPage);
+
+  const currentQuestions =
+    quiz && quiz.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    setSelectedAnswers({});
+  }, [quiz]);
+
+  const handleAnswerChange = (questionId, answerIndex) => {
+    setSelectedAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [questionId]: answerIndex,
+    }));
+  };
 
   return (
-    <div className="flex h-full items-center justify-center">
-      {/* Modal toggle */}
-      {/* <button
-        onClick={toggleModal}
-        className="block rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button"
-      >
-        Toggle modal
-      </button> */}
-
-      {/* Main modal */}
+    <div className="mt-24 flex h-full items-center justify-center">
       {isModalOpen && (
         <div
-          className=" fixed top-0  flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+          className="fixed top-0 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
           data-modal-backdrop="static"
+          data-testid="modal"
           style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
         >
-          <div className="relative max-h-full w-full max-w-2xl p-4">
-            {/* Modal content */}
-            <div className="relative rounded-lg bg-coursebg shadow ">
-              {/* Modal header */}
-              <div className="flex items-center justify-between rounded-t border-b p-4  md:p-5">
-                <h3 className="text-xl font-semibold text-gray-900 ">Quiz-1</h3>
-                {/* <button
-                  onClick={closeModal}
-                  type="button"
-                  className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-                  data-modal-hide="static-modal"
-                >
-                  <svg
-                    className="h-3 w-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
+          <div className="relative max-h-full w-full max-w-2xl rounded-lg border-b bg-coursebg p-4 shadow">
+            <div className="flex flex-col items-center justify-between rounded-t border-b pb-5">
+              <h3 className=" dayOne text-2xl  font-semibold text-textColor">
+                {quiztitle}
+              </h3>
+            </div>
+            {currentQuestions.map((q) => (
+              <div key={q.id} className="relative">
+                <div className="space-y-4 p-4 md:p-5">
+                  <label
+                    htmlFor={`question-${q.id}`}
+                    className="text-textColor"
                   >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
-                </button> */}
-              </div>
-              {/* Modal body */}
-              <div className="space-y-4 p-4 md:p-5">
-                <label htmlFor="" className="text-textColor">
-                  The Video Duration is ?
-                </label>
-                <div className="answer flex gap-5">
-                  <div className="flex items-center gap-2">
-                    <input type="radio" name="ans" id="" className="h-5 w-4" />
-                    <span className="text-textLigntColor">10.53</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input type="radio" name="ans" id="" className="h-5 w-4" />
-                    <span className="text-textLigntColor">11.53</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="ans"
-                      id=""
-                      className="h-5 w-4"
-                      required
-                    />
-                    <span className="text-textLigntColor">12.53</span>
+                    {q.question}
+                  </label>
+                  <div className="answer flex gap-5">
+                    {q.options.map((option, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name={`ans-${q.id}`}
+                          id={`question-${q.id}-option-${index}`}
+                          className="h-5 w-4"
+                          required={index === 0}
+                          checked={selectedAnswers[q.id] === index}
+                          onChange={() => handleAnswerChange(q.id, index)}
+                        />
+                        <span className="text-sm text-textLigntColor">
+                          {option}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-              <div className="space-y-4 p-4 md:p-5">
-                <label htmlFor="" className="text-textColor">
-                  Do you like this video?
-                </label>
-                <div className="answer flex gap-5">
-                  <div className="flex items-center gap-2">
-                    <input type="radio" name="ans" id="" className="h-5 w-4" />
-                    <span className="text-textLigntColor">Yes</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input type="radio" name="ans" id="" className="h-5 w-4" />
-                    <span className="text-textLigntColor">No</span>
-                  </div>
-                </div>
-              </div>
-              {/* Modal footer */}
-              <div className="flex items-center rounded-b border-t border-gray-200 p-4  md:p-5">
+            ))}
+
+            <div className="flex justify-between border-t">
+              <div className="flex items-center rounded-b  border-gray-200 p-4 md:p-5">
                 <button
                   onClick={handleAccept}
                   type="button"
-                  className="rounded-lg bg-textColor px-5 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 "
+                  className="rounded-lg bg-textColor px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
                 >
                   Resume
                 </button>
-                {/* <button
-                  onClick={handleDecline}
-                  type="button"
-                  className="ms-3 rounded-lg border border-gray-200 bg-textLigntColor px-5 py-2.5 text-sm font-medium text-white  focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-300 "
-                >
-                  Decline
-                </button> */}
+              </div>
+              <div className="mb-5 mt-4 flex flex-col items-center">
+                <span className="text-sm text-textColor">
+                  Total{" "}
+                  <span className="font-semibold text-textColor">
+                    {quiz.length}
+                  </span>{" "}
+                  Questions
+                </span>
+                <div className="xs:mt-0 mt-2 inline-flex">
+                  <button
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    className={`flex h-10 items-center justify-center rounded-l bg-textColor px-4 text-base font-medium text-white  ${
+                      currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
+                    }`}
+                    disabled={currentPage === 1}
+                  >
+                    Prev
+                  </button>
+                  <button
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLigntColor bg-textColor px-4 text-base font-medium text-white  ${
+                      currentPage === totalPages
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>
