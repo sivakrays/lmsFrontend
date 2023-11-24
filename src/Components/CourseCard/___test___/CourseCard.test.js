@@ -28,10 +28,7 @@ describe("CourseCard component", () => {
     const joinButton = screen.getByText("Join");
     expect(joinButton).toBeInTheDocument();
 
-    const enrollmentCount = screen.getByText("12345");
-    const enrollmentLabel = screen.getByText("Enroled");
-
-    expect(enrollmentCount).toBeInTheDocument();
+    const enrollmentLabel = screen.getByText("Enrolled");
     expect(enrollmentLabel).toBeInTheDocument();
   });
 });

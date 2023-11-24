@@ -5,16 +5,20 @@ import halfStar from "../../Assets/courseCard/halfStar.png";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ course }) => {
+
   return (
     <Link to="/coursedetails">
       <div className="mt-6 cursor-pointer rounded duration-500 ease-in-out boxShadow">
         <div className="courseCard flex h-[430px] w-[290px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg">
           <div className="cardImg p-3">
-            <img
-              src={course.img}
-              alt=""
-              className="courseImg h-36 w-full rounded-lg  "
-            />
+            <div className="courseImgWrapper h-36 rounded-lg overflow-hidden">
+              <img
+                // src={`data:image/jpeg;base64,${course.thumbNail}`}
+                src={course.img}
+                alt="course thumbnail"
+                className="courseImg w-full h-full object-cover"
+              />
+            </div>
           </div>
           <div className="courseTop flex items-center justify-between px-3">
             <div className="dayOne text-textColor">{course.category}</div>
@@ -31,6 +35,7 @@ const CourseCard = ({ course }) => {
               {course.title}
             </div>
             <div className="courseDes text-sm text-textLigntColor">
+              {/* {course.description} */}
               {course.des}
             </div>
           </div>
@@ -39,8 +44,10 @@ const CourseCard = ({ course }) => {
               Join
             </button>
             <p className="flex gap-2">
-              <span className="dayOne text-sm text-textColor">12345</span>
-              <span className="text-sm text-textLigntColor">Enroled</span>
+              <span className="dayOne text-sm text-textColor">
+                {course.enrolled}
+              </span>
+              <span className="text-sm text-textLigntColor">Enrolled</span>
             </p>
           </div>
         </div>
