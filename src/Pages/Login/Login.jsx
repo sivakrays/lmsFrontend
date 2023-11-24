@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../../Components/FormInput/FormInput";
 import { authContext } from "../../Context/AuthContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(authContext);
+  const { login, token } = useContext(authContext);
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -35,45 +35,28 @@ const Login = () => {
     },
   ];
 
-  const successNotify = () =>
-    toast.success("Register Successfully!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  const errorNotify = (err) =>
-    toast.error(err, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  //console.log(values);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login successfull", values);
-    //const data = JSON.stringify(values);
-    login(values, successNotify, errorNotify);
-    navigate("/home");
+    await login(values);
+    const token = localStorage.getItem("token");
+    console.log("token from login page", token);
+    if (token != null && token !== "") {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
   };
 
   return (
     <div className="imageBg flex h-screen w-full items-center justify-center bg-herobg px-1">
-      <div className="flex h-auto  w-96 flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow">
+      <div className="flex h-auto w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5 boxShadow  sm:w-96">
         <form action="" onSubmit={handleSubmit}>
-          <h1 className="text-text text-center text-3xl uppercase">Login</h1>
+          <h1 className="dayOne text-center text-3xl uppercase text-textColor">
+            Login
+          </h1>
           {inputs.map((input) => (
             <FormInput
               key={input.id}
@@ -93,7 +76,7 @@ const Login = () => {
           </div>
         </form>
         <div className="mt-8">
-          <p>
+          <p className="text-textLigntColor">
             {" "}
             If you don't have an account? Please{" "}
             <span className="text-center text-blue-600 underline">

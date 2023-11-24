@@ -68,6 +68,11 @@ const Contact = () => {
     // },
   ];
 
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: [e.target.value] });
+  };
+  const handleSubmit = () => {};
+
   return (
     <div className="h-[200vh] w-full  bg-herobg md:h-[150vh]">
       <div className="flex flex-col items-center justify-center pt-32">
@@ -154,13 +159,13 @@ const Contact = () => {
         </div>
         <div className="mx-auto  h-auto w-full sm:w-4/5  md:h-full md:w-full lg:w-1/2">
           <div className="md:mt-3  md:px-5">
-            <form action="" className="md:space-y-3">
+            <form action="" onSubmit={handleSubmit} className="md:space-y-3">
               {contactInput.map((input) => (
                 <FormInput
                   key={input.id}
                   {...input}
                   value={values[input.name]}
-                  onChange={() => {}}
+                  onChange={handleChange}
                   path
                 />
               ))}

@@ -107,6 +107,7 @@ const Signup = () => {
     return await post(`/register`, data, config)
       .then((res) => {
         successNotify();
+
         navigate("/login");
       })
       .catch((error) => {
@@ -117,9 +118,11 @@ const Signup = () => {
 
   return (
     <div className="imageBg flex  h-screen w-full items-center justify-center bg-herobg px-1 pt-20">
-      <div className="mb-10 flex  h-auto w-96 flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0]  p-5 boxShadow md:mt-20">
+      <div className="mx-auto mb-10  flex h-auto  w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow sm:w-96 md:mt-20">
         <form action="" onSubmit={handleSubmit}>
-          <h1 className="text-text text-center text-3xl uppercase">Signup</h1>
+          <h1 className="dayOne text-center text-3xl uppercase text-textColor">
+            Signup
+          </h1>
           {inputs.map((input) => (
             <FormInput
               key={input.id}
@@ -139,7 +142,7 @@ const Signup = () => {
           </div>
         </form>
         <div className="mt-8 w-full">
-          <p>
+          <p className="text-textLigntColor">
             Already have an account? Please{" "}
             <span className="text-center text-blue-600 underline">
               <Link to="/login">login</Link>
