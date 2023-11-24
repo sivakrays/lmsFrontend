@@ -176,7 +176,7 @@ const Video = () => {
 
   return (
     <div className="h-auto overflow-y-hidden bg-herobg ">
-      <div className="video mx-auto w-[95%] sm:w-[90%] md:w-[70%] lg:w-[60%] xl:w-[90%]">
+      <div className="video mx-auto w-[95%] sm:w-[90%]">
         <ReactPlayer
           ref={playerRef}
           url="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"

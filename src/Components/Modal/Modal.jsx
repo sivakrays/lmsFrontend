@@ -40,7 +40,7 @@ const Modal = ({
       {/* Main modal */}
       {isModalOpen1 && path && (
         <div
-          className=" fixed  top-0 flex   w-full items-center justify-center overflow-y-auto overflow-x-hidden border-2 pt-28 md:inset-0 "
+          className=" fixed  top-0 flex h-screen  w-full items-center justify-center overflow-y-auto overflow-x-hidden border-2 pt-28 md:inset-0 "
           data-modal-backdrop="static"
           style={{ backgroundColor: "rgba(252, 250, 240, 0.7)" }}
         >

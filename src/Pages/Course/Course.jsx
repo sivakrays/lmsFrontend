@@ -5,12 +5,26 @@ import cardImg from "../../Assets/courseCard/courseImg.jpg";
 import cardImg1 from "../../Assets/courseCard/courseImg1.jpg";
 import Footer from "../../Sections/Footer/Footer";
 import Search from "../../Components/Search/Search";
+import { get } from "../../ApiCall/ApiCall";
 
 const Course = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
+  // const [courseData, setCourseData] = useState([])
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // };
 
+  // useEffect(()=>{
+  //   get('getAllCourse',config).then((res)=>{
+  //     setCourseData(res.data)
+  //     console.log("response",res)
+  //   })
+  // },[])
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
