@@ -16,7 +16,7 @@ const FormInput = (props) => {
             className="block text-sm
             font-normal
             leading-6
-             text-gray-900"
+             text-textColor"
             data-testid="labelText"
             htmlFor={label}
           >
@@ -49,7 +49,7 @@ const FormInput = (props) => {
             className="block text-lg 
             font-medium 
             leading-6
-             text-gray-900"
+             text-textColor"
             data-testid="labelText"
           >
             {label}

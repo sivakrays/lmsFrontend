@@ -1,30 +1,65 @@
 import { createContext, useState } from "react";
 import { post } from "../ApiCall/ApiCall";
-
+import { toast } from "react-toastify";
 export const authContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState("");
+  const [token, setToken] = useState("");
+  const [isvalid, setIsValid] = useState(true);
 
-  const login = async ({ email, password, errorNotify, successNotify }) => {
+  const login = async ({ email, password }) => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${btoa(`${email}:${password}`)}`,
+        email: email,
+        password: password,
       },
     };
-    await post(`/login`, config)
+
+    await post(`/login`, {}, config)
       .then((res) => {
-        const token = res.data.token;
-        setCurrentUser(res.data);
+        res.data && setToken(res.data.token);
+        localStorage.setItem("token", res.data.token);
         successNotify();
       })
       .catch((err) => {
-        errorNotify();
-        console.log(err);
+        console.log("Errorrrrrrr", err);
+        errorNotify(err.message);
       });
   };
+
+  console.log("settoken", token);
+  console.log("isvalid from authcontext", isvalid);
+
+  const logout = () => {
+    setToken(" ");
+    localStorage.removeItem("token", token);
+  };
+
+  const successNotify = () =>
+    toast.success("Register Successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   return (
-    <authContext.Provider value={{ login }}>{children}</authContext.Provider>
+    <authContext.Provider value={{ login, token, logout }}>
+      {children}
+    </authContext.Provider>
   );
 };

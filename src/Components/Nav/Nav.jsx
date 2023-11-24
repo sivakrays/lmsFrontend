@@ -1,11 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Nav.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { authContext } from "../../Context/AuthContext";
 
 const Nav = () => {
+  const { token, logout } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const [isTokenValid, setIsTokenValid] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token !== null && token !== "") {
+      setIsTokenValid(!isTokenValid);
+    } else {
+      setIsTokenValid(false);
+    }
+  }, [token]);
+  console.log("token from navbar", token);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -90,12 +103,27 @@ const Nav = () => {
           </div>
 
           <div className="nav_btn hidden gap-11 lg:flex">
-            <button className="text-md cursor-pointer font-semibold  text-textColor">
-              <Link to="login">Login</Link>
-            </button>
-            <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
-              <Link to="signup">Sign Up</Link>
-            </button>
+            {isTokenValid ? (
+              <button
+                className="text-md cursor-pointer font-semibold  text-textColor"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            ) : (
+              <div className="flex items-center gap-8">
+                <Link to="login">
+                  <button className="text-md cursor-pointer font-semibold  text-textColor">
+                    Login
+                  </button>
+                </Link>
+                <Link to="signup">
+                  <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {!toggle ? (
