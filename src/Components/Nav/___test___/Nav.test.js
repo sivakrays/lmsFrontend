@@ -9,9 +9,10 @@ describe("Navbar component", () => {
     render(
       <AuthContextProvider>
         <MemoryRouter initialEntries={["/"]}>
-        <Nav />
-      </MemoryRouter>,
-      </AuthContextProvider>
+          <Nav />
+        </MemoryRouter>
+        ,
+      </AuthContextProvider>,
     );
 
     const homeLinks = screen.getAllByText(/Home/i);
@@ -41,9 +42,11 @@ describe("Navbar component", () => {
 
   test("toggles mobile menu when the button is clicked", () => {
     render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Nav />
-      </MemoryRouter>,
+      <AuthContextProvider>
+        <MemoryRouter initialEntries={["/"]}>
+          <Nav />
+        </MemoryRouter>
+      </AuthContextProvider>,
     );
 
     const mobileMenu = screen.getByTestId("mobile_menu");
