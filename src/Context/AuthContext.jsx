@@ -36,7 +36,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const successNotify = () =>
-    toast.success("Register Successfully!", {
+    toast.success("Login Successfully!", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

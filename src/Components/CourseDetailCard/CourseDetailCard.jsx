@@ -28,7 +28,7 @@ const Card = () => {
     //console.log("reachedBottom", reachedBottom);
     setIscardFixed(isFixed);
     setIsAtBottom(reachedBottom);
-    if (reachedBottom == true) {
+    if (reachedBottom === true) {
       setIscardFixed(false);
     }
   };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://192.168.80.70:8080/lms/api/auth/";
+const BASE_URL = "https://lms-production-e6b8.up.railway.app/lms/api/auth";
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,
@@ -30,10 +30,10 @@ export const post = (url, data, config = {}) => {
   return apiInstance.post(url, data, config);
 };
 
-export const put = (url, data, config = {}) => {
-  return apiInstance.put(url, data, config);
-};
+// export const put = (url, data, config = {}) => {
+//   return apiInstance.put(url, data, config);
+// };
 
-export const del = (url, config = {}) => {
-  return apiInstance.delete(url, config);
-};
+// export const del = (url, config = {}) => {
+//   return apiInstance.delete(url, config);
+// };

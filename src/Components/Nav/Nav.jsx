@@ -7,6 +7,7 @@ const Nav = () => {
   const { token, logout } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
+  const [token1, setToken1] = useState(token)
   const [currentPath, setCurrentPath] = useState("");
   const [isTokenValid, setIsTokenValid] = useState(false);
 

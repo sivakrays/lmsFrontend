@@ -37,9 +37,8 @@ const Signup = () => {
       name: "password",
       label: "Password",
       type: "password",
-      errorMsg:
-        "Password must contain 8 characters including one special character and one number",
-      pattern: `^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8}$`,
+      errorMsg: "Password must contain  atleast 6 characters",
+      pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
       required: true,
     },
     {
@@ -107,8 +106,9 @@ const Signup = () => {
     return await post(`/register`, data, config)
       .then((res) => {
         successNotify();
-
-        navigate("/login");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       })
       .catch((error) => {
         console.log(error.message);

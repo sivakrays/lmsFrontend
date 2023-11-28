@@ -2,13 +2,16 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Nav from "../Nav";
+import { AuthContextProvider } from "../../../Context/AuthContext";
 
 describe("Navbar component", () => {
   test("renders Navbar with correct links", () => {
     render(
-      <MemoryRouter initialEntries={["/"]}>
+      <AuthContextProvider>
+        <MemoryRouter initialEntries={["/"]}>
         <Nav />
       </MemoryRouter>,
+      </AuthContextProvider>
     );
 
     const homeLinks = screen.getAllByText(/Home/i);
