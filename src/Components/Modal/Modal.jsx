@@ -36,7 +36,10 @@ const Modal = ({
   };
 
   return (
-    <div className="mt-24 flex  items-center justify-center">
+    <div
+      className="mt-24 flex  items-center justify-center"
+      data-testid="modal"
+    >
       {/* Main modal */}
       {isModalOpen1 && path && (
         <div

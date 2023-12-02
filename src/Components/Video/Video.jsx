@@ -154,7 +154,6 @@ const Video = () => {
     ) {
       console.log("handlePause1 not working");
     } else {
-      console.log("Pausing at", specificTimeToPause, "seconds");
       setShouldPause(true);
       setIsModalOpen(true);
     }
@@ -167,8 +166,6 @@ const Video = () => {
       !shouldPause &&
       !videoAccepted
     ) {
-      console.log("working");
-      console.log("Pausing at", specificTimeToPause, "seconds");
       setShouldPause(true);
       setIsModalOpen(true);
     }
@@ -176,15 +173,17 @@ const Video = () => {
 
   return (
     <div className="h-auto overflow-y-hidden bg-herobg ">
-      <div className="video mx-auto w-[95%] sm:w-[90%]">
+      <div
+        className="video mx-auto w-[95%] sm:w-[90%]"
+        data-testid="video-player"
+      >
         <ReactPlayer
           ref={playerRef}
-          url="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          url="https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0"
           controls
           width="100%"
           height="10%"
           playing={!shouldPause}
-          onPlay={() => console.log("Playing")}
           onContextMenu={(e) => e.preventDefault()}
           onProgress={handleProgress}
         />
