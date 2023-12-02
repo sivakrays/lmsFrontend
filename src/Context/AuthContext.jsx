@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }) => {
       },
     };
 
-    await post(`/login`, {}, config)
+    await post(`/auth/login`, {}, config)
       .then((res) => {
         res.data && setToken(res.data.token);
         localStorage.setItem("token", res.data.token);
