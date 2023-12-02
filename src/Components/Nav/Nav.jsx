@@ -7,7 +7,7 @@ const Nav = () => {
   const { token, logout } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
-  const [token1, setToken1] = useState(token)
+  const [token1, setToken1] = useState(token);
   const [currentPath, setCurrentPath] = useState("");
   const [isTokenValid, setIsTokenValid] = useState(false);
 
@@ -47,7 +47,6 @@ const Nav = () => {
               <span className="text-lg font-bold text-textColor">desk</span>
             </div>
           </Link>
-
           <div className="nav_link">
             <ul className="hidden gap-12 text-textColor lg:flex">
               <li>
@@ -102,11 +101,10 @@ const Nav = () => {
               </li>
             </ul>
           </div>
-
           <div className="nav_btn hidden gap-11 lg:flex">
             {isTokenValid ? (
               <button
-                className="text-md cursor-pointer font-semibold  text-textColor"
+                className="text-md cursor-pointer font-semibold  text-textColor "
                 onClick={logout}
               >
                 Logout
@@ -126,7 +124,6 @@ const Nav = () => {
               </div>
             )}
           </div>
-
           {!toggle ? (
             <button
               className="z-10 block lg:hidden"
@@ -163,9 +160,7 @@ const Nav = () => {
               </svg>
             </button>
           )}
-
           {/* Mobile Menu */}
-
           <ul
             className={`fixed flex h-full w-full flex-col items-center justify-center gap-5  bg-mobilebg uppercase text-textColor duration-500 ${
               !toggle ? "top-[-100%]" : "top-0"
@@ -251,20 +246,27 @@ const Nav = () => {
               </Link>
             </li>
             <li>
-              <button
-                className="text-md w-[110px] cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5  font-semibold text-white hover:bg-transparent hover:text-textColor hover:duration-500"
-                onClick={handleToggle}
-              >
-                <Link to="/login">Login</Link>
-              </button>
-            </li>
-            <li>
-              <button
-                className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500"
-                onClick={handleToggle}
-              >
-                <Link to="/signup">Sign Up</Link>
-              </button>
+              {isTokenValid ? (
+                <button
+                  className="text-md cursor-pointer font-semibold  text-textColor "
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              ) : (
+                <div className="flex items-center gap-8">
+                  <Link to="login">
+                    <button className="text-md cursor-pointer font-semibold  text-textColor">
+                      Login
+                    </button>
+                  </Link>
+                  <Link to="signup">
+                    <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
+                      Sign Up
+                    </button>
+                  </Link>
+                </div>
+              )}
             </li>
           </ul>
         </nav>
