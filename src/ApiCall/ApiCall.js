@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://lms-production-e6b8.up.railway.app/lms/api/auth";
+const BASE_URL = "https://lms-production-e6b8.up.railway.app/lms/api";
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,

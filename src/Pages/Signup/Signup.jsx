@@ -104,7 +104,7 @@ const Signup = () => {
 
     console.log("Dataaaa", data);
     try {
-      const response = await post(`/register`, data, config);
+      const response = await post(`/auth/register`, data, config);
       console.log("response", response);
       successNotify();
       setTimeout(() => {
