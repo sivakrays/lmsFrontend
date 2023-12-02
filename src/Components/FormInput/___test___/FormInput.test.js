@@ -24,6 +24,15 @@ describe("FormInput", () => {
     fireEvent.focus(input);
     expect(input).toHaveAttribute("focused", "true");
   });
+
+  test("when focusing error message should display",()=>{
+     render(
+      <FormInput label="Test Label" id="testId" errorMsg="Test Error" path />,
+    );
+    const errorMsg = screen.getByTestId("errMsg");
+    fireEvent.focus(errorMsg);
+    expect(errorMsg).toBeInTheDocument();
+  })
 });
 
 // Add more test cases based on your component's functionality

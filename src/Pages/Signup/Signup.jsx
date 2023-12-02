@@ -103,17 +103,28 @@ const Signup = () => {
     };
 
     console.log("Dataaaa", data);
-    return await post(`/register`, data, config)
-      .then((res) => {
-        successNotify();
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        errorNotify(error.message);
-      });
+    try {
+      const response = await post(`/register`, data, config);
+      console.log("response", response);
+      successNotify();
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (error) {
+      console.log(error.message);
+      errorNotify(error.message);
+    }
+    // .then((res) => {
+    //   console.log("response",res);
+    //   successNotify();
+    //   setTimeout(() => {
+    //     navigate("/login");
+    //   }, 1000);
+    // })
+    // .catch((error) => {
+    //   console.log(error.message);
+    //   errorNotify(error.message);
+    // });
   };
 
   return (
@@ -135,7 +146,10 @@ const Signup = () => {
           <div className="mt-6 sm:col-span-7">
             <button
               type="submit"
-              className="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              className="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm
+               hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+                focus-visible:outline-indigo-600 "
+              data-testid="signupbutton"
             >
               SIGNUP
             </button>
@@ -161,6 +175,7 @@ const Signup = () => {
         draggable
         pauseOnHover
         theme="light"
+        data-testid="toast"
       />
     </div>
   );

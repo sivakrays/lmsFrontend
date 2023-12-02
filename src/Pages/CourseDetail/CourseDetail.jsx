@@ -229,7 +229,7 @@ const CourseDetails = () => {
             </div>
           </div>
         </div>
-        <div className="absolute right-40 top-10 ">
+        <div className="absolute right-40 top-10 xl:block">
           <Card />
         </div>
       </section>
@@ -243,7 +243,9 @@ const CourseDetails = () => {
             <div className="">
               <ul className="place-iems-center grid list-outside list-disc grid-cols-1 gap-4  p-4   text-sm duration-500 md:grid-cols-2">
                 {itemsToShow.map((item, index) => (
-                  <li key={index}>{item}</li>
+                  <li key={index} data-testid="list">
+                    {item}
+                  </li>
                 ))}
               </ul>
               <div className="  flex h-11 w-full flex-row">

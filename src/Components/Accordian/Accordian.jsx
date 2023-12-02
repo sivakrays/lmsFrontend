@@ -30,7 +30,11 @@ const NestedAccordionItem = ({ title, previewText }) => {
         className="0 flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
       >
         <div className="flex w-3/4  items-center gap-5 ">
-          <button onClick={showPreview} className="flex items-center gap-5">
+          <button
+            onClick={showPreview}
+            className="flex items-center gap-5"
+            data-testid="videoButton"
+          >
             <img src={Tv} alt="" className="h-4 w-4" />
             <span className="text-xs  text-yellowColor underline md:text-sm">
               {title}
@@ -48,7 +52,10 @@ const NestedAccordionItem = ({ title, previewText }) => {
           </button>
         </div>
         <div className="hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4">
-          <p className="text-xs  text-yellowColor underline  md:text-sm">
+          <p
+            className="text-xs  text-yellowColor underline  md:text-sm"
+            onClick={showPreview}
+          >
             Preview
           </p>
           <span className="text-xs text-textColor md:text-sm">05.26</span>
