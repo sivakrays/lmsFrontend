@@ -30,10 +30,10 @@ export const post = (url, data, config = {}) => {
   return apiInstance.post(url, data, config);
 };
 
-// export const put = (url, data, config = {}) => {
-//   return apiInstance.put(url, data, config);
-// };
+export const put = (url, data, config = {}) => {
+  return apiInstance.put(url, data, config);
+};
 
-// export const del = (url, config = {}) => {
-//   return apiInstance.delete(url, config);
-// };
+export const del = (url, config = {}) => {
+  return apiInstance.delete(url, config);
+};

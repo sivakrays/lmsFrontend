@@ -11,7 +11,6 @@ describe("Navbar component", () => {
         <MemoryRouter initialEntries={["/"]}>
           <Nav />
         </MemoryRouter>
-        ,
       </AuthContextProvider>,
     );
 

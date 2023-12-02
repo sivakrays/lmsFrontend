@@ -11,7 +11,7 @@ const Course = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   // const [courseData, setCourseData] = useState([])
   // const config = {
   //   headers: {
