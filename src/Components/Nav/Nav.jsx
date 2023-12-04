@@ -29,7 +29,7 @@ const Nav = () => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
-  console.log(location.pathname);
+  // console.log(location.pathname);
 
   return (
     <>
@@ -104,7 +104,7 @@ const Nav = () => {
           <div className="nav_btn hidden gap-11 lg:flex">
             {isTokenValid ? (
               <button
-                className="text-md cursor-pointer font-semibold  text-textColor "
+                className="text-md cursor-pointer   font-semibold text-textColor "
                 onClick={logout}
               >
                 Logout
@@ -183,7 +183,7 @@ const Nav = () => {
               ) : (
                 <a
                   href="#home"
-                  className="text-lg font-semibold"
+                  className="text-md font-semibold"
                   onClick={handleToggle}
                 >
                   Home
@@ -238,7 +238,7 @@ const Nav = () => {
             </li>
             <li>
               <Link
-                to={"/contact"}
+                to={"/Contact"}
                 className="text-md font-semibold"
                 onClick={handleToggle}
               >
@@ -248,20 +248,26 @@ const Nav = () => {
             <li>
               {isTokenValid ? (
                 <button
-                  className="text-md cursor-pointer font-semibold  text-textColor "
+                  className="text-md cursor-pointer font-semibold  uppercase text-textColor"
                   onClick={logout}
                 >
                   Logout
                 </button>
               ) : (
-                <div className="flex items-center gap-8">
+                <div className="flex flex-col items-center gap-3">
                   <Link to="login">
-                    <button className="text-md cursor-pointer font-semibold  text-textColor">
+                    <button
+                      className="text-md cursor-pointer  rounded-[10px] border-2 border-solid bg-textColor px-6 py-1.5 font-semibold uppercase text-white"
+                      onClick={handleToggle}
+                    >
                       Login
                     </button>
                   </Link>
                   <Link to="signup">
-                    <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
+                    <button
+                      className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5 font-semibold   uppercase text-white hover:bg-textColor hover:text-white hover:duration-500"
+                      onClick={handleToggle}
+                    >
                       Sign Up
                     </button>
                   </Link>

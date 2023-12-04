@@ -128,7 +128,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="imageBg flex  h-screen w-full items-center justify-center bg-herobg px-1 pt-20">
+    <div className="imageBg flex  h-auto w-full items-center justify-center bg-herobg px-1 pt-20">
       <div className="mx-auto mb-10  flex h-auto  w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow sm:w-96 md:mt-20">
         <form action="" onSubmit={handleSubmit}>
           <h1 className="dayOne text-center text-3xl uppercase text-textColor">
