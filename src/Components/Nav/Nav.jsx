@@ -92,7 +92,7 @@ const Nav = () => {
           <div className="nav_btn hidden gap-11 lg:flex">
             {isTokenValid ? (
               <button
-                className="text-md cursor-pointer border font-semibold text-textColor "
+                className="text-md cursor-pointer font-semibold text-textColor "
                 onClick={logout}
               >
                 Logout
