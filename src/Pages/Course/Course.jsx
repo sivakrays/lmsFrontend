@@ -6,25 +6,31 @@ import cardImg1 from "../../Assets/courseCard/courseImg1.jpg";
 import Footer from "../../Sections/Footer/Footer";
 import Search from "../../Components/Search/Search";
 import { get } from "../../ApiCall/ApiCall";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Course = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // const [courseData, setCourseData] = useState([])
+  // const [courseData, setCourseData] = useState([]);
   // const config = {
   //   headers: {
   //     "Content-Type": "application/json",
+  //     "Acess-Control-Allow-Origin": "*",
+  //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     Accept: "application/json",
   //   },
   // };
 
-  // useEffect(()=>{
-  //   get('getAllCourse',config).then((res)=>{
-  //     setCourseData(res.data)
-  //     console.log("response",res)
-  //   })
-  // },[])
+  // useEffect(() => {
+  //   get("user/getAllCourse", config).then((res) => {
+  //     setCourseData(res.data);
+  //     console.log("response", res);
+  //   });
+  // }, []);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -213,6 +219,19 @@ const Course = () => {
       </div>
       <p className="h-[2px] border-b-2 bg-textColor text-textColor opacity-5"></p>
       <Footer />
+
+      <ToastContainer
+        position="top-center"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </section>
   );
 };

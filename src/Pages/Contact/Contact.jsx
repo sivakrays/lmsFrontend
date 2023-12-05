@@ -57,15 +57,6 @@ const Contact = () => {
       errorMsg: "Please enter valid phone number",
       required: true,
     },
-    // {
-    //   id: 5,
-    //   name: "message",
-    //   label: "Message",
-    //   type: "text",
-    //   maxlength: "50",
-    //   errorMsg: "Please enter a message",
-    //   required: true,
-    // },
   ];
 
   const handleChange = (e) => {
@@ -184,7 +175,7 @@ const Contact = () => {
                   id="Message"
                   cols="28"
                   rows="3"
-                  className="inputContact w-full  rounded-lg border"
+                  className="inputContact w-full  resize-none rounded-lg border p-3"
                 ></textarea>
               </div>
               <div className="mt-6  w-full sm:pr-8 md:pr-0">

@@ -15,3 +15,7 @@ input:invalid[focused="true"] ~ span {
   border-bottom: 1px solid gray;
   background-color: #fcfaf0;
 }
+input:focus {
+  border-color: #facc48;
+  outline: #facc48;
+}

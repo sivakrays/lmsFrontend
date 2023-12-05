@@ -1,12 +1,22 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { post } from "../ApiCall/ApiCall";
 import { toast } from "react-toastify";
 export const authContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
-  const [isvalid, setIsValid] = useState(true);
+  const [isTokenValid, setIsTokenValid] = useState(false);
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+
+    if (storedToken && storedToken !== "") {
+      setToken(storedToken);
+      setIsTokenValid(true);
+    } else {
+      setIsTokenValid(false);
+    }
+  }, [token]);
   const login = async ({ email, password }) => {
     const config = {
       headers: {
@@ -17,8 +27,8 @@ export const AuthContextProvider = ({ children }) => {
 
     await post(`/auth/login`, {}, config)
       .then((res) => {
-        res.data && setToken(res.data.token);
-        localStorage.setItem("token", res.data.token);
+        res.data && localStorage.setItem("token", res.data.token);
+        setToken(localStorage.getItem("token"));
         successNotify();
       })
       .catch((err) => {
@@ -27,18 +37,16 @@ export const AuthContextProvider = ({ children }) => {
       });
   };
 
-  console.log("settoken", token);
-  console.log("isvalid from authcontext", isvalid);
-
   const logout = () => {
-    setToken(" ");
     localStorage.removeItem("token", token);
+    setToken("");
+    setIsTokenValid(false);
   };
 
   const successNotify = () =>
     toast.success("Login Successfully!", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -49,7 +57,7 @@ export const AuthContextProvider = ({ children }) => {
   const errorNotify = (err) =>
     toast.error(err, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -58,7 +66,7 @@ export const AuthContextProvider = ({ children }) => {
       theme: "light",
     });
   return (
-    <authContext.Provider value={{ login, token, logout }}>
+    <authContext.Provider value={{ login, token, logout, isTokenValid }}>
       {children}
     </authContext.Provider>
   );

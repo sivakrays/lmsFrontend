@@ -17,6 +17,9 @@ import CategorySection from "../../Sections/CategorySection/CategorySection";
 import PromoVideo from "../../Sections/PromoVideo/PromoVideo";
 import Footer from "../../Sections/Footer/Footer";
 import { get } from "../../ApiCall/ApiCall";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   // get('',config).then((res)=>{
@@ -281,6 +284,19 @@ const Home = () => {
 
       {/* Footer */}
       <Footer />
+
+      <ToastContainer
+        position="top-center"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </main>
   );
 };

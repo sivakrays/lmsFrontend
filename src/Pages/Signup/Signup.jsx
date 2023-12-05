@@ -56,11 +56,7 @@ const Signup = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log("handle submit called");
     if (values !== "") {
-      // console.log("Signup successfull", values);
-      //const data = JSON.stringify(values);
-      //console.log("Data from signup", data);
       signUp(values);
     }
   };
@@ -68,7 +64,7 @@ const Signup = () => {
   const successNotify = () =>
     toast.success("Register Successfully!", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -79,7 +75,7 @@ const Signup = () => {
   const errorNotify = (err) =>
     toast.error(err, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -88,7 +84,6 @@ const Signup = () => {
       theme: "light",
     });
   const signUp = async ({ fullname, email, password, confirmPassword }) => {
-    // console.log("signup called");
     //API Call
     const config = {
       headers: {
@@ -114,21 +109,10 @@ const Signup = () => {
       console.log(error.message);
       errorNotify(error.message);
     }
-    // .then((res) => {
-    //   console.log("response",res);
-    //   successNotify();
-    //   setTimeout(() => {
-    //     navigate("/login");
-    //   }, 1000);
-    // })
-    // .catch((error) => {
-    //   console.log(error.message);
-    //   errorNotify(error.message);
-    // });
   };
 
   return (
-    <div className="imageBg flex  h-screen w-full items-center justify-center bg-herobg px-1 pt-20">
+    <div className="imageBg flex  h-auto w-full items-center justify-center bg-herobg px-1 pt-20">
       <div className="mx-auto mb-10  flex h-auto  w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow sm:w-96 md:mt-20">
         <form action="" onSubmit={handleSubmit}>
           <h1 className="dayOne text-center text-3xl uppercase text-textColor">

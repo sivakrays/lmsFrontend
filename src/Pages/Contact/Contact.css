@@ -2,3 +2,7 @@
   border: 1px solid gray;
   background-color: #fcfaf0;
 }
+textarea:focus {
+  border-color: #facc48;
+  outline: #facc48;
+}
