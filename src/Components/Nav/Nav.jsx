@@ -4,22 +4,10 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 
 const Nav = () => {
-  const { token, logout } = useContext(authContext);
+  const { logout, isTokenValid } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
-  const [token1, setToken1] = useState(token);
   const [currentPath, setCurrentPath] = useState("");
-  const [isTokenValid, setIsTokenValid] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token !== null && token !== "") {
-      setIsTokenValid(!isTokenValid);
-    } else {
-      setIsTokenValid(false);
-    }
-  }, [token]);
-  console.log("token from navbar", token);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -104,7 +92,7 @@ const Nav = () => {
           <div className="nav_btn hidden gap-11 lg:flex">
             {isTokenValid ? (
               <button
-                className="text-md cursor-pointer   font-semibold text-textColor "
+                className="text-md cursor-pointer border font-semibold text-textColor "
                 onClick={logout}
               >
                 Logout

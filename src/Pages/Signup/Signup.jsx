@@ -68,7 +68,7 @@ const Signup = () => {
   const successNotify = () =>
     toast.success("Register Successfully!", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -79,7 +79,7 @@ const Signup = () => {
   const errorNotify = (err) =>
     toast.error(err, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
