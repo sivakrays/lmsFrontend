@@ -37,9 +37,6 @@ export const AuthContextProvider = ({ children }) => {
       });
   };
 
-  console.log("token from authContext", token);
-  console.log("isvalid from authcontext", isTokenValid);
-
   const logout = () => {
     localStorage.removeItem("token", token);
     setToken("");

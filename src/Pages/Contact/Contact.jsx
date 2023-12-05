@@ -57,15 +57,6 @@ const Contact = () => {
       errorMsg: "Please enter valid phone number",
       required: true,
     },
-    // {
-    //   id: 5,
-    //   name: "message",
-    //   label: "Message",
-    //   type: "text",
-    //   maxlength: "50",
-    //   errorMsg: "Please enter a message",
-    //   required: true,
-    // },
   ];
 
   const handleChange = (e) => {

@@ -6,6 +6,9 @@ import cardImg1 from "../../Assets/courseCard/courseImg1.jpg";
 import Footer from "../../Sections/Footer/Footer";
 import Search from "../../Components/Search/Search";
 import { get } from "../../ApiCall/ApiCall";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Course = () => {
   useEffect(() => {
@@ -216,6 +219,19 @@ const Course = () => {
       </div>
       <p className="h-[2px] border-b-2 bg-textColor text-textColor opacity-5"></p>
       <Footer />
+
+      <ToastContainer
+        position="top-center"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </section>
   );
 };

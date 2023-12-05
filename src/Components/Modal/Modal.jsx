@@ -54,7 +54,12 @@ const Modal = ({
               <div className=" rounded-t border-b p-4  md:p-5">
                 <div className="flex items-center justify-between">
                   <h6 className="text-sm text-textColor">Course Preview</h6>
-                  <button onClick={toggleModal1}>X</button>
+                  <button
+                    onClick={toggleModal1}
+                    className=" h-7 w-7 rounded-xl  bg-slate-600 text-lg text-white hover:opacity-[0.5]"
+                  >
+                    &times;
+                  </button>
                 </div>
                 <div>
                   <h2 className="dayOne text-textColor">

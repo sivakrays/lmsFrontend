@@ -56,11 +56,7 @@ const Signup = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log("handle submit called");
     if (values !== "") {
-      // console.log("Signup successfull", values);
-      //const data = JSON.stringify(values);
-      //console.log("Data from signup", data);
       signUp(values);
     }
   };
@@ -88,7 +84,6 @@ const Signup = () => {
       theme: "light",
     });
   const signUp = async ({ fullname, email, password, confirmPassword }) => {
-    // console.log("signup called");
     //API Call
     const config = {
       headers: {
@@ -114,17 +109,6 @@ const Signup = () => {
       console.log(error.message);
       errorNotify(error.message);
     }
-    // .then((res) => {
-    //   console.log("response",res);
-    //   successNotify();
-    //   setTimeout(() => {
-    //     navigate("/login");
-    //   }, 1000);
-    // })
-    // .catch((error) => {
-    //   console.log(error.message);
-    //   errorNotify(error.message);
-    // });
   };
 
   return (

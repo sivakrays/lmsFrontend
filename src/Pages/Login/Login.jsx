@@ -41,7 +41,6 @@ const Login = () => {
     e.preventDefault();
     await login(values);
     const token = localStorage.getItem("token");
-    //console.log("token from login page", token);
     if (token != null && token !== "") {
       setTimeout(() => {
         navigate("/");
