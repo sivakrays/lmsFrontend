@@ -71,7 +71,7 @@ const SideBar = () => {
         <div className="">
           <Outlet />
         </div>
-        <ul className="fixed bottom-0 flex h-12 w-full items-center justify-around gap-6 rounded-l-md rounded-r-md  bg-textColor py-2">
+        <ul className="fixed bottom-0 flex h-12 w-full items-center justify-around gap-3 rounded-l-md rounded-r-md  bg-textColor py-2">
           <li className=" text-herobg">
             <Link
               to={"/profile"}
@@ -106,6 +106,15 @@ const SideBar = () => {
               data-tooltip-content="LeaderBoard"
             >
               <GiAchievement className="h-7 w-9  text-herobg sm:h-8 " />
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={"/users"}
+              data-tooltip-id="my-tooltip1"
+              data-tooltip-content="Users"
+            >
+              <FaUsers className="h-5 w-9 text-herobg sm:h-6  " />
             </Link>
           </li>
           <li>

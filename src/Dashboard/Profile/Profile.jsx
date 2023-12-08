@@ -3,6 +3,8 @@ import "./Profile.css";
 import profile from "../../Assets/Promo/reviewer1.jpg";
 import { FaLayerGroup } from "react-icons/fa6";
 import cardImg from "../../Assets/courseCard/courseImg.jpg";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const Profile = () => {
   const profileDetails = [
@@ -45,21 +47,21 @@ const Profile = () => {
       id: 1,
       title: "The Advanced Web Developer Bootcamp",
       category: "Development",
-      progress: "75%",
+      progress: "80",
       img: cardImg,
     },
     {
       id: 2,
       title: "Modern Javascript from The Begining",
       category: "Development",
-      progress: "80%",
+      progress: "65",
       img: cardImg,
     },
     {
       id: 3,
       title: "The Web Developer Bootcamp 2021",
       category: "Development",
-      progress: "50%",
+      progress: "50",
       img: cardImg,
     },
   ];
@@ -107,8 +109,8 @@ const Profile = () => {
 
         {/* Profile details in Profile Dashboard */}
 
-        <div className="w-full gap-7 sm:flex ">
-          <div className="profile_card mt-6 items-center rounded-md bg-white p-3 shadow-sm sm:w-[65%]">
+        <div className="w-full gap-7 lg:flex ">
+          <div className="profile_card mt-6 items-center rounded-md bg-white p-3 shadow-sm lg:w-[65%]">
             <div className="mb-4">
               <div className="flex  items-center justify-between">
                 <p className="dayOne text-textColor">Personal Information</p>
@@ -134,11 +136,10 @@ const Profile = () => {
               </div>
             </div>
           </div>
-
           {/* Course Progress */}
-          <div className="course_progress sm:w-[35%] ">
+          <div className="course_progress sm:w-[85%] md:w-[65%] lg:w-[35%] ">
             <div className="cursor-pointer">
-              <div className="mt-5 flex  gap-6 rounded-md bg-white p-3 shadow sm:hidden sm:w-full lg:w-[35%] xl:w-[25%]">
+              <div className="mt-5 flex  gap-6 rounded-md bg-white p-3 shadow-sm sm:hidden sm:w-full lg:w-[35%] xl:w-[25%]">
                 <div className="image flex h-[60px] w-[60px] items-center justify-center rounded-full bg-[#f5f8fa]">
                   <FaLayerGroup className="h-9 w-9 text-textColor" />
                 </div>
@@ -177,7 +178,24 @@ const Profile = () => {
                         <p className=" text-[#b4b5c2] ">{item.category}</p>
                       </div>
                       <div>
-                        <p>{item.progress}</p>
+                        <div className="w-16">
+                          <CircularProgressbar
+                            value={item.progress}
+                            text={`${item.progress}%`}
+                            // styles={buildStyles({
+                            //   // rotation: 0.25,
+                            //   strokeLinecap: "butt",
+                            //   textSize: "16px",
+                            //   pathTransitionDuration: 0.5,
+                            //   pathColor: `rgba(62, 152, 199, ${
+                            //     item.progress / 100
+                            //   })`,
+                            //   textColor: "#f88",
+                            //   trailColor: "#d6d6d6",
+                            //   backgroundColor: "#3e98c7",
+                            // })}
+                          />
+                        </div>
                       </div>
                     </div>
                   );
