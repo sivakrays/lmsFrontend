@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Video from "../Video/Video";
 import "./Modal.css";
+import { RxCross1 } from "react-icons/rx";
+import CourseFormInput from "../CourseFormInput/CourseFormInput";
 
 const Modal = ({
   toggleModal,
@@ -12,6 +14,8 @@ const Modal = ({
   isModalOpen1,
   toggleModal1,
   path,
+  profileModal,
+  setProfileModal,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -35,11 +39,126 @@ const Modal = ({
     }));
   };
 
+  const profileModalComponent = () => {
+    const close = () => {
+      setProfileModal(false);
+    };
+
+    const inputs = [
+      {
+        id: 1,
+        name: "User Name",
+        label: "User Name",
+        type: "text",
+        errorMsg: "Please enter correct name",
+        required: true,
+      },
+      {
+        id: 2,
+        name: "Country",
+        label: "Country",
+        type: "text",
+        errorMsg: "Please enter valid email",
+        required: true,
+      },
+      {
+        id: 3,
+        name: "password",
+        label: "Password",
+        type: "password",
+        errorMsg: "Password must contain  atleast 6 characters",
+        pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
+        required: true,
+      },
+      {
+        id: 4,
+        name: "confirmPassword",
+        label: "Confirm Paasword",
+        type: "password",
+        errorMsg: "Password does not matched",
+        // pattern: values.password,
+        required: true,
+      },
+      {
+        id: 5,
+        name: "Address",
+        label: "Address",
+        type: "textarea",
+        errorMsg: "Please enter valid email",
+        required: true,
+      },
+      {
+        id: 6,
+        name: "City",
+        label: "City",
+        type: "text",
+        errorMsg: "Please enter valid email",
+        required: true,
+      },
+    ];
+
+    const handleChange = () => {};
+
+    return (
+      <>
+        <div
+          className=" fixed left-0 top-0 flex h-screen  w-full items-center justify-center overflow-y-auto overflow-x-hidden p-5 pt-12 md:inset-0"
+          data-modal-backdrop="static"
+          style={{ backgroundColor: "rgba(252, 250, 240, 0.7)" }}
+        >
+          <div className="relative  max-h-full w-full max-w-5xl">
+            {/* Modal content */}
+            <div className="relative h-auto rounded-lg bg-white shadow-sm ">
+              {/* Modal header */}
+              <div className=" rounded-t border-b p-4  md:p-5">
+                <div className="flex items-center justify-between">
+                  <h6 className="text-sm text-textColor">Profile</h6>
+                  <button
+                    onClick={close}
+                    className=" h-7 w-7 rounded-xl  text-lg font-semibold text-textColor"
+                  >
+                    <RxCross1 />
+                  </button>
+                </div>
+                <div>
+                  <h2 className="dayOne text-textColor">
+                    Edit Profile Details
+                  </h2>
+                </div>
+              </div>
+
+              {/* Modal body */}
+              <div className=" w-full p-5">
+                <div className="flex  flex-wrap gap-5 ">
+                  {inputs.map((input1) => {
+                    return (
+                      <CourseFormInput
+                        key={input1.id}
+                        {...input1}
+                        value=""
+                        onChange={handleChange}
+                        path="profileModal"
+                      />
+                    );
+                  })}
+                </div>
+                <button
+                  className="mt-5 rounded bg-textColor px-6 py-1.5 text-white shadow-sm"
+                  onClick={close}
+                >
+                  Submit
+                </button>
+              </div>
+              {/* Modal footer */}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
-    <div
-      className="mt-24 flex  items-center justify-center"
-      data-testid="modal"
-    >
+    <div className="flex  items-center justify-center" data-testid="modal">
       {/* Main modal */}
       {isModalOpen1 && path && (
         <div
@@ -167,6 +286,8 @@ const Modal = ({
           </div>
         </div>
       )}
+
+      {profileModal && <>{profileModalComponent()}</>}
     </div>
   );
 };

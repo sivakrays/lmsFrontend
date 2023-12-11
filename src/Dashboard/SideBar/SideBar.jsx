@@ -6,6 +6,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaLayerGroup } from "react-icons/fa6";
 import { GiAchievement } from "react-icons/gi";
 import { FaUsers } from "react-icons/fa6";
+import { RiUploadCloud2Fill } from "react-icons/ri";
 import { Tooltip } from "react-tooltip";
 
 const SideBar = () => {
@@ -24,39 +25,28 @@ const SideBar = () => {
             </Link>
           </li>
           <li>
-            <Link
-              to={"/dashboard"}
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content="DashBoard"
-            >
-              <MdDashboard className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
+            <Link to={"/dashboard"}>
+              <MdDashboard className="mx-auto h-8 w-9 cursor-pointer text-herobg" />
             </Link>
           </li>
           <li>
-            <Link
-              to={"/myCourse"}
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content="MyCourse"
-            >
-              <FaLayerGroup className="mx-auto h-6 w-9 cursor-pointer text-herobg" />
+            <Link to={"/myCourse"}>
+              <FaLayerGroup className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
             </Link>
           </li>
           <li>
-            <Link
-              to={"/leaderboard"}
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content="LeaderBoard"
-            >
-              <GiAchievement className="mx-auto h-8 w-9  text-herobg" />
+            <Link to={"/leaderboard"}>
+              <GiAchievement className="mx-auto h-9 w-9  text-herobg" />
             </Link>
           </li>
           <li>
-            <Link
-              to={"/users"}
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content="Users"
-            >
-              <FaUsers className="mx-auto h-6 w-9  text-herobg" />
+            <Link to={"/users"}>
+              <FaUsers className="mx-auto h-9 w-9  text-herobg" />
+            </Link>
+          </li>
+          <li>
+            <Link to={"/uploadCourse"}>
+              <RiUploadCloud2Fill className="mx-auto h-9 w-9  text-herobg" />
             </Link>
           </li>
         </ul>
@@ -71,7 +61,7 @@ const SideBar = () => {
         <div className="">
           <Outlet />
         </div>
-        <ul className="fixed bottom-0 flex h-12 w-full items-center justify-around gap-3 rounded-l-md rounded-r-md  bg-textColor py-2">
+        <ul className="fixed bottom-0 flex h-14 w-full items-center justify-around gap-3 rounded-l-md rounded-r-md  bg-textColor py-2">
           <li className=" text-herobg">
             <Link
               to={"/profile"}
@@ -117,13 +107,14 @@ const SideBar = () => {
               <FaUsers className="h-5 w-9 text-herobg sm:h-6  " />
             </Link>
           </li>
+
           <li>
             <Link
-              to={"/users"}
+              to={"/uploadCourse"}
               data-tooltip-id="my-tooltip1"
-              data-tooltip-content="Users"
+              data-tooltip-content="UploadCourse"
             >
-              <FaUsers className="h-5 w-9 text-herobg sm:h-6  " />
+              <RiUploadCloud2Fill className="h-5 w-9 text-herobg sm:h-6  " />
             </Link>
           </li>
         </ul>

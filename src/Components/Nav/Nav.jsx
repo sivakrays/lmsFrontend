@@ -226,7 +226,7 @@ const Nav = () => {
             </li>
             <li>
               <Link
-                to={"/dashboard"}
+                to={"/Contact"}
                 className="text-md font-semibold"
                 onClick={handleToggle}
               >

@@ -14,6 +14,7 @@ import SideBar from "./Dashboard/SideBar/SideBar";
 import Users from "./Dashboard/Users/Users";
 import Profile from "./Dashboard/Profile/Profile";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
+import UploadCourse from "./Dashboard/UploadCourse/UploadCourse";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/myCourse" element={<MyCourse />} />
           <Route path="/users" element={<Users />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
+          <Route path="/uploadCourse" element={<UploadCourse />} />
         </Route>
       </Routes>
     </BrowserRouter>

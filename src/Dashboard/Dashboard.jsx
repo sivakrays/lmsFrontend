@@ -6,7 +6,14 @@ const DashBoardContent = () => {
   return (
     <>
       <div className="h-screen w-full bg-herobg">
-        <div>DashBoard Content</div>
+        <div className="mx-auto w-11/12  ">
+          <div className="profile_header">
+            <h2 className="dayOne pt-9 text-2xl text-textColor">Dashboard</h2>
+            <h4 className="text-textLigntColor">
+              Welcome to Course Desk Dashboard
+            </h4>
+          </div>
+        </div>
       </div>
     </>
   );

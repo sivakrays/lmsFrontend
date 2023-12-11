@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Profile.css";
 import profile from "../../Assets/Promo/reviewer1.jpg";
 import { FaLayerGroup } from "react-icons/fa6";
 import cardImg from "../../Assets/courseCard/courseImg.jpg";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Modal from "../../Components/Modal/Modal";
 
 const Profile = () => {
+  const [profileModal, setProfileModal] = useState(false);
+
+  const openProfileModal = () => {
+    setProfileModal(!profileModal);
+    console.log(profileModal);
+  };
+
   const profileDetails = [
     {
       id: 1,
@@ -114,7 +122,10 @@ const Profile = () => {
             <div className="mb-4">
               <div className="flex  items-center justify-between">
                 <p className="dayOne text-textColor">Personal Information</p>
-                <button className="cursor-pointer rounded bg-textColor px-4 py-1.5 text-white sm:px-7">
+                <button
+                  className="cursor-pointer rounded bg-textColor px-4 py-1.5 text-white sm:px-7"
+                  onClick={openProfileModal}
+                >
                   Edit
                 </button>
               </div>
@@ -204,6 +215,9 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {profileModal && (
+        <Modal profileModal={profileModal} setProfileModal={setProfileModal} />
+      )}
     </div>
   );
 };

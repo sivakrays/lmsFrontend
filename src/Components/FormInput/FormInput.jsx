@@ -51,7 +51,7 @@ const FormInput = (props) => {
             leading-6
              text-textColor"
             data-testid="labelText"
-             htmlFor={label}
+            htmlFor={label}
           >
             {label}
           </label>
