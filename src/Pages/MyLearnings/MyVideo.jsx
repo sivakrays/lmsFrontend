@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import Accordion from "../../Components/Accordian/Accordian";
+import Quiz from "../../Components/Quiz/Quiz";
 
 const MyVideo = () => {
   const [videoUrl, setVideoUrl] = useState(
     "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
   );
   const [isVideoAll, setIsVideoAll] = useState(true);
+  const [isQuizClicked, setIsQuizClicked] = useState(false);
   const accordianDetails = [
     {
       key: 1,
@@ -17,7 +19,6 @@ const MyVideo = () => {
           accordianName: "Introduction",
           previewText:
             "The Complete Personal Finance for Kids and Teenagers Course by Steeve Simbert is a comprehensive, engaging, and fun online program, designed to boost the financial literacy of the younger generation. It uses entertaining animated cartoon videos to simplify complex financial, business, and economic concepts, covering everything from basic personal finance to investment strategies and retirement savings. ",
-          quiz: "",
           link: "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
         },
       ],
@@ -76,6 +77,9 @@ const MyVideo = () => {
     console.log("Valueeeeee", link);
     setVideoUrl(link);
   };
+  const handleQuizOpen = () => {
+    setIsQuizClicked(!isQuizClicked);
+  };
 
   const myLearningVideo = () => {
     console.log("videoUrl........", videoUrl);
@@ -92,18 +96,10 @@ const MyVideo = () => {
     );
   };
   return (
-    <div className=" flex h-screen w-full flex-col-reverse md:flex md:flex-row">
-      <div className="relative w-full  pl-1   pt-16 md:h-full  md:w-[30%] md:pt-28">
-        <div className=" ">
-          <Accordion
-            accordianDetails={accordianDetails}
-            path="MyVideo"
-            setUrl={setUrl}
-            isVideoAllOpen={isVideoAll}
-          />
-        </div>
+    <div className=" flex  w-full flex-col-reverse md:flex md:flex-row">
+      <div className="relative h-screen w-full pl-1   pt-16 md:h-full  md:w-[30%] md:pt-28">
         <div
-          className=" absolute bottom-3 right-2 cursor-pointer p-3"
+          className=" absolute right-2 top-5 cursor-pointer p-3"
           onClick={handleCollapse}
         >
           {isVideoAll ? (
@@ -112,8 +108,20 @@ const MyVideo = () => {
             <p className="text-sm font-semibold text-textColor"> Expand All</p>
           )}
         </div>
+        <div className=" ">
+          <Accordion
+            accordianDetails={accordianDetails}
+            path="MyVideo"
+            setUrl={setUrl}
+            isVideoAllOpen={isVideoAll}
+            handleQuizOpen={handleQuizOpen}
+          />
+        </div>
       </div>
-      <div className=" w-full   md:w-[70%]   xl:pt-20">{myLearningVideo()}</div>
+
+      <div className=" w-full   md:w-[70%]   xl:pt-20">
+        {isQuizClicked ? <Quiz /> : myLearningVideo()}
+      </div>
     </div>
   );
 };

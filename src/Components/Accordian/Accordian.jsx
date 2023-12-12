@@ -7,8 +7,10 @@ const NestedAccordionItem = ({
   title,
   previewText,
   videoPath,
+  quiz,
   setUrl,
   link,
+  handleQuizOpen,
 }) => {
   const [isNestedAccordionOpen, setIsNestedAccordionOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -31,61 +33,71 @@ const NestedAccordionItem = ({
 
   return (
     <>
-      <button
-        type="button"
-        className=" flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
-      >
-        <div className="flex w-3/4  items-center gap-5 ">
-          {videoPath === "MyVideo" ? (
-            <button
-              onClick={() => setUrl(link)}
-              className="flex items-center gap-5"
-              data-testid="videoButton"
-            >
-              <img src={Tv} alt="" className="h-4 w-4" />
-              <span className="text-xs  text-textColor  md:text-sm">
-                {title}
-              </span>
-            </button>
-          ) : (
-            <button
-              onClick={showPreview}
-              className="flex items-center gap-5"
-              data-testid="videoButton"
-            >
-              <img src={Tv} alt="" className="h-4 w-4" />
-              <span className="text-xs   text-textColor  underline  md:text-sm">
-                {title}
-              </span>
-            </button>
-          )}
-
-          <button onClick={toggleNestedAccordion}>
-            <img
-              src={Arrow}
-              alt=""
-              className={`  h-3 w-3 shrink-0  ${
-                isNestedAccordionOpen ? "rotate-180" : ""
-              } `}
-            />
-          </button>
-        </div>
-        <div
-          className={`${
-            videoPath === "MyVideo"
-              ? "hidden"
-              : "hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4"
-          }`}
+      <div>
+        <button
+          type="button"
+          className=" flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
         >
-          <p
-            className="text-xs  text-textColor underline  md:text-sm"
-            onClick={showPreview}
+          <div className="flex w-3/4  items-center gap-5 ">
+            {videoPath === "MyVideo" ? (
+              <button
+                onClick={() => setUrl(link)}
+                className="flex items-center gap-5"
+                data-testid="videoButton"
+              >
+                <img src={Tv} alt="" className="h-4 w-4" />
+                <span className="text-xs  text-textColor  md:text-sm">
+                  {title}
+                </span>
+              </button>
+            ) : (
+              <button
+                onClick={showPreview}
+                className="flex items-center gap-5"
+                data-testid="videoButton"
+              >
+                <img src={Tv} alt="" className="h-4 w-4" />
+                <span className="text-xs   text-textColor  underline  md:text-sm">
+                  {title}
+                </span>
+              </button>
+            )}
+
+            <button onClick={toggleNestedAccordion}>
+              <img
+                src={Arrow}
+                alt=""
+                className={`  h-3 w-3 shrink-0  ${
+                  isNestedAccordionOpen ? "rotate-180" : ""
+                } `}
+              />
+            </button>
+          </div>
+          <div
+            className={`${
+              videoPath === "MyVideo"
+                ? "hidden"
+                : "hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4"
+            }`}
           >
-            Preview
-          </p>
-          <span className="text-xs text-textColor md:text-sm">05.26</span>
-        </div>
-      </button>
+            <p
+              className="text-xs  text-textColor underline  md:text-sm"
+              onClick={showPreview}
+            >
+              Preview
+            </p>
+            <span className="text-xs text-textColor md:text-sm">05.26</span>
+          </div>
+        </button>
+        {quiz && (
+          <div
+            onClick={handleQuizOpen}
+            className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
+          >
+            <p className="text-sm font-medium text-textColor">{quiz}</p>
+          </div>
+        )}
+      </div>
 
       <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
         <div className="border border-b-0  p-5 ">
@@ -110,6 +122,7 @@ const AccordionItem = ({
   videoPath,
   setUrl,
   isVideoAllOpen,
+  handleQuizOpen,
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
@@ -154,9 +167,11 @@ const AccordionItem = ({
               title={item.accordianName}
               previewText={item.previewText}
               link={item.link}
+              quiz={item.quiz}
               isAllOpen={isAllOpen}
               videoPath={videoPath}
               setUrl={setUrl}
+              handleQuizOpen={handleQuizOpen}
             />
           ))}
         </div>
@@ -171,6 +186,7 @@ const Accordion = ({
   path,
   setUrl,
   isVideoAllOpen,
+  handleQuizOpen,
 }) => {
   return (
     <div className="mb-8 bg-white">
@@ -183,6 +199,7 @@ const Accordion = ({
           isVideoAllOpen={isVideoAllOpen}
           videoPath={path}
           setUrl={setUrl}
+          handleQuizOpen={handleQuizOpen}
         />
       ))}
     </div>
