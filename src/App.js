@@ -8,6 +8,7 @@ import Login from "./Pages/Login/Login";
 import Signup from "./Pages/Signup/Signup";
 import Contact from "./Pages/Contact/Contact";
 import CourseDetails from "./Pages/CourseDetail/CourseDetail";
+import Quiz from "./Components/Quiz/Quiz";
 
 const App = () => {
   return (
@@ -16,12 +17,13 @@ const App = () => {
         <Route element={<Nav />}>
           <Route path="/" element={<Home />} />
           <Route path="/course" element={<Course />} />
-          <Route path="/video" element={<Video />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/coursedetails" element={<CourseDetails />} />
         </Route>
+        <Route path="/video" element={<Video />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </BrowserRouter>
   );

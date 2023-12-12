@@ -24,6 +24,12 @@ module.exports = {
           "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
           borderRadius: "10px",
         },
+        ".boxShadow1": {
+          boxShadow: "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          "-webkit-box-shadow": "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          borderRadius: "10px",
+        },
       };
 
       addUtilities(newUtilities, ["responsive", "hover"]);

@@ -15,7 +15,7 @@ const Modal = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const itemsPerPage = 2;
+  const itemsPerPage = 1;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -93,14 +93,14 @@ const Modal = ({
             </div>
             {currentQuestions.map((q) => (
               <div key={q.id} className="relative">
-                <div className="space-y-4 p-4 md:p-5">
+                <div className=" space-y-4 p-4 md:p-5">
                   <label
                     htmlFor={`question-${q.id}`}
-                    className="text-textColor"
+                    className="dayOne text-lg text-textColor"
                   >
                     {q.question}
                   </label>
-                  <div className="answer flex gap-5">
+                  <div className="answer flex flex-col gap-5">
                     {q.options.map((option, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <input
@@ -112,7 +112,7 @@ const Modal = ({
                           checked={selectedAnswers[q.id] === index}
                           onChange={() => handleAnswerChange(q.id, index)}
                         />
-                        <span className="text-sm text-textLigntColor">
+                        <span className="text-md text-textLigntColor">
                           {option}
                         </span>
                       </div>
