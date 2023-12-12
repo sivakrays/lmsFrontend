@@ -3,11 +3,16 @@ import Arrow from "../../Assets/coursedetails/AccordianArrow.svg";
 import Tv from "../../Assets/coursedetails/tv.svg";
 import Modal from "../Modal/Modal";
 
-const NestedAccordionItem = ({ title, previewText }) => {
+const NestedAccordionItem = ({
+  title,
+  previewText,
+  videoPath,
+  setUrl,
+  link,
+}) => {
   const [isNestedAccordionOpen, setIsNestedAccordionOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
-  const path = "video";
 
   const toggleNestedAccordion = () => {
     setIsNestedAccordionOpen(!isNestedAccordionOpen);
@@ -19,6 +24,7 @@ const NestedAccordionItem = ({ title, previewText }) => {
   };
 
   const showPreview = () => {
+    console.log("showpreview called");
     setIsVideoVisible(!isVideoVisible);
     setIsModalOpen1(!isModalOpen1);
   };
@@ -27,19 +33,32 @@ const NestedAccordionItem = ({ title, previewText }) => {
     <>
       <button
         type="button"
-        className="0 flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
+        className=" flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
       >
         <div className="flex w-3/4  items-center gap-5 ">
-          <button
-            onClick={showPreview}
-            className="flex items-center gap-5"
-            data-testid="videoButton"
-          >
-            <img src={Tv} alt="" className="h-4 w-4" />
-            <span className="text-xs  text-yellowColor underline md:text-sm">
-              {title}
-            </span>
-          </button>
+          {videoPath === "MyVideo" ? (
+            <button
+              onClick={() => setUrl(link)}
+              className="flex items-center gap-5"
+              data-testid="videoButton"
+            >
+              <img src={Tv} alt="" className="h-4 w-4" />
+              <span className="text-xs  text-textColor  md:text-sm">
+                {title}
+              </span>
+            </button>
+          ) : (
+            <button
+              onClick={showPreview}
+              className="flex items-center gap-5"
+              data-testid="videoButton"
+            >
+              <img src={Tv} alt="" className="h-4 w-4" />
+              <span className="text-xs   text-textColor  underline  md:text-sm">
+                {title}
+              </span>
+            </button>
+          )}
 
           <button onClick={toggleNestedAccordion}>
             <img
@@ -51,9 +70,15 @@ const NestedAccordionItem = ({ title, previewText }) => {
             />
           </button>
         </div>
-        <div className="hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4">
+        <div
+          className={`${
+            videoPath === "MyVideo"
+              ? "hidden"
+              : "hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4"
+          }`}
+        >
           <p
-            className="text-xs  text-yellowColor underline  md:text-sm"
+            className="text-xs  text-textColor underline  md:text-sm"
             onClick={showPreview}
           >
             Preview
@@ -67,10 +92,10 @@ const NestedAccordionItem = ({ title, previewText }) => {
           {previewText && <p className="text-textLigntColor ">{previewText}</p>}
         </div>
       </div>
-      {isVideoVisible && (
+      {isVideoVisible && !videoPath && (
         <Modal
           isModalOpen1={isModalOpen1}
-          path={path}
+          path="video"
           toggleModal1={toggleModal1}
         />
       )}
@@ -78,17 +103,24 @@ const NestedAccordionItem = ({ title, previewText }) => {
   );
 };
 
-const AccordionItem = ({ title, nestedItems, isAllOpen }) => {
+const AccordionItem = ({
+  title,
+  nestedItems,
+  isAllOpen,
+  videoPath,
+  setUrl,
+  isVideoAllOpen,
+}) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   useEffect(() => {
     console.log("isAllOpen", isAllOpen);
-    if (isAllOpen) {
+    if (isAllOpen || isVideoAllOpen) {
       setIsAccordionOpen(true);
     } else {
       setIsAccordionOpen(false);
     }
-  }, [isAllOpen]);
+  }, [isAllOpen, isVideoAllOpen]);
 
   const toggleAccordion = () => {
     setIsAccordionOpen(!isAccordionOpen);
@@ -121,7 +153,10 @@ const AccordionItem = ({ title, nestedItems, isAllOpen }) => {
               key={item.key}
               title={item.accordianName}
               previewText={item.previewText}
+              link={item.link}
               isAllOpen={isAllOpen}
+              videoPath={videoPath}
+              setUrl={setUrl}
             />
           ))}
         </div>
@@ -130,7 +165,13 @@ const AccordionItem = ({ title, nestedItems, isAllOpen }) => {
   );
 };
 
-const Accordion = ({ accordianDetails, isAllOpen }) => {
+const Accordion = ({
+  accordianDetails,
+  isAllOpen,
+  path,
+  setUrl,
+  isVideoAllOpen,
+}) => {
   return (
     <div className="mb-8 bg-white">
       {accordianDetails.map((item) => (
@@ -139,6 +180,9 @@ const Accordion = ({ accordianDetails, isAllOpen }) => {
           title={item.accordianName}
           nestedItems={item.nestedItems}
           isAllOpen={isAllOpen}
+          isVideoAllOpen={isVideoAllOpen}
+          videoPath={path}
+          setUrl={setUrl}
         />
       ))}
     </div>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Nav.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
+import profile from "../../Assets/Promo/reviewer1.jpg";
 
 const Nav = () => {
   const { logout, isTokenValid } = useContext(authContext);
@@ -91,12 +92,28 @@ const Nav = () => {
           </div>
           <div className="nav_btn hidden gap-11 lg:flex">
             {isTokenValid ? (
-              <button
-                className="text-md cursor-pointer font-semibold text-textColor "
-                onClick={logout}
-              >
-                Logout
-              </button>
+              <div className="flex gap-x-4">
+                <ul className="flex items-center justify-center gap-4">
+                  <li className="text-md cursor-pointer font-semibold text-textColor">
+                    <Link to="mylearnings">My Learnings</Link>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <img
+                        src={profile}
+                        alt=""
+                        className=" h-10 w-10 rounded-full"
+                      />
+                    </Link>
+                  </li>
+                </ul>
+                <button
+                  className="text-md cursor-pointer font-semibold text-textColor "
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </div>
             ) : (
               <div className="flex items-center gap-8">
                 <Link to="login">
