@@ -154,7 +154,21 @@ const MyVideo = () => {
 
       <div className=" flex  w-full flex-col  pt-14 md:pt-20 lg:hidden">
         <div className=" mt-6 w-full  ">
-          {isQuizClicked ? <Quiz /> : myLearningVideo()}
+          {isQuizClicked ? (
+            <>
+              <div className="">
+                <Quiz setRewardModal={setRewardModal} />
+                {isrewardModal && (
+                  <Modal
+                    isrewardModal={isrewardModal}
+                    setRewardModal={setRewardModal}
+                  />
+                )}
+              </div>
+            </>
+          ) : (
+            myLearningVideo()
+          )}{" "}
         </div>
         <div className=" mt-2 pl-1">
           <div className="  h-auto  w-full">
