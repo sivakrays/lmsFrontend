@@ -68,7 +68,7 @@ const MyVideo = () => {
       ],
     },
   ];
-
+  const isSmallScreen = window.innerWidth < 1024;
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
   };
@@ -76,6 +76,7 @@ const MyVideo = () => {
   const setUrl = (link) => {
     console.log("Valueeeeee", link);
     setVideoUrl(link);
+    setIsQuizClicked(false);
   };
   const handleQuizOpen = () => {
     setIsQuizClicked(!isQuizClicked);
@@ -84,45 +85,82 @@ const MyVideo = () => {
   const myLearningVideo = () => {
     console.log("videoUrl........", videoUrl);
     return (
-      <div className="relative  w-full">
+      <div className="relative  w-[100%]">
         <ReactPlayer
           controls
-          width="70%"
+          width={isSmallScreen ? "100%" : "70%"}
+          //style={{ width: isSmallScreen ? "100%" : "70%" }}
           height="100%"
           url={videoUrl}
-          className=" md:fixed md:right-0 md:top-0"
+          className=" lg:fixed "
         />
       </div>
     );
   };
   return (
-    <div className=" flex  w-full flex-col-reverse md:flex md:flex-row">
-      <div className="relative h-screen w-full pl-1   pt-16 md:h-full  md:w-[30%] md:pt-28">
-        <div
-          className=" absolute right-2 top-5 cursor-pointer p-3"
-          onClick={handleCollapse}
-        >
-          {isVideoAll ? (
-            <p className="text-sm font-semibold text-textColor">Collapse All</p>
-          ) : (
-            <p className="text-sm font-semibold text-textColor"> Expand All</p>
-          )}
+    <>
+      <div className=" hidden   w-full  lg:flex ">
+        <div className="  w-full  pl-1  pt-20 md:pt-28  lg:w-[30%] lg:pt-28">
+          <div className=" cursor-pointer p-3" onClick={handleCollapse}>
+            {isVideoAll ? (
+              <p className="text-sm font-semibold text-textColor">
+                Collapse All
+              </p>
+            ) : (
+              <p className="text-sm font-semibold text-textColor">
+                {" "}
+                Expand All
+              </p>
+            )}
+          </div>
+          <div className=" h-auto ">
+            <Accordion
+              accordianDetails={accordianDetails}
+              path="MyVideo"
+              setUrl={setUrl}
+              isVideoAllOpen={isVideoAll}
+              handleQuizOpen={handleQuizOpen}
+              isQuizClicked={isQuizClicked}
+            />
+          </div>
         </div>
-        <div className=" ">
-          <Accordion
-            accordianDetails={accordianDetails}
-            path="MyVideo"
-            setUrl={setUrl}
-            isVideoAllOpen={isVideoAll}
-            handleQuizOpen={handleQuizOpen}
-          />
+
+        <div className="lg:w-[70%] ">
+          {isQuizClicked ? <Quiz /> : myLearningVideo()}
         </div>
       </div>
 
-      <div className=" w-full   md:w-[70%]   xl:pt-20">
-        {isQuizClicked ? <Quiz /> : myLearningVideo()}
+      {/* small device view  */}
+
+      <div className=" flex  w-full flex-col  pt-14 md:pt-20 lg:hidden">
+        <div className=" mt-6 w-full  ">
+          {isQuizClicked ? <Quiz /> : myLearningVideo()}
+        </div>
+        <div className=" pl-1 ">
+          <div className=" cursor-pointer p-3" onClick={handleCollapse}>
+            {isVideoAll ? (
+              <p className="text-sm font-semibold text-textColor">
+                Collapse All
+              </p>
+            ) : (
+              <p className="text-sm font-semibold text-textColor">
+                {" "}
+                Expand All
+              </p>
+            )}
+          </div>
+          <div className="  h-auto  w-full">
+            <Accordion
+              accordianDetails={accordianDetails}
+              path="MyVideo"
+              setUrl={setUrl}
+              isVideoAllOpen={isVideoAll}
+              handleQuizOpen={handleQuizOpen}
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

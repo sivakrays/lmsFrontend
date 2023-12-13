@@ -43,7 +43,9 @@ const Nav = () => {
                 currentPath === "/coursedetails" ||
                 currentPath === "/login" ||
                 currentPath === "/signup" ||
-                currentPath === "/course" ? (
+                currentPath === "/course" ||
+                currentPath === "/mylearnings" ||
+                currentPath === "/myvideo" ? (
                   <Link to={"/"} className="text-md font-semibold">
                     Home
                   </Link>
@@ -58,7 +60,9 @@ const Nav = () => {
                 currentPath === "/coursedetails" ||
                 currentPath === "/login" ||
                 currentPath === "/signup" ||
-                currentPath === "/course" ? (
+                currentPath === "/course" ||
+                currentPath === "/mylearnings" ||
+                currentPath === "/myvideo" ? (
                   <Link to={"/"} className="text-md font-semibold">
                     Featured Courses
                   </Link>
@@ -73,7 +77,9 @@ const Nav = () => {
                 currentPath === "/coursedetails" ||
                 currentPath === "/login" ||
                 currentPath === "/signup" ||
-                currentPath === "/course" ? (
+                currentPath === "/course" ||
+                currentPath === "/mylearnings" ||
+                currentPath === "/myvideo" ? (
                   <Link to={"/"} className="text-md font-semibold">
                     Testimonials
                   </Link>
@@ -177,7 +183,9 @@ const Nav = () => {
               currentPath === "/coursedetails" ||
               currentPath === "/login" ||
               currentPath === "/signup" ||
-              currentPath === "/course" ? (
+              currentPath === "/course" ||
+              currentPath === "/mylearnings" ||
+              currentPath === "/myvideo" ? (
                 <Link
                   to={"/"}
                   className="text-md font-semibold"
@@ -200,7 +208,9 @@ const Nav = () => {
               currentPath === "/coursedetails" ||
               currentPath === "/login" ||
               currentPath === "/signup" ||
-              currentPath === "/course" ? (
+              currentPath === "/course" ||
+              currentPath === "/mylearnings" ||
+              currentPath === "/myvideo" ? (
                 <Link
                   to={"/"}
                   className="text-md font-semibold"
@@ -223,7 +233,9 @@ const Nav = () => {
               currentPath === "/coursedetails" ||
               currentPath === "/login" ||
               currentPath === "/signup" ||
-              currentPath === "/course" ? (
+              currentPath === "/course" ||
+              currentPath === "/mylearnings" ||
+              currentPath === "/myvideo" ? (
                 <Link
                   to={"/"}
                   className="text-md font-semibold"
