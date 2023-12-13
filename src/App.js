@@ -11,6 +11,7 @@ import CourseDetails from "./Pages/CourseDetail/CourseDetail";
 import Quiz from "./Components/Quiz/Quiz";
 import MyLearnings from "./Pages/MyLearnings/MyLearnings";
 import MyVideo from "./Pages/MyLearnings/MyVideo";
+import Reward from "./Components/Reward/Reward";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         </Route>
         <Route path="/video" element={<Video />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/reward" element={<Reward />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 
-const Quiz = () => {
+const Quiz = ({ setRewardModal }) => {
   const quiz = [
     {
       id: 1,
@@ -56,17 +56,81 @@ const Quiz = () => {
 
   const currentQuestions =
     quiz && quiz.slice(indexOfFirstItem, indexOfLastItem);
+  const starsConfeeti = () => {
+    var defaults = {
+      spread: 360,
+      ticks: 50,
+      gravity: 0,
+      decay: 0.94,
+      startVelocity: 30,
+      colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+    };
+
+    function shoot() {
+      confetti({
+        ...defaults,
+        particleCount: 40,
+        scalar: 1.2,
+        shapes: ["star"],
+      });
+
+      confetti({
+        ...defaults,
+        particleCount: 10,
+        scalar: 0.75,
+        shapes: ["circle"],
+      });
+    }
+
+    setTimeout(shoot, 0);
+    setTimeout(shoot, 100);
+    setTimeout(shoot, 200);
+  };
+  const fireworkConfetti = () => {
+    var duration = 4 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    var interval = setInterval(function () {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+      var particleCount = 50 * (timeLeft / duration);
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      });
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      });
+    }, 250);
+  };
 
   const handleSubmit = () => {
     if (clickedOption === currentAns) {
       setEnergyPoint(energyPoint + 1);
       console.log("Total Energy Point", energyPoint);
-      confetti({
-        particleCount: 200,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
+      // confetti({
+      //   particleCount: 300,
+      //   spread: 80,
+      //   origin: { x: 0.6, y: 0.8 },
+      // });
       console.log("correct");
+      setRewardModal(true);
+      fireworkConfetti();
+      starsConfeeti();
+      // setTimeout(() => {
+      //   fireworkConfetti();
+      //   starsConfeeti();
+      // }, 1500);
     } else {
       setChecked(true);
       console.log("wrong");
@@ -80,8 +144,8 @@ const Quiz = () => {
         setClickedOption();
       }, 2000);
       confetti({
-        particleCount: 200,
-        spread: 70,
+        particleCount: 300,
+        spread: 80,
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
@@ -106,7 +170,7 @@ const Quiz = () => {
   const Pagination = ({ id }) => {
     return (
       <>
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between lg:mt-4 ">
           <div className="flex items-center rounded-b p-4 md:p-5">
             <span className="text-sm text-textColor ">
               <span className="font-semibold">{id} </span>
@@ -117,32 +181,30 @@ const Quiz = () => {
               <span> Questions</span>
             </span>
           </div>
-          <div className=" mt-4 flex flex-col items-center">
-            <div className="xs:mt-0 mt-2 inline-flex">
-              {currentPage === totalPages ? (
-                <button
-                  className={`flex h-10 items-center justify-center rounded border-0 border-l border-textLigntColor bg-textColor px-6 text-base font-medium text-white  ${
-                    checked === true ? "cursor-not-allowed opacity-50 " : ""
-                  }`}
-                  disabled={checked === true}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </button>
-              ) : (
-                <button
-                  onClick={() => handleNext()}
-                  className={`flex h-10 items-center justify-center rounded-md border-textLigntColor bg-textColor px-8 text-base font-medium text-white  ${
-                    currentPage === totalPages || checked === true
-                      ? "cursor-not-allowed opacity-50 "
-                      : ""
-                  }`}
-                  disabled={checked === true}
-                >
-                  Next
-                </button>
-              )}
-            </div>
+          <div>
+            {currentPage === totalPages ? (
+              <button
+                className={`flex h-10 items-center justify-center rounded border-0 border-l border-textLigntColor bg-textColor px-6 text-base font-medium text-white  ${
+                  checked === true ? "cursor-not-allowed opacity-50 " : ""
+                }`}
+                disabled={checked === true}
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            ) : (
+              <button
+                onClick={() => handleNext()}
+                className={`flex h-10 items-center justify-center rounded-md border-textLigntColor bg-textColor px-8 text-base font-medium text-white  ${
+                  currentPage === totalPages || checked === true
+                    ? "cursor-not-allowed opacity-50 "
+                    : ""
+                }`}
+                disabled={checked === true}
+              >
+                Next
+              </button>
+            )}
           </div>
         </div>
       </>
@@ -150,8 +212,8 @@ const Quiz = () => {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center border bg-herobg p-3 md:p-0">
-      <div className=" w-full max-w-3xl rounded-lg border-2 border-textColor bg-white p-4 shadow-sm boxShadow">
+    <div className="flex h-auto items-center justify-center  bg-white p-2 md:p-0">
+      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-48 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
             Financial Quiz
@@ -169,17 +231,17 @@ const Quiz = () => {
               </label>
               <div className="answer flex flex-col gap-5">
                 {q.options.map((option, index) => (
-                  <div key={index} className="flex  items-center gap-2">
+                  <div key={index} className="">
                     {/* {checked === true && index === currentAns && (
                       <p className="p-0 text-left text-sm text-red-700">
                         Correct Answer
                       </p>
                     )} */}
                     <button
-                      className={`text-md q_answer flex w-full cursor-pointer items-center  gap-3 rounded-[10px] border p-2 text-textLigntColor duration-300 hover:border-textColor hover:boxShadow ${
+                      className={`q_answer flex w-full cursor-pointer items-center gap-3 rounded-[10px] border  p-2 text-left text-textLigntColor duration-300 hover:border-textColor hover:boxShadow sm:w-[90%] xl:w-[90%] ${
                         checked === true
                           ? index === currentAns &&
-                            "boxShadow1 border-green-700 "
+                            "border-green-700 boxShadow1 "
                           : index === clickedOption &&
                             "border-textColor boxShadow"
                       }`}
@@ -191,8 +253,10 @@ const Quiz = () => {
                 ))}
               </div>
             </div>
-            <hr />
-            <Pagination id={q.id} />
+            {/* <hr /> */}
+            <div className="w-full md:w-full md:max-w-3xl">
+              <Pagination id={q.id} />
+            </div>
           </div>
         ))}
       </div>

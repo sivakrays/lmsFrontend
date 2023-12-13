@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Video from "../Video/Video";
 import "./Modal.css";
+import Reward from "../Reward/Reward";
 
 const Modal = ({
   toggleModal,
@@ -12,6 +13,8 @@ const Modal = ({
   isModalOpen1,
   toggleModal1,
   path,
+  isrewardModal,
+  setRewardModal,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -40,6 +43,17 @@ const Modal = ({
       className="mt-24 flex  items-center justify-center"
       data-testid="modal"
     >
+      {isrewardModal && (
+        <div
+          className="fixed top-0 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+          data-modal-backdrop="static"
+          data-testid="modal"
+          style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
+        >
+          <Reward setRewardModal={setRewardModal} />
+        </div>
+      )}
+
       {/* Main modal */}
       {isModalOpen1 && path && (
         <div
