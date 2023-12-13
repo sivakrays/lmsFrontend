@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Arrow from "../../Assets/coursedetails/AccordianArrow.svg";
 import Tv from "../../Assets/coursedetails/tv.svg";
 import Modal from "../Modal/Modal";
+import { FcIdea } from "react-icons/fc";
 
 const NestedAccordionItem = ({
   title,
@@ -45,8 +46,12 @@ const NestedAccordionItem = ({
                 className="flex items-center gap-5"
                 data-testid="videoButton"
               >
-                <img src={Tv} alt="" className="h-4 w-4" />
-                <span className="text-xs  text-textColor  md:text-sm">
+                <img
+                  src={Tv}
+                  alt=""
+                  className="h-4 w-4 hover:text-yellowColor "
+                />
+                <span className=" text-xs  text-textColor  hover:text-yellowColor hover:underline md:text-sm">
                   {title}
                 </span>
               </button>
@@ -57,7 +62,7 @@ const NestedAccordionItem = ({
                 data-testid="videoButton"
               >
                 <img src={Tv} alt="" className="h-4 w-4" />
-                <span className="text-xs   text-textColor  underline  md:text-sm">
+                <span className=" text-xs text-textColor  underline  md:text-sm">
                   {title}
                 </span>
               </button>
@@ -89,20 +94,26 @@ const NestedAccordionItem = ({
             <span className="text-xs text-textColor md:text-sm">05.26</span>
           </div>
         </button>
-        {quiz && (
-          <div
-            onClick={handleQuizOpen}
-            className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
-          >
-            <p className="text-sm font-medium text-textColor">{quiz}</p>
-          </div>
-        )}
       </div>
 
       <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
         <div className="border border-b-0  p-5 ">
           {previewText && <p className="text-textLigntColor ">{previewText}</p>}
         </div>
+
+        {quiz && (
+          <div
+            onClick={handleQuizOpen}
+            className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
+          >
+            <span>
+              <FcIdea className=" h-5 w-5 hover:rounded hover:bg-violet-700" />
+            </span>
+            <p className="text-sm font-medium text-textColor hover:text-violet-700  ">
+              {quiz}
+            </p>
+          </div>
+        )}
       </div>
       {isVideoVisible && !videoPath && (
         <Modal
@@ -149,7 +160,9 @@ const AccordionItem = ({
            p-5 font-medium text-textColor hover:bg-gray-100 
              rtl:text-right "
         >
-          <span className=" md:text-md text-sm text-textColor">{title}</span>
+          <span className=" md:text-md dayOne text-sm text-textColor">
+            {title}
+          </span>
           <img
             src={Arrow}
             alt=""

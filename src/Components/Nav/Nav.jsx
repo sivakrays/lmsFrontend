@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Nav.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
-import profile from "../../Assets/Promo/reviewer1.jpg";
+import profile from "../../Assets/HeroSection/stelly-orange.svg";
 
 const Nav = () => {
-  const { logout, isTokenValid } = useContext(authContext);
+  const { logout, isTokenValid, showProfile, handleProfile } =
+    useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -98,27 +99,16 @@ const Nav = () => {
           </div>
           <div className="nav_btn hidden gap-11 lg:flex">
             {isTokenValid ? (
-              <div className="flex gap-x-4">
-                <ul className="flex items-center justify-center gap-4">
-                  <li className="text-md cursor-pointer font-semibold text-textColor">
-                    <Link to="mylearnings">My Learnings</Link>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <img
-                        src={profile}
-                        alt=""
-                        className=" h-10 w-10 rounded-full"
-                      />
-                    </Link>
-                  </li>
-                </ul>
-                <button
-                  className="text-md cursor-pointer font-semibold text-textColor "
-                  onClick={logout}
-                >
-                  Logout
-                </button>
+              <div
+                className=" flex cursor-pointer items-center gap-x-2 "
+                onClick={handleProfile}
+              >
+                <img
+                  src={profile}
+                  alt=""
+                  className="h-7 w-7 rounded-full bg-textColor"
+                />
+                <p className="text-md font-semibold text-textColor">manoj</p>
               </div>
             ) : (
               <div className="flex items-center gap-8">
@@ -263,6 +253,15 @@ const Nav = () => {
               </Link>
             </li>
             <li>
+              <Link
+                to={"/mylearnings"}
+                className="text-md font-semibold"
+                onClick={handleToggle}
+              >
+                MY LEARNING
+              </Link>
+            </li>
+            <li>
               {isTokenValid ? (
                 <button
                   className="text-md cursor-pointer font-semibold  uppercase text-textColor"
@@ -293,6 +292,32 @@ const Nav = () => {
             </li>
           </ul>
         </nav>
+        {showProfile && (
+          <div className="absolute  right-0 mr-8  hidden h-40 w-60 cursor-pointer border-t-2 border-t-textColor bg-herobg shadow-xl md:block">
+            <ul className="flex flex-col gap-4 p-4">
+              <li
+                className="text-md font-semibold uppercase text-textColor"
+                onClick={handleProfile}
+              >
+                <Link> Profile</Link>
+              </li>
+              <li
+                className="text-md font-semibold uppercase text-textColor"
+                onClick={handleProfile}
+              >
+                <Link to="mylearnings">My Learning</Link>
+              </li>
+              <li>
+                <button
+                  className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5 font-semibold   uppercase text-white hover:bg-textColor hover:text-white hover:duration-500"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
       <Outlet />
     </>

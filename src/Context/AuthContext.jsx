@@ -6,6 +6,7 @@ export const authContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [isTokenValid, setIsTokenValid] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -28,6 +29,8 @@ export const AuthContextProvider = ({ children }) => {
     await post(`/auth/login`, {}, config)
       .then((res) => {
         res.data && localStorage.setItem("token", res.data.token);
+        // const username = res.data && res.data.username.split('@');
+        // localStorage.setItem("userName",username[0]);
         setToken(localStorage.getItem("token"));
         successNotify();
       })
@@ -41,6 +44,7 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("token", token);
     setToken("");
     setIsTokenValid(false);
+    setShowProfile(false);
   };
 
   const successNotify = () =>
@@ -65,8 +69,13 @@ export const AuthContextProvider = ({ children }) => {
       progress: undefined,
       theme: "light",
     });
+  const handleProfile = () => {
+    setShowProfile(!showProfile);
+  };
   return (
-    <authContext.Provider value={{ login, token, logout, isTokenValid }}>
+    <authContext.Provider
+      value={{ login, token, logout, isTokenValid, handleProfile, showProfile }}
+    >
       {children}
     </authContext.Provider>
   );

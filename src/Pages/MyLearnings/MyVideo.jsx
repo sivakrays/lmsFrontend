@@ -79,7 +79,7 @@ const MyVideo = () => {
     setIsQuizClicked(false);
   };
   const handleQuizOpen = () => {
-    setIsQuizClicked(!isQuizClicked);
+    setIsQuizClicked(true);
   };
 
   const myLearningVideo = () => {
@@ -99,20 +99,8 @@ const MyVideo = () => {
   };
   return (
     <>
-      <div className=" hidden   w-full  lg:flex ">
+      <div className=" hidden w-full lg:flex ">
         <div className="  w-full  pl-1  pt-20 md:pt-28  lg:w-[30%] lg:pt-28">
-          <div className=" cursor-pointer p-3" onClick={handleCollapse}>
-            {isVideoAll ? (
-              <p className="text-sm font-semibold text-textColor">
-                Collapse All
-              </p>
-            ) : (
-              <p className="text-sm font-semibold text-textColor">
-                {" "}
-                Expand All
-              </p>
-            )}
-          </div>
           <div className=" h-auto ">
             <Accordion
               accordianDetails={accordianDetails}
@@ -122,6 +110,21 @@ const MyVideo = () => {
               handleQuizOpen={handleQuizOpen}
               isQuizClicked={isQuizClicked}
             />
+          </div>
+          <div
+            className=" float-right mr-3 w-28 cursor-pointer   rounded-md bg-yellowColor p-2"
+            onClick={handleCollapse}
+          >
+            {isVideoAll ? (
+              <p className=" text-center  text-sm font-semibold text-textColor">
+                Collapse All
+              </p>
+            ) : (
+              <p className="text-center text-sm font-semibold text-textColor">
+                {" "}
+                Expand All
+              </p>
+            )}
           </div>
         </div>
 
@@ -136,19 +139,7 @@ const MyVideo = () => {
         <div className=" mt-6 w-full  ">
           {isQuizClicked ? <Quiz /> : myLearningVideo()}
         </div>
-        <div className=" pl-1 ">
-          <div className=" cursor-pointer p-3" onClick={handleCollapse}>
-            {isVideoAll ? (
-              <p className="text-sm font-semibold text-textColor">
-                Collapse All
-              </p>
-            ) : (
-              <p className="text-sm font-semibold text-textColor">
-                {" "}
-                Expand All
-              </p>
-            )}
-          </div>
+        <div className=" mt-2 pl-1">
           <div className="  h-auto  w-full">
             <Accordion
               accordianDetails={accordianDetails}

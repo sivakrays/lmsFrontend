@@ -28,50 +28,50 @@ const Home = () => {
   const courseData = [
     {
       id: "1",
-      img: cardImg,
-      category: "Programming",
+      img: "https://img-c.udemycdn.com/course/750x422/5039162_eb97_5.jpg",
+      category: "Programming1",
       title: "Game development: Programming with java Plus C#",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "2",
-      img: cardImg1,
-      category: "Medical",
+      img: "https://us.123rf.com/450wm/jaaakworks/jaaakworks1511/jaaakworks151100024/47825772-cartoon-business-team-steal-money-from-boss.jpg?ver=6",
+      category: "Medical1",
       title: "Medical Basics 101: Anatomy of whole human body research basis ",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "3",
-      img: cardImg,
-      category: "AI/ML",
+      img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
+      category: "AI/ML1",
       title: "Supervised Machine Learning: Regression and Classification",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "4",
-      img: cardImg1,
-      category: "Design",
+      img: "https://tm4k.ala.org/images/background.jpg",
+      category: "Design1",
       title: "Product design and analysis: Psychical Goods creation for us",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "5",
-      img: cardImg,
-      category: "Psychology",
+      img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
+      category: "Psychology1",
       title: `Psychology and Consultation: How to solve anxiety problem easily`,
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "6",
-      img: cardImg1,
-      category: "Finance",
+      img: "https://tm4k.ala.org/images/background.jpg",
+      category: "Finance1",
       title: "Business Communication: How to deal with clients Professionaly",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
   ];
 
   return (
-    <main className="w-full bg-herobg">
+    <main className="relative w-full bg-herobg">
       {/* Hero Section */}
       <section
         className="hero  hero_container h-full pt-14 md:pt-20 lg:pt-28"
