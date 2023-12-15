@@ -12,6 +12,7 @@ module.exports = {
         coursebg: "#FFF7E0",
         cardbg: "#F9F8F4",
         yellowColor: "#FACC48",
+        dashboardLightColor: "#f5f8fa",
       },
     },
   },

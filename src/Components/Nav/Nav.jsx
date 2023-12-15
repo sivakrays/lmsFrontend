@@ -215,7 +215,7 @@ const Nav = () => {
             <li>
               {isTokenValid ? (
                 <button
-                  className="text-md cursor-pointer font-semibold  uppercase text-textColor"
+                  className="text-md cursor-pointer rounded-[10px] border-2 border-solid bg-textColor px-6 py-1.5  font-semibold uppercase text-white"
                   onClick={logout}
                 >
                   Logout
@@ -232,7 +232,7 @@ const Nav = () => {
                   </Link>
                   <Link to="signup">
                     <button
-                      className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5 font-semibold   uppercase text-white hover:bg-textColor hover:text-white hover:duration-500"
+                      className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5 font-semibold   uppercase text-white"
                       onClick={handleToggle}
                     >
                       Sign Up
