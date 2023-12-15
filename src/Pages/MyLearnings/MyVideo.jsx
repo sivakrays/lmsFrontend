@@ -9,6 +9,9 @@ const MyVideo = () => {
     window.scrollTo(0, 0);
   }, []);
   const [isrewardModal, setRewardModal] = useState(false);
+  const [energyPoint, setEnergyPoint] = useState(1);
+
+  console.log("energyPoint from myvideo", energyPoint);
 
   const [videoUrl, setVideoUrl] = useState(
     "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
@@ -138,11 +141,16 @@ const MyVideo = () => {
           {isQuizClicked ? (
             <>
               <div className="right-0 top-0 w-[70%] lg:fixed">
-                <Quiz setRewardModal={setRewardModal} />
+                <Quiz
+                  setRewardModal={setRewardModal}
+                  setEnergyPoint={setEnergyPoint}
+                  energyPoint={energyPoint}
+                />
                 {isrewardModal && (
                   <Modal
                     isrewardModal={isrewardModal}
                     setRewardModal={setRewardModal}
+                    energyPoint={energyPoint}
                   />
                 )}
               </div>
@@ -160,11 +168,16 @@ const MyVideo = () => {
           {isQuizClicked ? (
             <>
               <div className="">
-                <Quiz setRewardModal={setRewardModal} />
+                <Quiz
+                  setRewardModal={setRewardModal}
+                  setEnergyPoint={setEnergyPoint}
+                  energyPoint={energyPoint}
+                />
                 {isrewardModal && (
                   <Modal
                     isrewardModal={isrewardModal}
                     setRewardModal={setRewardModal}
+                    energyPoint={energyPoint}
                   />
                 )}
               </div>

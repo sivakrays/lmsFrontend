@@ -8,13 +8,13 @@ const LearningCard = ({ cardDetails }) => {
     navigate(`/myvideo/${cardDetails.key}`);
   };
   return (
-    <div className="  p-4" onClick={goToVideo}>
-      <div className="flex w-[280px]  cursor-pointer flex-col  rounded bg-white    shadow-md ">
-        <div className="h-3/5 w-full ">
+    <div className="p-4  " onClick={goToVideo}>
+      <div className="flex w-[280px]  cursor-pointer flex-col  rounded border border-textColor bg-white   shadow-md boxShadow">
+        <div className="h-3/5 w-full p-1.5">
           <img
             src={cardDetails.image}
             alt=""
-            className=" h-[200px] w-full rounded-t  object-cover"
+            className=" h-36 w-full rounded-t-xl  object-cover"
           />
         </div>
         <div className="mb-4 flex flex-col gap-4  p-4">

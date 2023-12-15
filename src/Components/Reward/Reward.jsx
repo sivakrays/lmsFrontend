@@ -1,25 +1,34 @@
 import React from "react";
-import rewards from "../../Assets/reward/Tropy Star.png";
+import Bronze from "../../Assets/reward/Bronze Medal.png";
+import Silver from "../../Assets/reward/Silver Medal.png";
+import Gold from "../../Assets/reward/Gold Medal.png";
+
+import smallRed from "../../Assets/reward/Element-1.png";
+import mediumGreen from "../../Assets/reward/Element-2.png";
+import bigBlue from "../../Assets/reward/Element.png";
+import Victory from "../../Assets/reward/Victory.png";
+
 import "./Reward.css";
 
-const Reward = ({ setRewardModal }) => {
+const Reward = ({ setRewardModal, energyPoint }) => {
+  console.log("energyPoints from reward page", energyPoint);
   return (
     <>
       <div className="mt-8 flex h-screen w-screen items-center justify-center">
-        <div className="rewardCard  relative  h-[500px] w-[350px] rounded-2xl border-2  bg-white ">
+        <div className="rewardCard  relative  h-[500px] w-[350px] rounded-2xl   bg-[#ffc645]">
           <div className="closebtn absolute right-0 m-5 text-textColor drop-shadow-2xl ">
             <button onClick={() => setRewardModal(false)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="2"
+                strokeWidth="2"
                 stroke="currentColor"
-                class="h-6 w-6"
+                className="h-6 w-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
@@ -27,19 +36,35 @@ const Reward = ({ setRewardModal }) => {
           </div>
 
           <div className="mx-auto mt-8 flex w-[300px] items-center justify-center">
-            <img src={rewards} alt="reward1" className="h-48 drop-shadow-2xl" />
+            {energyPoint == 1 && (
+              <img
+                src={Bronze}
+                alt="reward1"
+                className="h-48 drop-shadow-2xl"
+              />
+            )}
+            {energyPoint == 2 && (
+              <img
+                src={Silver}
+                alt="reward1"
+                className="h-48 drop-shadow-2xl"
+              />
+            )}
+            {energyPoint == 3 && (
+              <img src={Gold} alt="reward1" className="h-56 drop-shadow-2xl" />
+            )}
           </div>
           <div className="rewardContent mx-auto mt-5 flex w-[300px] flex-col gap-4 ">
             <p className="dayOne text-center text-2xl text-textColor">
               congratulations!
             </p>
-            <p className="text-center text-textLigntColor">
+            <p className="text-center font-semibold text-textColor">
               Well done! Your dedication and effort have paid off. We're proud
               of your achievement! 🌟🎓
             </p>
           </div>
           <div className="mx-auto w-[300px] text-center">
-            <button className=" shadow23 day mt-6 w-[200px] rounded-lg bg-red-500 p-2 text-white">
+            <button className="mt-6 w-[200px] rounded-lg bg-red-500 p-2 font-mono text-white">
               Share
             </button>
           </div>

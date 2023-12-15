@@ -15,6 +15,7 @@ const Modal = ({
   path,
   isrewardModal,
   setRewardModal,
+  energyPoint,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -50,7 +51,7 @@ const Modal = ({
           data-testid="modal"
           style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
         >
-          <Reward setRewardModal={setRewardModal} />
+          <Reward setRewardModal={setRewardModal} energyPoint={energyPoint} />
         </div>
       )}
 

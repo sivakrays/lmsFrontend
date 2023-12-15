@@ -32,7 +32,7 @@ const MyLearnings = () => {
     },
   ];
   return (
-    <div className="header myLearning h-full w-full bg-herobg  pt-24 xl:h-screen">
+    <div className="header myLearning h-full w-full bg-herobg pt-12 lg:pt-24 xl:h-screen">
       <div className=" mx-auto w-[90%] ">
         <h1 className="dayOne mt-10  p-8 text-center  text-3xl text-textColor  xl:text-left">
           My Learnings
