@@ -5,8 +5,13 @@ import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
 
 const Nav = () => {
-  const { logout, isTokenValid, showProfile, handleProfile } =
-    useContext(authContext);
+  const {
+    logout,
+    isTokenValid,
+    showProfile,
+    handleProfile,
+    handleClickOutlet,
+  } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -21,13 +26,24 @@ const Nav = () => {
 
   // console.log(location.pathname);
 
+  const handleProfileButtonClick = (e) => {
+    e.stopPropagation(); // Prevent event propagation to the parent elements
+    handleProfile();
+  };
+  const menuItem = [
+    { name: "Home", path: "/" },
+    { name: "Featured Course", path: "/course" },
+    { name: "Contact", path: "/contact" },
+  ];
+
   return (
     <>
       <div className="navbar w-full">
         <nav
           className={`flex h-20 items-center justify-around ${
             currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
-          } md:h-28 `}
+          }   md:h-28 `}
+          onClick={handleClickOutlet}
         >
           <Link to={"/"}>
             <div className=" flex items-center justify-center gap-2">
@@ -37,78 +53,69 @@ const Nav = () => {
               <span className="text-lg font-bold text-textColor">desk</span>
             </div>
           </Link>
-          <div className="nav_link">
-            <ul className="hidden gap-12 text-textColor lg:flex">
-              <li>
-                {currentPath === "/Contact" ||
-                currentPath === "/coursedetails" ||
-                currentPath === "/login" ||
-                currentPath === "/signup" ||
-                currentPath === "/course" ||
-                currentPath === "/mylearnings" ||
-                currentPath === "/myvideo" ? (
-                  <Link to={"/"} className="text-md font-semibold">
-                    Home
-                  </Link>
-                ) : (
-                  <a href="#home" className="text-md font-semibold">
-                    Home
-                  </a>
-                )}
-              </li>
-              <li>
-                {currentPath === "/Contact" ||
-                currentPath === "/coursedetails" ||
-                currentPath === "/login" ||
-                currentPath === "/signup" ||
-                currentPath === "/course" ||
-                currentPath === "/mylearnings" ||
-                currentPath === "/myvideo" ? (
-                  <Link to={"/"} className="text-md font-semibold">
-                    Featured Courses
-                  </Link>
-                ) : (
-                  <a href="#courses" className="text-md font-semibold">
-                    Featured Courses
-                  </a>
-                )}
-              </li>
-              <li>
-                {currentPath === "/Contact" ||
-                currentPath === "/coursedetails" ||
-                currentPath === "/login" ||
-                currentPath === "/signup" ||
-                currentPath === "/course" ||
-                currentPath === "/mylearnings" ||
-                currentPath === "/myvideo" ? (
-                  <Link to={"/"} className="text-md font-semibold">
-                    Testimonials
-                  </Link>
-                ) : (
-                  <a href="#testimonials" className="text-md font-semibold">
-                    Testimonials
-                  </a>
-                )}
-              </li>
-              <li>
-                <Link to={"Contact"} className="text-md font-semibold">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="nav_btn hidden gap-11 lg:flex">
-            {isTokenValid ? (
-              <div
-                className=" flex cursor-pointer items-center gap-x-2 "
-                onClick={handleProfile}
+
+          <div className="nav_link flex gap-12">
+            {menuItem.map((item) => (
+              <ul
+                className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                  currentPath === item.path ? "opacity-100" : "opacity-75"
+                }`}
               >
-                <img
-                  src={profile}
-                  alt=""
-                  className="h-7 w-7 rounded-full bg-textColor"
-                />
-                <p className="text-md font-semibold text-textColor">manoj</p>
+                <li className="">
+                  <Link
+                    to={item.path}
+                    className={`text-md  font-semibold ${
+                      currentPath === item.path ? "activeNav" : "nav"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              </ul>
+            ))}
+          </div>
+
+          <div className="nav_btn  hidden gap-11 lg:flex">
+            {isTokenValid ? (
+              <div className="relative">
+                <div
+                  className=" flex cursor-pointer items-center gap-x-2 "
+                  onClick={handleProfileButtonClick}
+                >
+                  <img
+                    src={profile}
+                    alt=""
+                    className="h-7 w-7 rounded-full bg-textColor"
+                  />
+                  <p className="text-md font-semibold text-textColor">manoj</p>
+                </div>
+
+                <div
+                  className={` ${
+                    showProfile
+                      ? "absolute top-[50px] block  w-[200px] rounded border-2 bg-white py-3 shadow-md"
+                      : "hidden"
+                  }`}
+                >
+                  <div
+                    className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                    onClick={handleProfile}
+                  >
+                    <Link to="mylearnings">My Learnings</Link>
+                  </div>
+                  <div
+                    className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                    onClick={handleProfile}
+                  >
+                    <Link to="/">Profile</Link>
+                  </div>
+                  <div
+                    className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                    onClick={logout}
+                  >
+                    Logout
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="flex items-center gap-8">
@@ -169,79 +176,22 @@ const Nav = () => {
             data-testid="mobile_menu"
           >
             <li>
-              {currentPath === "/Contact" ||
-              currentPath === "/coursedetails" ||
-              currentPath === "/login" ||
-              currentPath === "/signup" ||
-              currentPath === "/course" ||
-              currentPath === "/mylearnings" ||
-              currentPath === "/myvideo" ? (
-                <Link
-                  to={"/"}
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Home
-                </Link>
-              ) : (
-                <a
-                  href="#home"
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Home
-                </a>
-              )}
+              <Link
+                to={"/"}
+                className="text-md font-semibold"
+                onClick={handleToggle}
+              >
+                Home
+              </Link>
             </li>
             <li>
-              {currentPath === "/Contact" ||
-              currentPath === "/coursedetails" ||
-              currentPath === "/login" ||
-              currentPath === "/signup" ||
-              currentPath === "/course" ||
-              currentPath === "/mylearnings" ||
-              currentPath === "/myvideo" ? (
-                <Link
-                  to={"/"}
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Featured Courses
-                </Link>
-              ) : (
-                <a
-                  href="#courses"
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Featured Courses
-                </a>
-              )}
-            </li>
-            <li>
-              {currentPath === "/Contact" ||
-              currentPath === "/coursedetails" ||
-              currentPath === "/login" ||
-              currentPath === "/signup" ||
-              currentPath === "/course" ||
-              currentPath === "/mylearnings" ||
-              currentPath === "/myvideo" ? (
-                <Link
-                  to={"/"}
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Testimonials
-                </Link>
-              ) : (
-                <a
-                  href="#testimonials"
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Testimonials
-                </a>
-              )}
+              <Link
+                to={"/course"}
+                className="text-md font-semibold"
+                onClick={handleToggle}
+              >
+                Featured Course
+              </Link>
             </li>
             <li>
               <Link
@@ -258,7 +208,7 @@ const Nav = () => {
                 className="text-md font-semibold"
                 onClick={handleToggle}
               >
-                MY LEARNING
+                My Learning
               </Link>
             </li>
             <li>
@@ -292,34 +242,10 @@ const Nav = () => {
             </li>
           </ul>
         </nav>
-        {showProfile && (
-          <div className="absolute  right-0 mr-8  hidden h-40 w-60 cursor-pointer border-t-2 border-t-textColor bg-herobg shadow-xl md:block">
-            <ul className="flex flex-col gap-4 p-4">
-              <li
-                className="text-md font-semibold uppercase text-textColor"
-                onClick={handleProfile}
-              >
-                <Link> Profile</Link>
-              </li>
-              <li
-                className="text-md font-semibold uppercase text-textColor"
-                onClick={handleProfile}
-              >
-                <Link to="mylearnings">My Learning</Link>
-              </li>
-              <li>
-                <button
-                  className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5 font-semibold   uppercase text-white hover:bg-textColor hover:text-white hover:duration-500"
-                  onClick={logout}
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
-      <Outlet />
+      <main onClick={handleClickOutlet}>
+        <Outlet />
+      </main>
     </>
   );
 };

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import Accordion from "../../Components/Accordian/Accordian";
 import Quiz from "../../Components/Quiz/Quiz";
 import Modal from "../../Components/Modal/Modal";
 
 const MyVideo = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [isrewardModal, setRewardModal] = useState(false);
 
   const [videoUrl, setVideoUrl] = useState(
