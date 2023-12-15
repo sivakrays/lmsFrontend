@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Course.css";
 import CourseCard from "../../Components/CourseCard/CourseCard";
-import cardImg from "../../Assets/courseCard/courseImg.jpg";
-import cardImg1 from "../../Assets/courseCard/courseImg1.jpg";
 import Footer from "../../Sections/Footer/Footer";
 import Search from "../../Components/Search/Search";
 import { get } from "../../ApiCall/ApiCall";
@@ -20,7 +18,7 @@ const Course = () => {
   //   headers: {
   //     "Content-Type": "application/json",
   //     "Acess-Control-Allow-Origin": "*",
-  //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     Authorization: `${localStorage.getItem("token")}`,
   //     Accept: "application/json",
   //   },
   // };

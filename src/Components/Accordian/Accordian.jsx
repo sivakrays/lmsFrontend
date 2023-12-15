@@ -94,13 +94,6 @@ const NestedAccordionItem = ({
             <span className="text-xs text-textColor md:text-sm">05.26</span>
           </div>
         </button>
-      </div>
-
-      <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
-        <div className="border border-b-0  p-5 ">
-          {previewText && <p className="text-textLigntColor ">{previewText}</p>}
-        </div>
-
         {quiz && (
           <div
             onClick={handleQuizOpen}
@@ -114,6 +107,12 @@ const NestedAccordionItem = ({
             </p>
           </div>
         )}
+      </div>
+
+      <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
+        <div className="border border-b-0  p-5 ">
+          {previewText && <p className="text-textLigntColor ">{previewText}</p>}
+        </div>
       </div>
       {isVideoVisible && !videoPath && (
         <Modal

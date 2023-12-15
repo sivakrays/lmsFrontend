@@ -25,7 +25,7 @@ const CourseCard = ({ course }) => {
 
   const isAuthorizedUser = () => {
     if (isTokenValid) {
-      navigate("/coursedetails");
+      navigate(`/coursedetails/${course.id}`);
     } else {
       errorNotify();
       setTimeout(() => {

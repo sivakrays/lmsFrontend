@@ -37,7 +37,7 @@ const MyLearnings = () => {
         <h1 className="dayOne mt-10  p-8 text-center  text-3xl text-textColor  xl:text-left">
           My Learnings
         </h1>
-        <div className="flex  flex-wrap items-center ">
+        <div className="flex  flex-wrap items-center  justify-center">
           {cardDetails.map((cardDetails) => {
             return (
               <div key={cardDetails.key}>

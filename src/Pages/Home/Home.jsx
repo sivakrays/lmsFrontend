@@ -8,8 +8,6 @@ import videoImg from "../../Assets/HeroSection/Video.svg";
 import feature1 from "../../Assets/courseCard/c1.png";
 import feature2 from "../../Assets/courseCard/c2.png";
 import feature3 from "../../Assets/courseCard/c3.png";
-import cardImg from "../../Assets/courseCard/courseImg.jpg";
-import cardImg1 from "../../Assets/courseCard/courseImg1.jpg";
 
 import Button from "../../Components/Button/Button";
 import CourseCard from "../../Components/CourseCard/CourseCard";

@@ -72,9 +72,20 @@ export const AuthContextProvider = ({ children }) => {
   const handleProfile = () => {
     setShowProfile(!showProfile);
   };
+  const handleClickOutlet = () => {
+    setShowProfile(false);
+  };
   return (
     <authContext.Provider
-      value={{ login, token, logout, isTokenValid, handleProfile, showProfile }}
+      value={{
+        login,
+        token,
+        logout,
+        isTokenValid,
+        handleProfile,
+        showProfile,
+        handleClickOutlet,
+      }}
     >
       {children}
     </authContext.Provider>
