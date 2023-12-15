@@ -14,20 +14,20 @@ const MyLearnings = () => {
       key: 2,
       image:
         "https://us.123rf.com/450wm/jaaakworks/jaaakworks1511/jaaakworks151100024/47825772-cartoon-business-team-steal-money-from-boss.jpg?ver=6",
-      title: "Financial Foundations for Kids",
+      title: "Financial Foundations for Kids & Money Management",
       author: "Amelia Bright",
     },
     {
       key: 3,
       image:
         "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
-      title: "Money Matters Junior",
+      title: "Money Matters Junior and Teenagers Course",
       author: "Emma Dollarwise",
     },
     {
       key: 4,
       image: "https://tm4k.ala.org/images/background.jpg",
-      title: "Junior Money Management",
+      title: "Junior Money Management and Financial Foundations for Kids",
       author: "Oliver Pennyfield",
     },
   ];

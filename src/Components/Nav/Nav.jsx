@@ -54,14 +54,15 @@ const Nav = () => {
             </div>
           </Link>
 
-          <div className="nav_link flex gap-12">
-            {menuItem.map((item) => (
-              <ul
-                className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
-                  currentPath === item.path ? "opacity-100" : "opacity-75"
-                }`}
-              >
-                <li className="">
+          <div className="nav_link ">
+            <ul className="flex gap-12">
+              {menuItem.map((item, index) => (
+                <li
+                  className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                    currentPath === item.path ? "opacity-100" : "opacity-75"
+                  }`}
+                  key={index}
+                >
                   <Link
                     to={item.path}
                     className={`text-md  font-semibold ${
@@ -71,8 +72,8 @@ const Nav = () => {
                     {item.name}
                   </Link>
                 </li>
-              </ul>
-            ))}
+              ))}
+            </ul>
           </div>
 
           <div className="nav_btn  hidden gap-11 lg:flex">
