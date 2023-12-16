@@ -6,11 +6,29 @@ import reviewer2 from "../../Assets/Promo/reviewer2.jpg";
 import star from "../../Assets/courseCard/star.png";
 import halfStar from "../../Assets/courseCard/halfStar.png";
 import Button from "../../Components/Button/Button";
+import blueStar from "../../Assets/Promo/blueStar.svg";
+import colorStars from "../../Assets/Promo/shape-4.png";
+import stars from "../../Assets/Promo/Star.png";
+import paperRocket from "../../Assets/Promo/Frame.svg";
 
 const PromoVideo = () => {
   return (
     <div>
-      <div className="bg-coursebg">
+      <div className="relative bg-coursebg">
+        <div className="absolute left-10 top-10 hidden lg:block">
+          <img
+            src={paperRocket}
+            alt=""
+            className="animated-element h-14 w-14"
+          />
+        </div>
+
+        <div className="absolute bottom-32 left-56 hidden lg:block">
+          <img src={colorStars} alt="" className="animated-element h-14 w-14" />
+        </div>
+        <div className="absolute right-80 top-10 hidden lg:block">
+          <img src={stars} alt="" className="animated-element h-8 w-8" />
+        </div>
         <p className="promoHeading dayOne pt-6 text-center text-3xl text-textColor">
           Watch our promo video
         </p>
@@ -18,13 +36,21 @@ const PromoVideo = () => {
           consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam
           ipsum...
         </p>
+
         <div className="video mx-auto flex w-3/4 items-center justify-center py-8">
           <video
             src={promo}
             width="650"
             height="500"
             controls
-            className="boxShadow rounded-lg border-2 border-textColor"
+            className="rounded-lg border-2 border-textColor boxShadow"
+          />
+        </div>
+        <div className="absolute bottom-20 lg:right-10 xl:right-20">
+          <img
+            src={blueStar}
+            alt=""
+            className=" animated-element hidden w-28 lg:block lg:h-14 xl:h-14 xl:w-14"
           />
         </div>
       </div>
@@ -39,7 +65,7 @@ const PromoVideo = () => {
           </p>
         </div>
         <div className="reviewCards mx-auto mt-10 flex w-[85%] flex-wrap items-center justify-center gap-11 sm:w-3/4">
-          <div className="leftCard boxShadow relative w-[400px] rounded-lg border-2 border-textColor p-4 sm:p-5">
+          <div className="leftCard relative w-[400px] rounded-lg border-2 border-textColor p-4 boxShadow sm:p-5">
             <img
               src={reviewer1}
               alt="reviewer"
@@ -66,7 +92,7 @@ const PromoVideo = () => {
               <img src={halfStar} alt="review Star" className="w-6" />
             </div>
           </div>
-          <div className="rightCard boxShadow relative w-[400px] rounded-lg border-2 border-textColor p-5">
+          <div className="rightCard relative w-[400px] rounded-lg border-2 border-textColor p-5 boxShadow">
             <img
               src={reviewer2}
               alt="reviewer"

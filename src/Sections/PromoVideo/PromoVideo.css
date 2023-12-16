@@ -1,3 +1,20 @@
 .testimonialsbg {
-    background-image: url('../../Assets/HeroSection//pngkey.com-map-png-158921.svg');
+  background-image: url("../../Assets/HeroSection//pngkey.com-map-png-158921.svg");
+}
+
+@keyframes toggleAnimation {
+  0% {
+    opacity: 0; /* Initial state: Off */
+  }
+  50% {
+    opacity: 1; /* Midpoint state: On */
+  }
+  100% {
+    opacity: 0; /* Final state: Off */
+  }
+}
+
+/* Apply the animation to an element */
+.animated-element {
+  animation: toggleAnimation 12s infinite; /* 2s duration, infinite loop */
 }

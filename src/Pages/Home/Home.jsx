@@ -269,7 +269,7 @@ const Home = () => {
       <section className="category pb-16 pt-7">
         <div className="categoryHeading">
           <p className="dayOne p-10 pb-12 text-center text-2xl text-textColor">
-            More Courses from Catagories
+            Feature of this course
           </p>
         </div>
         <CategorySection />

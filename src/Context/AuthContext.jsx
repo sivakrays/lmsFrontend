@@ -28,7 +28,9 @@ export const AuthContextProvider = ({ children }) => {
 
     await post(`/auth/login`, {}, config)
       .then((res) => {
-        res.data && localStorage.setItem("token", res.data.token);
+        const localToken = JSON.stringify(res.data.token);
+        console.log("Local Token", localToken);
+        res.data && localStorage.setItem("token", localToken);
         // const username = res.data && res.data.username.split('@');
         // localStorage.setItem("userName",username[0]);
         setToken(localStorage.getItem("token"));
