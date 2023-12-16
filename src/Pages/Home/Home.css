@@ -1,3 +1,25 @@
+.floatingChild img {
+
+  object-fit: contain;
+  animation: float 8s linear infinite;
+  padding: 1rem;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0rem);
+  }
+
+  50% {
+    transform: translateY(1rem);
+  }
+}
+
+
+
+
 .heroImg {
   width: 500px;
 }
@@ -8,6 +30,8 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+
 
 .heroLeft {
   padding-top: 20px;

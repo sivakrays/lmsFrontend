@@ -1,3 +1,11 @@
 .testimonialsbg {
     background-image: url('../../Assets/HeroSection//pngkey.com-map-png-158921.svg');
 }
+
+.hero_container1 {
+    background-image: url("../../Assets/HeroSection/opacityReducer.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
