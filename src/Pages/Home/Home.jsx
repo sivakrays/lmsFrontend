@@ -98,8 +98,8 @@ const Home = () => {
               <Button path="/course" name="Explore courses" />
             </div>
           </div>
-          <div className="flex -rotate-90 justify-center  p-9 md:w-[60%]">
-            <img src={heroImg1} alt="" className="rounded-sm" />
+          <div className="flex  justify-center  p-9 md:w-[60%]">
+            <img src={hero} alt="" className="rounded-sm" />
           </div>
         </div>
         <div className="center h-22  mt-7 flex animate-bounce items-center justify-center text-textColor duration-700 sm:mt-10 lg:mt-0">
