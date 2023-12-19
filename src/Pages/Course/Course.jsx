@@ -19,7 +19,7 @@ const Course = () => {
       "Content-Type": "application/json",
       "Acess-Control-Allow-Origin": "*",
       "Acess-Control-Allow-Headers": "*",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      // Authorization: `Bearer ${localStorage.getItem("token")}`,
       Accept: "application/json",
     },
   };

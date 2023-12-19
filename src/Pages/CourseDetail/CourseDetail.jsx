@@ -15,6 +15,7 @@ import upArrow from "../../Assets/coursedetails/upArrow.svg";
 import Accordion from "../../Components/Accordian/Accordian";
 import Card from "../../Components/CourseDetailCard/CourseDetailCard";
 import Footer from "../../Sections/Footer/Footer";
+import { get } from "../../ApiCall/ApiCall";
 
 const CourseDetails = () => {
   useEffect(() => {
@@ -22,80 +23,203 @@ const CourseDetails = () => {
   }, []);
   const [readMore, setReadMore] = useState(false);
   const [isAllOpen, setIsAllOpen] = useState(false);
-  const allListItems = [
-    "Learn about personal finance, budgeting and how to manage your money",
-    "Better understand money and the economy",
-    "Understand the role of tax, banks, interest rates, inflation",
-    "Understand debt, student loan, and bankruptcy",
-    "Why you should start saving at a young age",
-    "Understand Roth 401(k) vs 401(k)",
-    "Understand Traditional IRA vs. Roth IRA",
-    "Understand risk vs. reward",
-    "Learn about basic investments",
-    "The difference between stocks vs. bonds",
-    "Understand Mutual Funds vs. Index Funds",
-    "Understand compounding interest",
-    "Learn about diversification",
-    "Learn about protecting yourself and insurance",
-    "26 downloadable resources summarizing each lecture, including homework questions",
-    "26 quizzes, consisting of 78 multiple choice questions (3 questions per each episode's quiz)",
-  ];
-  const accordianDetails = [
-    {
-      key: 1,
-      accordianName: "Introduction",
-      nestedItems: [
-        {
-          key: 1,
-          accordianName: "Introduction",
-          previewText:
-            "The Complete Personal Finance for Kids and Teenagers Course by Steeve Simbert is a comprehensive, engaging, and fun online program, designed to boost the financial literacy of the younger generation. It uses entertaining animated cartoon videos to simplify complex financial, business, and economic concepts, covering everything from basic personal finance to investment strategies and retirement savings. ",
-          quiz: "",
-        },
-      ],
-    },
-    {
-      key: 2,
-      accordianName: "Personal Finance",
-      nestedItems: [
-        {
-          key: 1,
-          accordianName: "Invest In Yourself",
-          previewText:
-            "If you want to be better than you are today, you must do something to improve yourself.",
-          quiz: "Invest In Yourself Quiz",
-        },
-        {
-          key: 2,
-          accordianName: "Financial Freedom",
-          previewText:
-            " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
-          quiz: "Financial Freedom Quiz",
-        },
-      ],
-    },
-    {
-      key: 3,
-      accordianName: "The Three Little Pigs & Financial Planning",
-      nestedItems: [
-        {
-          key: 1,
-          accordianName: "Invest In Yourself",
-          previewText:
-            "If you want to be better than you are today, you must do something to improve yourself.",
-          quiz: "Invest In Yourself Quiz",
-        },
-        {
-          key: 2,
-          accordianName: "Financial Freedom",
-          previewText:
-            " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
-          quiz: "Financial Freedom Quiz",
-        },
-      ],
-    },
-  ];
+  // const allListItems = [
+  //   "Learn about personal finance, budgeting and how to manage your money",
+  //   "Better understand money and the economy",
+  //   "Understand the role of tax, banks, interest rates, inflation",
+  //   "Understand debt, student loan, and bankruptcy",
+  //   "Why you should start saving at a young age",
+  //   "Understand Roth 401(k) vs 401(k)",
+  //   "Understand Traditional IRA vs. Roth IRA",
+  //   "Understand risk vs. reward",
+  //   "Learn about basic investments",
+  //   "The difference between stocks vs. bonds",
+  //   "Understand Mutual Funds vs. Index Funds",
+  //   "Understand compounding interest",
+  //   "Learn about diversification",
+  //   "Learn about protecting yourself and insurance",
+  //   "26 downloadable resources summarizing each lecture, including homework questions",
+  //   "26 quizzes, consisting of 78 multiple choice questions (3 questions per each episode's quiz)",
+  // ];
+  // const accordianDetails = [
+  //   {
+  //     key: 1,
+  //     accordianName: "Introduction",
+  //     nestedItems: [
+  //       {
+  //         key: 1,
+  //         accordianName: "Introduction",
+  //         previewText:
+  //           "The Complete Personal Finance for Kids and Teenagers Course by Steeve Simbert is a comprehensive, engaging, and fun online program, designed to boost the financial literacy of the younger generation. It uses entertaining animated cartoon videos to simplify complex financial, business, and economic concepts, covering everything from basic personal finance to investment strategies and retirement savings. ",
+  //         quiz: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     key: 2,
+  //     accordianName: "Personal Finance",
+  //     nestedItems: [
+  //       {
+  //         key: 1,
+  //         accordianName: "Invest In Yourself",
+  //         previewText:
+  //           "If you want to be better than you are today, you must do something to improve yourself.",
+  //         quiz: "Invest In Yourself Quiz",
+  //       },
+  //       {
+  //         key: 2,
+  //         accordianName: "Financial Freedom",
+  //         previewText:
+  //           " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
+  //         quiz: "Financial Freedom Quiz",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     key: 3,
+  //     accordianName: "The Three Little Pigs & Financial Planning",
+  //     nestedItems: [
+  //       {
+  //         key: 1,
+  //         accordianName: "Invest In Yourself",
+  //         previewText:
+  //           "If you want to be better than you are today, you must do something to improve yourself.",
+  //         quiz: "Invest In Yourself Quiz",
+  //       },
+  //       {
+  //         key: 2,
+  //         accordianName: "Financial Freedom",
+  //         previewText:
+  //           " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
+  //         quiz: "Financial Freedom Quiz",
+  //       },
+  //     ],
+  //   },
+  // ];
 
+  // useEffect(() => {
+  //   const fetchData = () => {
+
+  //     setCourseDetail(data);
+  //   };
+  //   fetchData();
+  // }, []);
+  const data = {
+    courseId: 3253,
+    title: "The Complete Personal Finance For Kids and Teenagers Course",
+    authorName: "Steeve Simbert",
+    description:
+      " Teach your children financial literacy through a fun, animated cartoon by an Oxford grad",
+    thumbNail: "string",
+    enrolled: 12,
+    category: "Accounting",
+    ratings: 5,
+    language: "english",
+    overview: "good",
+    whatYouWillLearn:
+      " Learn about personal finance, budgeting and how to manage your money.Better understand money and the economy.Understand the role of tax, banks, interest rates, inflation.Understand debt, student loan, and bankruptcy.Why you should start saving at a young age.Understand Roth 401(k) vs 401(k).Understand Traditional IRA vs. Roth IRA.Understand risk vs. reward.Learn about basic investments.The difference between stocks vs. bonds.Understand Mutual Funds vs. Index Funds.Understand compounding interest.Learn about diversification.Learn about protecting yourself and insurance.26 downloadable resources summarizing each lecture, including homework questions.26 quizzes, consisting of 78 multiple choice questions (3 questions per each episode's quiz)",
+    price: 20000,
+    date: "2023-12-16T00:00:00.000+00:00",
+    sections: [
+      {
+        sectionId: 2353,
+        key: 1,
+        title: "Introduction",
+        subSections: [
+          {
+            subSectionId: 1,
+            key: 1,
+            title: "Introduction",
+            description:
+              "If you want to be better than you are today, you must do something to improve yourself.",
+            link: "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
+            quizList: null,
+          },
+          {
+            subSectionId: 2,
+            key: 2,
+            title: "Invest Yourself",
+            description:
+              "If you want to be better than you are today, you must do something to improve yourself.",
+            link: "https://www.youtube.com/watch?v=CaAuFwJJ8sA",
+            quizList: [
+              {
+                quizId: 1,
+                title: "Invest Yourself",
+                key: 1,
+                question: "What does invest in yourself mean?",
+                options: [
+                  "Working to improve your skills and knowledge to give yourself a better future.",
+                  "Spending all your money to buy delicious treats.",
+                  "Using most of your money to buy expensive things that you like.",
+                  "Delaying a task that you are supposed to do.",
+                ],
+                answer: 0,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        sectionId: 2354,
+        key: 2,
+        title: "Personal Finance",
+        subSections: [
+          {
+            subSectionId: 1,
+            key: 2,
+            title: "Personal Finance",
+            description:
+              "If you want to be better than you are today, you must do something to improve yourself.",
+            link: "https://www.youtube.com/watch?v=CaAuFwJJ8sA",
+            quizList: [
+              {
+                quizId: 1,
+                title: "Personal Finance",
+                key: 1,
+                question: "What does invest in yourself mean?",
+                options: [
+                  "Working to improve your skills and knowledge to give yourself a better future.",
+                  "Spending all your money to buy delicious treats.",
+                  "Using most of your money to buy expensive things that you like.",
+                  "Delaying a task that you are supposed to do.",
+                ],
+                answer: 0,
+              },
+            ],
+          },
+          {
+            subSectionId: 2,
+            key: 2,
+            title: "Finance",
+            description:
+              "If you want to be better than you are today, you must do something to improve yourself.",
+            link: "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
+            quizList: [
+              {
+                quizId: 1,
+                title: "Finance",
+                key: 1,
+                question: "What does invest in yourself mean?",
+                options: [
+                  "Working to improve your skills and knowledge to give yourself a better future.",
+                  "Spending all your money to buy delicious treats.",
+                  "Using most of your money to buy expensive things that you like.",
+                  "Delaying a task that you are supposed to do.",
+                ],
+                answer: 0,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
+  console.log("courseDetail", data);
+  const allListItems = data.whatYouWillLearn
+    .split(".")
+    .filter((sentence) => sentence.trim() !== "");
   const itemsToShow = readMore ? allListItems : allListItems.slice(0, 8);
 
   const showAll = () => {
@@ -131,21 +255,20 @@ const CourseDetails = () => {
           <div className="">
             <div className="flex flex-row">
               <img src={ForwardArrow} alt="" className="w-3" />
-              <p className="my-2 text-sm text-[#C0C3FA]">Accounting</p>
+              <p className="my-2 text-sm text-[#C0C3FA]">{data.category}</p>
             </div>
 
             <h1 className="dayOne text-3xl font-medium leading-normal text-textColor xl:text-white">
-              The Complete Personal Finance For Kids and Teenagers Course
+              {data.title}
             </h1>
             <p className="my-3 text-lg leading-normal text-textColor  xl:text-white">
-              Teach your children financial literacy through a fun, animated
-              cartoon by an Oxford grad
+              {data.description}
             </p>
             <div className="flex flex-col ">
               <div className="my-2 flex  gap-3">
                 <div className="flex">
                   <p className="mr-2 text-[10px] text-[#F9CA47] md:text-sm">
-                    5.0
+                    {data.ratings}
                   </p>
                   <img src={star} alt="" className="w-4 object-contain" />
                   <img src={star} alt="" className="w-4 object-contain" />
@@ -159,14 +282,14 @@ const CourseDetails = () => {
                   </p>
                 </Link>
                 <p className=" text-[10px] text-textColor md:text-sm xl:text-white">
-                  9164 students
+                  {data.enrolled}
                 </p>
               </div>
               <p className=" text-[10px] text-textColor md:text-sm xl:text-white">
                 Created by{" "}
                 <Link>
                   <span className="text-[#C0C3FA] underline">
-                    Steeve Simbert
+                    {data.authorName}
                   </span>
                 </Link>
               </p>
@@ -174,15 +297,14 @@ const CourseDetails = () => {
                 <div className="flex flex-row items-center gap-2">
                   <img src={alert} alt="" className="w-5" />
                   <p className="my-2 text-[10px] text-textColor xl:text-white">
-                    {" "}
-                    Last updated 10/2023
+                    {` Last updated ${data.date.substring(0, 10)}`}
                   </p>
                 </div>
 
                 <div className="flex flex-row items-center gap-2">
                   <img src={Globe} alt="" className="w-5" />
                   <p className="text-[10px] text-textColor xl:text-white">
-                    English
+                    {data.language}
                   </p>
                 </div>
               </div>
@@ -301,10 +423,7 @@ const CourseDetails = () => {
             </div>
           </div>
           <div>
-            <Accordion
-              accordianDetails={accordianDetails}
-              isAllOpen={isAllOpen}
-            />
+            <Accordion accordianDetails={data.sections} isAllOpen={isAllOpen} />
           </div>
         </div>
       </section>

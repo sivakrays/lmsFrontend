@@ -101,19 +101,20 @@ const NestedAccordionItem = ({
             )}
           </div>
         </div>
-        {quiz && (
-          <div
-            onClick={handleQuizOpen}
-            className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
-          >
-            <span>
-              <FcIdea className=" h-5 w-5 hover:rounded hover:bg-violet-700" />
-            </span>
-            <p className="text-sm font-medium text-textColor hover:text-violet-700  ">
-              {quiz}
-            </p>
-          </div>
-        )}
+        {quiz &&
+          quiz.map((quizItem) => (
+            <div
+              onClick={handleQuizOpen}
+              className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
+            >
+              <span>
+                <FcIdea className=" h-5 w-5 hover:rounded hover:bg-violet-700" />
+              </span>
+              <p className="text-sm font-medium text-textColor hover:text-violet-700  ">
+                {quizItem.title}
+              </p>
+            </div>
+          ))}
       </div>
 
       {isVideoVisible && !videoPath && (
@@ -178,10 +179,10 @@ const AccordionItem = ({
           {nestedItems.map((item) => (
             <NestedAccordionItem
               key={item.key}
-              title={item.accordianName}
-              previewText={item.previewText}
+              title={item.title}
+              previewText={item.description}
               link={item.link}
-              quiz={item.quiz}
+              quiz={item.quizList}
               isAllOpen={isAllOpen}
               videoPath={videoPath}
               setUrl={setUrl}
@@ -202,13 +203,14 @@ const Accordion = ({
   isVideoAllOpen,
   handleQuizOpen,
 }) => {
+  console.log("Accordion Details", accordianDetails);
   return (
     <div className="mb-8 bg-white">
       {accordianDetails.map((item) => (
         <AccordionItem
           key={item.key}
-          title={item.accordianName}
-          nestedItems={item.nestedItems}
+          title={item.title}
+          nestedItems={item.subSections}
           isAllOpen={isAllOpen}
           isVideoAllOpen={isVideoAllOpen}
           videoPath={path}
