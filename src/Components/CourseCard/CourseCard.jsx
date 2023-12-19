@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { authContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, path }) => {
   const { isTokenValid } = useContext(authContext);
   const navigate = useNavigate();
 
@@ -39,7 +39,11 @@ const CourseCard = ({ course }) => {
       className="mt-6 cursor-pointer rounded duration-500 ease-in-out boxShadow"
       onClick={isAuthorizedUser}
     >
-      <div className="courseCard flex h-[430px] w-[290px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg">
+      <div
+        className={`courseCard flex ${
+          path === "homeCard" ? "h-[350px]" : "h-[430px] "
+        } w-[290px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg `}
+      >
         <div className="cardImg p-3">
           <div className="courseImgWrapper h-36 overflow-hidden rounded-lg">
             <img
@@ -64,21 +68,29 @@ const CourseCard = ({ course }) => {
           <div className="courseHeading dayOne text-textColor">
             {course.title}
           </div>
-          <div className="courseDes text-sm text-textLigntColor">
-            {/* {course.description} */}
-            {course.des}
-          </div>
+          {!path == "homeCard" && (
+            <div className="courseDes text-sm text-textLigntColor">
+              {/* {course.description} */}
+              {course.des}
+            </div>
+          )}
         </div>
         <div className="courseBtn flex items-center justify-between px-3 pb-3">
-          <button className="rounded-md bg-textColor px-5 py-2 text-white">
+          <button
+            className={`rounded-md ${
+              path === "homeCard" && "mt-3"
+            } bg-textColor px-5 py-2 text-white`}
+          >
             Join
           </button>
-          <p className="flex gap-2">
-            <span className="dayOne text-sm text-textColor">
-              {course.enrolled}
-            </span>
-            <span className="text-sm text-textLigntColor">Enrolled</span>
-          </p>
+          {!path === "homeCard" && (
+            <p className="flex gap-2">
+              <span className="dayOne text-sm text-textColor">
+                {course.enrolled}
+              </span>
+              <span className="text-sm text-textLigntColor">Enrolled</span>
+            </p>
+          )}
         </div>
       </div>
     </div>

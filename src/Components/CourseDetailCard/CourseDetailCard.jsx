@@ -7,8 +7,6 @@ import playCircle from "../../Assets/coursedetails/PlayCircle.svg";
 import Alarm from "../../Assets/coursedetails/Alarm.svg";
 import file from "../../Assets/coursedetails/file.svg";
 import folder from "../../Assets/coursedetails/folder.svg";
-import infinity from "../../Assets/coursedetails/infinity.svg";
-import mobile from "../../Assets/coursedetails/mobile.svg";
 import trophy from "../../Assets/coursedetails/trophy.svg";
 import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
 

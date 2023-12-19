@@ -98,8 +98,8 @@ const Home = () => {
               <Button path="/course" name="Explore courses" />
             </div>
           </div>
-          <div className="flex -rotate-90 justify-center  p-9 md:w-[60%]">
-            <img src={heroImg1} alt="" className="rounded-sm" />
+          <div className="flex  justify-center  p-9 md:w-[60%]">
+            <img src={hero} alt="" className="rounded-sm" />
           </div>
         </div>
         <div className="center h-22  mt-7 flex animate-bounce items-center justify-center text-textColor duration-700 sm:mt-10 lg:mt-0">
@@ -289,15 +289,15 @@ const Home = () => {
         </div>
         <div className="cardSection">
           <div className="cardDiv relative mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
-            <div className="floatingChild absolute -right-40 top-0">
-              <img src={floatimg} alt="" className=" w-48" />
+            <div className="floatingChild absolute -right-32 top-0 hidden lg:block">
+              <img src={floatimg} alt="" className=" w-44" />
             </div>
             {courseData.map((course) => (
               <div key={course.id}>
-                <CourseCard course={course} />
+                <CourseCard course={course} path="homeCard" />
               </div>
             ))}
-            <div className="floatingChild absolute -left-40 bottom-0 ">
+            <div className="floatingChild absolute -left-32 bottom-0 hidden lg:block ">
               <img src={floatimg1} alt="" className=" w-36" />
             </div>
           </div>

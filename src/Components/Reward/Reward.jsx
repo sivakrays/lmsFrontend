@@ -64,8 +64,8 @@ const Reward = ({ setRewardModal, energyPoint }) => {
             </p>
           </div>
           <div className="mx-auto w-[300px] text-center">
-            <button className="mt-6 w-[200px] rounded-lg bg-red-500 p-2 font-mono text-white">
-              Share
+            <button className="mt-6 w-[200px] rounded-lg bg-red-500 p-2 font-semibold text-white">
+              Claim
             </button>
           </div>
         </div>
