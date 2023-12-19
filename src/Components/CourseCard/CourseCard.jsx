@@ -68,7 +68,7 @@ const CourseCard = ({ course, path }) => {
           <div className="courseHeading dayOne text-textColor">
             {course.title}
           </div>
-          {!path == "homeCard" && (
+          {path == "course" && (
             <div className="courseDes text-sm text-textLigntColor">
               {/* {course.description} */}
               {course.des}
