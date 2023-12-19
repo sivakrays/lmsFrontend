@@ -294,7 +294,7 @@ const Home = () => {
             </div>
             {courseData.map((course) => (
               <div key={course.id}>
-                <CourseCard course={course} />
+                <CourseCard course={course} path="homeCard" />
               </div>
             ))}
             <div className="floatingChild absolute -left-32 bottom-0 hidden lg:block ">

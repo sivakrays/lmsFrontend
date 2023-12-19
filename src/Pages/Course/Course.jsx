@@ -13,27 +13,29 @@ const Course = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // const [courseData, setCourseData] = useState([]);
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Acess-Control-Allow-Origin": "*",
-  //     "Acess-Control-Allow-Headers": "*",
-  //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     Accept: "application/json",
-  //   },
-  // };
+  const [courseData, setCourseData] = useState([]);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Acess-Control-Allow-Origin": "*",
+      "Acess-Control-Allow-Headers": "*",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Accept: "application/json",
+    },
+  };
 
-  // useEffect(() => {
-  //   get("user/getAllCourse", config).then((res) => {
-  //     setCourseData(res.data);
-  //     console.log("response", res);
-  //   });
-  // }, []);
+  useEffect(() => {
+    get("user/getAllCourseNoToken", config)
+      .then((res) => {
+        setCourseData(res.data);
+        console.log("response", res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const courseData = [
+  const courseData1 = [
     {
       id: "1",
       img: "https://img-c.udemycdn.com/course/750x422/5039162_eb97_5.jpg",
