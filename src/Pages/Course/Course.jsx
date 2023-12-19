@@ -13,29 +13,29 @@ const Course = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [courseData, setCourseData] = useState([]);
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      "Acess-Control-Allow-Origin": "*",
-      "Acess-Control-Allow-Headers": "*",
-      // Authorization: `Bearer ${localStorage.getItem("token")}`,
-      Accept: "application/json",
-    },
-  };
+  // const [courseData, setCourseData] = useState([]);
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Acess-Control-Allow-Origin": "*",
+  //     "Acess-Control-Allow-Headers": "*",
+  //     // Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     Accept: "application/json",
+  //   },
+  // };
 
-  useEffect(() => {
-    get("user/getAllCourseNoToken", config)
-      .then((res) => {
-        setCourseData(res.data);
-        console.log("response", res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   get("user/getAllCourseNoToken", config)
+  //     .then((res) => {
+  //       setCourseData(res.data);
+  //       console.log("response", res);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const courseData1 = [
+  const courseData = [
     {
       id: "1",
       img: "https://img-c.udemycdn.com/course/750x422/5039162_eb97_5.jpg",
@@ -143,7 +143,7 @@ const Course = () => {
         <div className="cardDiv mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
           {currentCourseData.map((course) => (
             <div key={course.id}>
-              <CourseCard course={course} />
+              <CourseCard course={course} path="course" />
             </div>
           ))}
         </div>

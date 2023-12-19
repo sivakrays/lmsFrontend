@@ -218,7 +218,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
   const Pagination = ({ id }) => {
     return (
       <div className="">
-        <div className="absolute bottom-0 right-52">
+        <div className=" absolute bottom-0 right-96 hidden lg:block">
           {" "}
           {isMotivationalBoxVissble && (
             <MotivationalBox
@@ -280,7 +280,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
   }) => {
     return (
       <>
-        <div className="relative flex h-[95px] w-[220px]  items-center justify-between rounded-md border-2 border-textColor bg-coursebg p-5 boxShadow">
+        <div className="relative flex h-[95px] w-[240px]  items-center justify-between rounded-md border-2 border-textColor bg-coursebg p-5 boxShadow">
           {isCorrectAns ? (
             <>
               <button
