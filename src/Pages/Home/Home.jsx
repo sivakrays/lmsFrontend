@@ -289,15 +289,15 @@ const Home = () => {
         </div>
         <div className="cardSection">
           <div className="cardDiv relative mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
-            <div className="floatingChild absolute -right-40 top-0">
-              <img src={floatimg} alt="" className=" w-48" />
+            <div className="floatingChild absolute -right-32 top-0 hidden lg:block">
+              <img src={floatimg} alt="" className=" w-44" />
             </div>
             {courseData.map((course) => (
               <div key={course.id}>
                 <CourseCard course={course} />
               </div>
             ))}
-            <div className="floatingChild absolute -left-40 bottom-0 ">
+            <div className="floatingChild absolute -left-32 bottom-0 hidden lg:block ">
               <img src={floatimg1} alt="" className=" w-36" />
             </div>
           </div>
