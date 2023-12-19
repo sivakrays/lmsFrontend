@@ -18,3 +18,10 @@
 .animated-element {
   animation: toggleAnimation 12s infinite; /* 2s duration, infinite loop */
 }
+
+.hero_container1 {
+  background-image: url("../../Assets/HeroSection/opacityReducer.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

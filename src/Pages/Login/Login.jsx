@@ -30,7 +30,7 @@ const Login = () => {
       type: "password",
       errorMsg: "Password must contain  atleast 6 characters",
       required: true,
-      pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
+      // pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
     },
   ];
 

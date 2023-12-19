@@ -41,7 +41,7 @@ const Nav = () => {
       <div className="navbar w-full">
         <nav
           className={`flex h-20 items-center justify-around ${
-            currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
+            currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-coursebg`
           }   md:h-28 `}
           onClick={handleClickOutlet}
         >
