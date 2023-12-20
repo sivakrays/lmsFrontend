@@ -184,8 +184,11 @@ const PromoVideo = () => {
           </div>
           {/* systamatic Cards */}
           <div className="systamaticcards mx-auto mt-16 flex w-[80%] flex-wrap items-center justify-center gap-12">
-            {systamaticCard.map((card) => (
-              <div className="systamaticCard mb-6 flex h-[190px] w-[390px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-herobg p-3 shadow boxShadow">
+            {systamaticCard.map((card, index) => (
+              <div
+                id={index}
+                className="systamaticCard mb-6 flex h-[190px] w-[390px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-herobg p-3 shadow boxShadow"
+              >
                 <div>
                   <img src={card.img} alt="" className="w-56 drop-shadow" />
                 </div>

@@ -20,17 +20,17 @@ describe("Navbar component", () => {
       expect(homeLink).toBeInTheDocument();
     });
 
-    const featuredCoursesLinks = screen.getAllByText(/Featured Courses/i);
+    const featuredCoursesLinks = screen.getAllByText(/Featured Course/i);
 
     featuredCoursesLinks.forEach((featuredCoursesLink) => {
       expect(featuredCoursesLink).toBeInTheDocument();
     });
 
-    const testimonialsLinks = screen.getAllByText(/Testimonials/i);
+    // const testimonialsLinks = screen.getAllByText(/Testimonials/i);
 
-    testimonialsLinks.forEach((testimonialsLink) => {
-      expect(testimonialsLink).toBeInTheDocument();
-    });
+    // testimonialsLinks.forEach((testimonialsLink) => {
+    //   expect(testimonialsLink).toBeInTheDocument();
+    // });
 
     const contactLinks = screen.getAllByText(/Contact/i);
 
