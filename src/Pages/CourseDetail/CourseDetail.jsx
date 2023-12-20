@@ -23,86 +23,22 @@ const CourseDetails = () => {
   }, []);
   const [readMore, setReadMore] = useState(false);
   const [isAllOpen, setIsAllOpen] = useState(false);
-  // const allListItems = [
-  //   "Learn about personal finance, budgeting and how to manage your money",
-  //   "Better understand money and the economy",
-  //   "Understand the role of tax, banks, interest rates, inflation",
-  //   "Understand debt, student loan, and bankruptcy",
-  //   "Why you should start saving at a young age",
-  //   "Understand Roth 401(k) vs 401(k)",
-  //   "Understand Traditional IRA vs. Roth IRA",
-  //   "Understand risk vs. reward",
-  //   "Learn about basic investments",
-  //   "The difference between stocks vs. bonds",
-  //   "Understand Mutual Funds vs. Index Funds",
-  //   "Understand compounding interest",
-  //   "Learn about diversification",
-  //   "Learn about protecting yourself and insurance",
-  //   "26 downloadable resources summarizing each lecture, including homework questions",
-  //   "26 quizzes, consisting of 78 multiple choice questions (3 questions per each episode's quiz)",
-  // ];
-  // const accordianDetails = [
-  //   {
-  //     key: 1,
-  //     accordianName: "Introduction",
-  //     nestedItems: [
-  //       {
-  //         key: 1,
-  //         accordianName: "Introduction",
-  //         previewText:
-  //           "The Complete Personal Finance for Kids and Teenagers Course by Steeve Simbert is a comprehensive, engaging, and fun online program, designed to boost the financial literacy of the younger generation. It uses entertaining animated cartoon videos to simplify complex financial, business, and economic concepts, covering everything from basic personal finance to investment strategies and retirement savings. ",
-  //         quiz: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: 2,
-  //     accordianName: "Personal Finance",
-  //     nestedItems: [
-  //       {
-  //         key: 1,
-  //         accordianName: "Invest In Yourself",
-  //         previewText:
-  //           "If you want to be better than you are today, you must do something to improve yourself.",
-  //         quiz: "Invest In Yourself Quiz",
-  //       },
-  //       {
-  //         key: 2,
-  //         accordianName: "Financial Freedom",
-  //         previewText:
-  //           " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
-  //         quiz: "Financial Freedom Quiz",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: 3,
-  //     accordianName: "The Three Little Pigs & Financial Planning",
-  //     nestedItems: [
-  //       {
-  //         key: 1,
-  //         accordianName: "Invest In Yourself",
-  //         previewText:
-  //           "If you want to be better than you are today, you must do something to improve yourself.",
-  //         quiz: "Invest In Yourself Quiz",
-  //       },
-  //       {
-  //         key: 2,
-  //         accordianName: "Financial Freedom",
-  //         previewText:
-  //           " In this episode, you’ll learn the following from Prof Stevy:What “Financial Freedom” is Benefits of having financial freedom .How to become financially free",
-  //         quiz: "Financial Freedom Quiz",
-  //       },
-  //     ],
-  //   },
-  // ];
+  // const [data,setData] = useState();
 
   // useEffect(() => {
-  //   const fetchData = () => {
-
-  //     setCourseDetail(data);
+  //   const config = {
+  //     headers: {
+  //       ContentType: "application/json",
+  //     },
   //   };
-  //   fetchData();
+  //   get("url", config)
+  //     .then((res) => {
+  //     setData(res.data);
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("error", err);
+  //     });
   // }, []);
   const data = {
     courseId: 3253,

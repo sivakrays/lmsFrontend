@@ -59,7 +59,7 @@ const NestedAccordionItem = ({
               <button
                 onClick={showPreview}
                 className="flex items-center gap-5"
-                data-testid="videoButton"
+                data-testid="videoButtonCourse"
               >
                 <img src={Tv} alt="" className="h-4 w-4" />
                 <span className=" text-xs text-textColor  underline  md:text-sm">
@@ -95,7 +95,7 @@ const NestedAccordionItem = ({
           </div>
         </button>
         <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
-          <div className="border border-b-0  p-5 ">
+          <div className="border  border-b-0 p-5 ">
             {previewText && (
               <p className="text-textLigntColor ">{previewText}</p>
             )}
@@ -161,6 +161,7 @@ const AccordionItem = ({
           className="flex w-full items-center justify-between gap-3  border 
            p-5 font-medium text-textColor hover:bg-gray-100 
              rtl:text-right "
+          data-testid="accordion-item"
         >
           <span className=" md:text-md dayOne text-sm text-textColor">
             {title}

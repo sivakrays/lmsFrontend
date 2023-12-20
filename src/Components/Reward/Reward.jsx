@@ -17,7 +17,7 @@ const Reward = ({ setRewardModal, energyPoint }) => {
       <div className="mt-8 flex h-screen w-screen items-center justify-center">
         <div className="rewardCard  relative  h-[500px] w-[350px] rounded-2xl   bg-[#ffc645]">
           <div className="closebtn absolute right-0 m-5 text-textColor drop-shadow-2xl ">
-            <button onClick={() => setRewardModal(false)}>
+            <button onClick={() => setRewardModal(false)} data-id="close">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
