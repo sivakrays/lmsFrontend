@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Search.css";
+import { get } from "../../ApiCall/ApiCall";
 
 const Search = () => {
+  const [searchValue, setSearchValue] = useState("");
+  console.log(searchValue);
+  // useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "Acess-Control-Allow-Origin": "*",
+  //       "Acess-Control-Allow-Headers": "*",
+  //       Accept: "application/json",
+  //     },
+  //   };
+  //   get("/user/searchCourses", config)
+  //     .then((res) => {
+  //       setSearchValue(res.data);
+  //       console.log("response", res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [searchValue]);
+
   return (
     <>
       <div className=" searchContainer w-full sm:mx-auto sm:w-3/4 ">
@@ -37,6 +57,7 @@ const Search = () => {
                 className="block w-full rounded-lg border border-textColor  p-4 pl-10 text-sm text-textColor focus:outline-none  "
                 placeholder="Search"
                 required
+                onChange={(e) => setSearchValue(e.target.value)}
               />
               <button
                 data-testid="Search"

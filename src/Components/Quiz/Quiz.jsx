@@ -139,12 +139,6 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
           starsConfeeti();
         }, 1000);
       }
-      // setEnergyPoint(energyPoint + 1);
-      // console.log("Total Energy Point", energyPoint);
-      // console.log("correct");
-      // setRewardModal(true);
-      // fireworkConfetti();
-      // starsConfeeti();
     } else {
       // setChecked(true);
       setCorrectAns(false);
@@ -165,12 +159,6 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
 
   const handleNext = () => {
     if (clickedOption === currentAns) {
-      // setTimeout(() => {
-      //   if (isMotivationalBoxVissble === true) {
-      //     setCurrentPage(currentPage + 1);
-      //     setClickedOption();
-      //   }
-      // }, 2000);
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -190,12 +178,6 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
         }, 1000);
       }
     } else {
-      // setTimeout(() => {
-      //   setCurrentPage(currentPage + 1);
-      //   setClickedOption();
-      //   // setChecked(false);
-      // }, 2000);
-      // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
       console.log("wrong");

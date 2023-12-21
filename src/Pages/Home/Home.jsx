@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import heroImg from "../../Assets/HeroSection/Mask group.svg";
 import frame from "../../Assets/HeroSection/Frame.svg";
@@ -26,54 +26,69 @@ import floatimg from "../../Assets/HeroSection/img1234.png";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  // get('',config).then((res)=>{
-
-  // })
-  const courseData = [
-    {
-      id: "1",
-      img: "https://img-c.udemycdn.com/course/750x422/5039162_eb97_5.jpg",
-      category: "Programming1",
-      title: "Game development: Programming with java Plus C#",
-      des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-    },
-    {
-      id: "2",
-      img: "https://us.123rf.com/450wm/jaaakworks/jaaakworks1511/jaaakworks151100024/47825772-cartoon-business-team-steal-money-from-boss.jpg?ver=6",
-      category: "Medical1",
-      title: "Medical Basics 101: Anatomy of whole human body research basis ",
-      des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-    },
-    {
-      id: "3",
-      img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
-      category: "AI/ML1",
-      title: "Supervised Machine Learning: Regression and Classification",
-      des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-    },
-    {
-      id: "4",
-      img: "https://tm4k.ala.org/images/background.jpg",
-      category: "Design1",
-      title: "Product design and analysis: Psychical Goods creation for us",
-      des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-    },
-    {
-      id: "5",
-      img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
-      category: "Psychology1",
-      title: `Psychology and Consultation: How to solve anxiety problem easily`,
-      des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-    },
-    {
-      id: "6",
-      img: "https://tm4k.ala.org/images/background.jpg",
-      category: "Finance1",
-      title: "Business Communication: How to deal with clients Professionaly",
-      des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-    },
-  ];
-
+  // const courseData = [
+  //   {
+  //     id: "1",
+  //     img: "https://img-c.udemycdn.com/course/750x422/5039162_eb97_5.jpg",
+  //     category: "Programming1",
+  //     title: "Game development: Programming with java Plus C#",
+  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
+  //   },
+  //   {
+  //     id: "2",
+  //     img: "https://us.123rf.com/450wm/jaaakworks/jaaakworks1511/jaaakworks151100024/47825772-cartoon-business-team-steal-money-from-boss.jpg?ver=6",
+  //     category: "Medical1",
+  //     title: "Medical Basics 101: Anatomy of whole human body research basis ",
+  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
+  //   },
+  //   {
+  //     id: "3",
+  //     img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
+  //     category: "AI/ML1",
+  //     title: "Supervised Machine Learning: Regression and Classification",
+  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
+  //   },
+  //   {
+  //     id: "4",
+  //     img: "https://tm4k.ala.org/images/background.jpg",
+  //     category: "Design1",
+  //     title: "Product design and analysis: Psychical Goods creation for us",
+  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
+  //   },
+  //   {
+  //     id: "5",
+  //     img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
+  //     category: "Psychology1",
+  //     title: `Psychology and Consultation: How to solve anxiety problem easily`,
+  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
+  //   },
+  //   {
+  //     id: "6",
+  //     img: "https://tm4k.ala.org/images/background.jpg",
+  //     category: "Finance1",
+  //     title: "Business Communication: How to deal with clients Professionaly",
+  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
+  //   },
+  // ];
+  const [courseData, setCourseData] = useState([]);
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Acess-Control-Allow-Origin": "*",
+        "Acess-Control-Allow-Headers": "*",
+        Accept: "application/json",
+        pageNo: 0,
+        pageSize: 6,
+      },
+    };
+    get("/user/getAllCourse", config)
+      .then((res) => {
+        setCourseData(res.data.content);
+        console.log("response", res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <main className="relative w-full bg-herobg">
       {/* Hero Section */}
@@ -118,97 +133,6 @@ const Home = () => {
         <p className="dayOne py-3 text-center text-textColor">
           Learn more than 10 Expert Courses
         </p>
-        {/* <div className="md:px-16  lg:flex">
-          <div className="heroLeft my-9 space-y-5 sm:my-14 sm:space-y-8 md:space-y-8 lg:space-y-10">
-            <div className=" mx-auto  flex sm:w-[85%] md:w-[90%] lg:w-[100%]">
-              <h1 className="heading dayOne px-5 text-3xl font-bold text-textColor sm:text-5xl md:text-5xl lg:px-0 lg:text-3xl xl:text-6xl">
-                Boost your skill <br /> with experts
-              </h1>
-            </div>
-
-            <p className="mx-auto w-[85%] flex-1 text-lg font-semibold  text-textLigntColor sm:w-4/5 lg:w-[100%]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, <br />{" "}
-              sed do eiusmod temporidunt ut labore veniam...
-            </p>
-            <div className=" flex gap-8 px-8 sm:px-28 md:gap-14 lg:px-0">
-              <Button path="/course" name="Explore courses" />
-              <img src={img1} alt="" className="btnImg" />
-            </div>
-          </div>
-
-          <div className="heroCenter relative flex items-center justify-center">
-            <img src={heroImg} alt="" className="heroImg" />
-            <img
-              src={videoImg}
-              alt=""
-              className="videoImg  absolute left-[70%] top-20 w-24 "
-            />
-          </div>
-
-          <div className="heroRight mx-auto mt-11 flex w-[80%] flex-col justify-center sm:w-[90%] sm:flex-row sm:gap-5 md:w-[90%] lg:mt-20 lg:w-[10%] lg:flex-col lg:gap-2 xl:w-[15%] xl:gap-4">
-            <div className="campaign">
-              <p className="dayOne text-xl text-textColor sm:text-xl md:text-2xl">
-                320 k
-              </p>
-              <p className="text-textLigntColor sm:text-xs md:text-sm xl:text-lg">
-                Successfull Campaign
-              </p>
-            </div>
-
-            <div className="divider mb-4 mt-4 border-b-2 lg:mb-0 lg:mt-0"></div>
-
-            <div className="successRate">
-              <p className="dayOne text-xl text-textColor sm:text-xl md:text-2xl">
-                100%
-              </p>
-              <p className="text-textLigntColor sm:text-xs md:text-sm   xl:text-lg">
-                Success Rate
-              </p>
-            </div>
-
-            <div className="divider mb-4 mt-4 border-b-2 lg:mb-0 lg:mt-0"></div>
-
-            <div className="happyClients">
-              <p className="dayOne text-xl text-textColor sm:text-xl md:text-2xl">
-                20k
-              </p>
-              <p className="text-textLigntColor sm:text-xs md:text-sm xl:text-lg">
-                Happy Clients
-              </p>
-            </div>
-
-            <div className="divider mb-4 mt-4 border-b-2 lg:mb-0 lg:mt-0 "></div>
-
-            <div className="reviews">
-              <p className="dayOne text-xl text-textColor sm:text-xl md:text-2xl">
-                200
-              </p>
-              <p className="text-textLigntColor sm:text-xs md:text-sm xl:text-lg">
-                5 Star Reviews
-              </p>
-            </div>
-
-            <div className="frameImg mt-6 hidden lg:mt-0 lg:block">
-              <img src={frame} alt="" className="w-12 sm:w-16" />
-            </div>
-          </div>
-        </div>
-        <div className="center h-22  mt-7 flex animate-bounce items-center justify-center text-textColor duration-700 sm:mt-10 lg:mt-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="m20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8l8-8z"
-            />
-          </svg>
-        </div>
-        <p className="dayOne py-3 text-center text-textColor">
-          Learn from more than 160 member universities
-        </p> */}
       </section>
 
       {/* Course Section */}
@@ -292,11 +216,12 @@ const Home = () => {
             <div className="floatingChild absolute -right-32 top-0 hidden lg:block">
               <img src={floatimg} alt="" className=" w-44" />
             </div>
-            {courseData.map((course) => (
-              <div key={course.id}>
-                <CourseCard course={course} path="homeCard" />
-              </div>
-            ))}
+            {courseData &&
+              courseData.map((course, index) => (
+                <div key={index}>
+                  <CourseCard course={course} path="homeCard" />
+                </div>
+              ))}
             <div className="floatingChild absolute -left-32 bottom-0 hidden lg:block ">
               <img src={floatimg1} alt="" className=" w-36" />
             </div>

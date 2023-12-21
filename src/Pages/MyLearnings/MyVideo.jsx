@@ -9,7 +9,7 @@ const MyVideo = () => {
     window.scrollTo(0, 0);
   }, []);
   const [isrewardModal, setRewardModal] = useState(false);
-  const [energyPoint, setEnergyPoint] = useState(1);
+  const [energyPoint, setEnergyPoint] = useState(0);
 
   console.log("energyPoint from myvideo", energyPoint);
 
