@@ -27,7 +27,6 @@ const NestedAccordionItem = ({
   };
 
   const showPreview = () => {
-    console.log("showpreview called");
     setIsVideoVisible(!isVideoVisible);
     setIsModalOpen1(!isModalOpen1);
   };
@@ -101,20 +100,19 @@ const NestedAccordionItem = ({
             )}
           </div>
         </div>
-        {quiz &&
-          quiz.map((quizItem) => (
-            <div
-              onClick={handleQuizOpen}
-              className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
-            >
-              <span>
-                <FcIdea className=" h-5 w-5 hover:rounded hover:bg-violet-700" />
-              </span>
-              <p className="text-sm font-medium text-textColor hover:text-violet-700  ">
-                {quizItem.title}
-              </p>
-            </div>
-          ))}
+        {quiz && quiz.length != 0 && (
+          <div
+            onClick={() => handleQuizOpen(quiz)}
+            className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
+          >
+            <span>
+              <FcIdea className=" h-5 w-5 hover:rounded hover:bg-violet-700" />
+            </span>
+            <p className="text-sm font-medium text-textColor hover:text-violet-700  ">
+              {title}
+            </p>
+          </div>
+        )}
       </div>
 
       {isVideoVisible && !videoPath && (
@@ -140,7 +138,6 @@ const AccordionItem = ({
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   useEffect(() => {
-    console.log("isAllOpen", isAllOpen);
     if (isAllOpen || isVideoAllOpen) {
       setIsAccordionOpen(true);
     } else {
@@ -177,19 +174,20 @@ const AccordionItem = ({
       </h2>
       <div className={` ${isAccordionOpen || isAllOpen ? "block" : "hidden"}`}>
         <div>
-          {nestedItems.map((item) => (
-            <NestedAccordionItem
-              key={item.key}
-              title={item.title}
-              previewText={item.description}
-              link={item.link}
-              quiz={item.quizList}
-              isAllOpen={isAllOpen}
-              videoPath={videoPath}
-              setUrl={setUrl}
-              handleQuizOpen={handleQuizOpen}
-            />
-          ))}
+          {nestedItems &&
+            nestedItems.map((item) => (
+              <NestedAccordionItem
+                key={item.key}
+                title={item.title}
+                previewText={item.description}
+                link={item.link}
+                quiz={item.quizList}
+                isAllOpen={isAllOpen}
+                videoPath={videoPath}
+                setUrl={setUrl}
+                handleQuizOpen={handleQuizOpen}
+              />
+            ))}
         </div>
       </div>
     </>
@@ -204,21 +202,21 @@ const Accordion = ({
   isVideoAllOpen,
   handleQuizOpen,
 }) => {
-  console.log("Accordion Details", accordianDetails);
   return (
     <div className="mb-8 bg-white">
-      {accordianDetails.map((item) => (
-        <AccordionItem
-          key={item.key}
-          title={item.title}
-          nestedItems={item.subSections}
-          isAllOpen={isAllOpen}
-          isVideoAllOpen={isVideoAllOpen}
-          videoPath={path}
-          setUrl={setUrl}
-          handleQuizOpen={handleQuizOpen}
-        />
-      ))}
+      {accordianDetails &&
+        accordianDetails.map((item) => (
+          <AccordionItem
+            key={item.key}
+            title={item.title}
+            nestedItems={item.subSections}
+            isAllOpen={isAllOpen}
+            isVideoAllOpen={isVideoAllOpen}
+            videoPath={path}
+            setUrl={setUrl}
+            handleQuizOpen={handleQuizOpen}
+          />
+        ))}
     </div>
   );
 };

@@ -1,8 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { get } from "../../ApiCall/ApiCall";
 import LearningCard from "../../Components/LearningCard/LearningCard";
 import "./MyLearnings.css";
 
 const MyLearnings = () => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Acess-Control-Allow-Origin": "*",
+      "Acess-Control-Allow-Headers": "*",
+      Accept: "application/json",
+      courseId: "202",
+    },
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Course Detail render");
+        const res = await get("/user/getCourseById", config);
+        //setData(res.data);
+        console.log(res.data);
+        const allListItems =
+          res.data &&
+          res.data.whatYouWillLearn
+            .split(".")
+            .filter((sentence) => sentence.trim() !== "");
+        //setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
+
+        console.log(res.data);
+      } catch (err) {
+        console.log("error", err);
+      }
+    };
+
+    fetchData();
+  }, []);
   const cardDetails = [
     {
       key: 1,
