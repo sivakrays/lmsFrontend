@@ -2,62 +2,65 @@ import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import success from "../../Assets/reward/star.png";
 
-const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
+const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
+  const [quizArray, setQuizArray] = useState(quizzArray);
 
-  const quiz = [
-    {
-      id: 1,
-      title: "Finance Quiz-1",
-      question: `What does "invest in yourself" mean?`,
-      options: [
-        "Working to improve your skills and knowledge to give yourself a better future.",
-        "Spending all your money to buy delicious treats.",
-        "Using most of your money to buy expensive things that you like.",
-        "Delaying a task that you are supposed to do.",
-      ],
-      answer: 1,
-    },
-    {
-      id: 2,
-      title: "Finance Quiz-2",
-      question: "Why is it important to invest in yourself?",
-      options: [
-        "Because it is not good to invest in others.",
-        "It is better to spend your money now instead of saving it.",
-        "To equip myself with knowledge and skills that will help improve my life.",
-        "To treat myself as a business and to beat my competition.",
-      ],
-      answer: 3,
-    },
-    {
-      id: 3,
-      title: "Finance Quiz-3",
-      question:
-        "What is the best thing to do with your money after you get paid?",
-      options: [
-        "Use all of it to buy expensive toys.",
-        "Hide the money so no one can find it.",
-        "Invest money in important things.",
-        "Spend it on what my friends are buying.",
-      ],
-      answer: 2,
-    },
-  ];
-
+  // const quiz = [
+  //   {
+  //     id: 1,
+  //     title: "Finance Quiz-1",
+  //     question: `What does "invest in yourself" mean?`,
+  //     options: [
+  //       "Working to improve your skills and knowledge to give yourself a better future.",
+  //       "Spending all your money to buy delicious treats.",
+  //       "Using most of your money to buy expensive things that you like.",
+  //       "Delaying a task that you are supposed to do.",
+  //     ],
+  //     answer: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Finance Quiz-2",
+  //     question: "Why is it important to invest in yourself?",
+  //     options: [
+  //       "Because it is not good to invest in others.",
+  //       "It is better to spend your money now instead of saving it.",
+  //       "To equip myself with knowledge and skills that will help improve my life.",
+  //       "To treat myself as a business and to beat my competition.",
+  //     ],
+  //     answer: 3,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Finance Quiz-3",
+  //     question:
+  //       "What is the best thing to do with your money after you get paid?",
+  //     options: [
+  //       "Use all of it to buy expensive toys.",
+  //       "Hide the money so no one can find it.",
+  //       "Invest money in important things.",
+  //       "Spend it on what my friends are buying.",
+  //     ],
+  //     answer: 2,
+  //   },
+  // ];
+  console.log("quizzArrayyyyyy from quiz", quizArray);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = Math.ceil(quiz && quiz.length / itemsPerPage);
+  const totalPages = Math.ceil(quizArray && quizArray.length / itemsPerPage);
 
   const [clickedOption, setClickedOption] = useState();
   const [currentAns, setCurrentAns] = useState();
   // const [checked, setChecked] = useState(false);
 
   const currentQuestions =
-    quiz && quiz.slice(indexOfFirstItem, indexOfLastItem);
+    quizArray && quizArray.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log("Current question is ", currentQuestions);
   const starsConfeeti = () => {
     var defaults = {
       spread: 360,
@@ -233,7 +236,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
               <span className="font-semibold">{id} </span>
               <span> of </span>
               <span className="font-semibold text-textColor">
-                {quiz.length}
+                {quizArray.length}
               </span>
               <span> Questions</span>
             </span>
@@ -354,17 +357,17 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
       <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-48 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
-            {currentQuestions[0].title}
+            {currentQuestions.title}
           </h3>
         </div>
         {currentQuestions.map((q) => (
-          <div key={q.id}>
+          <div key={q.quizId}>
             <div className="space-y-4 p-5 ">
               <label
                 htmlFor={`question-${q.id}`}
                 className="dayOne text-lg text-textColor"
               >
-                {q.id} {") "}
+                {q.quizId} {") "}
                 {q.question}
               </label>
               <div className="answer flex flex-col gap-5">
@@ -389,7 +392,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
             {/* <hr /> */}
             <div className="w-full md:w-full md:max-w-3xl">
               <Pagination
-                id={q.id}
+                id={q.quizId}
                 setMotivationalBoxVissble={setMotivationalBoxVissble}
                 isMotivationalBoxVissble={isMotivationalBoxVissble}
               />
