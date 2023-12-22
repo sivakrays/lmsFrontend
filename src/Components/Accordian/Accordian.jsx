@@ -12,6 +12,7 @@ const NestedAccordionItem = ({
   setUrl,
   link,
   handleQuizOpen,
+  subSectionId,
 }) => {
   const [isNestedAccordionOpen, setIsNestedAccordionOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -102,7 +103,7 @@ const NestedAccordionItem = ({
         </div>
         {quiz && quiz.length != 0 && (
           <div
-            onClick={() => handleQuizOpen(quiz)}
+            onClick={() => handleQuizOpen(quiz, subSectionId)}
             className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
           >
             <span>
@@ -186,6 +187,7 @@ const AccordionItem = ({
                 videoPath={videoPath}
                 setUrl={setUrl}
                 handleQuizOpen={handleQuizOpen}
+                subSectionId={item.subSectionId}
               />
             ))}
         </div>

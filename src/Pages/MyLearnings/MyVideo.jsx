@@ -19,6 +19,7 @@ const MyVideo = () => {
   const [isQuizClicked, setIsQuizClicked] = useState(false);
   const [accordionDetails, setAccordionDetails] = useState([]);
   const [quizzArray, setQuizzArray] = useState([]);
+  const [subSectionId, setSubSectionId] = useState("");
 
   const config = {
     headers: {
@@ -162,9 +163,10 @@ const MyVideo = () => {
     setVideoUrl(link);
     setIsQuizClicked(false);
   };
-  const handleQuizOpen = (quizItem) => {
+  const handleQuizOpen = (quizItem, subSectionId) => {
     console.log("QuizzArray", quizItem.length);
     setQuizzArray(quizItem);
+    setSubSectionId(subSectionId);
     setIsQuizClicked(true);
   };
 
@@ -223,6 +225,7 @@ const MyVideo = () => {
                   setEnergyPoint={setEnergyPoint}
                   energyPoint={energyPoint}
                   quizzArray={quizzArray && quizzArray}
+                  subSectionId={subSectionId}
                 />
                 {isrewardModal && (
                   <Modal
@@ -251,6 +254,7 @@ const MyVideo = () => {
                   setEnergyPoint={setEnergyPoint}
                   energyPoint={energyPoint}
                   quizzArray={quizzArray && quizzArray}
+                  subSectionId={subSectionId}
                 />
                 {isrewardModal && (
                   <Modal
