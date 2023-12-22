@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import success from "../../Assets/reward/star.png";
 
-const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
+const Quiz = ({
+  setRewardModal,
+  energyPoint,
+  setEnergyPoint,
+  quizzArray,
+  subSectionId,
+}) => {
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
   const [quizArray, setQuizArray] = useState(quizzArray);
