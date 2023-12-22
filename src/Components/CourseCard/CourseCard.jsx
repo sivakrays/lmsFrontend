@@ -2,7 +2,7 @@ import React from "react";
 import "./CourseCard.css";
 import star from "../../Assets/courseCard/star.png";
 import halfStar from "../../Assets/courseCard/halfStar.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { authContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
@@ -48,7 +48,7 @@ const CourseCard = ({ course, path }) => {
           <div className="courseImgWrapper h-36 overflow-hidden rounded-lg">
             <img
               // src={`data:image/jpeg;base64,${course.thumbNail}`}
-              src={course.img}
+              src={`${course.thumbNail}`}
               alt="course thumbnail"
               className="courseImg h-full w-full object-cover"
             />
@@ -71,7 +71,7 @@ const CourseCard = ({ course, path }) => {
           {path == "course" && (
             <div className="courseDes text-sm text-textLigntColor">
               {/* {course.description} */}
-              {course.des}
+              {course.description}
             </div>
           )}
         </div>

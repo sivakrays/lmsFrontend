@@ -11,6 +11,7 @@ const Nav = () => {
     showProfile,
     handleProfile,
     handleClickOutlet,
+    user,
   } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
@@ -19,7 +20,6 @@ const Nav = () => {
   const handleToggle = () => {
     setToggle(!toggle);
   };
-
   useEffect(() => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
@@ -33,6 +33,7 @@ const Nav = () => {
   const menuItem = [
     { name: "Home", path: "/" },
     { name: "Featured Course", path: "/course" },
+    { name: "My Learnings", path: "/mylearnings" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -88,7 +89,9 @@ const Nav = () => {
                     alt=""
                     className="h-7 w-7 rounded-full bg-textColor"
                   />
-                  <p className="text-md font-semibold text-textColor">manoj</p>
+                  <p className="text-md font-semibold text-textLigntColor">
+                    {localStorage.getItem("Current User")}
+                  </p>
                 </div>
 
                 <div
@@ -98,14 +101,14 @@ const Nav = () => {
                       : "hidden"
                   }`}
                 >
-                  <Link to="mylearnings">
+                  {/* <Link to="mylearnings">
                     <div
                       className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
                       onClick={handleProfile}
                     >
                       My Learnings
                     </div>
-                  </Link>
+                  </Link> */}
                   <Link to="/">
                     <div
                       className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
