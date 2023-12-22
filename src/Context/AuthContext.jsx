@@ -36,6 +36,7 @@ export const AuthContextProvider = ({ children }) => {
         res.data && localStorage.setItem("token", localToken);
         // const username = res.data && res.data.username.split('@');
         localStorage.setItem("Current User", res.data.name);
+        localStorage.setItem("userID", res.data.userId);
         // localStorage.setItem("userName",username[0]);
         setToken(localStorage.getItem("token"));
         setUser(localStorage.getItem("Current User"));
@@ -49,6 +50,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token", token);
+    localStorage.removeItem("Current User");
+    localStorage.removeItem("userID");
     setToken("");
     setIsTokenValid(false);
     setShowProfile(false);
