@@ -250,6 +250,7 @@ const MyVideo = () => {
                   setRewardModal={setRewardModal}
                   setEnergyPoint={setEnergyPoint}
                   energyPoint={energyPoint}
+                  quizzArray={quizzArray && quizzArray}
                 />
                 {isrewardModal && (
                   <Modal

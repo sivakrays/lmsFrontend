@@ -7,6 +7,10 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
   const [isCorrectAns, setCorrectAns] = useState();
   const [quizArray, setQuizArray] = useState(quizzArray);
 
+  useEffect(() => {
+    setQuizArray(quizArray);
+  }, [quizArray]);
+
   // const quiz = [
   //   {
   //     id: 1,
@@ -61,6 +65,8 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
     quizArray && quizArray.slice(indexOfFirstItem, indexOfLastItem);
 
   console.log("Current question is ", currentQuestions);
+
+  console.log("title", currentQuestions[0].title);
   const starsConfeeti = () => {
     var defaults = {
       spread: 360,
@@ -142,6 +148,12 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
           starsConfeeti();
         }, 1000);
       }
+      // setEnergyPoint(energyPoint + 1);
+      // console.log("Total Energy Point", energyPoint);
+      // console.log("correct");
+      // setRewardModal(true);
+      // fireworkConfetti();
+      // starsConfeeti();
     } else {
       // setChecked(true);
       setCorrectAns(false);
@@ -162,6 +174,12 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
 
   const handleNext = () => {
     if (clickedOption === currentAns) {
+      // setTimeout(() => {
+      //   if (isMotivationalBoxVissble === true) {
+      //     setCurrentPage(currentPage + 1);
+      //     setClickedOption();
+      //   }
+      // }, 2000);
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -181,6 +199,12 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
         }, 1000);
       }
     } else {
+      // setTimeout(() => {
+      //   setCurrentPage(currentPage + 1);
+      //   setClickedOption();
+      //   // setChecked(false);
+      // }, 2000);
+      // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
       console.log("wrong");
@@ -339,17 +363,17 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
       <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-48 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
-            {currentQuestions.title}
+            {currentQuestions[0].title}
           </h3>
         </div>
-        {currentQuestions.map((q) => (
-          <div key={q.quizId}>
+        {currentQuestions.map((q, index) => (
+          <div key={q.key}>
             <div className="space-y-4 p-5 ">
               <label
-                htmlFor={`question-${q.id}`}
+                htmlFor={`question-${q.key}`}
                 className="dayOne text-lg text-textColor"
               >
-                {q.quizId} {") "}
+                {q.key} {") "}
                 {q.question}
               </label>
               <div className="answer flex flex-col gap-5">
@@ -374,7 +398,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint, quizzArray }) => {
             {/* <hr /> */}
             <div className="w-full md:w-full md:max-w-3xl">
               <Pagination
-                id={q.quizId}
+                id={q.key}
                 setMotivationalBoxVissble={setMotivationalBoxVissble}
                 isMotivationalBoxVissble={isMotivationalBoxVissble}
               />
