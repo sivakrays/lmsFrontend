@@ -35,7 +35,7 @@ const NestedAccordionItem = ({
   return (
     <>
       <div>
-        <button
+        <div
           type="button"
           className=" flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
         >
@@ -93,7 +93,7 @@ const NestedAccordionItem = ({
             </p>
             <span className="text-xs text-textColor md:text-sm">05.26</span>
           </div>
-        </button>
+        </div>
         <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
           <div className="border  border-b-0 p-5 ">
             {previewText && (
@@ -176,19 +176,21 @@ const AccordionItem = ({
       <div className={` ${isAccordionOpen || isAllOpen ? "block" : "hidden"}`}>
         <div>
           {nestedItems &&
-            nestedItems.map((item) => (
-              <NestedAccordionItem
-                key={item.key}
-                title={item.title}
-                previewText={item.description}
-                link={item.link}
-                quiz={item.quizList}
-                isAllOpen={isAllOpen}
-                videoPath={videoPath}
-                setUrl={setUrl}
-                handleQuizOpen={handleQuizOpen}
-                subSectionId={item.subSectionId}
-              />
+            nestedItems.map((item, index) => (
+              <div key={index}>
+                <NestedAccordionItem
+                  key={item.key}
+                  title={item.title}
+                  previewText={item.description}
+                  link={item.link}
+                  quiz={item.quizList}
+                  isAllOpen={isAllOpen}
+                  videoPath={videoPath}
+                  setUrl={setUrl}
+                  handleQuizOpen={handleQuizOpen}
+                  subSectionId={item.subSectionId}
+                />
+              </div>
             ))}
         </div>
       </div>

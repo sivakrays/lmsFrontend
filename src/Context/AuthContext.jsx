@@ -10,8 +10,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState("");
 
-  console.log("user", user);
-
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
 
@@ -34,10 +32,8 @@ export const AuthContextProvider = ({ children }) => {
       .then((res) => {
         const localToken = JSON.stringify(res.data.token);
         res.data && localStorage.setItem("token", localToken);
-        // const username = res.data && res.data.username.split('@');
         localStorage.setItem("Current User", res.data.name);
         localStorage.setItem("userID", res.data.userId);
-        // localStorage.setItem("userName",username[0]);
         setToken(localStorage.getItem("token"));
         setUser(localStorage.getItem("Current User"));
         successNotify();

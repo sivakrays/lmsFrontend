@@ -7,6 +7,7 @@ import { get } from "../../ApiCall/ApiCall";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../../Components/Loader/Loader";
 
 const Course = () => {
   useEffect(() => {
@@ -16,7 +17,8 @@ const Course = () => {
   const [pageNo, setPageNo] = useState(0);
   const [totalpage, setTotalPage] = useState(0);
   const [totalCourses, setTotalCourses] = useState(0);
-
+  const [searchValue, setSearchValue] = useState("");
+  const [searchData, setSearchData] = useState("");
   const [courseData, setCourseData] = useState([]);
 
   useEffect(() => {
@@ -36,10 +38,26 @@ const Course = () => {
         setCourseData(res.data.content);
         setTotalPage(res.data.totalPages);
         setTotalCourses(res.data.totalElements);
-        console.log("response", res.data);
       })
       .catch((err) => console.log(err));
   }, [pageNo]);
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    };
+    if (searchValue !== "") {
+      get(`/user/searchCourses?search=${searchValue}`, config)
+        .then((res) => {
+          setSearchData(res.data);
+          // console.log("response", searchData);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [searchValue]);
 
   const paginate = (pageNo) => {
     if (pageNo >= 0 && pageNo <= totalpage) {
@@ -47,21 +65,33 @@ const Course = () => {
     }
   };
 
-  console.log(pageNo, "pageNUmber");
   return (
     <section className="courseBg bg-coursebg pt-28">
       <div className="searchBar">
-        <Search />
+        <Search setSearchValue={setSearchValue} searchValue={searchValue} />
       </div>
       <div className="cardSection">
-        <div className="cardDiv mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
-          {courseData &&
-            courseData.map((course, index) => (
-              <div key={index}>
-                <CourseCard course={course} path="course" />
-              </div>
-            ))}
-        </div>
+        {searchData.length > 0 || courseData.length > 0 ? (
+          <div className="cardDiv mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
+            {searchData && searchData.length > 0
+              ? searchData &&
+                searchData.map((searchResult, index) => (
+                  <div key={index}>
+                    <CourseCard course={searchResult} path="course" />
+                  </div>
+                ))
+              : courseData &&
+                courseData.map((course, index) => (
+                  <div key={index}>
+                    <CourseCard course={course} path="course" />
+                  </div>
+                ))}
+          </div>
+        ) : (
+          <div className="flex h-[20vh] w-full items-center justify-center">
+            <Loader color={"#334456"} />
+          </div>
+        )}
 
         <div className="mb-5 mt-4 flex flex-col items-center">
           <span className="text-sm text-textColor">
@@ -88,9 +118,9 @@ const Course = () => {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M13 5H1m0 0 4 4M1 5l4-4"
                 />
               </svg>
@@ -113,9 +143,9 @@ const Course = () => {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M1 5h12m0 0L9 1m4 4L9 9"
                 />
               </svg>
