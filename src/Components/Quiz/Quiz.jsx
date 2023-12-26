@@ -1,75 +1,47 @@
 import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import success from "../../Assets/reward/star.png";
+import { post } from "../../ApiCall/ApiCall";
 
 const Quiz = ({
   setRewardModal,
   energyPoint,
   setEnergyPoint,
-  quizArray,
+  quizzArray,
   subSectionId,
 }) => {
+  // const sendPoints = () => {
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //     },
+  //   };
+  //   const data = {
+  //     userId: localStorage.getItem("userID"),
+  //     energyPoint: energyPoint,
+  //     badge: badge,
+  //     sectionId: subSectionId,
+  //   };
+  //   post("/user/quiz", config, data)
+  //     .then((res) => console.log(res.data))
+  //     .catch((err) => console.log(err));
+  // };
+
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
-  //const [quizArray, setQuizArray] = useState(quizzArray);
 
-  // console.log("quiz", quizzArray);
-
-  // useEffect(() => {
-  //   setQuizArray(quizArray);
-  // }, [quizArray]);
-
-  // const quiz = [
-  //   {
-  //     id: 1,
-  //     title: "Finance Quiz-1",
-  //     question: `What does "invest in yourself" mean?`,
-  //     options: [
-  //       "Working to improve your skills and knowledge to give yourself a better future.",
-  //       "Spending all your money to buy delicious treats.",
-  //       "Using most of your money to buy expensive things that you like.",
-  //       "Delaying a task that you are supposed to do.",
-  //     ],
-  //     answer: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Finance Quiz-2",
-  //     question: "Why is it important to invest in yourself?",
-  //     options: [
-  //       "Because it is not good to invest in others.",
-  //       "It is better to spend your money now instead of saving it.",
-  //       "To equip myself with knowledge and skills that will help improve my life.",
-  //       "To treat myself as a business and to beat my competition.",
-  //     ],
-  //     answer: 3,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Finance Quiz-3",
-  //     question:
-  //       "What is the best thing to do with your money after you get paid?",
-  //     options: [
-  //       "Use all of it to buy expensive toys.",
-  //       "Hide the money so no one can find it.",
-  //       "Invest money in important things.",
-  //       "Spend it on what my friends are buying.",
-  //     ],
-  //     answer: 2,
-  //   },
-  // ];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = Math.ceil(quizArray && quizArray.length / itemsPerPage);
+  const totalPages = Math.ceil(quizzArray && quizzArray.length / itemsPerPage);
 
   const [clickedOption, setClickedOption] = useState();
   const [currentAns, setCurrentAns] = useState();
-  // const [checked, setChecked] = useState(false);
 
   const currentQuestions =
-    quizArray && quizArray.slice(indexOfFirstItem, indexOfLastItem);
+    quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
 
   const starsConfeeti = () => {
     var defaults = {
@@ -150,14 +122,7 @@ const Quiz = ({
           starsConfeeti();
         }, 1000);
       }
-      // setEnergyPoint(energyPoint + 1);
-      // console.log("Total Energy Point", energyPoint);
-      // console.log("correct");
-      // setRewardModal(true);
-      // fireworkConfetti();
-      // starsConfeeti();
     } else {
-      // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
       if (isMotivationalBoxVissble === false) {
@@ -174,12 +139,6 @@ const Quiz = ({
 
   const handleNext = () => {
     if (clickedOption === currentAns) {
-      // setTimeout(() => {
-      //   if (isMotivationalBoxVissble === true) {
-      //     setCurrentPage(currentPage + 1);
-      //     setClickedOption();
-      //   }
-      // }, 2000);
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -197,12 +156,6 @@ const Quiz = ({
         }, 1000);
       }
     } else {
-      // setTimeout(() => {
-      //   setCurrentPage(currentPage + 1);
-      //   setClickedOption();
-      //   // setChecked(false);
-      // }, 2000);
-      // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
       if (isMotivationalBoxVissble === false) {
@@ -237,7 +190,7 @@ const Quiz = ({
               <span className="font-semibold">{id} </span>
               <span> of </span>
               <span className="font-semibold text-textColor">
-                {quizArray.length}
+                {quizzArray.length}
               </span>
               <span> Questions</span>
             </span>

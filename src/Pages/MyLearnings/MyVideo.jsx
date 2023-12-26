@@ -43,117 +43,6 @@ const MyVideo = () => {
     getAccordionDetails();
   }, []);
 
-  // const accordionDetails = {
-  //   courseId: 3253,
-  //   title: "Website development",
-  //   authorName: "Mark Antony",
-  //   description: "hello world.",
-  //   thumbNail: "string",
-  //   enrolled: 12,
-  //   category: "Programming",
-  //   ratings: 5,
-  //   language: "english",
-  //   overview: "good",
-  //   whatYouWillLearn:
-  //     "The Complete Personal Finance for Kids and Teenagers Course by Steeve Simbert is a comprehensive, engaging, and fun online program, designed to boost the financial literacy of the younger generation. It uses entertaining animated cartoon videos to simplify complex financial, business, and economic concepts, covering everything from basic personal finance to investment strategies and retirement savings.",
-
-  //   price: 20000,
-  //   date: "2023-12-16T00:00:00.000+00:00",
-  //   sections: [
-  //     {
-  //       sectionId: 2353,
-  //       key: 1,
-  //       title: "Introduction",
-  //       subSections: [
-  //         {
-  //           subSectionId: 1,
-  //           key: 1,
-  //           title: "Introduction",
-  //           description:
-  //             "If you want to be better than you are today, you must do something to improve yourself.",
-  //           link: "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
-  //           quizList: null,
-  //         },
-  //         {
-  //           subSectionId: 2,
-  //           key: 2,
-  //           title: "Invest Yourself",
-  //           description:
-  //             "If you want to be better than you are today, you must do something to improve yourself.",
-  //           link: "https://www.youtube.com/watch?v=CaAuFwJJ8sA",
-  //           quizList: [
-  //             {
-  //               quizId: 1,
-  //               title: "Invest Yourself",
-  //               key: 1,
-  //               question: "What does invest in yourself mean?",
-  //               options: [
-  //                 "Working to improve your skills and knowledge to give yourself a better future.",
-  //                 "Spending all your money to buy delicious treats.",
-  //                 "Using most of your money to buy expensive things that you like.",
-  //                 "Delaying a task that you are supposed to do.",
-  //               ],
-  //               answer: 0,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       sectionId: 2354,
-  //       key: 2,
-  //       title: "Personal Finance",
-  //       subSections: [
-  //         {
-  //           subSectionId: 1,
-  //           key: 2,
-  //           title: "Personal Finance",
-  //           description:
-  //             "If you want to be better than you are today, you must do something to improve yourself.",
-  //           link: "https://www.youtube.com/watch?v=CaAuFwJJ8sA",
-  //           quizList: [
-  //             {
-  //               quizId: 1,
-  //               title: "Personal Finance",
-  //               key: 1,
-  //               question: "What does invest in yourself mean?",
-  //               options: [
-  //                 "Working to improve your skills and knowledge to give yourself a better future.",
-  //                 "Spending all your money to buy delicious treats.",
-  //                 "Using most of your money to buy expensive things that you like.",
-  //                 "Delaying a task that you are supposed to do.",
-  //               ],
-  //               answer: 0,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           subSectionId: 2,
-  //           key: 2,
-  //           title: "Finance",
-  //           description:
-  //             "If you want to be better than you are today, you must do something to improve yourself.",
-  //           link: "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
-  //           quizList: [
-  //             {
-  //               quizId: 1,
-  //               title: "Finance",
-  //               key: 1,
-  //               question: "What does invest in yourself mean?",
-  //               options: [
-  //                 "Working to improve your skills and knowledge to give yourself a better future.",
-  //                 "Spending all your money to buy delicious treats.",
-  //                 "Using most of your money to buy expensive things that you like.",
-  //                 "Delaying a task that you are supposed to do.",
-  //               ],
-  //               answer: 0,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // };
   const isSmallScreen = window.innerWidth < 1024;
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
@@ -224,16 +113,18 @@ const MyVideo = () => {
         <div className="lg:w-[70%] ">
           {isQuizClicked ? (
             <>
-              <div className="z-10 flex h-full w-full items-center justify-center">
-                {/* {quizzArray &&
-                  quizzArray.map((item) => {
-                    return <p>{item.question}</p>;
-                  })} */}
+              {/* <div className="z-10 flex h-full w-full items-center justify-center">
+                {quizzArray &&
+                  quizzArray.map((d, index) => {
+                    return <p>{d.question}</p>;
+                  })}
+              </div> */}
+              <div className="right-0 top-0 w-[70%] lg:fixed">
                 <Quiz
                   setRewardModal={setRewardModal}
                   setEnergyPoint={setEnergyPoint}
                   energyPoint={energyPoint}
-                  quizArray={quizzArray && quizzArray}
+                  quizzArray={quizzArray && quizzArray}
                   subSectionId={subSectionId}
                 />
                 {isrewardModal && (

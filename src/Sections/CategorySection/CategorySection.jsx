@@ -1,7 +1,7 @@
 import React from "react";
 import "./CategorySection.css";
 
-import cartoon1 from "../../Assets/category/cartoon1.png";
+import readBook from "../../Assets/category/readBook.png";
 
 const CategorySection = () => {
   const categoryData = [
@@ -30,8 +30,8 @@ const CategorySection = () => {
             className="   relative flex h-[200px] w-[300px] flex-col rounded-md border-2 border-textColor p-4 transition delay-150 duration-300 ease-in-out  hover:-translate-y-2 md:h-[180px] "
             key={item.id}
           >
-            <div className="absolute -left-9 top-[30%] ">
-              <img src={cartoon1} className="h-14 w-14 md:h-20 md:w-20" />
+            <div className="absolute -left-10 top-[30%] ">
+              <img src={readBook} className="h-14 w-14 md:h-20 md:w-20" />
             </div>
 
             <div className=" p-2">
