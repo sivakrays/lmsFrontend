@@ -4,23 +4,22 @@ import { get } from "../../ApiCall/ApiCall";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
-  console.log(searchValue);
-  // useEffect(() => {
-  //   const config = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Acess-Control-Allow-Origin": "*",
-  //       "Acess-Control-Allow-Headers": "*",
-  //       Accept: "application/json",
-  //     },
-  //   };
-  //   get("/user/searchCourses", config)
-  //     .then((res) => {
-  //       setSearchValue(res.data);
-  //       console.log("response", res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [searchValue]);
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Acess-Control-Allow-Origin": "*",
+        "Acess-Control-Allow-Headers": "*",
+        Accept: "application/json",
+      },
+    };
+    get(`/user/searchCourses?search=${searchValue}`, config)
+      .then((res) => {
+        setSearchValue(res.data);
+        console.log("response", res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [searchValue]);
 
   return (
     <>

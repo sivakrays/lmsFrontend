@@ -6,16 +6,18 @@ const Quiz = ({
   setRewardModal,
   energyPoint,
   setEnergyPoint,
-  quizzArray,
+  quizArray,
   subSectionId,
 }) => {
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
-  const [quizArray, setQuizArray] = useState(quizzArray);
+  //const [quizArray, setQuizArray] = useState(quizzArray);
 
-  useEffect(() => {
-    setQuizArray(quizArray);
-  }, [quizArray]);
+  // console.log("quiz", quizzArray);
+
+  // useEffect(() => {
+  //   setQuizArray(quizArray);
+  // }, [quizArray]);
 
   // const quiz = [
   //   {
@@ -56,7 +58,6 @@ const Quiz = ({
   //     answer: 2,
   //   },
   // ];
-  console.log("quizzArrayyyyyy from quiz", quizArray);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -70,9 +71,6 @@ const Quiz = ({
   const currentQuestions =
     quizArray && quizArray.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("Current question is ", currentQuestions);
-
-  console.log("title", currentQuestions[0].title);
   const starsConfeeti = () => {
     var defaults = {
       spread: 360,
@@ -141,9 +139,7 @@ const Quiz = ({
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
-      console.log("Your EnergyPoint is :", energyPoint);
       setEnergyPoint(energyPoint);
-      console.log("correct");
 
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
@@ -173,8 +169,6 @@ const Quiz = ({
           starsConfeeti();
         }, 1000);
       }
-      console.log("Your EnergyPoint is :", energyPoint);
-      console.log("wrong");
     }
   };
 
@@ -194,8 +188,6 @@ const Quiz = ({
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
-      console.log(energyPoint);
-      console.log("correct");
 
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
@@ -213,7 +205,6 @@ const Quiz = ({
       // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
-      console.log("wrong");
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -224,12 +215,10 @@ const Quiz = ({
     }
   };
 
-  console.log("selected Answer", clickedOption);
   useEffect(() => {
     setCurrentAns(currentQuestions[0].answer);
   }, currentQuestions);
 
-  console.log("correct answer", currentAns);
   const Pagination = ({ id }) => {
     return (
       <div className="">

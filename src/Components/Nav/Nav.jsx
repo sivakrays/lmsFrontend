@@ -30,7 +30,12 @@ const Nav = () => {
     e.stopPropagation(); // Prevent event propagation to the parent elements
     handleProfile();
   };
-  const menuItem = [
+  const unAuthorizedMenuItem = [
+    { name: "Home", path: "/" },
+    { name: "Featured Course", path: "/course" },
+    { name: "Contact", path: "/contact" },
+  ];
+  const authorizedMenuItem = [
     { name: "Home", path: "/" },
     { name: "Featured Course", path: "/course" },
     { name: "My Learnings", path: "/mylearnings" },
@@ -57,23 +62,41 @@ const Nav = () => {
 
           <div className="nav_link ">
             <ul className="flex gap-12">
-              {menuItem.map((item, index) => (
-                <li
-                  className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
-                    currentPath === item.path ? "opacity-100" : "opacity-75"
-                  }`}
-                  key={index}
-                >
-                  <Link
-                    to={item.path}
-                    className={`text-md  font-semibold ${
-                      currentPath === item.path ? "activeNav" : "nav"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              {isTokenValid
+                ? authorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))
+                : unAuthorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
             </ul>
           </div>
 

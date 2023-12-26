@@ -27,7 +27,7 @@ const MyVideo = () => {
       "Acess-Control-Allow-Origin": "*",
       "Acess-Control-Allow-Headers": "*",
       Accept: "application/json",
-      courseId: "258",
+      courseId: "302",
     },
   };
 
@@ -160,15 +160,20 @@ const MyVideo = () => {
   };
 
   const setUrl = (link) => {
+    console.log("linkkkkkkkk", link);
     setVideoUrl(link);
     setIsQuizClicked(false);
   };
   const handleQuizOpen = (quizItem, subSectionId) => {
-    console.log("QuizzArray", quizItem.length);
+    console.log("QuizzArray", quizItem);
+    console.log("QuizzArray", subSectionId);
     setQuizzArray(quizItem);
     setSubSectionId(subSectionId);
     setIsQuizClicked(true);
+    setVideoUrl("");
   };
+
+  console.log("QuizzArray^^^^^^^^^^^^", quizzArray);
 
   const myLearningVideo = () => {
     return (
@@ -219,12 +224,16 @@ const MyVideo = () => {
         <div className="lg:w-[70%] ">
           {isQuizClicked ? (
             <>
-              <div className="right-0 top-0 w-[70%] lg:fixed">
+              <div className="z-10 flex h-full w-full items-center justify-center">
+                {/* {quizzArray &&
+                  quizzArray.map((item) => {
+                    return <p>{item.question}</p>;
+                  })} */}
                 <Quiz
                   setRewardModal={setRewardModal}
                   setEnergyPoint={setEnergyPoint}
                   energyPoint={energyPoint}
-                  quizzArray={quizzArray && quizzArray}
+                  quizArray={quizzArray && quizzArray}
                   subSectionId={subSectionId}
                 />
                 {isrewardModal && (
