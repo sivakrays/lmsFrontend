@@ -2,22 +2,29 @@ import React from "react";
 import "./CategorySection.css";
 
 import readBook from "../../Assets/category/readBook.png";
+import pencilKid from "../../Assets/category/pencilKid.png";
+import flyingBook from "../../Assets/category/flyingBook.png";
 
 const CategorySection = () => {
   const categoryData = [
     {
       id: 1,
       title: "Design",
+      image: pencilKid,
       des: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa aut dignissimos voluptates quibusdam fugit quis id blanditiis porro numquam laudantium.",
     },
     {
       id: 2,
       title: "Business",
+      image: readBook,
+
       des: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa aut dignissimos voluptates quibusdam fugit quis id blanditiis porro numquam laudantium.",
     },
     {
       id: 3,
       title: "Marketing",
+      image: flyingBook,
+
       des: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa aut dignissimos voluptates quibusdam fugit quis id blanditiis porro numquam laudantium.",
     },
   ];
@@ -31,7 +38,7 @@ const CategorySection = () => {
             key={item.id}
           >
             <div className="absolute -left-10 top-[30%] ">
-              <img src={readBook} className="h-14 w-14 md:h-20 md:w-20" />
+              <img src={item.image} className="h-14 w-14 md:h-20 md:w-20" />
             </div>
 
             <div className=" p-2">

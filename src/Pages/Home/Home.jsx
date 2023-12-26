@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
-import heroImg from "../../Assets/HeroSection/Mask group.svg";
-import frame from "../../Assets/HeroSection/Frame.svg";
-import img1 from "../../Assets/HeroSection/Exclude.svg";
-import videoImg from "../../Assets/HeroSection/Video.svg";
-
-import heroImg1 from "../../Assets/HeroSection/Untitled design.png";
 
 import feature1 from "../../Assets/courseCard/c1.png";
 import feature2 from "../../Assets/courseCard/c2.png";
@@ -24,52 +18,9 @@ import floatimg1 from "../../Assets/HeroSection/books.png";
 import floatimg from "../../Assets/HeroSection/img1234.png";
 
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../../Components/Loader/Loader";
 
 const Home = () => {
-  // const courseData = [
-  //   {
-  //     id: "1",
-  //     img: "https://img-c.udemycdn.com/course/750x422/5039162_eb97_5.jpg",
-  //     category: "Programming1",
-  //     title: "Game development: Programming with java Plus C#",
-  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-  //   },
-  //   {
-  //     id: "2",
-  //     img: "https://us.123rf.com/450wm/jaaakworks/jaaakworks1511/jaaakworks151100024/47825772-cartoon-business-team-steal-money-from-boss.jpg?ver=6",
-  //     category: "Medical1",
-  //     title: "Medical Basics 101: Anatomy of whole human body research basis ",
-  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-  //   },
-  //   {
-  //     id: "3",
-  //     img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
-  //     category: "AI/ML1",
-  //     title: "Supervised Machine Learning: Regression and Classification",
-  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-  //   },
-  //   {
-  //     id: "4",
-  //     img: "https://tm4k.ala.org/images/background.jpg",
-  //     category: "Design1",
-  //     title: "Product design and analysis: Psychical Goods creation for us",
-  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-  //   },
-  //   {
-  //     id: "5",
-  //     img: "https://bookstr.com/wp-content/uploads/2023/04/childrens-financial-literacy-featured-image-750x400.jpg",
-  //     category: "Psychology1",
-  //     title: `Psychology and Consultation: How to solve anxiety problem easily`,
-  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-  //   },
-  //   {
-  //     id: "6",
-  //     img: "https://tm4k.ala.org/images/background.jpg",
-  //     category: "Finance1",
-  //     title: "Business Communication: How to deal with clients Professionaly",
-  //     des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
-  //   },
-  // ];
   const [courseData, setCourseData] = useState([]);
   useEffect(() => {
     const config = {
@@ -85,7 +36,7 @@ const Home = () => {
     get("/user/getAllCourse", config)
       .then((res) => {
         setCourseData(res.data.content);
-        console.log("response", res.data);
+        // console.log("response", res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -216,12 +167,25 @@ const Home = () => {
             <div className="floatingChild absolute -right-32 top-0 hidden lg:block">
               <img src={floatimg} alt="" className=" w-44" />
             </div>
-            {courseData &&
-              courseData.map((course, index) => (
-                <div key={index}>
-                  <CourseCard course={course} path="homeCard" />
+
+            {/* Course Card with Data */}
+            {courseData.length > 0 ? (
+              <>
+                {courseData &&
+                  courseData.map((course, index) => (
+                    <div key={index}>
+                      <CourseCard course={course} path="homeCard" />
+                    </div>
+                  ))}
+              </>
+            ) : (
+              <>
+                <div className="flex h-[20vh] w-full items-center justify-center">
+                  <Loader color={"#334456"} />
                 </div>
-              ))}
+              </>
+            )}
+
             <div className="floatingChild absolute -left-32 bottom-0 hidden lg:block ">
               <img src={floatimg1} alt="" className=" w-36" />
             </div>

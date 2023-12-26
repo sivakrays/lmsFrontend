@@ -7,7 +7,6 @@ import start from "../../Assets/reward/star.png";
 import "./Reward.css";
 
 const Reward = ({ setRewardModal, energyPoint }) => {
-  console.log("energyPoints from reward page", energyPoint);
   return (
     <>
       <div className="mt-8 flex h-screen w-screen items-center justify-center">
@@ -65,7 +64,10 @@ const Reward = ({ setRewardModal, energyPoint }) => {
             </p>
           </div>
           <div className="mx-auto w-[300px] text-center">
-            <button className="mt-6 w-[200px] rounded-lg bg-red-500 p-2 font-semibold text-white">
+            <button
+              className="mt-6 w-[200px] rounded-lg bg-red-500 p-2 font-semibold text-white"
+              onClick={() => setRewardModal(false)}
+            >
               {energyPoint == 0 ? "Retry" : "Claim"}
             </button>
           </div>

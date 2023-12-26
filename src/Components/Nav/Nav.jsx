@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Nav.css";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
 
@@ -16,6 +16,7 @@ const Nav = () => {
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -41,6 +42,13 @@ const Nav = () => {
     { name: "My Learnings", path: "/mylearnings" },
     { name: "Contact", path: "/contact" },
   ];
+
+  const handleLogOut = () => {
+    logout();
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
+  };
 
   return (
     <>
@@ -142,7 +150,7 @@ const Nav = () => {
                   </Link>
                   <div
                     className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
-                    onClick={logout}
+                    onClick={handleLogOut}
                   >
                     Logout
                   </div>
@@ -246,7 +254,7 @@ const Nav = () => {
               {isTokenValid ? (
                 <button
                   className="text-md cursor-pointer font-semibold  uppercase text-textColor"
-                  onClick={logout}
+                  onClick={handleLogOut}
                 >
                   Logout
                 </button>

@@ -115,7 +115,7 @@ const PromoVideo = () => {
           <div className="systamaticcards mx-auto mt-16 flex w-[80%] flex-wrap items-center justify-center gap-12">
             {systamaticCard.map((card, index) => (
               <div
-                id={index}
+                key={index}
                 className="systamaticCard mb-6 flex h-[190px] w-[390px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-herobg p-3 shadow boxShadow"
               >
                 <div>

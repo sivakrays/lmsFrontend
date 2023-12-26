@@ -9,36 +9,46 @@ const Quiz = ({
   setEnergyPoint,
   quizzArray,
   subSectionId,
+  currentPage,
+  setCurrentPage,
+  badge,
+  setBadge,
 }) => {
-  // const sendPoints = () => {
-  //   const config = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //     },
-  //   };
-  //   const data = {
-  //     userId: localStorage.getItem("userID"),
-  //     energyPoint: energyPoint,
-  //     badge: badge,
-  //     sectionId: subSectionId,
-  //   };
-  //   post("/user/quiz", config, data)
-  //     .then((res) => console.log(res.data))
-  //     .catch((err) => console.log(err));
-  // };
+  const [userID, setUserID] = useState(localStorage.getItem("userID"));
+  const [points, setPoints] = useState(energyPoint);
 
+  console.log("energyPoint", energyPoint);
+  console.log("userId", userID);
+  console.log("badge", badge);
+  console.log("subSectionId", subSectionId);
+
+  const sendPoints = () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const data = {
+      userId: userID,
+      energyPoints: energyPoint,
+      badge: badge,
+      sectionId: subSectionId,
+    };
+    console.log("data", data);
+    post("/user/saveBadge", data, config)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
 
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = Math.ceil(quizzArray && quizzArray.length / itemsPerPage);
 
-  const [clickedOption, setClickedOption] = useState();
-  const [currentAns, setCurrentAns] = useState();
+  const [clickedOption, setClickedOption] = useState("");
+  const [currentAns, setCurrentAns] = useState("");
 
   const currentQuestions =
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
@@ -102,7 +112,7 @@ const Quiz = ({
   };
 
   const handleSubmit = () => {
-    if (clickedOption === currentAns) {
+    if (clickedOption == currentAns) {
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -120,6 +130,7 @@ const Quiz = ({
           setMotivationalBoxVissble(false);
           fireworkConfetti();
           starsConfeeti();
+          sendPoints();
         }, 1000);
       }
     } else {
@@ -132,13 +143,15 @@ const Quiz = ({
           setMotivationalBoxVissble(false);
           fireworkConfetti();
           starsConfeeti();
+          sendPoints();
         }, 1000);
       }
+      console.log("Your EnergyPoint is :", energyPoint);
     }
   };
 
-  const handleNext = () => {
-    if (clickedOption === currentAns) {
+  const handleNext = (quizid1) => {
+    if (clickedOption == currentAns) {
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -170,9 +183,9 @@ const Quiz = ({
 
   useEffect(() => {
     setCurrentAns(currentQuestions[0].answer);
-  }, currentQuestions);
+  }, [currentQuestions]);
 
-  const Pagination = ({ id }) => {
+  const Pagination = ({ id, quizid1 }) => {
     return (
       <div className="">
         <div className=" absolute bottom-0 right-96 hidden lg:block">
@@ -206,7 +219,7 @@ const Quiz = ({
                     : ""
                 }
                 `}
-                onClick={handleSubmit}
+                onClick={() => handleSubmit()}
               >
                 Submit
               </button>
@@ -214,7 +227,7 @@ const Quiz = ({
               // || checked === true
               // disabled={checked === true}
               <button
-                onClick={() => handleNext()}
+                onClick={() => handleNext(quizid1)}
                 className={`flex h-10 items-center justify-center rounded-md border-textLigntColor bg-textColor px-8 text-base font-medium text-white   ${
                   currentPage === totalPages ||
                   isMotivationalBoxVissble === true
@@ -315,7 +328,7 @@ const Quiz = ({
           </h3>
         </div>
         {currentQuestions.map((q, index) => (
-          <div key={q.key}>
+          <div key={index}>
             <div className="space-y-4 p-5 ">
               <label
                 htmlFor={`question-${q.key}`}
@@ -343,10 +356,10 @@ const Quiz = ({
                 ))}
               </div>
             </div>
-            {/* <hr /> */}
             <div className="w-full md:w-full md:max-w-3xl">
               <Pagination
                 id={q.key}
+                quizid1={q.quizId}
                 setMotivationalBoxVissble={setMotivationalBoxVissble}
                 isMotivationalBoxVissble={isMotivationalBoxVissble}
               />

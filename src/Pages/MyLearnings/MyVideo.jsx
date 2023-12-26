@@ -11,7 +11,7 @@ const MyVideo = () => {
   }, []);
   const [isrewardModal, setRewardModal] = useState(false);
   const [energyPoint, setEnergyPoint] = useState(0);
-
+  const [badge, setBadge] = useState("");
   const [videoUrl, setVideoUrl] = useState(
     "https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0",
   );
@@ -20,6 +20,7 @@ const MyVideo = () => {
   const [accordionDetails, setAccordionDetails] = useState([]);
   const [quizzArray, setQuizzArray] = useState([]);
   const [subSectionId, setSubSectionId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const config = {
     headers: {
@@ -54,8 +55,8 @@ const MyVideo = () => {
     setIsQuizClicked(false);
   };
   const handleQuizOpen = (quizItem, subSectionId) => {
-    console.log("QuizzArray", quizItem);
-    console.log("QuizzArray", subSectionId);
+    setEnergyPoint(0);
+    setCurrentPage(1);
     setQuizzArray(quizItem);
     setSubSectionId(subSectionId);
     setIsQuizClicked(true);
@@ -113,12 +114,6 @@ const MyVideo = () => {
         <div className="lg:w-[70%] ">
           {isQuizClicked ? (
             <>
-              {/* <div className="z-10 flex h-full w-full items-center justify-center">
-                {quizzArray &&
-                  quizzArray.map((d, index) => {
-                    return <p>{d.question}</p>;
-                  })}
-              </div> */}
               <div className="right-0 top-0 w-[70%] lg:fixed">
                 <Quiz
                   setRewardModal={setRewardModal}
@@ -126,6 +121,10 @@ const MyVideo = () => {
                   energyPoint={energyPoint}
                   quizzArray={quizzArray && quizzArray}
                   subSectionId={subSectionId}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  setBadge={setBadge}
+                  badge={badge}
                 />
                 {isrewardModal && (
                   <Modal
@@ -155,6 +154,10 @@ const MyVideo = () => {
                   energyPoint={energyPoint}
                   quizzArray={quizzArray && quizzArray}
                   subSectionId={subSectionId}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  setBadge={setBadge}
+                  badge={badge}
                 />
                 {isrewardModal && (
                   <Modal
@@ -167,7 +170,7 @@ const MyVideo = () => {
             </>
           ) : (
             myLearningVideo()
-          )}{" "}
+          )}
         </div>
         <div className=" mt-2 pl-1">
           <div className="  h-auto  w-full">
