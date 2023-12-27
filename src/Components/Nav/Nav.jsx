@@ -241,23 +241,28 @@ const Nav = () => {
                 Contact
               </Link>
             </li>
-            <li>
-              <Link
-                to={"/mylearnings"}
-                className="text-md font-semibold"
-                onClick={handleToggle}
-              >
-                My Learning
-              </Link>
-            </li>
+            {isTokenValid && (
+              <li>
+                <Link
+                  to={"/mylearnings"}
+                  className="text-md font-semibold"
+                  onClick={handleToggle}
+                >
+                  My Learning
+                </Link>
+              </li>
+            )}
+
             <li>
               {isTokenValid ? (
-                <button
-                  className="text-md cursor-pointer font-semibold  uppercase text-textColor"
-                  onClick={handleLogOut}
-                >
-                  Logout
-                </button>
+                <div>
+                  <button
+                    className="text-md cursor-pointer font-semibold  uppercase text-textColor"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </button>
+                </div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
                   <Link to="login">

@@ -25,3 +25,23 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.image-container {
+  width: 200px;
+  height: 200px;
+}
+.mask {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* clip-path: url("../../Assets/Promo/ellipse.png"); */
+  -webkit-mask-image: url("../../Assets/Promo/Ellipsenew1.png");
+  mask-image: url("../../Assets/Promo/Ellipsenew1.png");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+/* .imageRadius {
+  border-radius: 71% 29% 25% 75% / 24% 42% 58% 76%;
+  width: 100px;
+  height: 100px;
+} */

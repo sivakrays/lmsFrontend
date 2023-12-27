@@ -11,8 +11,12 @@ import planet from "../../Assets/Promo/Frame-2.png";
 import Alphabet from "../../Assets/Promo/Frame.png";
 import pencil from "../../Assets/Promo/Frame-1.png";
 
-import systamatic1 from "../../Assets/Promo/Group 39-1.png";
-import systamatic from "../../Assets/Promo/Group 39.png";
+// import systamatic1 from "../../Assets/Promo/Group 39-1.png";
+// import systamatic from "../../Assets/Promo/Group 39.png";
+import sym1 from "../../Assets/Promo/sym1.jpeg";
+import sym2 from "../../Assets/Promo/sym2.jpeg";
+import sym3 from "../../Assets/Promo/sym3.jpeg";
+import sym4 from "../../Assets/Promo/sym4.jpeg";
 
 import paperRocket from "../../Assets/Promo/Frame.svg";
 import colorStars from "../../Assets/Promo/shape-4.png";
@@ -22,22 +26,22 @@ import blueStar from "../../Assets/Promo/blueStar.svg";
 const PromoVideo = () => {
   const systamaticCard = [
     {
-      img: systamatic1,
+      img: sym1,
       title: "Formal Tuition",
       des: "Eu turpis egestas pretium aenean pharetra magna ac.",
     },
     {
-      img: systamatic,
+      img: sym2,
       title: "Formal Tuition",
       des: "Eu turpis egestas pretium aenean pharetra magna ac.",
     },
     {
-      img: systamatic,
+      img: sym3,
       title: "Formal Tuition",
       des: "Eu turpis egestas pretium aenean pharetra magna ac.",
     },
     {
-      img: systamatic1,
+      img: sym4,
       title: "Formal Tuition",
       des: "Eu turpis egestas pretium aenean pharetra magna ac.",
     },
@@ -112,14 +116,14 @@ const PromoVideo = () => {
             </div>
           </div>
           {/* systamatic Cards */}
-          <div className="systamaticcards mx-auto mt-16 flex w-[80%] flex-wrap items-center justify-center gap-12">
+          <div className="systamaticcards   mx-auto mt-16 flex w-[80%] flex-wrap items-center justify-center gap-12">
             {systamaticCard.map((card, index) => (
               <div
                 key={index}
-                className="systamaticCard mb-6 flex h-[190px] w-[390px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-herobg p-3 shadow boxShadow"
+                className="systamaticCard  mb-6 flex h-[190px] w-[390px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-herobg p-3 shadow boxShadow"
               >
-                <div>
-                  <img src={card.img} alt="" className="w-56 drop-shadow" />
+                <div className="image-container mt-6">
+                  <img src={card.img} alt="" className="mask" />
                 </div>
                 <div className="flex flex-col">
                   <p className="dayOne text-lg text-textColor">
@@ -128,9 +132,9 @@ const PromoVideo = () => {
                   <p className="mt-3 text-sm text-textLigntColor">
                     Eu turpis egestas pretium aenean pharetra magna ac.
                   </p>
-                  <p className="mt-3 w-[80px] border-b-2 border-dotted text-xs text-textColor">
+                  {/* <p className="mt-3 w-[80px] border-b-2 border-dotted text-xs text-textColor">
                     Read more {"->"}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             ))}

@@ -49,8 +49,8 @@ const Login = () => {
   };
 
   return (
-    <div className="imageBg flex h-screen w-full items-center justify-center bg-herobg px-1">
-      <div className="flex h-auto w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5 boxShadow  sm:w-96">
+    <div className="imageBg flex h-screen w-full items-center justify-center bg-herobg px-1 lg:pt-28">
+      <div className="flex h-auto w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5 boxShadow  sm:w-96 ">
         <form action="" onSubmit={handleSubmit} data-testid="form">
           <h1
             className="dayOne text-center text-3xl uppercase text-textColor"

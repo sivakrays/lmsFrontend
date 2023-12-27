@@ -40,7 +40,12 @@ export const AuthContextProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log("Errorrrrrrr", err);
-        errorNotify(err.message);
+        if (err.response.status === 403) {
+          errorNotify("Invalid credentials");
+        } else if (err.response.status === 400) {
+          errorNotify("Bad request");
+        }
+        //errorNotify(err.message);
       });
   };
 
