@@ -4,6 +4,10 @@ import LearningCard from "../../Components/LearningCard/LearningCard";
 import "./MyLearnings.css";
 
 const MyLearnings = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const config = {
     headers: {
       "Content-Type": "application/json",

@@ -55,6 +55,8 @@ const Contact = () => {
       label: "Phone Number",
       type: "text",
       errorMsg: "Please enter valid phone number",
+      // pattern: ("^[+]{1}(?:[0-9\\-\\(\\)\\/"
+      //                   "\\.]\\s?){6,15}[0-9]{1}$"),
       required: true,
     },
   ];

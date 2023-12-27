@@ -17,11 +17,6 @@ const Quiz = ({
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
   const [points, setPoints] = useState(energyPoint);
 
-  console.log("energyPoint", energyPoint);
-  console.log("userId", userID);
-  console.log("badge", badge);
-  console.log("subSectionId", subSectionId);
-
   const sendPoints = () => {
     const config = {
       headers: {
@@ -34,7 +29,6 @@ const Quiz = ({
       badge: badge,
       sectionId: subSectionId,
     };
-    console.log("data", data);
     post("/user/saveBadge", data, config)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
@@ -146,7 +140,6 @@ const Quiz = ({
           sendPoints();
         }, 1000);
       }
-      console.log("Your EnergyPoint is :", energyPoint);
     }
   };
 

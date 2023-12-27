@@ -9,7 +9,9 @@ import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(authContext);
+  const { login, isButtonClicked, setIsButtonClicked } =
+    useContext(authContext);
+
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -28,16 +30,19 @@ const Login = () => {
       name: "password",
       label: "Password",
       type: "password",
-      errorMsg: "Password must contain  atleast 6 characters",
+      errorMsg:
+        "Password must contain  atleast 6 characters do not exceed 8 characters",
       required: true,
-      pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
+      pattern: `^[a-zA-Z0-9]{6,8}$`,
     },
   ];
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
+    setIsButtonClicked(true);
     e.preventDefault();
     await login(values);
     const token = localStorage.getItem("token");
@@ -72,7 +77,12 @@ const Login = () => {
             <button
               data-testid="login"
               type="submit"
-              className="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              className={`mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 ${
+                isButtonClicked
+                  ? "cursor-progress opacity-50"
+                  : "cursor-pointer"
+              }`}
+              disabled={isButtonClicked === true}
             >
               LOGIN
             </button>

@@ -18,12 +18,9 @@ const Card = () => {
     const scrollPosition = window.scrollY;
     const isFixed = scrollPosition > 200;
     const windowHeight = window.innerHeight;
-    //console.log("WindowHeight", windowHeight);
     const documentHeight = document.documentElement.scrollHeight;
-    //console.log("documentHeight", documentHeight);
     const reachedBottom =
       scrollPosition + windowHeight >= 0.95 * documentHeight;
-    //console.log("reachedBottom", reachedBottom);
     setIscardFixed(isFixed);
     setIsAtBottom(reachedBottom);
     if (reachedBottom === true) {
@@ -31,7 +28,6 @@ const Card = () => {
     }
   };
   useEffect(() => {
-    // console.log("IScardFixed", isCardFixed);
     window.addEventListener("scroll", handleScroll);
 
     return () => {

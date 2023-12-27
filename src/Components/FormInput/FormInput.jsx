@@ -4,7 +4,6 @@ import "./FormInput.css";
 const FormInput = (props) => {
   const [focused, setFocused] = useState(false);
   const { label, id, errorMsg, path, ...inputProps } = props;
-  //console.log(props);
   const handleFocus = (e) => {
     setFocused(true);
   };
@@ -51,7 +50,7 @@ const FormInput = (props) => {
             leading-6
              text-textColor"
             data-testid="labelText"
-             htmlFor={label}
+            htmlFor={label}
           >
             {label}
           </label>

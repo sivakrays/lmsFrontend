@@ -49,7 +49,7 @@ const Course = () => {
         Accept: "application/json",
       },
     };
-    if (searchValue !== "") {
+    if (searchValue.length >= 3) {
       get(`/user/searchCourses?search=${searchValue}`, config)
         .then((res) => {
           setSearchData(res.data);

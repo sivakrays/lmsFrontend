@@ -42,10 +42,10 @@ const CourseDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Course Detail render");
+        //console.log("Course Detail render");
         const res = await get("/user/getCourseById", config);
         setData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
         const allListItems =
           res.data &&
           res.data.whatYouWillLearn
@@ -53,9 +53,9 @@ const CourseDetails = () => {
             .filter((sentence) => sentence.trim() !== "");
         setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
         setLoading(false);
-        console.log(res.data);
+        //console.log(res.data);
       } catch (err) {
-        console.log("error", err);
+        //console.log("error", err);
         setLoading(true);
       }
     };

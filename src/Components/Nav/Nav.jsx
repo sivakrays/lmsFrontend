@@ -25,8 +25,6 @@ const Nav = () => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
-  // console.log(location.pathname);
-
   const handleProfileButtonClick = (e) => {
     e.stopPropagation(); // Prevent event propagation to the parent elements
     handleProfile();

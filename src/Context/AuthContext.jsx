@@ -7,6 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const [user, setUser] = useState("");
 
@@ -37,14 +38,20 @@ export const AuthContextProvider = ({ children }) => {
         setToken(localStorage.getItem("token"));
         setUser(localStorage.getItem("Current User"));
         successNotify();
+        setIsButtonClicked(false);
       })
       .catch((err) => {
-        console.log("Errorrrrrrr", err);
+        //console.log("Errorrrrrrr", err);
         if (err.response.status === 403) {
-          errorNotify("Invalid credentials");
+          errorNotify("Please provide valid credentials");
+          setTimeout(() => {
+            setIsButtonClicked(false);
+          }, 500);
         } else if (err.response.status === 400) {
           errorNotify("Bad request");
+          setIsButtonClicked(false);
         }
+
         //errorNotify(err.message);
       });
   };
@@ -72,7 +79,7 @@ export const AuthContextProvider = ({ children }) => {
   const errorNotify = (err) =>
     toast.error(err, {
       position: "top-right",
-      autoClose: 500,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -97,6 +104,8 @@ export const AuthContextProvider = ({ children }) => {
         showProfile,
         handleClickOutlet,
         user,
+        isButtonClicked,
+        setIsButtonClicked,
       }}
     >
       {children}

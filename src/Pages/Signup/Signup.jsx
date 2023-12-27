@@ -37,8 +37,9 @@ const Signup = () => {
       name: "password",
       label: "Password",
       type: "password",
-      errorMsg: "Password must contain  atleast 6 characters",
-      pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
+      errorMsg:
+        "Password must contain  atleast 6 characters and do not exceed 8 characters",
+      pattern: `^[a-zA-Z0-9]{6,8}$`,
       required: true,
     },
     {
@@ -97,17 +98,16 @@ const Signup = () => {
       confirmPassword: confirmPassword,
     };
 
-    console.log("Dataaaa", data);
     try {
       const response = await post(`/auth/register`, data, config);
-      console.log("response", response);
       successNotify();
       setTimeout(() => {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      console.log(error.message);
-      errorNotify(error.message);
+      if (error.response.status === 403) {
+        errorNotify("Please provide valid gmail");
+      }
     }
   };
 
