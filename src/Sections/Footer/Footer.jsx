@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
           <div className="p-375px">
             <div className="flex flex-col gap-5">
-              <p className="dayOne text-lg text-textColor">Catagories</p>
+              <p className="dayOne text-lg text-textColor">Category</p>
               <ul className="flex flex-col gap-3 text-footerColor">
                 <li>Design</li>
                 <li>Business</li>

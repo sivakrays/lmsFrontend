@@ -70,7 +70,6 @@ const MyVideo = () => {
         <ReactPlayer
           controls
           width={isSmallScreen ? "100%" : "70%"}
-          //style={{ width: isSmallScreen ? "100%" : "70%" }}
           height="100%"
           url={videoUrl}
           className=" lg:fixed "

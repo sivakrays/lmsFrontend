@@ -36,7 +36,6 @@ const Home = () => {
     get("/user/getAllCourse", config)
       .then((res) => {
         setCourseData(res.data.content);
-        // console.log("response", res.data);
       })
       .catch((err) => console.log(err));
   }, []);

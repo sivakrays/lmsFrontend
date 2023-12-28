@@ -46,6 +46,7 @@ const CourseDetails = () => {
         const res = await get("/user/getCourseById", config);
         setData(res.data);
         // console.log(res.data);
+        // console.log(res.data);
         const allListItems =
           res.data &&
           res.data.whatYouWillLearn
@@ -63,14 +64,14 @@ const CourseDetails = () => {
     fetchData();
   }, [readMore]);
 
-  console.log("dataaaaaaaa", data);
+  // console.log("dataaaaaaaa", data);
 
   const showAll = () => {
-    console.log("Working");
+    // console.log("Working");
     setIsAllOpen(!isAllOpen);
   };
 
-  console.log("isAllOpen", isAllOpen);
+  // console.log("isAllOpen", isAllOpen);
 
   return (
     <div className=" bg-herobg pt-16 md:pt-24 lg:pt-20   xl:pt-28">
