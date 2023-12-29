@@ -3,9 +3,12 @@ import "./FormInput.css";
 
 const FormInput = (props) => {
   const [focused, setFocused] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const { label, id, errorMsg, path, type, ...inputProps } = props;
   const handleFocus = (e) => {
     setFocused(true);
+    // const isTextAreaValid = inputProps.value && inputProps.value.trim() !== "";
+    // setIsValid(isTextAreaValid);
   };
   return (
     <>
@@ -27,13 +30,13 @@ const FormInput = (props) => {
               <>
                 <textarea
                   name="message"
-                  id="Message"
+                  id={label}
                   cols="28"
                   rows="3"
                   className="inputContact w-full  resize-none rounded-lg border p-3"
                   {...inputProps}
                   onFocus={handleFocus}
-                  focused={focused.toString()}
+                  // focused={focused.toString()}
                   type={type}
                 ></textarea>
                 {/* <input
@@ -47,7 +50,9 @@ const FormInput = (props) => {
                   type={type}
                 /> */}
                 <span
-                  className="errSpan mt-2 text-sm text-red-800"
+                  className={`errSpan mt-2 text-sm text-red-800 ${
+                    isValid ? "block" : "hidden"
+                  }`}
                   data-testid="errMsg"
                 >
                   {errorMsg}
