@@ -31,7 +31,7 @@ const CategorySection = () => {
 
   return (
     <>
-      <div className="mx-auto flex w-[75%] flex-wrap items-center justify-center gap-7 gap-x-32 md:w-[90%]">
+      <div className="mx-auto flex w-[75%] flex-wrap items-center justify-center gap-11  md:w-[90%]">
         {categoryData.map((item) => (
           <div
             className="   relative flex h-[200px] w-[300px] flex-col rounded-md border-2 border-textColor p-4 transition delay-150 duration-300 ease-in-out  hover:-translate-y-2 md:h-[180px] "
@@ -56,28 +56,6 @@ const CategorySection = () => {
       </div>
     </>
   );
-  // return (
-  //   <div className="categoryCardContainer mx-auto flex w-3/4 flex-row flex-wrap items-center justify-center gap-10">
-  //     {categoryData.map((category) => (
-  //       <div
-  //         className="categoryCard boxShadow  relative h-24 w-44 cursor-pointer rounded border-2 border-textColor"
-  //         key={category.id}
-  //       >
-  //         <div className="categoryImg absolute -top-7 left-14 flex h-12 w-12 items-center justify-center rounded-full bg-textColor">
-  //           <img src={category.img} alt="category" className="h-5 w-5" />
-  //         </div>
-  //         <div className="categoryContent mt-6 flex flex-col items-center justify-center  gap-2">
-  //           <div className="categoryTitle dayOne text-sm text-textColor">
-  //             {category.title}
-  //           </div>
-  //           <div className="categoryDes text-xs text-textLigntColor">
-  //             {category.des}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     ))}
-  //   </div>
-  // );
 };
 
 export default CategorySection;
