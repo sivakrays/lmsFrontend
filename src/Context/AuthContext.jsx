@@ -6,7 +6,7 @@ export const authContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [isTokenValid, setIsTokenValid] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
+  //const [showProfile, setShowProfile] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const [user, setUser] = useState("");
@@ -62,7 +62,7 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("userID");
     setToken("");
     setIsTokenValid(false);
-    setShowProfile(false);
+    //setShowProfile(false);
   };
 
   const successNotify = () =>
@@ -87,12 +87,10 @@ export const AuthContextProvider = ({ children }) => {
       progress: undefined,
       theme: "light",
     });
-  const handleProfile = () => {
-    setShowProfile(!showProfile);
-  };
-  const handleClickOutlet = () => {
-    setShowProfile(false);
-  };
+
+  // const handleClickOutlet = () => {
+  //   setShowProfile(false);
+  // };
   return (
     <authContext.Provider
       value={{
@@ -100,9 +98,9 @@ export const AuthContextProvider = ({ children }) => {
         token,
         logout,
         isTokenValid,
-        handleProfile,
-        showProfile,
-        handleClickOutlet,
+        //showProfile,
+        //setShowProfile,
+        //handleClickOutlet,
         user,
         isButtonClicked,
         setIsButtonClicked,

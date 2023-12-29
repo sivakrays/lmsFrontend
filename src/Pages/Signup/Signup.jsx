@@ -9,6 +9,7 @@ import "./Signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [isSignupClicked, setIsSignupClicked] = useState(false);
   const [values, setValues] = useState({
     fullname: "",
     email: "",
@@ -31,6 +32,7 @@ const Signup = () => {
       type: "email",
       errorMsg: "Please enter valid email",
       required: true,
+      //pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
     },
     {
       id: 3,
@@ -56,6 +58,7 @@ const Signup = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
+    setIsSignupClicked(true);
     e.preventDefault();
     if (values !== "") {
       signUp(values);
@@ -101,11 +104,13 @@ const Signup = () => {
     try {
       const response = await post(`/auth/register`, data, config);
       successNotify();
+      setIsSignupClicked(false);
       setTimeout(() => {
         navigate("/login");
       }, 1000);
     } catch (error) {
       if (error.response.status === 403) {
+        setIsSignupClicked(false);
         errorNotify("Please provide valid gmail");
       }
     }
@@ -130,10 +135,14 @@ const Signup = () => {
           <div className="mt-6 sm:col-span-7">
             <button
               type="submit"
-              className="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm
-               hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-                focus-visible:outline-indigo-600 "
+              className={`mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm
+               hover:bg-yellow-600 ${
+                 isSignupClicked
+                   ? "cursor-progress opacity-50"
+                   : "cursor-pointer"
+               } `}
               data-testid="signupbutton"
+              disabled={isSignupClicked === true}
             >
               SIGNUP
             </button>

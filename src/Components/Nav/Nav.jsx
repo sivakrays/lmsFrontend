@@ -8,15 +8,17 @@ const Nav = () => {
   const {
     logout,
     isTokenValid,
-    showProfile,
-    handleProfile,
-    handleClickOutlet,
+    //showProfile,
+    // handleClickOutlet,
     user,
+    // setShowProfile,
   } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
   const navigate = useNavigate();
+
+  const [clicked, setClicked] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -25,9 +27,15 @@ const Nav = () => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
-  const handleProfileButtonClick = (e) => {
-    e.stopPropagation(); // Prevent event propagation to the parent elements
-    handleProfile();
+  // const handleProfileButtonClick = (e) => {
+  //   // e.stopPropagation(); // Prevent event propagation to the parent elements
+  //   handleProfile();
+  // };
+
+  const handleProfile = () => {
+    console.log(clicked);
+    setClicked(!clicked);
+    console.log("clickedddddddd");
   };
   const unAuthorizedMenuItem = [
     { name: "Home", path: "/" },
@@ -55,7 +63,6 @@ const Nav = () => {
           className={`flex h-20 items-center justify-around ${
             currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
           }   md:h-28 `}
-          onClick={handleClickOutlet}
         >
           <Link to={"/"}>
             <div className=" flex items-center justify-center gap-2">
@@ -106,12 +113,13 @@ const Nav = () => {
             </ul>
           </div>
 
-          <div className="nav_btn  hidden gap-11 lg:flex">
+          {/* showing profile submenu */}
+          <div className="nav_btn  z-10 hidden gap-11 lg:flex">
             {isTokenValid ? (
               <div className="relative">
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "
-                  onClick={handleProfileButtonClick}
+                  onClick={handleProfile}
                 >
                   <img
                     src={profile}
@@ -125,8 +133,8 @@ const Nav = () => {
 
                 <div
                   className={` ${
-                    showProfile
-                      ? "absolute top-[50px] block  w-[200px] rounded border-2 bg-white py-3 shadow-md"
+                    clicked
+                      ? "showMenu absolute  top-[50px] block  w-[200px] rounded border-2 bg-white py-3 shadow-md"
                       : "hidden"
                   }`}
                 >
@@ -285,7 +293,7 @@ const Nav = () => {
           </ul>
         </nav>
       </div>
-      <main onClick={handleClickOutlet}>
+      <main onClick={() => setClicked(false)}>
         <Outlet />
       </main>
     </>
