@@ -44,6 +44,7 @@ const CourseDetails = () => {
         const res = await get("/user/getCourseById", config);
         setData(res.data);
         // console.log(res.data);
+        // console.log(res.data);
         const allListItems =
           res.data &&
           res.data.whatYouWillLearn
@@ -60,7 +61,7 @@ const CourseDetails = () => {
   }, [readMore]);
 
   const showAll = () => {
-    console.log("Working");
+    // console.log("Working");
     setIsAllOpen(!isAllOpen);
   };
 

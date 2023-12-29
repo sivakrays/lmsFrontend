@@ -15,37 +15,41 @@ const Quiz = ({
   setBadge,
 }) => {
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
-  const [points, setPoints] = useState(energyPoint);
-
-  const sendPoints = () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const data = {
-      userId: userID,
-      energyPoints: energyPoint,
-      badge: badge,
-      sectionId: subSectionId,
-    };
-    post("/user/saveBadge", data, config)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  };
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
+  const [clickedOption, setClickedOption] = useState("");
+  const [currentAns, setCurrentAns] = useState("");
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = Math.ceil(quizzArray && quizzArray.length / itemsPerPage);
-
-  const [clickedOption, setClickedOption] = useState("");
-  const [currentAns, setCurrentAns] = useState("");
-
   const currentQuestions =
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log("clicked Option", clickedOption);
+
+  // Api Call
+  const sendPoints = async () => {
+    if (energyPoint != 0 && (badge != " " || badge != null)) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const data = {
+        userId: userID,
+        energyPoints: energyPoint,
+        badge: badge,
+        subSectionId: subSectionId,
+      };
+      console.log(data);
+      await post("/user/saveBadge", data, config)
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err));
+    }
+  };
 
   const starsConfeeti = () => {
     var defaults = {
@@ -115,8 +119,6 @@ const Quiz = ({
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
-      setEnergyPoint(energyPoint);
-
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -124,7 +126,6 @@ const Quiz = ({
           setMotivationalBoxVissble(false);
           fireworkConfetti();
           starsConfeeti();
-          sendPoints();
         }, 1000);
       }
     } else {
@@ -137,13 +138,31 @@ const Quiz = ({
           setMotivationalBoxVissble(false);
           fireworkConfetti();
           starsConfeeti();
-          sendPoints();
         }, 1000);
       }
     }
+    setIsSubmitClicked(true);
   };
 
-  const handleNext = (quizid1) => {
+  useEffect(() => {
+    switch (energyPoint) {
+      case 1:
+        setBadge("3");
+        break;
+      case 2:
+        setBadge("2");
+        break;
+      case 3:
+        setBadge("1");
+        break;
+      default:
+        console.log("Working");
+    }
+    sendPoints();
+    setIsSubmitClicked(false);
+  }, [isSubmitClicked === true]);
+
+  const handleNext = () => {
     if (clickedOption == currentAns) {
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
@@ -153,10 +172,9 @@ const Quiz = ({
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
-
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
-          setClickedOption();
+          setClickedOption("");
           setMotivationalBoxVissble(false);
           setCurrentPage(currentPage + 1);
         }, 1000);
@@ -166,7 +184,7 @@ const Quiz = ({
       setMotivationalBoxVissble(true);
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
-          setClickedOption();
+          setClickedOption("");
           setMotivationalBoxVissble(false);
           setCurrentPage(currentPage + 1);
         }, 1000);
@@ -178,11 +196,10 @@ const Quiz = ({
     setCurrentAns(currentQuestions[0].answer);
   }, [currentQuestions]);
 
-  const Pagination = ({ id, quizid1 }) => {
+  const Pagination = ({ id }) => {
     return (
       <div className="">
         <div className=" absolute bottom-0 right-96 hidden lg:block">
-          {" "}
           {isMotivationalBoxVissble && (
             <MotivationalBox
               isMotivationalBoxVissble={isMotivationalBoxVissble}
@@ -207,12 +224,13 @@ const Quiz = ({
             {currentPage === totalPages ? (
               <button
                 className={`flex h-10 items-center justify-center rounded border-0 border-l border-textLigntColor bg-textColor px-6 text-base font-medium text-white   ${
-                  isMotivationalBoxVissble === true
+                  isMotivationalBoxVissble === true || clickedOption === ""
                     ? "cursor-not-allowed opacity-50 "
                     : ""
                 }
                 `}
                 onClick={() => handleSubmit()}
+                disabled={clickedOption === ""}
               >
                 Submit
               </button>
@@ -220,13 +238,15 @@ const Quiz = ({
               // || checked === true
               // disabled={checked === true}
               <button
-                onClick={() => handleNext(quizid1)}
+                onClick={() => handleNext()}
                 className={`flex h-10 items-center justify-center rounded-md border-textLigntColor bg-textColor px-8 text-base font-medium text-white   ${
                   currentPage === totalPages ||
-                  isMotivationalBoxVissble === true
+                  isMotivationalBoxVissble === true ||
+                  clickedOption === ""
                     ? "cursor-not-allowed opacity-50 "
                     : ""
                 }`}
+                disabled={clickedOption === ""}
               >
                 Next
               </button>
@@ -314,7 +334,7 @@ const Quiz = ({
 
   return (
     <div className="relative flex h-auto items-center justify-center bg-white p-2 md:p-0">
-      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-48 ">
+      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-40 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
             {currentQuestions[0].title}
@@ -339,7 +359,8 @@ const Quiz = ({
                         //   ? index === currentAns &&
                         //     "border-green-700 boxShadow1 "
                         //   :
-                        index === clickedOption && "border-textColor boxShadow"
+                        index === clickedOption &&
+                        "border-[#008000] boxShadow1 hover:boxShadow1"
                       }`}
                       onClick={() => setClickedOption(index)}
                     >
