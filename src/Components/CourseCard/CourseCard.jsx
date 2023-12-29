@@ -41,8 +41,8 @@ const CourseCard = ({ course, path }) => {
     >
       <div
         className={`courseCard flex ${
-          path === "homeCard" ? "h-[350px]" : "h-[430px] "
-        } w-[290px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg `}
+          path === "homeCard" ? "h-[350px]" : "h-[400px] "
+        } w-[260px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg `}
       >
         <div className="cardImg p-3">
           <div className="courseImgWrapper h-36 overflow-hidden rounded-lg">
@@ -67,7 +67,10 @@ const CourseCard = ({ course, path }) => {
         </div>
         <div className="courseDetails flex flex-col gap-5 px-3">
           <div className="courseHeading dayOne text-textColor">
-            {course.title}
+            {/* {course.title} */}
+            {course.title.length > 40
+              ? `${course.title.substring(0, 40)}...`
+              : course.title}
           </div>
           {path == "course" && (
             <div className="courseDes text-sm text-textLigntColor">
