@@ -47,6 +47,7 @@ const MyVideo = () => {
   }, []);
 
   const isSmallScreen = window.innerWidth < 1024;
+  console.log(window.innerWidth);
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
   };

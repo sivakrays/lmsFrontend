@@ -38,7 +38,7 @@ const Card = () => {
   return (
     <div
       className={` hidden h-[450px] w-80 rounded-lg border-2 bg-white  xl:block ${
-        isCardFixed ? "fixedCard" : ""
+        isCardFixed ? "fixedCard " : ""
       }`}
     >
       <div className="relative">

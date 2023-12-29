@@ -7,7 +7,6 @@ import Globe from "../../Assets/coursedetails/Globe.svg";
 import alert from "../../Assets/coursedetails/alert.svg";
 import cardImage from "../../Assets/courseCard/courseImg.jpg";
 import playCircle from "../../Assets/coursedetails/PlayCircle.svg";
-import Alarm from "../../Assets/coursedetails/Alarm.svg";
 
 import downArrow from "../../Assets/coursedetails/downArrow.svg";
 import upArrow from "../../Assets/coursedetails/upArrow.svg";
@@ -27,7 +26,6 @@ const CourseDetails = () => {
   const [isAllOpen, setIsAllOpen] = useState(false);
   const [itemsToShow, setItemToShow] = useState([]);
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const config = {
     headers: {
@@ -53,25 +51,19 @@ const CourseDetails = () => {
             .split(".")
             .filter((sentence) => sentence.trim() !== "");
         setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
-        setLoading(false);
         //console.log(res.data);
       } catch (err) {
         //console.log("error", err);
-        setLoading(true);
       }
     };
 
     fetchData();
   }, [readMore]);
 
-  // console.log("dataaaaaaaa", data);
-
   const showAll = () => {
     // console.log("Working");
     setIsAllOpen(!isAllOpen);
   };
-
-  // console.log("isAllOpen", isAllOpen);
 
   return (
     <div className=" bg-herobg pt-16 md:pt-24 lg:pt-20   xl:pt-28">
@@ -162,7 +154,8 @@ const CourseDetails = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute right-40 top-10 xl:block">
+              {/* <div className="absolute top-10 xl:right-[150px] xl:block  "> */}
+              <div className="card">
                 <Card />
               </div>
             </section>
