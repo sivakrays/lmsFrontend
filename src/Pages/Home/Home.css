@@ -33,7 +33,13 @@
 
 /* Media Query */
 
-@media (max-width: 320px) {
+@media (max-width: 476px) {
+  .heroImg {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    /* border: 1px solid black; */
+  }
 }
 
 @media (min-width: 375px) {
@@ -45,7 +51,7 @@
 @media (min-width: 475px) {
 }
 
-@media (max-width: 500px) {
+@media (min-width: 500px) {
   .btnImg {
     width: 57px;
   }
