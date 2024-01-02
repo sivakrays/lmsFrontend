@@ -33,7 +33,7 @@ const CourseDetails = () => {
       "Acess-Control-Allow-Origin": "*",
       "Acess-Control-Allow-Headers": "*",
       Accept: "application/json",
-      courseId: "302",
+      courseId: "1",
     },
   };
 

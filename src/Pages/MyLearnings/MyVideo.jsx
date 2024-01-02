@@ -27,7 +27,7 @@ const MyVideo = () => {
       "Acess-Control-Allow-Origin": "*",
       "Acess-Control-Allow-Headers": "*",
       Accept: "application/json",
-      courseId: "302",
+      courseId: "1",
     },
   };
 
@@ -112,10 +112,10 @@ const MyVideo = () => {
               </div>
             </div>
 
-            <div className="lg:w-[70%] ">
+            <div className="h-auto w-full lg:w-[70%]">
               {isQuizClicked ? (
                 <>
-                  <div className="right-0 top-0 w-[70%] lg:fixed">
+                  <div className="sticky right-0 top-0  h-[110vh] lg:w-full">
                     <Quiz
                       setRewardModal={setRewardModal}
                       setEnergyPoint={setEnergyPoint}
