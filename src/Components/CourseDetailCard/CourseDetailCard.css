@@ -13,5 +13,17 @@
 .fixedCard {
   position: fixed;
   top: 15%;
-  right: 150px;
+}
+
+/* MediaQuery */
+
+@media (min-width: 1280px) {
+  .fixedCard {
+    right: 20px;
+  }
+}
+@media (min-width: 1440px) {
+  .fixedCard {
+    right: 150px;
+  }
 }

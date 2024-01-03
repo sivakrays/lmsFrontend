@@ -17,44 +17,35 @@ const Contact = () => {
     window.scrollTo(0, 0);
   }, []);
   const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    phoneNumbe: "",
+    message: "",
   });
   const contactInput = [
     {
       id: 1,
-      name: "firstName",
-      label: "First Name",
-      type: "text",
-      errorMsg: "Please enter valid name",
-      required: true,
-    },
-    {
-      id: 2,
-      name: "lastName",
-      label: "Last Name",
+      name: "name",
+      label: "Name",
       type: "text",
       errorMsg: "Please enter valid name",
       required: true,
     },
 
     {
-      id: 3,
+      id: 2,
       name: "email",
       label: "Email",
       type: "email",
       errorMsg: "Please enter valid email",
       required: true,
+      //pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
     },
-
     {
-      id: 4,
-      name: "phoneNumber",
-      label: "Phone Number",
-      type: "text",
-      errorMsg: "Please enter valid phone number",
+      id: 3,
+      name: "textarea",
+      label: "Message",
+      type: "textarea",
+      errorMsg: "Please fill this field",
       required: true,
     },
   ];
@@ -62,7 +53,11 @@ const Contact = () => {
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: [e.target.value] });
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    if (values !== null && values !== "") {
+      console.log(values);
+    }
+  };
 
   return (
     <div className="h-[200vh] w-full  bg-herobg md:h-[150vh]">
@@ -157,10 +152,10 @@ const Contact = () => {
                   {...input}
                   value={values[input.name]}
                   onChange={handleChange}
-                  path
+                  path="contact"
                 />
               ))}
-              <div className="sm:pr-8 md:pr-0">
+              {/* <div className="sm:pr-8 md:pr-0">
                 <label
                   htmlFor="Message"
                   className="block
@@ -177,7 +172,7 @@ const Contact = () => {
                   rows="3"
                   className="inputContact w-full  resize-none rounded-lg border p-3"
                 ></textarea>
-              </div>
+              </div> */}
               <div className="mt-6  w-full sm:pr-8 md:pr-0">
                 <button
                   type="submit"

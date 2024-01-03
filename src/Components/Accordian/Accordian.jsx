@@ -2,12 +2,21 @@ import React, { useEffect, useState } from "react";
 import Arrow from "../../Assets/coursedetails/AccordianArrow.svg";
 import Tv from "../../Assets/coursedetails/tv.svg";
 import Modal from "../Modal/Modal";
+import { FcIdea } from "react-icons/fc";
 
-const NestedAccordionItem = ({ title, previewText }) => {
+const NestedAccordionItem = ({
+  title,
+  previewText,
+  videoPath,
+  quiz,
+  setUrl,
+  link,
+  handleQuizOpen,
+  subSectionId,
+}) => {
   const [isNestedAccordionOpen, setIsNestedAccordionOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
-  const path = "video";
 
   const toggleNestedAccordion = () => {
     setIsNestedAccordionOpen(!isNestedAccordionOpen);
@@ -25,52 +34,92 @@ const NestedAccordionItem = ({ title, previewText }) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="0 flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
-      >
-        <div className="flex w-3/4  items-center gap-5 ">
-          <button
-            onClick={showPreview}
-            className="flex items-center gap-5"
-            data-testid="videoButton"
+      <div>
+        <div
+          type="button"
+          className=" flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
+        >
+          <div className="flex w-3/4  items-center gap-5 ">
+            {videoPath === "MyVideo" ? (
+              <button
+                onClick={() => setUrl(link)}
+                className="flex items-center gap-5"
+                data-testid="videoButton"
+              >
+                <img
+                  src={Tv}
+                  alt=""
+                  className="h-4 w-4 hover:text-yellowColor "
+                />
+                <span className=" text-xs  text-textColor  hover:text-yellowColor hover:underline md:text-sm">
+                  {title}
+                </span>
+              </button>
+            ) : (
+              <button
+                onClick={showPreview}
+                className="flex items-center gap-5"
+                data-testid="videoButtonCourse"
+              >
+                <img src={Tv} alt="" className="h-4 w-4" />
+                <span className=" text-xs text-textColor  underline  md:text-sm">
+                  {title}
+                </span>
+              </button>
+            )}
+
+            <button onClick={toggleNestedAccordion}>
+              <img
+                src={Arrow}
+                alt=""
+                className={`  h-3 w-3 shrink-0  ${
+                  isNestedAccordionOpen ? "rotate-180" : ""
+                } `}
+              />
+            </button>
+          </div>
+          <div
+            className={`${
+              videoPath === "MyVideo"
+                ? "hidden"
+                : "hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4"
+            }`}
           >
-            <img src={Tv} alt="" className="h-4 w-4" />
-            <span className="text-xs  text-yellowColor underline md:text-sm">
-              {title}
+            <p
+              className="text-xs  text-textColor underline  md:text-sm"
+              onClick={showPreview}
+            >
+              Preview
+            </p>
+            <span className="text-xs text-textColor md:text-sm">05.26</span>
+          </div>
+        </div>
+        <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
+          <div className="border  border-b-0 p-5 ">
+            {previewText && (
+              <p className="text-textLigntColor ">{previewText}</p>
+            )}
+          </div>
+        </div>
+        {quiz && quiz.length != 0 && (
+          <div
+            onClick={() => handleQuizOpen(quiz, subSectionId)}
+            className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
+          >
+            <span>
+              <FcIdea className=" h-5 w-5 hover:rounded hover:bg-violet-700" />
             </span>
-          </button>
-
-          <button onClick={toggleNestedAccordion}>
-            <img
-              src={Arrow}
-              alt=""
-              className={`  h-3 w-3 shrink-0  ${
-                isNestedAccordionOpen ? "rotate-180" : ""
-              } `}
-            />
-          </button>
-        </div>
-        <div className="hidden w-full md:flex md:w-1/4  md:justify-end md:gap-4">
-          <p
-            className="text-xs  text-yellowColor underline  md:text-sm"
-            onClick={showPreview}
-          >
-            Preview
-          </p>
-          <span className="text-xs text-textColor md:text-sm">05.26</span>
-        </div>
-      </button>
-
-      <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
-        <div className="border border-b-0  p-5 ">
-          {previewText && <p className="text-textLigntColor ">{previewText}</p>}
-        </div>
+            <p className="text-sm font-medium text-textColor hover:text-violet-700  ">
+              {title}
+            </p>
+          </div>
+        )}
       </div>
-      {isVideoVisible && (
+
+      {isVideoVisible && !videoPath && (
         <Modal
           isModalOpen1={isModalOpen1}
-          path={path}
+          path="video"
           toggleModal1={toggleModal1}
         />
       )}
@@ -78,17 +127,24 @@ const NestedAccordionItem = ({ title, previewText }) => {
   );
 };
 
-const AccordionItem = ({ title, nestedItems, isAllOpen }) => {
+const AccordionItem = ({
+  title,
+  nestedItems,
+  isAllOpen,
+  videoPath,
+  setUrl,
+  isVideoAllOpen,
+  handleQuizOpen,
+}) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   useEffect(() => {
-    console.log("isAllOpen", isAllOpen);
-    if (isAllOpen) {
+    if (isAllOpen || isVideoAllOpen) {
       setIsAccordionOpen(true);
     } else {
       setIsAccordionOpen(false);
     }
-  }, [isAllOpen]);
+  }, [isAllOpen, isVideoAllOpen]);
 
   const toggleAccordion = () => {
     setIsAccordionOpen(!isAccordionOpen);
@@ -103,8 +159,11 @@ const AccordionItem = ({ title, nestedItems, isAllOpen }) => {
           className="flex w-full items-center justify-between gap-3  border 
            p-5 font-medium text-textColor hover:bg-gray-100 
              rtl:text-right "
+          data-testid="accordion-item"
         >
-          <span className=" md:text-md text-sm text-textColor">{title}</span>
+          <span className=" md:text-md dayOne text-sm text-textColor">
+            {title}
+          </span>
           <img
             src={Arrow}
             alt=""
@@ -116,31 +175,52 @@ const AccordionItem = ({ title, nestedItems, isAllOpen }) => {
       </h2>
       <div className={` ${isAccordionOpen || isAllOpen ? "block" : "hidden"}`}>
         <div>
-          {nestedItems.map((item) => (
-            <NestedAccordionItem
-              key={item.key}
-              title={item.accordianName}
-              previewText={item.previewText}
-              isAllOpen={isAllOpen}
-            />
-          ))}
+          {nestedItems &&
+            nestedItems.map((item, index) => (
+              <div key={index}>
+                <NestedAccordionItem
+                  key={item.key}
+                  title={item.title}
+                  previewText={item.description}
+                  link={item.link}
+                  quiz={item.quizList}
+                  isAllOpen={isAllOpen}
+                  videoPath={videoPath}
+                  setUrl={setUrl}
+                  handleQuizOpen={handleQuizOpen}
+                  subSectionId={item.subSectionId}
+                />
+              </div>
+            ))}
         </div>
       </div>
     </>
   );
 };
 
-const Accordion = ({ accordianDetails, isAllOpen }) => {
+const Accordion = ({
+  accordianDetails,
+  isAllOpen,
+  path,
+  setUrl,
+  isVideoAllOpen,
+  handleQuizOpen,
+}) => {
   return (
     <div className="mb-8 bg-white">
-      {accordianDetails.map((item) => (
-        <AccordionItem
-          key={item.key}
-          title={item.accordianName}
-          nestedItems={item.nestedItems}
-          isAllOpen={isAllOpen}
-        />
-      ))}
+      {accordianDetails &&
+        accordianDetails.map((item) => (
+          <AccordionItem
+            key={item.key}
+            title={item.title}
+            nestedItems={item.subSections}
+            isAllOpen={isAllOpen}
+            isVideoAllOpen={isVideoAllOpen}
+            videoPath={path}
+            setUrl={setUrl}
+            handleQuizOpen={handleQuizOpen}
+          />
+        ))}
     </div>
   );
 };

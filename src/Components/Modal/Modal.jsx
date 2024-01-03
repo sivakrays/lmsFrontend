@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Video from "../Video/Video";
 import "./Modal.css";
+import Reward from "../Reward/Reward";
 import { RxCross1 } from "react-icons/rx";
 import CourseFormInput from "../CourseFormInput/CourseFormInput";
 
@@ -14,12 +15,15 @@ const Modal = ({
   isModalOpen1,
   toggleModal1,
   path,
+  isrewardModal,
+  setRewardModal,
+  energyPoint,
   profileModal,
   setProfileModal,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const itemsPerPage = 2;
+  const itemsPerPage = 1;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -158,7 +162,21 @@ const Modal = ({
   };
 
   return (
-    <div className="flex  items-center justify-center" data-testid="modal">
+    <div
+      className="mt-24 flex  items-center justify-center"
+      data-testid="modal"
+    >
+      {isrewardModal && (
+        <div
+          className="fixed top-0 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+          data-modal-backdrop="static"
+          data-testid="modal"
+          style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
+        >
+          <Reward setRewardModal={setRewardModal} energyPoint={energyPoint} />
+        </div>
+      )}
+
       {/* Main modal */}
       {isModalOpen1 && path && (
         <div
@@ -212,14 +230,14 @@ const Modal = ({
             </div>
             {currentQuestions.map((q) => (
               <div key={q.id} className="relative">
-                <div className="space-y-4 p-4 md:p-5">
+                <div className=" space-y-4 p-4 md:p-5">
                   <label
                     htmlFor={`question-${q.id}`}
-                    className="text-textColor"
+                    className="dayOne text-lg text-textColor"
                   >
                     {q.question}
                   </label>
-                  <div className="answer flex gap-5">
+                  <div className="answer flex flex-col gap-5">
                     {q.options.map((option, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <input
@@ -231,7 +249,7 @@ const Modal = ({
                           checked={selectedAnswers[q.id] === index}
                           onChange={() => handleAnswerChange(q.id, index)}
                         />
-                        <span className="text-sm text-textLigntColor">
+                        <span className="text-md text-textLigntColor">
                           {option}
                         </span>
                       </div>

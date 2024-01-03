@@ -6,7 +6,6 @@ const Video = () => {
   const startTimeToPlay = 35;
 
   useEffect(() => {
-    console.log("Seeking to", startTimeToPlay, "seconds");
     if (playerRef.current) {
       playerRef.current.seekTo(startTimeToPlay);
     }
@@ -16,99 +15,107 @@ const Video = () => {
     {
       id: 1,
       title: "Finance Quiz-1",
-      question: "What is the basic unit of currency in the United States?",
-      options: ["Dollar", "Euro", "Yen"],
+      question: `What does "invest in yourself" mean?`,
+      options: [
+        "Working to improve your skills and knowledge to give yourself a better future.",
+        "Spending all your money to buy delicious treats.",
+        "Using most of your money to buy expensive things that you like.",
+        "Delaying a task that you are supposed to do.",
+      ],
     },
     {
       id: 2,
       title: "Finance Quiz-2",
-      question: "What does ROI stand for in finance?",
+      question: "Why is it important to invest in yourself?",
       options: [
-        "Return on Investment",
-        "Risk of Investment",
-        "Rate of Inflation",
+        "Because it is not good to invest in others.",
+        "It is better to spend your money now instead of saving it.",
+        "To equip myself with knowledge and skills that will help improve my life.",
+        "To treat myself as a business and to beat my competition.",
       ],
     },
     {
       id: 3,
       title: "Finance Quiz-3",
-      question: "What is the stock market?",
+      question:
+        "What is the best thing to do with your money after you get paid?",
       options: [
-        "A place to buy and sell stocks",
-        "Supermarket for groceries",
-        "Real estate market",
+        "Use all of it to buy expensive toys.",
+        "Hide the money so no one can find it.",
+        "Invest money in important things.",
+        "Spend it on what my friends are buying.",
       ],
     },
-    {
-      id: 4,
-      title: "Finance Quiz-4",
-      question: "What is the concept of supply and demand in economics?",
-      options: [
-        "The relationship between the availability and desire for goods",
-        "A marketing strategy",
-        "Government regulation",
-      ],
-    },
-    {
-      id: 5,
-      title: "Finance Quiz-5",
-      question: "What is a budget?",
-      options: [
-        "A financial plan for spending",
-        "A type of loan",
-        "A form of tax",
-      ],
-    },
-    {
-      id: 6,
-      title: "Finance Quiz-6",
-      question: "What is interest?",
-      options: [
-        "The cost of borrowing money",
-        "A type of tax",
-        "Profit from an investment",
-      ],
-    },
-    {
-      id: 7,
-      title: "Finance Quiz-7",
-      question: "What is inflation?",
-      options: [
-        "The increase in the general price level of goods and services",
-        "A decrease in the money supply",
-        "A type of investment",
-      ],
-    },
-    {
-      id: 8,
-      title: "Finance Quiz-8",
-      question: "What does GDP stand for?",
-      options: [
-        "Gross Domestic Product",
-        "General Distribution of Profits",
-        "Global Development Plan",
-      ],
-    },
-    {
-      id: 9,
-      title: "Finance Quiz-9",
-      question: "What is a credit score used for?",
-      options: [
-        "To assess a person's creditworthiness",
-        "To measure income",
-        "To determine tax rates",
-      ],
-    },
-    {
-      id: 10,
-      title: "Finance Quiz-10",
-      question: "What is a mutual fund?",
-      options: [
-        "A pool of money from multiple investors used to buy a diversified portfolio",
-        "A type of bank account",
-        "A government financial program",
-      ],
-    },
+    // {
+    //   id: 4,
+    //   title: "Finance Quiz-4",
+    //   question: "What is the concept of supply and demand in economics?",
+    //   options: [
+    //     "The relationship between the availability and desire for goods",
+    //     "A marketing strategy",
+    //     "Government regulation",
+    //   ],
+    // },
+    // {
+    //   id: 5,
+    //   title: "Finance Quiz-5",
+    //   question: "What is a budget?",
+    //   options: [
+    //     "A financial plan for spending",
+    //     "A type of loan",
+    //     "A form of tax",
+    //   ],
+    // },
+    // {
+    //   id: 6,
+    //   title: "Finance Quiz-6",
+    //   question: "What is interest?",
+    //   options: [
+    //     "The cost of borrowing money",
+    //     "A type of tax",
+    //     "Profit from an investment",
+    //   ],
+    // },
+    // {
+    //   id: 7,
+    //   title: "Finance Quiz-7",
+    //   question: "What is inflation?",
+    //   options: [
+    //     "The increase in the general price level of goods and services",
+    //     "A decrease in the money supply",
+    //     "A type of investment",
+    //   ],
+    // },
+    // {
+    //   id: 8,
+    //   title: "Finance Quiz-8",
+    //   question: "What does GDP stand for?",
+    //   options: [
+    //     "Gross Domestic Product",
+    //     "General Distribution of Profits",
+    //     "Global Development Plan",
+    //   ],
+    // },
+    // {
+    //   id: 9,
+    //   title: "Finance Quiz-9",
+    //   question: "What is a credit score used for?",
+    //   options: [
+    //     "To assess a person's creditworthiness",
+    //     "To measure income",
+    //     "To determine tax rates",
+    //   ],
+    // },
+    // {
+    //   id: 10,
+    //   title: "Finance Quiz-10",
+    //   question: "What is a mutual fund?",
+    //   options: [
+    //     "A pool of money from multiple investors used to buy a diversified portfolio",
+    //     "A type of bank account",
+    //     "A government financial program",
+    //   ],
+    // },
   ];
 
   const playerRef = useRef(null);
@@ -152,7 +159,6 @@ const Video = () => {
       !shouldPause &&
       !videoAccepted
     ) {
-      console.log("handlePause1 not working");
     } else {
       setShouldPause(true);
       setIsModalOpen(true);

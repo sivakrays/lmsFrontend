@@ -7,8 +7,6 @@ import playCircle from "../../Assets/coursedetails/PlayCircle.svg";
 import Alarm from "../../Assets/coursedetails/Alarm.svg";
 import file from "../../Assets/coursedetails/file.svg";
 import folder from "../../Assets/coursedetails/folder.svg";
-import infinity from "../../Assets/coursedetails/infinity.svg";
-import mobile from "../../Assets/coursedetails/mobile.svg";
 import trophy from "../../Assets/coursedetails/trophy.svg";
 import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
 
@@ -20,12 +18,9 @@ const Card = () => {
     const scrollPosition = window.scrollY;
     const isFixed = scrollPosition > 200;
     const windowHeight = window.innerHeight;
-    //console.log("WindowHeight", windowHeight);
     const documentHeight = document.documentElement.scrollHeight;
-    //console.log("documentHeight", documentHeight);
     const reachedBottom =
-      scrollPosition + windowHeight >= 0.85 * documentHeight;
-    //console.log("reachedBottom", reachedBottom);
+      scrollPosition + windowHeight >= 0.95 * documentHeight;
     setIscardFixed(isFixed);
     setIsAtBottom(reachedBottom);
     if (reachedBottom === true) {
@@ -33,7 +28,6 @@ const Card = () => {
     }
   };
   useEffect(() => {
-    // console.log("IScardFixed", isCardFixed);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -43,8 +37,8 @@ const Card = () => {
 
   return (
     <div
-      className={` hidden h-[650px] w-80 rounded-lg border-2 bg-white  xl:block ${
-        isCardFixed ? "fixedCard" : ""
+      className={` hidden h-[450px] w-80 rounded-lg border-2 bg-white  xl:block ${
+        isCardFixed ? "fixedCard " : ""
       }`}
     >
       <div className="relative">
@@ -58,7 +52,7 @@ const Card = () => {
       </div>
 
       <div className="mx-2 mt-4 flex h-52  flex-col ">
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <p className="text-2xl font-bold text-textColor">
             ₹449{" "}
             <span className=" text-sm font-thin text-textLigntColor line-through">
@@ -84,7 +78,7 @@ const Card = () => {
           <button className=" w-full border-2 border-textColor p-3 boxShadow">
             Buy now
           </button>
-        </div>
+        </div> */}
 
         <div className="space-y-3">
           <p className="text-lg text-textColor">This course includes:</p>

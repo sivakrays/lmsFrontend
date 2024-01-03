@@ -20,9 +20,16 @@ module.exports = {
     function ({ addUtilities }) {
       const newUtilities = {
         ".boxShadow": {
-          boxShadow: "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
-          "-webkit-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
-          "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
+          boxShadow: "5px 5px 0px 0px rgba(0, 0, 0,0.70)",
+          "-webkit-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0,0.70)",
+          "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0,0.70)",
+          borderRadius: "10px",
+        },
+        //Used for Display a correct quiz answers
+        ".boxShadow1": {
+          boxShadow: "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          "-webkit-box-shadow": "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
           borderRadius: "10px",
         },
       };

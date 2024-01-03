@@ -9,6 +9,7 @@ import "./Signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [isSignupClicked, setIsSignupClicked] = useState(false);
   const [values, setValues] = useState({
     fullname: "",
     email: "",
@@ -31,14 +32,16 @@ const Signup = () => {
       type: "email",
       errorMsg: "Please enter valid email",
       required: true,
+      //pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
     },
     {
       id: 3,
       name: "password",
       label: "Password",
       type: "password",
-      errorMsg: "Password must contain  atleast 6 characters",
-      pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
+      errorMsg:
+        "Password must contain  atleast 6 characters and do not exceed 8 characters",
+      pattern: `^[a-zA-Z0-9]{6,8}$`,
       required: true,
     },
     {
@@ -55,6 +58,7 @@ const Signup = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
+    setIsSignupClicked(true);
     e.preventDefault();
     if (values !== "") {
       signUp(values);
@@ -97,23 +101,24 @@ const Signup = () => {
       confirmPassword: confirmPassword,
     };
 
-    console.log("Dataaaa", data);
     try {
       const response = await post(`/auth/register`, data, config);
-      console.log("response", response);
       successNotify();
+      setIsSignupClicked(false);
       setTimeout(() => {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      console.log(error.message);
-      errorNotify(error.message);
+      if (error.response.status === 403) {
+        setIsSignupClicked(false);
+        errorNotify("Please provide valid gmail");
+      }
     }
   };
 
   return (
     <div className="imageBg flex  h-auto w-full items-center justify-center bg-herobg px-1 pt-20">
-      <div className="mx-auto mb-10  flex h-auto  w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow sm:w-96 md:mt-20">
+      <div className="mx-auto mb-10  flex h-auto  w-[90%] flex-col rounded-md border-2 border-[#334456bf] bg-[#FFF7E0] p-5  boxShadow sm:w-96 md:mt-11">
         <form action="" onSubmit={handleSubmit}>
           <h1 className="dayOne text-center text-3xl uppercase text-textColor">
             Signup
@@ -130,10 +135,14 @@ const Signup = () => {
           <div className="mt-6 sm:col-span-7">
             <button
               type="submit"
-              className="mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm
-               hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-                focus-visible:outline-indigo-600 "
+              className={`mt-4 w-full rounded-md bg-yellow-500 px-7 py-2.5 text-sm font-semibold text-white shadow-sm
+               hover:bg-yellow-600 ${
+                 isSignupClicked
+                   ? "cursor-progress opacity-50"
+                   : "cursor-pointer"
+               } `}
               data-testid="signupbutton"
+              disabled={isSignupClicked === true}
             >
               SIGNUP
             </button>

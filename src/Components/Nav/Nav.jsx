@@ -1,23 +1,60 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Nav.css";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
+import profile from "../../Assets/HeroSection/stelly-orange.svg";
 
 const Nav = () => {
-  const { logout, isTokenValid } = useContext(authContext);
+  const {
+    logout,
+    isTokenValid,
+    //showProfile,
+    // handleClickOutlet,
+    user,
+    // setShowProfile,
+  } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const navigate = useNavigate();
+
+  const [clicked, setClicked] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
   };
-
   useEffect(() => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
-  // console.log(location.pathname);
+  // const handleProfileButtonClick = (e) => {
+  //   // e.stopPropagation(); // Prevent event propagation to the parent elements
+  //   handleProfile();
+  // };
+
+  const handleProfile = () => {
+    console.log(clicked);
+    setClicked(!clicked);
+    console.log("clickedddddddd");
+  };
+  const unAuthorizedMenuItem = [
+    { name: "Home", path: "/" },
+    { name: "Featured Course", path: "/course" },
+    { name: "Contact", path: "/contact" },
+  ];
+  const authorizedMenuItem = [
+    { name: "Home", path: "/" },
+    { name: "Featured Course", path: "/course" },
+    { name: "My Learnings", path: "/mylearnings" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  const handleLogOut = () => {
+    logout();
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
+  };
 
   return (
     <>
@@ -25,7 +62,7 @@ const Nav = () => {
         <nav
           className={`flex h-20 items-center justify-around ${
             currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
-          } md:h-28 `}
+          }   md:h-28 `}
         >
           <Link to={"/"}>
             <div className=" flex items-center justify-center gap-2">
@@ -35,68 +72,111 @@ const Nav = () => {
               <span className="text-lg font-bold text-textColor">desk</span>
             </div>
           </Link>
-          <div className="nav_link">
-            <ul className="hidden gap-12 text-textColor lg:flex">
-              <li>
-                {currentPath === "/Contact" ||
-                currentPath === "/coursedetails" ||
-                currentPath === "/login" ||
-                currentPath === "/signup" ||
-                currentPath === "/course" ? (
-                  <Link to={"/"} className="text-md font-semibold">
-                    Home
-                  </Link>
-                ) : (
-                  <a href="#home" className="text-md font-semibold">
-                    Home
-                  </a>
-                )}
-              </li>
-              <li>
-                {currentPath === "/Contact" ||
-                currentPath === "/coursedetails" ||
-                currentPath === "/login" ||
-                currentPath === "/signup" ||
-                currentPath === "/course" ? (
-                  <Link to={"/"} className="text-md font-semibold">
-                    Featured Courses
-                  </Link>
-                ) : (
-                  <a href="#courses" className="text-md font-semibold">
-                    Featured Courses
-                  </a>
-                )}
-              </li>
-              <li>
-                {currentPath === "/Contact" ||
-                currentPath === "/coursedetails" ||
-                currentPath === "/login" ||
-                currentPath === "/signup" ||
-                currentPath === "/course" ? (
-                  <Link to={"/"} className="text-md font-semibold">
-                    Testimonials
-                  </Link>
-                ) : (
-                  <a href="#testimonials" className="text-md font-semibold">
-                    Testimonials
-                  </a>
-                )}
-              </li>
-              <li>
-                <Link to={"Contact"} className="text-md font-semibold">
-                  Contact
-                </Link>
-              </li>
+
+          <div className="nav_link ">
+            <ul className="flex gap-12">
+              {isTokenValid
+                ? authorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))
+                : unAuthorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
             </ul>
           </div>
-          <div className="nav_btn hidden gap-11 lg:flex">
+
+          {/* showing profile submenu */}
+          <div className="nav_btn  z-10 hidden gap-11 lg:flex">
             {isTokenValid ? (
-              <button
-                className="text-md cursor-pointer rounded-[10px] border-2 border-solid bg-textColor px-6 py-1.5  font-semibold text-white"
-                onClick={logout}
-              >
-                Logout
-              </button>
+              <div className="relative">
+                <div
+                  className=" flex cursor-pointer items-center gap-x-2 "
+                  onClick={handleProfile}
+                >
+                  <img
+                    src={profile}
+                    alt=""
+                    className="h-7 w-7 rounded-full bg-textColor"
+                  />
+                  <p className="text-md font-semibold text-textLigntColor">
+                    {localStorage.getItem("Current User")}
+                  </p>
+                </div>
+
+                <div
+                  className={` ${
+                    clicked
+                      ? "showMenu absolute  top-[50px] block  w-[200px] rounded border-2 bg-white py-3 shadow-md"
+                      : "hidden"
+                  }`}
+                >
+                  {/* <Link to="mylearnings">
+                    <div
+                      className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                      onClick={handleProfile}
+                    >
+                      My Learnings
+                    </div>
+                  </Link> */}
+
+                  <Link to="/">
+                    <div
+                      className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                      onClick={handleProfile}
+                    >
+                      Profile
+                    </div>
+                  </Link>
+                  {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+                    <>
+                      <Link to="/dashboard">
+                        <div
+                          className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                          onClick={handleProfile}
+                        >
+                          DashBoard
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  <div
+                    className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="flex items-center gap-8">
                 <Link to="login">
@@ -156,73 +236,22 @@ const Nav = () => {
             data-testid="mobile_menu"
           >
             <li>
-              {currentPath === "/Contact" ||
-              currentPath === "/coursedetails" ||
-              currentPath === "/login" ||
-              currentPath === "/signup" ||
-              currentPath === "/course" ? (
-                <Link
-                  to={"/"}
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Home
-                </Link>
-              ) : (
-                <a
-                  href="#home"
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Home
-                </a>
-              )}
+              <Link
+                to={"/"}
+                className="text-md font-semibold"
+                onClick={handleToggle}
+              >
+                Home
+              </Link>
             </li>
             <li>
-              {currentPath === "/Contact" ||
-              currentPath === "/coursedetails" ||
-              currentPath === "/login" ||
-              currentPath === "/signup" ||
-              currentPath === "/course" ? (
-                <Link
-                  to={"/"}
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Featured Courses
-                </Link>
-              ) : (
-                <a
-                  href="#courses"
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Featured Courses
-                </a>
-              )}
-            </li>
-            <li>
-              {currentPath === "/Contact" ||
-              currentPath === "/coursedetails" ||
-              currentPath === "/login" ||
-              currentPath === "/signup" ||
-              currentPath === "/course" ? (
-                <Link
-                  to={"/"}
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Testimonials
-                </Link>
-              ) : (
-                <a
-                  href="#testimonials"
-                  className="text-md font-semibold"
-                  onClick={handleToggle}
-                >
-                  Testimonials
-                </a>
-              )}
+              <Link
+                to={"/course"}
+                className="text-md font-semibold"
+                onClick={handleToggle}
+              >
+                Featured Course
+              </Link>
             </li>
             <li>
               <Link
@@ -233,14 +262,28 @@ const Nav = () => {
                 Contact
               </Link>
             </li>
+            {isTokenValid && (
+              <li>
+                <Link
+                  to={"/mylearnings"}
+                  className="text-md font-semibold"
+                  onClick={handleToggle}
+                >
+                  My Learning
+                </Link>
+              </li>
+            )}
+
             <li>
               {isTokenValid ? (
-                <button
-                  className="text-md cursor-pointer rounded-[10px] border-2 border-solid bg-textColor px-6 py-1.5  font-semibold uppercase text-white"
-                  onClick={logout}
-                >
-                  Logout
-                </button>
+                <div>
+                  <button
+                    className="text-md cursor-pointer font-semibold  uppercase text-textColor"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </button>
+                </div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
                   <Link to="login">
@@ -265,7 +308,9 @@ const Nav = () => {
           </ul>
         </nav>
       </div>
-      <Outlet />
+      <main onClick={() => setClicked(false)}>
+        <Outlet />
+      </main>
     </>
   );
 };
