@@ -273,7 +273,20 @@ const Nav = () => {
                 </Link>
               </li>
             )}
-
+            {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+              <>
+                <Link to="/dashboard">
+                  <div
+                    className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                    onClick={handleProfile}
+                  >
+                    DashBoard
+                  </div>
+                </Link>
+              </>
+            ) : (
+              ""
+            )}
             <li>
               {isTokenValid ? (
                 <div>
