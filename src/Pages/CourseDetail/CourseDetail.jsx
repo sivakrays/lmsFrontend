@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./CourseDetail.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import star from "../../Assets/courseCard/star.png";
 import ForwardArrow from "../../Assets/coursedetails/forwardArrow.svg";
 import Globe from "../../Assets/coursedetails/Globe.svg";
@@ -18,6 +18,7 @@ import { get } from "../../ApiCall/ApiCall";
 import Loader from "../../Components/Loader/Loader";
 
 const CourseDetails = () => {
+  const id = useParams();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -26,32 +27,25 @@ const CourseDetails = () => {
   const [isAllOpen, setIsAllOpen] = useState(false);
   const [itemsToShow, setItemToShow] = useState([]);
   const [data, setData] = useState({});
-
+  const bearer_token = JSON.parse(localStorage.getItem("token"));
   const config = {
     headers: {
-      "Content-Type": "application/json",
-      "Acess-Control-Allow-Origin": "*",
-      "Acess-Control-Allow-Headers": "*",
-      Accept: "application/json",
-      courseId: "302",
+      courseId: id.id,
+      Authorization: `Bearer ${bearer_token}`,
     },
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //console.log("Course Detail render");
         const res = await get("/user/getCourseById", config);
         setData(res.data);
-        // console.log(res.data);
-        // console.log(res.data);
         const allListItems =
           res.data &&
           res.data.whatYouWillLearn
             .split(".")
             .filter((sentence) => sentence.trim() !== "");
         setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
-        //console.log(res.data);
       } catch (err) {
         //console.log("error", err);
       }
@@ -70,8 +64,8 @@ const CourseDetails = () => {
       {Object.keys(data).length > 0 ? (
         <div>
           {data && (
-            <section className="courseHeader relative mb-6  py-3  xl:bg-textColor xl:px-40">
-              <div className="relative w-full bg-textColor">
+            <section className="courseHeader relative mb-6 py-3  xl:h-80  xl:bg-textColor xl:px-40">
+              <div className="relative  w-full bg-textColor">
                 {/* display untill 1024px */}
                 <div className=" mx-auto h-60 w-full md:h-96 xl:hidden">
                   <img

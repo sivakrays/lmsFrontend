@@ -35,10 +35,13 @@ export const AuthContextProvider = ({ children }) => {
         res.data && localStorage.setItem("token", localToken);
         localStorage.setItem("Current User", res.data.name);
         localStorage.setItem("userID", res.data.userId);
-        setToken(localStorage.getItem("token"));
+        const parseTokenObj = JSON.parse(localToken);
+        const actualToken = parseTokenObj.token;
+        setToken(actualToken);
         setUser(localStorage.getItem("Current User"));
         successNotify();
         setIsButtonClicked(false);
+        console.log(res.data);
       })
       .catch((err) => {
         //console.log("Errorrrrrrr", err);

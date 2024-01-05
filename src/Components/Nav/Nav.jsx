@@ -138,14 +138,6 @@ const Nav = () => {
                       : "hidden"
                   }`}
                 >
-                  {/* <Link to="mylearnings">
-                    <div
-                      className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
-                      onClick={handleProfile}
-                    >
-                      My Learnings
-                    </div>
-                  </Link> */}
                   <Link to="/">
                     <div
                       className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"

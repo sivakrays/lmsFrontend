@@ -36,7 +36,7 @@ const FormInput = (props) => {
                   className="inputContact w-full  resize-none rounded-lg border p-3"
                   {...inputProps}
                   onFocus={handleFocus}
-                  // focused={focused.toString()}
+                  focused={focused.toString()}
                   type={type}
                 ></textarea>
                 {/* <input
