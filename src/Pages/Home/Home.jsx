@@ -50,42 +50,42 @@ const Home = () => {
   const BeforeLoginData = [
     {
       id: "1",
-      img: course1,
+      thumbNail: course1,
       category: "Programming",
       title: "Game development: Programming with java Plus C#",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "2",
-      img: course2,
+      thumbNail: course2,
       category: "Medical",
       title: "Medical Basics 101: Anatomy of whole human body research basis ",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "3",
-      img: course3,
+      thumbNail: course3,
       category: "AI/ML",
       title: "Supervised Machine Learning: Regression and Classification",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "4",
-      img: course4,
+      thumbNail: course4,
       category: "Design",
       title: "Product design and analysis: Psychical Goods creation for us",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "5",
-      img: course1,
+      thumbNail: course1,
       category: "Psychology",
       title: `Psychology and Consultation: How to solve anxiety problem easily`,
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
     },
     {
       id: "6",
-      img: course2,
+      thumbNail: course2,
       category: "Finance",
       title: "Business Communication: How to deal with clients Professionaly",
       des: "consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam ipsum dolor sit amet...",
@@ -96,11 +96,11 @@ const Home = () => {
     <main className="relative w-full bg-herobg">
       {/* Hero Section */}
       <section
-        className="hero hero_container h-full pt-14 md:pt-20 lg:pt-28"
+        className="hero hero_container h-full pt-20 md:pt-20 lg:pt-28"
         id="home"
       >
-        <div className="mx-auto flex w-[85%] flex-wrap-reverse">
-          <div className="flex flex-col  justify-center gap-5  p-7 md:w-[40%]">
+        <div className="hero-container mx-auto flex w-[85%] flex-wrap gap-5 sm:gap-0">
+          <div className="order-last flex flex-col justify-center gap-5 md:p-7 lg:order-first lg:w-[40%]">
             <p className="dayOne text-4xl text-textColor">
               Every child is born genius
             </p>
@@ -116,10 +116,11 @@ const Home = () => {
               <Button path="/course" name="Explore courses" />
             </div>
           </div>
-          <div className="flex  justify-center  p-9 md:w-[60%]">
-            <img src={hero} alt="" className="rounded-sm" />
+          <div className="order-first flex justify-center sm:p-9  lg:order-last lg:w-[60%]">
+            <img src={hero} alt="" className="heroImg" />
           </div>
         </div>
+
         <div className="center h-22  mt-7 flex animate-bounce items-center justify-center text-textColor duration-700 sm:mt-10 lg:mt-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -219,6 +220,7 @@ const Home = () => {
             <div className="floatingChild absolute -right-32 top-0 hidden lg:block">
               <img src={floatimg} alt="" className=" w-44" />
             </div>
+            {/* Course Card with Data */}
 
             {isTokenValid ? (
               courseData.length > 0 ? (
@@ -244,24 +246,6 @@ const Home = () => {
                 ))}
               </>
             )}
-
-            {/* Course Card with Data */}
-            {/* {courseData.length > 0 ? (
-              <>
-                {courseData &&
-                  courseData.map((course, index) => (
-                    <div key={index}>
-                      <CourseCard course={course} path="homeCard" />
-                    </div>
-                  ))}
-              </>
-            ) : (
-              <>
-                <div className="flex h-[20vh] w-full items-center justify-center">
-                  <Loader color={"#334456"} />
-                </div>
-              </>
-            )} */}
 
             <div className="floatingChild absolute -left-32 bottom-0 hidden lg:block ">
               <img src={floatimg1} alt="" className=" w-36" />

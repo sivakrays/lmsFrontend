@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactPlayer from "react-player";
 import Accordion from "../../Components/Accordian/Accordian";
 import Quiz from "../../Components/Quiz/Quiz";
 import Modal from "../../Components/Modal/Modal";
 import { get } from "../../ApiCall/ApiCall";
 import Loader from "../../Components/Loader/Loader";
+import { authContext } from "../../Context/AuthContext";
 
 const MyVideo = () => {
   useEffect(() => {
@@ -21,13 +22,14 @@ const MyVideo = () => {
   const [subSectionId, setSubSectionId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { updateBadgeCount } = useContext(authContext);
+
+  const bearer_token = JSON.parse(localStorage.getItem("token"));
+
   const config = {
     headers: {
-      "Content-Type": "application/json",
-      "Acess-Control-Allow-Origin": "*",
-      "Acess-Control-Allow-Headers": "*",
-      Accept: "application/json",
-      courseId: "302",
+      Authorization: `Bearer ${bearer_token}`,
+      courseId: "1",
     },
   };
 
@@ -47,7 +49,6 @@ const MyVideo = () => {
   }, []);
 
   const isSmallScreen = window.innerWidth < 1024;
-  console.log(window.innerWidth);
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
   };
@@ -112,10 +113,10 @@ const MyVideo = () => {
               </div>
             </div>
 
-            <div className="lg:w-[70%] ">
+            <div className="h-auto w-full lg:w-[70%]">
               {isQuizClicked ? (
                 <>
-                  <div className="right-0 top-0 w-[70%] lg:fixed">
+                  <div className="sticky right-0 top-0  h-[110vh] lg:w-full">
                     <Quiz
                       setRewardModal={setRewardModal}
                       setEnergyPoint={setEnergyPoint}
@@ -126,6 +127,7 @@ const MyVideo = () => {
                       currentPage={currentPage}
                       setBadge={setBadge}
                       badge={badge}
+                      updateBadgeCount={updateBadgeCount}
                     />
                     {isrewardModal && (
                       <Modal

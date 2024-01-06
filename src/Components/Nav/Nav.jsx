@@ -4,10 +4,17 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
 
+import bronze from "../../Assets/reward/Bronze Medal.png";
+import silver from "../../Assets/reward/Silver Medal.png";
+import gold from "../../Assets/reward/Gold Medal.png";
+
 const Nav = () => {
   const {
     logout,
     isTokenValid,
+    totalBronze,
+    totalSilver,
+    totalGold,
     //showProfile,
     // handleClickOutlet,
     user,
@@ -60,12 +67,12 @@ const Nav = () => {
     <>
       <div className="navbar w-full">
         <nav
-          className={`flex h-20 items-center justify-around ${
+          className={`flex h-20 items-center justify-around  ${
             currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
           }   md:h-28 `}
         >
           <Link to={"/"}>
-            <div className=" flex items-center justify-center gap-2">
+            <div className=" flex  items-center justify-center gap-2 ">
               <span className=" dayOne rounded-md bg-textColor px-4 py-1 text-lg font-bold text-white">
                 Course
               </span>
@@ -74,26 +81,10 @@ const Nav = () => {
           </Link>
 
           <div className="nav_link ">
-            <ul className="flex gap-12">
-              {isTokenValid
-                ? authorizedMenuItem.map((item, index) => (
-                    <li
-                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
-                        currentPath === item.path ? "opacity-100" : "opacity-75"
-                      }`}
-                      key={index}
-                    >
-                      <Link
-                        to={item.path}
-                        className={`text-md  font-semibold ${
-                          currentPath === item.path ? "activeNav" : "nav"
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))
-                : unAuthorizedMenuItem.map((item, index) => (
+            {isTokenValid ? (
+              <div className="flex ">
+                <ul className="flex gap-12">
+                  {authorizedMenuItem.map((item, index) => (
                     <li
                       className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
                         currentPath === item.path ? "opacity-100" : "opacity-75"
@@ -110,13 +101,60 @@ const Nav = () => {
                       </Link>
                     </li>
                   ))}
-            </ul>
+                </ul>
+              </div>
+            ) : (
+              <div>
+                <ul className="flex gap-12">
+                  {unAuthorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* showing profile submenu */}
-          <div className="nav_btn  z-10 hidden gap-11 lg:flex">
+          <div className="nav_btn  z-10 hidden gap-11  lg:flex">
             {isTokenValid ? (
-              <div className="relative">
+              <div className="relative flex lg:gap-5 xl:gap-8">
+                <div className="flex  items-center justify-evenly lg:gap-4 xl:gap-6  ">
+                  <div className="flex items-center justify-center gap-2">
+                    <img
+                      src={bronze}
+                      className="object-contain lg:h-5 lg:w-5 xl:h-7 xl:w-7"
+                    ></img>
+                    <div>{totalBronze}</div>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <img
+                      src={silver}
+                      className="object-contain lg:h-5 lg:w-5 xl:h-7 xl:w-7"
+                    ></img>
+                    <div>{totalSilver}</div>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <img
+                      src={gold}
+                      className="object-contain lg:h-5 lg:w-5 xl:h-8 xl:w-8"
+                    ></img>
+                    <div>{totalGold}</div>
+                  </div>
+                </div>
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "
                   onClick={handleProfile}

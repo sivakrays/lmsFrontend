@@ -8,6 +8,9 @@ export const AuthContextProvider = ({ children }) => {
   const [isTokenValid, setIsTokenValid] = useState(false);
   //const [showProfile, setShowProfile] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [totalBronze, setTotalBronze] = useState(0);
+  const [totalSilver, setTotalSilver] = useState(0);
+  const [totalGold, setTotalGold] = useState(0);
 
   const [user, setUser] = useState("");
 
@@ -21,6 +24,14 @@ export const AuthContextProvider = ({ children }) => {
       setIsTokenValid(false);
     }
   }, [token]);
+
+  const updateBadgeCount = (bronze, silver, gold) => {
+    console.log("badges b,s,g", bronze, silver, gold);
+    setTotalBronze(bronze);
+    setTotalSilver(silver);
+    setTotalGold(gold);
+  };
+
   const login = async ({ email, password }) => {
     const config = {
       headers: {
@@ -39,6 +50,10 @@ export const AuthContextProvider = ({ children }) => {
         const actualToken = parseTokenObj.token;
         setToken(actualToken);
         setUser(localStorage.getItem("Current User"));
+        // setTotalBronze(res.data.bronze);
+        // setTotalSilver(res.data.silver);
+        // setTotalGold(res.data.gold);
+        updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
         successNotify();
         setIsButtonClicked(false);
         console.log(res.data);
@@ -107,6 +122,10 @@ export const AuthContextProvider = ({ children }) => {
         user,
         isButtonClicked,
         setIsButtonClicked,
+        updateBadgeCount,
+        totalBronze,
+        totalSilver,
+        totalGold,
       }}
     >
       {children}

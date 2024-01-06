@@ -13,6 +13,7 @@ const Quiz = ({
   setCurrentPage,
   badge,
   setBadge,
+  updateBadgeCount,
 }) => {
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
@@ -46,7 +47,10 @@ const Quiz = ({
       };
       console.log(data);
       await post("/user/saveBadge", data, config)
-        .then((res) => console.log(res.data))
+        .then((res) => {
+          console.log(res.data);
+          updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+        })
         .catch((err) => console.log(err));
     }
   };
@@ -333,8 +337,8 @@ const Quiz = ({
   };
 
   return (
-    <div className="relative flex h-auto items-center justify-center bg-white p-2 md:p-0">
-      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-40 ">
+    <div className="relative flex h-full  items-center justify-center  bg-white p-2 md:p-0">
+      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-32 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
             {currentQuestions[0].title}
