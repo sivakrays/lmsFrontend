@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import data from "../../Data/Data";
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
+import { post } from "../../ApiCall/ApiCall";
 
 const InputField = ({
   label,
@@ -23,7 +24,7 @@ const InputField = ({
   };
 
   return (
-    <div className="flex w-full flex-col md:w-[40%]">
+    <div className="flex w-full flex-col  lg:w-[45%] xl:w-[48%]">
       <label htmlFor={name} className="text-textLigntColor">
         {label}
       </label>
@@ -79,7 +80,7 @@ const SelectField = ({ label, name, value, onChange, options, required }) => {
   };
 
   return (
-    <div className="flex w-full flex-col md:w-[40%]">
+    <div className="flex w-full flex-col lg:w-[45%] xl:w-[48%]">
       <label htmlFor={name} className="text-textLigntColor">
         {label}
       </label>
@@ -112,7 +113,7 @@ const SelectField = ({ label, name, value, onChange, options, required }) => {
   );
 };
 
-const CourseForm = ({ setSectionFormVisibile }) => {
+const CourseForm = ({ setSectionFormVisibile, courseId, setCourseId }) => {
   const [formData, setFormData] = useState({
     courseTitle: "",
     thumbnailBase64: "",
@@ -143,6 +144,32 @@ const CourseForm = ({ setSectionFormVisibile }) => {
     }
   };
 
+  // Course Api Call
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const sendCourseDetails = () => {
+    const data = {
+      title: formData.courseTitle,
+      authorName: formData.authorName,
+      description: formData.courseDes,
+      thumbNail: formData.thumbnailBase64,
+      category: formData.category,
+      whatYouWillLearn: formData.teachingDes,
+    };
+
+    post("/user/saveCourse", data, config)
+      .then((res) => {
+        setCourseId(res.data.courseId);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const isTeachingDesValid = formData.teachingDes.length >= 50;
@@ -155,20 +182,21 @@ const CourseForm = ({ setSectionFormVisibile }) => {
       return;
     } else {
       setSectionFormVisibile(true);
-      console.log("Form Data", formData);
+      sendCourseDetails();
+      // console.log("Form Data", formData);
     }
   };
 
   return (
-    <div className="h-auto bg-white pb-16 md:pb-4">
-      <div className="ml-1 p-4  md:pl-12 ">
+    <div className="h-auto  pb-16 md:pb-4">
+      <div className="ml-1 p-4 md:pl-12 ">
         <div className="profile_header">
           <h2 className="dayOne text-2xl text-textColor md:pt-5">Upload</h2>
           <h4 className="text-textLigntColor">
             Welcome to <b className="dayOne">{data[0].title}</b> Upload page
           </h4>
         </div>
-        <div className="uploadForm  mt-5">
+        <div className="uploadForm mt-5 rounded-md bg-white p-3 shadow lg:w-[90%]">
           <form action="" className="" onSubmit={handleSubmit}>
             <div className="flex flex-col flex-wrap gap-4 md:flex-row  md:gap-8">
               <InputField
@@ -251,7 +279,6 @@ const CourseForm = ({ setSectionFormVisibile }) => {
             <button
               type="submit"
               className="mt-5 w-full rounded-md border bg-textLigntColor py-2.5 text-white md:w-[15%]"
-              onClick={() => setSectionFormVisibile(true)}
             >
               Next
             </button>
@@ -262,27 +289,70 @@ const CourseForm = ({ setSectionFormVisibile }) => {
   );
 };
 
-const SectionForm = () => {
-  const [isQuizAvailable, setIsQuizAvailable] = useState(false);
+const SectionForm = ({ courseId, setCourseId }) => {
+  console.log("courseId from sectionform", courseId);
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
-    { SubSectionTitle: "", SubSectionDes: "", VideoLink: "" },
+    {
+      SubSectionTitle: "",
+      SubSectionDes: "",
+      VideoLink: "",
+      isQuizAvailable: false,
+      quizInputs: [
+        { question: "", options: ["", ""], ans: "" },
+        { question: "", options: ["", ""], ans: "" },
+        { question: "", options: ["", ""], ans: "" },
+      ],
+    },
   ]);
 
+  const [deserror, setDesError] = useState(false);
+
+  const handleValidation = (e) => {
+    const { name, value } = e.target;
+    if (name === "SubSectionDes") {
+      setDesError(value.length < 20);
+    }
+  };
+
+  // Handle functions for SubSection
   const handleAddSubSection = () => {
-    setSubSections([
-      ...subSections,
-      { SubSectionTitle: "", SubSectionDes: "", VideoLink: "" },
+    setSubSections((prevSubSections) => [
+      ...prevSubSections,
+      {
+        SubSectionTitle: "",
+        SubSectionDes: "",
+        VideoLink: "",
+        isQuizAvailable: false,
+        quizInputs: [
+          { question: "", options: ["", ""], ans: "" },
+          { question: "", options: ["", ""], ans: "" },
+          { question: "", options: ["", ""], ans: "" },
+        ],
+      },
     ]);
   };
 
-  const handleSubSectionInpuChange = (index, event) => {
-    const { name, value } = event.target;
+  const handleSubSectionInputChange = (index, event) => {
+    const { name, value, type, checked } = event.target;
     const updatedSubSections = [...subSections];
-    updatedSubSections[index] = {
-      ...updatedSubSections[index],
-      [name]: value,
-    };
+
+    if (type === "checkbox") {
+      updatedSubSections[index] = {
+        ...updatedSubSections[index],
+        [name]: checked,
+        quizInput: {
+          ...updatedSubSections[index].quizInputs,
+          options: updatedSubSections[index].quizInputs.options || [],
+        },
+      };
+    } else {
+      updatedSubSections[index] = {
+        ...updatedSubSections[index],
+        [name]: value,
+      };
+    }
+
     setSubSections(updatedSubSections);
   };
 
@@ -291,13 +361,96 @@ const SectionForm = () => {
     list.splice(index, 1);
     setSubSections(list);
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(sectionTitle);
-    console.log(subSections);
-    console.log(isQuizAvailable);
+
+  // Handle functions for Quiz
+
+  const handleAddQuizOptions = (sectionIndex, quizIndex) => {
+    const updatedSubSections = [...subSections];
+    updatedSubSections[sectionIndex].quizInputs[quizIndex].options.push("");
+    setSubSections(updatedSubSections);
   };
 
+  const handleQuizTitleInputChange = (sectionIndex, quizIndex, event) => {
+    const { value } = event.target;
+    const updatedSubSections = [...subSections];
+    updatedSubSections[sectionIndex].quizInputs[quizIndex].question = value;
+    setSubSections(updatedSubSections);
+  };
+  const handleQuizAnswerInputChange = (sectionIndex, quizIndex, event) => {
+    const { value } = event.target;
+    const updatedSubSections = [...subSections];
+    updatedSubSections[sectionIndex].quizInputs[quizIndex].ans = value;
+    setSubSections(updatedSubSections);
+  };
+
+  const handleQuizOptionsInputChange = (
+    sectionIndex,
+    quizIndex,
+    optionIndex,
+    event,
+  ) => {
+    const { value } = event.target;
+    const updatedSubSections = [...subSections];
+    updatedSubSections[sectionIndex].quizInputs[quizIndex].options[
+      optionIndex
+    ] = value;
+    setSubSections(updatedSubSections);
+  };
+
+  const handleRemoveQuizOptions = (sectionIndex, quizIndex, optionIndex) => {
+    const updatedSubSections = [...subSections];
+    updatedSubSections[sectionIndex].quizInputs[quizIndex].options.splice(
+      optionIndex,
+      1,
+    ); // Remove the selected option
+    setSubSections(updatedSubSections);
+  };
+
+  // Course Api Call
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const sendCourseSectionDetails = () => {
+    const subsetiondata = subSections.map((section) => ({
+      title: section.SubSectionTitle,
+      subSections: [
+        {
+          title: section.SubSectionTitle,
+          description: section.SubSectionDes,
+          link: section.VideoLink,
+          quizList: section.quizInputs,
+        },
+      ],
+    }));
+
+    const data = [
+      {
+        title: sectionTitle,
+        course_id: 130,
+        subSections: subsetiondata,
+      },
+    ];
+    console.log(subsetiondata);
+    post("/user/saveSection", data, config)
+      .then((res) => {
+        setCourseId(res.data.courseId);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (deserror === false) {
+      sendCourseSectionDetails();
+      // console.log(sectionTitle);
+      // console.log(subSections);
+    }
+  };
   return (
     <div className="h-auto bg-white pb-16 md:pb-4">
       <div className="ml-1 p-4  md:pl-12 ">
@@ -328,6 +481,9 @@ const SectionForm = () => {
                   id=""
                   value={sectionTitle}
                   onChange={(e) => setSectionTitle(e.target.value)}
+                  pattern=".{3,}"
+                  title="please ensure that field minimum have 3 letters"
+                  required
                   className="w-full rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6 xl:w-[50%]"
                 />
               </div>
@@ -357,7 +513,10 @@ const SectionForm = () => {
                           type="text"
                           name="SubSectionTitle"
                           value={ssection.SubSectionTitle}
-                          onChange={(e) => handleSubSectionInpuChange(i, e)}
+                          onChange={(e) => handleSubSectionInputChange(i, e)}
+                          pattern=".{3,}"
+                          title="please ensure that field minimum have 3 letters"
+                          required
                           className=" rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                         />
                       </div>
@@ -367,7 +526,10 @@ const SectionForm = () => {
                           type="text"
                           name="VideoLink"
                           value={ssection.VideoLink}
-                          onChange={(e) => handleSubSectionInpuChange(i, e)}
+                          onChange={(e) => handleSubSectionInputChange(i, e)}
+                          pattern=".{3,}"
+                          title="please ensure that field minimum have 3 letters"
+                          required
                           className=" rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                         />
                       </div>
@@ -378,45 +540,127 @@ const SectionForm = () => {
                         <textarea
                           name="SubSectionDes"
                           value={ssection.SubSectionDes}
-                          onChange={(e) => handleSubSectionInpuChange(i, e)}
+                          onChange={(e) => {
+                            handleValidation(e);
+                            handleSubSectionInputChange(i, e);
+                          }}
+                          required
                           className={`rounded-md border bg-dashboardLightColor py-2.5 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6 `}
                         ></textarea>
+                        {deserror && (
+                          <p className="mt-1 text-sm text-red-500">
+                            Must contain 20 letters
+                          </p>
+                        )}
                       </div>
+
                       <div className="flex items-center gap-2">
                         <label className="text-textLigntColor">Quiz</label>
                         <input
                           type="checkbox"
                           name="isQuizAvailable"
-                          checked={isQuizAvailable}
-                          onChange={(e) => setIsQuizAvailable(e.target.checked)}
+                          checked={ssection.isQuizAvailable}
+                          onChange={(e) => handleSubSectionInputChange(i, e)}
                           className="h-4 w-4 cursor-pointer"
                         />
                       </div>
-                      {isQuizAvailable === true && (
-                        <>
-                          <div>
-                            <input
-                              type="text"
-                              name=""
-                              id=""
-                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                            />
-                            <input
-                              type="text"
-                              name=""
-                              id=""
-                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                            />
-                            <input
-                              type="text"
-                              name=""
-                              id=""
-                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                            />
-                          </div>
-                        </>
-                      )}
                     </div>
+                    {ssection.isQuizAvailable === true && (
+                      <>
+                        {ssection.quizInputs.map((quiz, quizIndex) => (
+                          <div
+                            key={quizIndex}
+                            className="flex w-full flex-col xl:w-[100%]"
+                          >
+                            <hr className="my-3 border xl:w-[100%]" />
+                            <label className="text-textLigntColor">
+                              {`Question - ${quizIndex + 1} `}
+                            </label>
+                            <input
+                              type="text"
+                              name={`question-${i}-${quizIndex}`}
+                              value={quiz.question}
+                              onChange={(e) =>
+                                handleQuizTitleInputChange(i, quizIndex, e)
+                              }
+                              required
+                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                            />
+                            <button
+                              type="button"
+                              className="my-3  rounded-md bg-textLigntColor p-2 text-white"
+                              onClick={(e) =>
+                                handleAddQuizOptions(i, quizIndex)
+                              }
+                            >
+                              Add Options
+                            </button>
+                            <div className="flex flex-wrap gap-3">
+                              {" "}
+                              {quiz.options.map((option, optionIndex) => (
+                                <div
+                                  key={optionIndex}
+                                  className="flex w-full flex-col  xl:w-[49%]"
+                                >
+                                  <label className="text-textLigntColor">{`Option ${
+                                    optionIndex + 1
+                                  }`}</label>
+                                  <div className="flex items-center gap-3">
+                                    <input
+                                      type="text"
+                                      name={`option-${i}-${quizIndex}-${optionIndex}`}
+                                      value={option}
+                                      onChange={(e) =>
+                                        handleQuizOptionsInputChange(
+                                          i,
+                                          quizIndex,
+                                          optionIndex,
+                                          e,
+                                        )
+                                      }
+                                      required
+                                      className="w-full rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                    />
+                                    {quiz.options.length > 2 && (
+                                      <button
+                                        className="rounded-sm border text-xl text-textLigntColor"
+                                        onClick={() =>
+                                          handleRemoveQuizOptions(
+                                            i,
+                                            quizIndex,
+                                            optionIndex,
+                                          )
+                                        }
+                                      >
+                                        <RxCross2 />
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Answer input field*/}
+                            <hr className="my-3 border xl:w-[100%]" />
+                            <div className="flex flex-col">
+                              <label className="text-textLigntColor">
+                                {`Answer Of - ${quizIndex + 1} Question`}
+                              </label>
+                              <input
+                                type="text"
+                                name={`ans-${i}-${quizIndex}`}
+                                value={quiz.ans}
+                                onChange={(e) =>
+                                  handleQuizAnswerInputChange(i, quizIndex, e)
+                                }
+                                required
+                                className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
                     {subSections.length > 1 && <hr className="my-3 border" />}
                   </div>
                 );
@@ -446,12 +690,18 @@ const SectionForm = () => {
 
 const Upload = () => {
   const [sectionFormVisible, setSectionFormVisibile] = useState(false);
+  const [courseId, setCourseId] = useState("");
+
   return (
     <>
       {sectionFormVisible === true ? (
-        <SectionForm />
+        <SectionForm setCourseId={setCourseId} courseId={courseId} />
       ) : (
-        <CourseForm setSectionFormVisibile={setSectionFormVisibile} />
+        <CourseForm
+          setSectionFormVisibile={setSectionFormVisibile}
+          setCourseId={setCourseId}
+          courseId={courseId}
+        />
       )}
     </>
   );
