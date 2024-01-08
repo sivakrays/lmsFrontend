@@ -4,22 +4,16 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
 
-import bronze from "../../Assets/reward/Bronze Medal.png";
-import silver from "../../Assets/reward/Silver Medal.png";
-import gold from "../../Assets/reward/Gold Medal.png";
+import BadgeDetail from "../BadgeDetail/BadgeDetail";
 
 const Nav = () => {
   const {
     logout,
     isTokenValid,
-    totalBronze,
-    totalSilver,
-    totalGold,
-    //showProfile,
-    // handleClickOutlet,
+
     user,
-    // setShowProfile,
   } = useContext(authContext);
+
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -132,29 +126,7 @@ const Nav = () => {
           <div className="nav_btn  z-10 hidden gap-11  lg:flex">
             {isTokenValid ? (
               <div className="relative flex lg:gap-5 xl:gap-8">
-                <div className="flex  items-center justify-evenly lg:gap-4 xl:gap-6  ">
-                  <div className="flex items-center justify-center gap-2">
-                    <img
-                      src={bronze}
-                      className="object-contain lg:h-5 lg:w-5 xl:h-7 xl:w-7"
-                    ></img>
-                    <div>{totalBronze}</div>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <img
-                      src={silver}
-                      className="object-contain lg:h-5 lg:w-5 xl:h-7 xl:w-7"
-                    ></img>
-                    <div>{totalSilver}</div>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <img
-                      src={gold}
-                      className="object-contain lg:h-5 lg:w-5 xl:h-8 xl:w-8"
-                    ></img>
-                    <div>{totalGold}</div>
-                  </div>
-                </div>
+                <BadgeDetail />
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "
                   onClick={handleProfile}

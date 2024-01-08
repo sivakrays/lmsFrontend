@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import success from "../../Assets/reward/star.png";
 import { post } from "../../ApiCall/ApiCall";
+import { authContext } from "../../Context/AuthContext";
 
 const Quiz = ({
   setRewardModal,
@@ -13,7 +14,6 @@ const Quiz = ({
   setCurrentPage,
   badge,
   setBadge,
-  updateBadgeCount,
 }) => {
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
@@ -22,38 +22,70 @@ const Quiz = ({
   const [currentAns, setCurrentAns] = useState("");
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
+  const { updateBadgeCount } = useContext(authContext);
+
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = Math.ceil(quizzArray && quizzArray.length / itemsPerPage);
   const currentQuestions =
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
-
-  console.log("clicked Option", clickedOption);
-
   // Api Call
-  const sendPoints = async () => {
-    if (energyPoint != 0 && (badge != " " || badge != null)) {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const data = {
-        userId: userID,
-        energyPoints: energyPoint,
-        badge: badge,
-        subSectionId: subSectionId,
-      };
-      console.log(data);
-      await post("/user/saveBadge", data, config)
-        .then((res) => {
-          console.log(res.data);
-          updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
-        })
-        .catch((err) => console.log(err));
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const sendPoints = async () => {
+      if (energyPoint != 0 && (badge != " " || badge != null)) {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        const data = {
+          userId: userID,
+          energyPoints: energyPoint,
+          badge: badge,
+          subSectionId: subSectionId,
+        };
+        await post("/user/saveBadge", data, config)
+          .then((res) => {
+            console.log(res.data);
+            updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+          })
+          .catch((err) => console.log(err));
+      }
+    };
+
+    if (isSubmitClicked) {
+      switch (energyPoint) {
+        case 1:
+          setBadge("3");
+          break;
+        case 2:
+          setBadge("2");
+          break;
+        case 3:
+          setBadge("1");
+          break;
+        default:
+          console.log("Working");
+      }
+      sendPoints();
+      setIsSubmitClicked(false);
     }
-  };
+
+    return () => {
+      isMounted = false;
+    };
+  }, [
+    isSubmitClicked,
+    energyPoint,
+    badge,
+    subSectionId,
+    updateBadgeCount,
+    userID,
+  ]);
 
   const starsConfeeti = () => {
     var defaults = {
@@ -148,23 +180,23 @@ const Quiz = ({
     setIsSubmitClicked(true);
   };
 
-  useEffect(() => {
-    switch (energyPoint) {
-      case 1:
-        setBadge("3");
-        break;
-      case 2:
-        setBadge("2");
-        break;
-      case 3:
-        setBadge("1");
-        break;
-      default:
-        console.log("Working");
-    }
-    sendPoints();
-    setIsSubmitClicked(false);
-  }, [isSubmitClicked === true]);
+  // useEffect(() => {
+  switch (energyPoint) {
+    case 1:
+      setBadge("3");
+      break;
+    case 2:
+      setBadge("2");
+      break;
+    case 3:
+      setBadge("1");
+      break;
+    default:
+      console.log("Working");
+  }
+  //   sendPoints();
+  //   setIsSubmitClicked(false);
+  // }, [isSubmitClicked === true]);
 
   const handleNext = () => {
     if (clickedOption == currentAns) {
@@ -235,6 +267,7 @@ const Quiz = ({
                 `}
                 onClick={() => handleSubmit()}
                 disabled={clickedOption === ""}
+                type="button"
               >
                 Submit
               </button>

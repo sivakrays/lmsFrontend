@@ -22,7 +22,8 @@ const MyVideo = () => {
   const [subSectionId, setSubSectionId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { updateBadgeCount } = useContext(authContext);
+  const { updateBadgeCount, setIsBadgeUpdate, isBadgeUpdate } =
+    useContext(authContext);
 
   const bearer_token = JSON.parse(localStorage.getItem("token"));
 
@@ -127,7 +128,6 @@ const MyVideo = () => {
                       currentPage={currentPage}
                       setBadge={setBadge}
                       badge={badge}
-                      updateBadgeCount={updateBadgeCount}
                     />
                     {isrewardModal && (
                       <Modal
