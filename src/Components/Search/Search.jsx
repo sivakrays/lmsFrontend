@@ -1,12 +1,12 @@
 import React from "react";
 import "./Search.css";
 
-const Search = () => {
+const Search = ({ setSearchValue, searchValue }) => {
   return (
     <>
       <div className=" searchContainer w-full sm:mx-auto sm:w-3/4 ">
         <div className="mx-auto boxShadow sm:w-3/4 md:mb-5 md:mt-5 lg:w-2/4">
-          <form>
+          <form onSubmit={(e) => e.preventDefault()}>
             <label
               htmlFor="default-search"
               className="sr-only mb-2 text-sm font-medium text-textLigntColor"
@@ -36,14 +36,17 @@ const Search = () => {
                 id="default-search"
                 className="block w-full rounded-lg border border-textColor  p-4 pl-10 text-sm text-textColor focus:outline-none  "
                 placeholder="Search"
-                required
+                // required
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
               />
               <button
+                onClick={() => setSearchValue("")}
                 data-testid="Search"
                 type="submit"
                 className="absolute bottom-2.5 right-2.5 rounded-lg bg-textColor px-4 py-2 text-sm font-medium text-white focus:outline-none "
               >
-                Search
+                Clear
               </button>
             </div>
           </form>

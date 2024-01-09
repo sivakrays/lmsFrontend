@@ -1,3 +1,47 @@
 .testimonialsbg {
-    background-image: url('../../Assets/HeroSection//pngkey.com-map-png-158921.svg');
+  background-image: url("../../Assets/HeroSection//pngkey.com-map-png-158921.svg");
 }
+
+@keyframes toggleAnimation {
+  0% {
+    opacity: 0; /* Initial state: Off */
+  }
+  50% {
+    opacity: 1; /* Midpoint state: On */
+  }
+  100% {
+    opacity: 0; /* Final state: Off */
+  }
+}
+
+/* Apply the animation to an element */
+.animated-element {
+  animation: toggleAnimation 12s infinite; /* 2s duration, infinite loop */
+}
+
+.hero_container1 {
+  /* background-image: url("../../Assets/HeroSection/opacityReducer.png"); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.image-container {
+  width: 200px;
+  height: 200px;
+}
+.mask {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* clip-path: url("../../Assets/Promo/ellipse.png"); */
+  -webkit-mask-image: url("../../Assets/Promo/Ellipsenew1.png");
+  mask-image: url("../../Assets/Promo/Ellipsenew1.png");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+/* .imageRadius {
+  border-radius: 71% 29% 25% 75% / 24% 42% 58% 76%;
+  width: 100px;
+  height: 100px;
+} */

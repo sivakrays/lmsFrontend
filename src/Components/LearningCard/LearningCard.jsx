@@ -9,7 +9,7 @@ const LearningCard = ({ cardDetails }) => {
   };
   return (
     <div className="p-4  " onClick={goToVideo}>
-      <div className="flex w-[280px]  cursor-pointer flex-col  rounded border border-textColor bg-white   shadow-md boxShadow">
+      <div className="flex w-[280px]  cursor-pointer flex-col  rounded border-2 border-textColor bg-white   shadow-md boxShadow">
         <div className="h-3/5 w-full p-1.5">
           <img
             src={cardDetails.image}

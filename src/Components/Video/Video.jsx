@@ -6,7 +6,6 @@ const Video = () => {
   const startTimeToPlay = 35;
 
   useEffect(() => {
-    console.log("Seeking to", startTimeToPlay, "seconds");
     if (playerRef.current) {
       playerRef.current.seekTo(startTimeToPlay);
     }
@@ -160,7 +159,6 @@ const Video = () => {
       !shouldPause &&
       !videoAccepted
     ) {
-      console.log("handlePause1 not working");
     } else {
       setShouldPause(true);
       setIsModalOpen(true);

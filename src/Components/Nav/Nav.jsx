@@ -1,52 +1,67 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Nav.css";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
+
+import BadgeDetail from "../BadgeDetail/BadgeDetail";
 
 const Nav = () => {
   const {
     logout,
     isTokenValid,
-    showProfile,
-    handleProfile,
-    handleClickOutlet,
+
+    user,
   } = useContext(authContext);
+
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const navigate = useNavigate();
+
+  const [clicked, setClicked] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
   };
-
   useEffect(() => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
-  // console.log(location.pathname);
-
-  const handleProfileButtonClick = (e) => {
-    e.stopPropagation(); // Prevent event propagation to the parent elements
-    handleProfile();
+  const handleProfile = () => {
+    console.log(clicked);
+    setClicked(!clicked);
+    console.log("clickedddddddd");
   };
-  const menuItem = [
+  const unAuthorizedMenuItem = [
     { name: "Home", path: "/" },
     { name: "Featured Course", path: "/course" },
     { name: "Contact", path: "/contact" },
   ];
+  const authorizedMenuItem = [
+    { name: "Home", path: "/" },
+    { name: "Featured Course", path: "/course" },
+    { name: "My Learnings", path: "/mylearnings" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  const handleLogOut = () => {
+    logout();
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
+  };
 
   return (
     <>
       <div className="navbar w-full">
         <nav
-          className={`flex h-20 items-center justify-around ${
+          className={`flex h-20 items-center justify-around  ${
             currentPath === "/course" ? `bg-coursebg shadow-sm ` : `bg-herobg`
           }   md:h-28 `}
-          onClick={handleClickOutlet}
         >
           <Link to={"/"}>
-            <div className=" flex items-center justify-center gap-2">
+            <div className=" flex  items-center justify-center gap-2 ">
               <span className=" dayOne rounded-md bg-textColor px-4 py-1 text-lg font-bold text-white">
                 Course
               </span>
@@ -55,64 +70,90 @@ const Nav = () => {
           </Link>
 
           <div className="nav_link ">
-            <ul className="flex gap-12">
-              {menuItem.map((item, index) => (
-                <li
-                  className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
-                    currentPath === item.path ? "opacity-100" : "opacity-75"
-                  }`}
-                  key={index}
-                >
-                  <Link
-                    to={item.path}
-                    className={`text-md  font-semibold ${
-                      currentPath === item.path ? "activeNav" : "nav"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {isTokenValid ? (
+              <div className="flex ">
+                <ul className="flex gap-12">
+                  {authorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div>
+                <ul className="flex gap-12">
+                  {unAuthorizedMenuItem.map((item, index) => (
+                    <li
+                      className={`hidden gap-12 text-textColor   hover:opacity-100 lg:flex ${
+                        currentPath === item.path ? "opacity-100" : "opacity-75"
+                      }`}
+                      key={index}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`text-md  font-semibold ${
+                          currentPath === item.path ? "activeNav" : "nav"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
-          <div className="nav_btn  hidden gap-11 lg:flex">
+          {/* showing profile submenu */}
+          <div className="nav_btn  z-10 hidden gap-11  lg:flex">
             {isTokenValid ? (
-              <div className="relative">
+              <div className="relative flex lg:gap-5 xl:gap-8">
+                <BadgeDetail />
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "
-                  onClick={handleProfileButtonClick}
+                  onClick={handleProfile}
                 >
                   <img
                     src={profile}
                     alt=""
                     className="h-7 w-7 rounded-full bg-textColor"
                   />
-                  <p className="text-md font-semibold text-textColor">manoj</p>
+                  <p className="text-md font-semibold text-textLigntColor">
+                    {localStorage.getItem("Current User")}
+                  </p>
                 </div>
 
                 <div
                   className={` ${
-                    showProfile
-                      ? "absolute top-[50px] block  w-[200px] rounded border-2 bg-white py-3 shadow-md"
+                    clicked
+                      ? "showMenu absolute  top-[50px] block  w-[200px] rounded border-2 bg-white py-3 shadow-md"
                       : "hidden"
                   }`}
                 >
+                  <Link to="/">
+                    <div
+                      className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                      onClick={handleProfile}
+                    >
+                      Profile
+                    </div>
+                  </Link>
                   <div
                     className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
-                    onClick={handleProfile}
-                  >
-                    <Link to="mylearnings">My Learnings</Link>
-                  </div>
-                  <div
-                    className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
-                    onClick={handleProfile}
-                  >
-                    <Link to="/">Profile</Link>
-                  </div>
-                  <div
-                    className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
-                    onClick={logout}
+                    onClick={handleLogOut}
                   >
                     Logout
                   </div>
@@ -203,23 +244,28 @@ const Nav = () => {
                 Contact
               </Link>
             </li>
-            <li>
-              <Link
-                to={"/mylearnings"}
-                className="text-md font-semibold"
-                onClick={handleToggle}
-              >
-                My Learning
-              </Link>
-            </li>
+            {isTokenValid && (
+              <li>
+                <Link
+                  to={"/mylearnings"}
+                  className="text-md font-semibold"
+                  onClick={handleToggle}
+                >
+                  My Learning
+                </Link>
+              </li>
+            )}
+
             <li>
               {isTokenValid ? (
-                <button
-                  className="text-md cursor-pointer rounded-[10px] border-2 border-solid bg-textColor px-6 py-1.5  font-semibold uppercase text-white"
-                  onClick={logout}
-                >
-                  Logout
-                </button>
+                <div>
+                  <button
+                    className="text-md cursor-pointer font-semibold  uppercase text-textColor"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </button>
+                </div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
                   <Link to="login">
@@ -244,7 +290,7 @@ const Nav = () => {
           </ul>
         </nav>
       </div>
-      <main onClick={handleClickOutlet}>
+      <main onClick={() => setClicked(false)}>
         <Outlet />
       </main>
     </>

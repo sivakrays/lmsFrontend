@@ -1,8 +1,26 @@
 .navbar {
-    position: fixed;
-    z-index: 1;
+  position: fixed;
+  z-index: 1;
 }
 
 .logo {
-    z-index: 1;
+  z-index: 1;
+}
+
+/* MediaQuery */
+
+@media (min-width: 1024px) {
+  .showMenu {
+    right: -16px;
+  }
+}
+@media (min-width: 1280px) {
+  .showMenu {
+    right: -20px;
+  }
+}
+@media (min-width: 1440px) {
+  .showMenu {
+    right: -24px;
+  }
 }

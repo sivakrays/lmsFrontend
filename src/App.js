@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Nav from "./Components/Nav/Nav";
 import Course from "./Pages/Course/Course";
@@ -19,8 +19,18 @@ import Users from "./Dashboard/Users/Users";
 import Profile from "./Dashboard/Profile/Profile";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
 import UploadCourse from "./Dashboard/UploadCourse/UploadCourse";
+import { authContext } from "./Context/AuthContext";
 
 const App = () => {
+  //const { token } = useContext(authContext);
+  const token = localStorage.getItem("token");
+
+  const ProtectedRoute = ({ children }) => {
+    if (!token) {
+      return <Navigate to={"/"} />;
+    }
+    return children;
+  };
   return (
     <BrowserRouter>
       <Routes>
@@ -30,9 +40,30 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/coursedetails/:id" element={<CourseDetails />} />
-          <Route path="/mylearnings" element={<MyLearnings />} />
-          <Route path="/myvideo/:id" element={<MyVideo />} />
+          <Route
+            path="/coursedetails/:id"
+            element={
+              <ProtectedRoute>
+                <CourseDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mylearnings"
+            element={
+              <ProtectedRoute>
+                <MyLearnings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/myvideo/:id"
+            element={
+              <ProtectedRoute>
+                <MyVideo />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         <Route path="/video" element={<Video />} />
         <Route path="/quiz" element={<Quiz />} />

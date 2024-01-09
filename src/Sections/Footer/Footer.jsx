@@ -5,6 +5,7 @@ import appBtn from "../../Assets/Footer/appBtn.png";
 import facebook from "../../Assets/Footer/facebook.svg";
 import twitter from "../../Assets/Footer/twitter.svg";
 import instagram from "../../Assets/Footer/instagram.svg";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -28,16 +29,21 @@ const Footer = () => {
             <div className="flex flex-col gap-5 ">
               <p className="dayOne text-lg text-textColor">Quick links</p>
               <ul className="flex flex-col gap-3 text-footerColor">
-                <li>Home</li>
-                <li>Featured Courses</li>
-                <li>Testimonials</li>
-                <li>Contact</li>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/course">Featured Courses</Link>
+                </li>
+                <li>
+                  <Link to="/contact">Contact</Link>
+                </li>
               </ul>
             </div>
           </div>
           <div className="p-375px">
             <div className="flex flex-col gap-5">
-              <p className="dayOne text-lg text-textColor">Catagories</p>
+              <p className="dayOne text-lg text-textColor">Category</p>
               <ul className="flex flex-col gap-3 text-footerColor">
                 <li>Design</li>
                 <li>Business</li>

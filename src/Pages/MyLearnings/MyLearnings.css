@@ -3,4 +3,17 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  height: 100%;
+}
+
+/* MediaQuery */
+@media (min-width: 1280px) {
+  .learningContainer {
+    height: 100%;
+  }
+}
+@media (min-width: 1440px) {
+  .learningContainer {
+    height: 100%;
+  }
 }

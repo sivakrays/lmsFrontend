@@ -1,63 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import success from "../../Assets/reward/star.png";
+import { post } from "../../ApiCall/ApiCall";
+import { authContext } from "../../Context/AuthContext";
 
-const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
+const Quiz = ({
+  setRewardModal,
+  energyPoint,
+  setEnergyPoint,
+  quizzArray,
+  subSectionId,
+  currentPage,
+  setCurrentPage,
+  badge,
+  setBadge,
+}) => {
+  const [userID, setUserID] = useState(localStorage.getItem("userID"));
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
   const [isCorrectAns, setCorrectAns] = useState();
+  const [clickedOption, setClickedOption] = useState("");
+  const [currentAns, setCurrentAns] = useState("");
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
-  const quiz = [
-    {
-      id: 1,
-      title: "Finance Quiz-1",
-      question: `What does "invest in yourself" mean?`,
-      options: [
-        "Working to improve your skills and knowledge to give yourself a better future.",
-        "Spending all your money to buy delicious treats.",
-        "Using most of your money to buy expensive things that you like.",
-        "Delaying a task that you are supposed to do.",
-      ],
-      answer: 1,
-    },
-    {
-      id: 2,
-      title: "Finance Quiz-2",
-      question: "Why is it important to invest in yourself?",
-      options: [
-        "Because it is not good to invest in others.",
-        "It is better to spend your money now instead of saving it.",
-        "To equip myself with knowledge and skills that will help improve my life.",
-        "To treat myself as a business and to beat my competition.",
-      ],
-      answer: 3,
-    },
-    {
-      id: 3,
-      title: "Finance Quiz-3",
-      question:
-        "What is the best thing to do with your money after you get paid?",
-      options: [
-        "Use all of it to buy expensive toys.",
-        "Hide the money so no one can find it.",
-        "Invest money in important things.",
-        "Spend it on what my friends are buying.",
-      ],
-      answer: 2,
-    },
-  ];
+  const { updateBadgeCount } = useContext(authContext);
 
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = Math.ceil(quiz && quiz.length / itemsPerPage);
-
-  const [clickedOption, setClickedOption] = useState();
-  const [currentAns, setCurrentAns] = useState();
-  // const [checked, setChecked] = useState(false);
-
+  const totalPages = Math.ceil(quizzArray && quizzArray.length / itemsPerPage);
   const currentQuestions =
-    quiz && quiz.slice(indexOfFirstItem, indexOfLastItem);
+    quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
+  // Api Call
+
+  const sendPoints = async () => {
+    if (energyPoint != 0 && (badge != " " || badge != null)) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const data = {
+        userId: userID,
+        energyPoints: energyPoint,
+        badge: badge,
+        subSectionId: subSectionId,
+      };
+      await post("/user/saveBadge", data, config)
+        .then((res) => {
+          if (res.data) {
+            updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   const starsConfeeti = () => {
     var defaults = {
       spread: 360,
@@ -117,7 +114,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
   };
 
   const handleSubmit = () => {
-    if (clickedOption === currentAns) {
+    if (clickedOption == currentAns) {
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -126,9 +123,6 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
-      console.log("Your EnergyPoint is :", energyPoint);
-      setEnergyPoint(energyPoint);
-      console.log("correct");
 
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
@@ -139,14 +133,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
           starsConfeeti();
         }, 1000);
       }
-      // setEnergyPoint(energyPoint + 1);
-      // console.log("Total Energy Point", energyPoint);
-      // console.log("correct");
-      // setRewardModal(true);
-      // fireworkConfetti();
-      // starsConfeeti();
     } else {
-      // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
       if (isMotivationalBoxVissble === false) {
@@ -158,19 +145,30 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
           starsConfeeti();
         }, 1000);
       }
-      console.log("Your EnergyPoint is :", energyPoint);
-      console.log("wrong");
     }
+    setIsSubmitClicked(true);
   };
+
+  useEffect(() => {
+    switch (energyPoint) {
+      case 1:
+        setBadge("3");
+        break;
+      case 2:
+        setBadge("2");
+        break;
+      case 3:
+        setBadge("1");
+        break;
+      default:
+        console.log("Working");
+    }
+    sendPoints();
+    setIsSubmitClicked(false);
+  }, [isSubmitClicked === true]);
 
   const handleNext = () => {
-    if (clickedOption === currentAns) {
-      // setTimeout(() => {
-      //   if (isMotivationalBoxVissble === true) {
-      //     setCurrentPage(currentPage + 1);
-      //     setClickedOption();
-      //   }
-      // }, 2000);
+    if (clickedOption == currentAns) {
       setMotivationalBoxVissble(true);
       setCorrectAns(true);
       confetti({
@@ -179,29 +177,19 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
-      console.log(energyPoint);
-      console.log("correct");
-
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
-          setClickedOption();
+          setClickedOption("");
           setMotivationalBoxVissble(false);
           setCurrentPage(currentPage + 1);
         }, 1000);
       }
     } else {
-      // setTimeout(() => {
-      //   setCurrentPage(currentPage + 1);
-      //   setClickedOption();
-      //   // setChecked(false);
-      // }, 2000);
-      // setChecked(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
-      console.log("wrong");
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
-          setClickedOption();
+          setClickedOption("");
           setMotivationalBoxVissble(false);
           setCurrentPage(currentPage + 1);
         }, 1000);
@@ -209,17 +197,14 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
     }
   };
 
-  console.log("selected Answer", clickedOption);
   useEffect(() => {
     setCurrentAns(currentQuestions[0].answer);
-  }, currentQuestions);
+  }, [currentQuestions]);
 
-  console.log("correct answer", currentAns);
   const Pagination = ({ id }) => {
     return (
-      <div className="">
-        <div className="absolute bottom-0 right-52">
-          {" "}
+      <div className="relative">
+        <div className=" absolute -top-8  right-36 hidden lg:block">
           {isMotivationalBoxVissble && (
             <MotivationalBox
               isMotivationalBoxVissble={isMotivationalBoxVissble}
@@ -233,7 +218,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
               <span className="font-semibold">{id} </span>
               <span> of </span>
               <span className="font-semibold text-textColor">
-                {quiz.length}
+                {quizzArray.length}
               </span>
               <span> Questions</span>
             </span>
@@ -244,12 +229,14 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
             {currentPage === totalPages ? (
               <button
                 className={`flex h-10 items-center justify-center rounded border-0 border-l border-textLigntColor bg-textColor px-6 text-base font-medium text-white   ${
-                  isMotivationalBoxVissble === true
+                  isMotivationalBoxVissble === true || clickedOption === ""
                     ? "cursor-not-allowed opacity-50 "
                     : ""
                 }
                 `}
-                onClick={handleSubmit}
+                onClick={() => handleSubmit()}
+                disabled={clickedOption === ""}
+                type="button"
               >
                 Submit
               </button>
@@ -260,10 +247,12 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
                 onClick={() => handleNext()}
                 className={`flex h-10 items-center justify-center rounded-md border-textLigntColor bg-textColor px-8 text-base font-medium text-white   ${
                   currentPage === totalPages ||
-                  isMotivationalBoxVissble === true
+                  isMotivationalBoxVissble === true ||
+                  clickedOption === ""
                     ? "cursor-not-allowed opacity-50 "
                     : ""
                 }`}
+                disabled={clickedOption === ""}
               >
                 Next
               </button>
@@ -280,7 +269,7 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
   }) => {
     return (
       <>
-        <div className="relative flex h-[95px] w-[220px]  items-center justify-between rounded-md border-2 border-textColor bg-coursebg p-5 boxShadow">
+        <div className="relative flex h-[95px] w-[240px]  items-center justify-between rounded-md border-2 border-textColor bg-coursebg p-5 boxShadow">
           {isCorrectAns ? (
             <>
               <button
@@ -350,21 +339,21 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
   };
 
   return (
-    <div className="relative flex h-auto items-center justify-center bg-white p-2 md:p-0">
-      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-48 ">
+    <div className="relative flex h-full  items-center justify-center  bg-white p-2 md:p-0">
+      <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-32 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
             {currentQuestions[0].title}
           </h3>
         </div>
-        {currentQuestions.map((q) => (
-          <div key={q.id}>
+        {currentQuestions.map((q, index) => (
+          <div key={index}>
             <div className="space-y-4 p-5 ">
               <label
-                htmlFor={`question-${q.id}`}
+                htmlFor={`question-${q.key}`}
                 className="dayOne text-lg text-textColor"
               >
-                {q.id} {") "}
+                {q.key} {") "}
                 {q.question}
               </label>
               <div className="answer flex flex-col gap-5">
@@ -376,7 +365,8 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
                         //   ? index === currentAns &&
                         //     "border-green-700 boxShadow1 "
                         //   :
-                        index === clickedOption && "border-textColor boxShadow"
+                        index === clickedOption &&
+                        "border-[#008000] boxShadow1 hover:boxShadow1"
                       }`}
                       onClick={() => setClickedOption(index)}
                     >
@@ -386,10 +376,10 @@ const Quiz = ({ setRewardModal, energyPoint, setEnergyPoint }) => {
                 ))}
               </div>
             </div>
-            {/* <hr /> */}
             <div className="w-full md:w-full md:max-w-3xl">
               <Pagination
-                id={q.id}
+                id={q.key}
+                quizid1={q.quizId}
                 setMotivationalBoxVissble={setMotivationalBoxVissble}
                 isMotivationalBoxVissble={isMotivationalBoxVissble}
               />
