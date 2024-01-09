@@ -32,60 +32,28 @@ const Quiz = ({
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
   // Api Call
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const sendPoints = async () => {
-      if (energyPoint != 0 && (badge != " " || badge != null)) {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-        const data = {
-          userId: userID,
-          energyPoints: energyPoint,
-          badge: badge,
-          subSectionId: subSectionId,
-        };
-        await post("/user/saveBadge", data, config)
-          .then((res) => {
-            console.log(res.data);
+  const sendPoints = async () => {
+    if (energyPoint != 0 && (badge != " " || badge != null)) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const data = {
+        userId: userID,
+        energyPoints: energyPoint,
+        badge: badge,
+        subSectionId: subSectionId,
+      };
+      await post("/user/saveBadge", data, config)
+        .then((res) => {
+          if (res.data) {
             updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
-          })
-          .catch((err) => console.log(err));
-      }
-    };
-
-    if (isSubmitClicked) {
-      switch (energyPoint) {
-        case 1:
-          setBadge("3");
-          break;
-        case 2:
-          setBadge("2");
-          break;
-        case 3:
-          setBadge("1");
-          break;
-        default:
-          console.log("Working");
-      }
-      sendPoints();
-      setIsSubmitClicked(false);
+          }
+        })
+        .catch((err) => console.log(err));
     }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [
-    isSubmitClicked,
-    energyPoint,
-    badge,
-    subSectionId,
-    updateBadgeCount,
-    userID,
-  ]);
+  };
 
   const starsConfeeti = () => {
     var defaults = {
@@ -155,6 +123,7 @@ const Quiz = ({
         origin: { y: 0.6 },
       });
       setEnergyPoint(energyPoint + 1);
+
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -180,23 +149,23 @@ const Quiz = ({
     setIsSubmitClicked(true);
   };
 
-  // useEffect(() => {
-  switch (energyPoint) {
-    case 1:
-      setBadge("3");
-      break;
-    case 2:
-      setBadge("2");
-      break;
-    case 3:
-      setBadge("1");
-      break;
-    default:
-      console.log("Working");
-  }
-  //   sendPoints();
-  //   setIsSubmitClicked(false);
-  // }, [isSubmitClicked === true]);
+  useEffect(() => {
+    switch (energyPoint) {
+      case 1:
+        setBadge("3");
+        break;
+      case 2:
+        setBadge("2");
+        break;
+      case 3:
+        setBadge("1");
+        break;
+      default:
+        console.log("Working");
+    }
+    sendPoints();
+    setIsSubmitClicked(false);
+  }, [isSubmitClicked === true]);
 
   const handleNext = () => {
     if (clickedOption == currentAns) {
@@ -234,8 +203,8 @@ const Quiz = ({
 
   const Pagination = ({ id }) => {
     return (
-      <div className="">
-        <div className=" absolute bottom-0 right-96 hidden lg:block">
+      <div className="relative">
+        <div className=" absolute -top-8  right-36 hidden lg:block">
           {isMotivationalBoxVissble && (
             <MotivationalBox
               isMotivationalBoxVissble={isMotivationalBoxVissble}

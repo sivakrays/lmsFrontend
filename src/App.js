@@ -15,7 +15,8 @@ import Reward from "./Components/Reward/Reward";
 import { authContext } from "./Context/AuthContext";
 
 const App = () => {
-  const { token } = useContext(authContext);
+  //const { token } = useContext(authContext);
+  const token = localStorage.getItem("token");
 
   const ProtectedRoute = ({ children }) => {
     if (!token) {

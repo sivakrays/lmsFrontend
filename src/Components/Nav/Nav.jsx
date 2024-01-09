@@ -28,11 +28,6 @@ const Nav = () => {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
-  // const handleProfileButtonClick = (e) => {
-  //   // e.stopPropagation(); // Prevent event propagation to the parent elements
-  //   handleProfile();
-  // };
-
   const handleProfile = () => {
     console.log(clicked);
     setClicked(!clicked);

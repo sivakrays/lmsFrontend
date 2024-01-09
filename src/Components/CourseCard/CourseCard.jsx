@@ -47,9 +47,9 @@ const CourseCard = ({ course, path }) => {
         <div className="cardImg p-3">
           <div className="courseImgWrapper h-36 overflow-hidden rounded-lg">
             <img
-              src={`data:image/jpeg;base64,${course.thumbNail}`}
+              // src={`data:image/jpeg;base64,${course.thumbNail}`}
               // src={`${course.thumbNail}`}
-              // src={isTokenValid ? `${course.thumbNail}` : course.thumbNail}
+              src={isTokenValid ? `${course.thumbNail}` : course.thumbNail}
               alt="course thumbnail"
               className="courseImg h-full w-full object-cover"
             />

@@ -7,43 +7,33 @@ export const AuthContextProvider = ({ children }) => {
   const storedBronze = localStorage.getItem("bronze");
   const storedSilver = localStorage.getItem("silver");
   const storedGold = localStorage.getItem("gold");
+  const storedToken = localStorage.getItem("token");
 
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(storedToken || "");
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-  const [totalBronze, setTotalBronze] = useState(storedBronze || 0);
-  const [totalSilver, setTotalSilver] = useState(storedSilver || 0);
-  const [totalGold, setTotalGold] = useState(storedGold || 0);
+  const [totalBronze, setTotalBronze] = useState(storedBronze || "");
+  const [totalSilver, setTotalSilver] = useState(storedSilver || "");
+  const [totalGold, setTotalGold] = useState(storedGold || "");
 
   const [user, setUser] = useState("");
 
-  // useEffect(() => {
-  //   localStorage.setItem("totalBronze", totalBronze.toString());
-  //   localStorage.setItem("totalSilver", totalSilver.toString());
-  //   localStorage.setItem("totalGold", totalGold.toString());
-  // }, [totalBronze, totalSilver, totalGold]);
-
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    console.log("storedtoken", storedToken);
-
     if (storedToken && storedToken !== "") {
-      setToken(storedToken);
       setIsTokenValid(true);
     } else {
       setIsTokenValid(false);
     }
-  }, [token]);
+  }, []);
 
   const updateBadgeCount = (bronze, silver, gold) => {
-    console.log("badges b,s,g", bronze, silver, gold);
-    // setTotalBronze(bronze);
-    // setTotalSilver(silver);
-    // setTotalGold(gold);
     localStorage.setItem("bronze", bronze);
     localStorage.setItem("silver", silver);
     localStorage.setItem("gold", gold);
+    setTotalBronze(bronze);
+    setTotalSilver(silver);
+    setTotalGold(gold);
   };
 
   const login = async ({ email, password }) => {
@@ -70,6 +60,7 @@ export const AuthContextProvider = ({ children }) => {
         updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
         successNotify();
         setIsButtonClicked(false);
+        setIsTokenValid(true);
         console.log(res.data);
       })
       .catch((err) => {
@@ -89,15 +80,14 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token", token);
+    localStorage.removeItem("token");
     localStorage.removeItem("Current User");
     localStorage.removeItem("userID");
-    // localStorage.removeItem("bronze");
-    // localStorage.removeItem("silver");
-    // localStorage.removeItem("gold");
+    localStorage.removeItem("bronze");
+    localStorage.removeItem("silver");
+    localStorage.removeItem("gold");
     setToken("");
     setIsTokenValid(false);
-    //setShowProfile(false);
   };
 
   const successNotify = () =>
@@ -123,9 +113,6 @@ export const AuthContextProvider = ({ children }) => {
       theme: "light",
     });
 
-  // const handleClickOutlet = () => {
-  //   setShowProfile(false);
-  // };
   return (
     <authContext.Provider
       value={{
@@ -133,9 +120,7 @@ export const AuthContextProvider = ({ children }) => {
         token,
         logout,
         isTokenValid,
-        //showProfile,
-        //setShowProfile,
-        //handleClickOutlet,
+
         user,
         isButtonClicked,
         setIsButtonClicked,
@@ -143,9 +128,6 @@ export const AuthContextProvider = ({ children }) => {
         totalBronze,
         totalSilver,
         totalGold,
-
-        // setIsBadgeUpdate,
-        // isBadgeUpdate,
       }}
     >
       {children}

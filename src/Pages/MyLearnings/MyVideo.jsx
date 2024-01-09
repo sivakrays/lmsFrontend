@@ -22,10 +22,11 @@ const MyVideo = () => {
   const [subSectionId, setSubSectionId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { updateBadgeCount, setIsBadgeUpdate, isBadgeUpdate } =
-    useContext(authContext);
+  const { updateBadgeCount } = useContext(authContext);
 
   const bearer_token = JSON.parse(localStorage.getItem("token"));
+
+  //console.log("badgevaluueee########", badgeValue);
 
   const config = {
     headers: {
@@ -128,12 +129,16 @@ const MyVideo = () => {
                       currentPage={currentPage}
                       setBadge={setBadge}
                       badge={badge}
+                      // setBadgeValue={setBadgeValue}
+                      // badgeValue={badgeValue}
                     />
                     {isrewardModal && (
                       <Modal
                         isrewardModal={isrewardModal}
                         setRewardModal={setRewardModal}
                         energyPoint={energyPoint}
+                        // badgeValue={badgeValue}
+                        // updateBadgeCount={updateBadgeCount}
                       />
                     )}
                   </div>
@@ -171,12 +176,16 @@ const MyVideo = () => {
                       currentPage={currentPage}
                       setBadge={setBadge}
                       badge={badge}
+                      // setBadgeValue={setBadgeValue}
+                      // badgeValue={badgeValue}
                     />
                     {isrewardModal && (
                       <Modal
                         isrewardModal={isrewardModal}
                         setRewardModal={setRewardModal}
                         energyPoint={energyPoint}
+                        // badgeValue={badgeValue}
+                        // updateBadgeCount={updateBadgeCount}
                       />
                     )}
                   </div>
