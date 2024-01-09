@@ -198,8 +198,8 @@ const Quiz = ({
 
   const Pagination = ({ id }) => {
     return (
-      <div className="">
-        <div className=" absolute bottom-0 right-96 hidden lg:block">
+      <div className="relative">
+        <div className=" absolute  -top-8 right-36 hidden lg:block">
           {isMotivationalBoxVissble && (
             <MotivationalBox
               isMotivationalBoxVissble={isMotivationalBoxVissble}
@@ -333,7 +333,7 @@ const Quiz = ({
   };
 
   return (
-    <div className="relative flex h-full  items-center justify-center  bg-white p-2 md:p-0">
+    <div className=" flex h-full  items-center justify-center  bg-white p-2 md:p-0">
       <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-32 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">

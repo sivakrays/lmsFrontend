@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
-
+import data from "../../Data/Data";
 import feature1 from "../../Assets/courseCard/c1.png";
 import feature2 from "../../Assets/courseCard/c2.png";
 import feature3 from "../../Assets/courseCard/c3.png";
@@ -102,15 +102,16 @@ const Home = () => {
         <div className="hero-container mx-auto flex w-[85%] flex-wrap gap-5 sm:gap-0">
           <div className="order-last flex flex-col justify-center gap-5 md:p-7 lg:order-first lg:w-[40%]">
             <p className="dayOne text-4xl text-textColor">
-              Every child is born genius
+              Empowering Every Child's Genius
             </p>
             <p className="text-lg font-semibold text-textColor">
-              Let CuriousKids help your child enhance these
+              Partnering with Neetie to Unleash Potential
             </p>
-            <p className="text-sm text-textLigntColor">
-              We offer personalised lessons powered by AI, aimed at kids between
-              3-12 years. With our cross curricular approach, we ensure your
-              child gets the best.
+            <p className="text-justify text-sm text-textLigntColor">
+              Unveiling the natural genius within each child is our passion at{" "}
+              {data[0].title}. Our commitment is to foster and guide young minds
+              with meticulously designed lessons, finely crafted for children
+              between 3 and 12 years old.
             </p>
             <div>
               <Button path="/course" name="Explore courses" />
@@ -155,8 +156,8 @@ const Home = () => {
                 Best Platform
               </div>
               <div className="desText text-textLigntColor lg:text-sm ">
-                Lorem ipsum dolor sit amet, consec temporidunt ut labore
-                veniam...
+                "Elevating learning journeys with engaging content for young
+                minds."
               </div>
             </div>
             <div className="divider hidden h-14 rounded border-r-4 border-textLigntColor lg:flex"></div>
@@ -176,8 +177,8 @@ const Home = () => {
                 Great materials
               </div>
               <div className="desText text-textLigntColor lg:text-sm">
-                Lorem ipsum dolor sit amet, consec temporidunt ut labore
-                veniam...
+                "Neetie: Exceptional materials, elevating learning for young
+                minds worldwide.
               </div>
             </div>
             <div className="divider hidden h-14 rounded border-r-4 border-textLigntColor lg:flex"></div>
@@ -197,8 +198,8 @@ const Home = () => {
                 Professional Course
               </div>
               <div className="desText text-textLigntColor lg:text-sm">
-                Lorem ipsum dolor sit amet, consec temporidunt ut labore
-                veniam...
+                " Elevating young learners with premium, expert-led professional
+                courses."
               </div>
             </div>
           </div>
@@ -211,8 +212,8 @@ const Home = () => {
             Featured Courses
           </p>
           <p className=" sm:text-md px-4 text-justify text-textLigntColor sm:w-[60%] sm:text-center md:w-[45%] md:text-[14px] lg:w-[35%] xl:w-[25%] xl:text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod temporidunt ut labore veniam...
+            "Explore Neetie's standout courses, expertly designed to ignite
+            curiosity and foster lifelong learning journeys."
           </p>
         </div>
         <div className="cardSection">

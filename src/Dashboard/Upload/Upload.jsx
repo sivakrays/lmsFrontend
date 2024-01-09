@@ -113,7 +113,12 @@ const SelectField = ({ label, name, value, onChange, options, required }) => {
   );
 };
 
-const CourseForm = ({ setSectionFormVisibile, courseId, setCourseId }) => {
+const CourseForm = ({
+  setSectionFormVisibile,
+  courseId,
+  setCourseId,
+  bearer_token,
+}) => {
   const [formData, setFormData] = useState({
     courseTitle: "",
     thumbnailBase64: "",
@@ -149,6 +154,7 @@ const CourseForm = ({ setSectionFormVisibile, courseId, setCourseId }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${bearer_token}`,
     },
   };
 
@@ -165,6 +171,8 @@ const CourseForm = ({ setSectionFormVisibile, courseId, setCourseId }) => {
     post("/user/saveCourse", data, config)
       .then((res) => {
         setCourseId(res.data.courseId);
+        const courseID = JSON.parse(res.data.courseId);
+        localStorage.setItem("Current Upload CourseId", courseID);
         console.log(res.data);
       })
       .catch((err) => console.log(err));
@@ -277,6 +285,7 @@ const CourseForm = ({ setSectionFormVisibile, courseId, setCourseId }) => {
               />
             </div>
             <button
+              // onClick={() => setSectionFormVisibile(true)}
               type="submit"
               className="mt-5 w-full rounded-md border bg-textLigntColor py-2.5 text-white md:w-[15%]"
             >
@@ -289,8 +298,11 @@ const CourseForm = ({ setSectionFormVisibile, courseId, setCourseId }) => {
   );
 };
 
-const SectionForm = ({ courseId, setCourseId }) => {
-  console.log("courseId from sectionform", courseId);
+const SectionForm = ({ courseId, setCourseId, bearer_token }) => {
+  console.log(
+    "courseId from sectionform",
+    localStorage.getItem("Current Upload CourseId"),
+  );
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
     {
@@ -299,9 +311,9 @@ const SectionForm = ({ courseId, setCourseId }) => {
       VideoLink: "",
       isQuizAvailable: false,
       quizInputs: [
-        { question: "", options: ["", ""], ans: "" },
-        { question: "", options: ["", ""], ans: "" },
-        { question: "", options: ["", ""], ans: "" },
+        { question: "", options: ["", ""], answer: "" },
+        { question: "", options: ["", ""], answer: "" },
+        { question: "", options: ["", ""], answer: "" },
       ],
     },
   ]);
@@ -325,9 +337,9 @@ const SectionForm = ({ courseId, setCourseId }) => {
         VideoLink: "",
         isQuizAvailable: false,
         quizInputs: [
-          { question: "", options: ["", ""], ans: "" },
-          { question: "", options: ["", ""], ans: "" },
-          { question: "", options: ["", ""], ans: "" },
+          { question: "", options: ["", ""], answer: "" },
+          { question: "", options: ["", ""], answer: "" },
+          { question: "", options: ["", ""], answer: "" },
         ],
       },
     ]);
@@ -379,7 +391,7 @@ const SectionForm = ({ courseId, setCourseId }) => {
   const handleQuizAnswerInputChange = (sectionIndex, quizIndex, event) => {
     const { value } = event.target;
     const updatedSubSections = [...subSections];
-    updatedSubSections[sectionIndex].quizInputs[quizIndex].ans = value;
+    updatedSubSections[sectionIndex].quizInputs[quizIndex].answer = value;
     setSubSections(updatedSubSections);
   };
 
@@ -411,30 +423,24 @@ const SectionForm = ({ courseId, setCourseId }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${bearer_token}`,
     },
   };
 
   const sendCourseSectionDetails = () => {
-    const subsetiondata = subSections.map((section) => ({
-      title: section.SubSectionTitle,
-      subSections: [
-        {
-          title: section.SubSectionTitle,
-          description: section.SubSectionDes,
-          link: section.VideoLink,
-          quizList: section.quizInputs,
-        },
-      ],
-    }));
-
     const data = [
       {
         title: sectionTitle,
-        course_id: 130,
-        subSections: subsetiondata,
+        course_id: localStorage.getItem("Current Upload CourseId"),
+        subSections: subSections.map((subSection) => ({
+          title: subSection.SubSectionTitle,
+          description: subSection.SubSectionDes,
+          link: subSection.VideoLink,
+          quizList: subSection.quizInputs,
+        })),
       },
     ];
-    console.log(subsetiondata);
+    console.log(data);
     post("/user/saveSection", data, config)
       .then((res) => {
         setCourseId(res.data.courseId);
@@ -447,8 +453,7 @@ const SectionForm = ({ courseId, setCourseId }) => {
     e.preventDefault();
     if (deserror === false) {
       sendCourseSectionDetails();
-      // console.log(sectionTitle);
-      // console.log(subSections);
+      localStorage.removeItem("Current Upload CourseId");
     }
   };
   return (
@@ -648,11 +653,13 @@ const SectionForm = ({ courseId, setCourseId }) => {
                               </label>
                               <input
                                 type="text"
-                                name={`ans-${i}-${quizIndex}`}
-                                value={quiz.ans}
+                                name={`answer-${i}-${quizIndex}`}
+                                value={quiz.answer}
                                 onChange={(e) =>
                                   handleQuizAnswerInputChange(i, quizIndex, e)
                                 }
+                                pattern="^[0-9]"
+                                title="Only Accept the Number"
                                 required
                                 className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                               />
@@ -691,16 +698,22 @@ const SectionForm = ({ courseId, setCourseId }) => {
 const Upload = () => {
   const [sectionFormVisible, setSectionFormVisibile] = useState(false);
   const [courseId, setCourseId] = useState("");
+  const bearer_token = JSON.parse(localStorage.getItem("token"));
 
   return (
     <>
       {sectionFormVisible === true ? (
-        <SectionForm setCourseId={setCourseId} courseId={courseId} />
+        <SectionForm
+          setCourseId={setCourseId}
+          courseId={courseId}
+          bearer_token={bearer_token}
+        />
       ) : (
         <CourseForm
           setSectionFormVisibile={setSectionFormVisibile}
           setCourseId={setCourseId}
           courseId={courseId}
+          bearer_token={bearer_token}
         />
       )}
     </>

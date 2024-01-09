@@ -26,13 +26,12 @@ const CourseDetails = () => {
   const [isAllOpen, setIsAllOpen] = useState(false);
   const [itemsToShow, setItemToShow] = useState([]);
   const [data, setData] = useState({});
+  const bearer_token = JSON.parse(localStorage.getItem("token"));
 
   const config = {
     headers: {
-      "Content-Type": "application/json",
-      "Acess-Control-Allow-Origin": "*",
-      "Acess-Control-Allow-Headers": "*",
       Accept: "application/json",
+      Authorization: `Bearer ${bearer_token}`,
       courseId: "1",
     },
   };

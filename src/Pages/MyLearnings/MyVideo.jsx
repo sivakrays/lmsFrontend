@@ -21,12 +21,15 @@ const MyVideo = () => {
   const [subSectionId, setSubSectionId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const token = JSON.parse(localStorage.getItem("token"));
+
   const config = {
     headers: {
       "Content-Type": "application/json",
       "Acess-Control-Allow-Origin": "*",
       "Acess-Control-Allow-Headers": "*",
       Accept: "application/json",
+      Authorization: `Bearer ${token}`,
       courseId: "1",
     },
   };
