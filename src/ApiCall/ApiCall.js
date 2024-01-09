@@ -7,13 +7,13 @@ const apiInstance = axios.create({
 });
 
 apiInstance.interceptors.request.use((config) => {
-  // console.log("API Request", config);
+  console.log("API Request", config);
   return config;
 });
 
 apiInstance.interceptors.response.use(
   (response) => {
-    // console.log("API Response", response);
+    console.log("API Response", response);
     return response;
   },
   (error) => {

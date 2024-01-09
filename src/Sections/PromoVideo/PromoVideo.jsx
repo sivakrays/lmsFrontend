@@ -22,28 +22,29 @@ import paperRocket from "../../Assets/Promo/Frame.svg";
 import colorStars from "../../Assets/Promo/shape-4.png";
 import stars from "../../Assets/Promo/Star.png";
 import blueStar from "../../Assets/Promo/blueStar.svg";
+import { Link } from "react-router-dom";
 
 const PromoVideo = () => {
   const systamaticCard = [
     {
       img: sym1,
-      title: "Formal Tuition",
-      des: "Eu turpis egestas pretium aenean pharetra magna ac.",
+      title: "Organized Syllabus:",
+      des: "Comprehensive, sequential content fostering holistic educational growth.",
     },
     {
       img: sym2,
-      title: "Formal Tuition",
-      des: "Eu turpis egestas pretium aenean pharetra magna ac.",
+      title: "Structured Curriculum:",
+      des: "Develop comprehensive curriculum, align with educational standards.",
     },
     {
       img: sym3,
-      title: "Formal Tuition",
-      des: "Eu turpis egestas pretium aenean pharetra magna ac.",
+      title: "Effective Instruction:",
+      des: "Utilize varied teaching methods, encourage interaction, critical thinking.",
     },
     {
       img: sym4,
-      title: "Formal Tuition",
-      des: "Eu turpis egestas pretium aenean pharetra magna ac.",
+      title: "Continuous Monitoring:",
+      des: "Monitor progress, adapt teaching strategies, cater to needs.",
     },
   ];
 
@@ -68,8 +69,8 @@ const PromoVideo = () => {
           Watch our promo video
         </p>
         <p className="mt-4 pb-6 text-center text-xs text-textLigntColor">
-          consectetur adipiscing elit, sed do eiusmod tempot ut labore veniam
-          ipsum...
+          "Discover Neetie's essence in our captivating, defining promotional
+          video."
         </p>
 
         <div className="video mx-auto flex w-3/4 items-center justify-center py-8">
@@ -120,21 +121,20 @@ const PromoVideo = () => {
             {systamaticCard.map((card, index) => (
               <div
                 key={index}
-                className="systamaticCard  mb-6 flex h-[190px] w-[390px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-herobg p-3 shadow boxShadow"
+                className="systamaticCard  mb-6 flex h-[170px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-coursebg p-3 shadow boxShadow md:w-[400px]"
               >
-                <div className="image-container mt-6">
+                <div className="image-container mt-16 ">
                   <img src={card.img} alt="" className="mask" />
                 </div>
                 <div className="flex flex-col">
-                  <p className="dayOne text-lg text-textColor">
-                    Formal Tuition
-                  </p>
-                  <p className="mt-3 text-sm text-textLigntColor">
-                    Eu turpis egestas pretium aenean pharetra magna ac.
-                  </p>
-                  {/* <p className="mt-3 w-[80px] border-b-2 border-dotted text-xs text-textColor">
-                    Read more {"->"}
-                  </p> */}
+                  <p className="dayOne text-lg text-textColor">{card.title}</p>
+                  <p className="mt-3 text-sm text-textLigntColor">{card.des}</p>
+                  <Link
+                    to={"/course"}
+                    className="mt-3 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold text-textColor  hover:text-textLigntColor"
+                  >
+                    View Course {"->"}
+                  </Link>
                 </div>
               </div>
             ))}

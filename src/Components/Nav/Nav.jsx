@@ -151,6 +151,20 @@ const Nav = () => {
                       Profile
                     </div>
                   </Link>
+                  {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+                    <>
+                      <Link to="/dashboard">
+                        <div
+                          className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                          onClick={handleProfile}
+                        >
+                          DashBoard
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    ""
+                  )}
                   <div
                     className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
                     onClick={handleLogOut}
@@ -255,7 +269,20 @@ const Nav = () => {
                 </Link>
               </li>
             )}
-
+            {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+              <>
+                <Link to="/dashboard">
+                  <div
+                    className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
+                    onClick={handleProfile}
+                  >
+                    DashBoard
+                  </div>
+                </Link>
+              </>
+            ) : (
+              ""
+            )}
             <li>
               {isTokenValid ? (
                 <div>

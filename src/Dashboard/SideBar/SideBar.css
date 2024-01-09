@@ -1,0 +1,7 @@
+@media (max-width: 320px) {
+  .bottomIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+  }
+}

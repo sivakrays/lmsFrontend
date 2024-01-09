@@ -1,7 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import appBtn from "../../Assets/Footer/appBtn.png";
-
+import data from "../../Data/Data";
 import facebook from "../../Assets/Footer/facebook.svg";
 import twitter from "../../Assets/Footer/twitter.svg";
 import instagram from "../../Assets/Footer/instagram.svg";
@@ -20,9 +20,10 @@ const Footer = () => {
               <span className="text-lg font-bold text-textColor">desk</span>
             </div>
             <div className="footerDes text-textLigntColor">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco..
+              Unveiling the natural genius within each child is our passion at
+              Neetie. Our commitment is to foster and guide young minds with
+              meticulously designed lessons, finely crafted for children between
+              3 and 12 years old.
             </div>
           </div>
           <div className="p-375px">
@@ -45,7 +46,7 @@ const Footer = () => {
             <div className="flex flex-col gap-5">
               <p className="dayOne text-lg text-textColor">Category</p>
               <ul className="flex flex-col gap-3 text-footerColor">
-                <li>Design</li>
+                <li>Finance</li>
                 <li>Business</li>
                 <li>Marketing</li>
                 <li>Photography</li>
@@ -66,7 +67,7 @@ const Footer = () => {
       </footer>
       <div className="flex flex-wrap justify-around bg-white py-3">
         <p className="text-footerColor">
-          © 2022 | course desk. All rights reserved.
+          © 2022 | {data[0].title} All rights reserved.
         </p>
         <ul className="flex gap-6">
           <li>

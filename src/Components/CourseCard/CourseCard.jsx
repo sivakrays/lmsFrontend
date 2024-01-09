@@ -66,16 +66,16 @@ const CourseCard = ({ course, path }) => {
           </div>
         </div>
         <div className="courseDetails flex flex-col gap-5 px-3">
-          <div className="courseHeading dayOne text-textColor">
-            {/* {course.title} */}
+          <div className="courseHeading dayOne h-11  text-textColor">
             {course.title.length > 40
               ? `${course.title.substring(0, 40)}...`
               : course.title}
           </div>
           {path == "course" && (
             <div className="courseDes text-sm text-textLigntColor">
-              {/* {course.description} */}
-              {course.description}
+              {course.description.length > 40
+                ? `${course.description.substring(0, 90)}...`
+                : course.description}
             </div>
           )}
         </div>

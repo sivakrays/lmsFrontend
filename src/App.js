@@ -12,6 +12,7 @@ import Quiz from "./Components/Quiz/Quiz";
 import MyLearnings from "./Pages/MyLearnings/MyLearnings";
 import MyVideo from "./Pages/MyLearnings/MyVideo";
 import Reward from "./Components/Reward/Reward";
+import { authContext } from "./Context/AuthContext";
 import Dashboard from "./Dashboard/Dashboard";
 import MyCourse from "./Dashboard/MyCourse/MyCourse";
 import SideBar from "./Dashboard/SideBar/SideBar";
@@ -19,7 +20,7 @@ import Users from "./Dashboard/Users/Users";
 import Profile from "./Dashboard/Profile/Profile";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
 import UploadCourse from "./Dashboard/UploadCourse/UploadCourse";
-import { authContext } from "./Context/AuthContext";
+import Upload from "./Dashboard/Upload/Upload";
 
 const App = () => {
   //const { token } = useContext(authContext);
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/uploadCourse" element={<UploadCourse />} />
+          <Route path="/upload" element={<Upload />} />
         </Route>
       </Routes>
     </BrowserRouter>

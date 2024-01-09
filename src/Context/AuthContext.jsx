@@ -52,6 +52,7 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.setItem("userID", res.data.userId);
         const parseTokenObj = JSON.parse(localToken);
         const actualToken = parseTokenObj.token;
+        localStorage.setItem("Role", res.data.role);
         setToken(actualToken);
         setUser(localStorage.getItem("Current User"));
         setTotalBronze(res.data.bronze);
@@ -86,6 +87,7 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("bronze");
     localStorage.removeItem("silver");
     localStorage.removeItem("gold");
+    localStorage.removeItem("Role");
     setToken("");
     setIsTokenValid(false);
   };
