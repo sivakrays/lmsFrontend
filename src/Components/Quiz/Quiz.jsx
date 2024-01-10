@@ -14,6 +14,9 @@ const Quiz = ({
   setCurrentPage,
   badge,
   setBadge,
+  setCurrentIndex,
+  currentIndex,
+  setIsQuizClicked,
 }) => {
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
@@ -30,6 +33,10 @@ const Quiz = ({
   const totalPages = Math.ceil(quizzArray && quizzArray.length / itemsPerPage);
   const currentQuestions =
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log("clicked Option", clickedOption);
+  console.log("quizzArray from quiz", quizzArray);
+
   // Api Call
 
   const sendPoints = async () => {
@@ -49,6 +56,7 @@ const Quiz = ({
         .then((res) => {
           if (res.data) {
             updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+            console.log("update badge api called");
           }
         })
         .catch((err) => console.log(err));
@@ -124,6 +132,14 @@ const Quiz = ({
       });
       setEnergyPoint(energyPoint + 1);
 
+      if (energyPoint > 0) {
+        setCurrentIndex(currentIndex + 1);
+        setIsQuizClicked(false);
+      } else {
+        setCurrentIndex(currentIndex);
+        setIsQuizClicked(true);
+      }
+
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -136,6 +152,15 @@ const Quiz = ({
     } else {
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
+
+      if (energyPoint > 0) {
+        setCurrentIndex(currentIndex + 1);
+        setIsQuizClicked(false);
+      } else {
+        setCurrentIndex(currentIndex);
+        setIsQuizClicked(true);
+      }
+
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -195,10 +220,11 @@ const Quiz = ({
         }, 1000);
       }
     }
+    console.log("Current Page", currentPage);
   };
 
   useEffect(() => {
-    setCurrentAns(currentQuestions[0].answer);
+    setCurrentAns(currentQuestions[0].answer - 1);
   }, [currentQuestions]);
 
   const Pagination = ({ id }) => {
@@ -224,8 +250,6 @@ const Quiz = ({
             </span>
           </div>
           <div>
-            {/* ${checked === true ? "cursor-not-allowed opacity-50 " : ""} */}
-            {/*  disabled={checked === true} */}
             {currentPage === totalPages ? (
               <button
                 className={`flex h-10 items-center justify-center rounded border-0 border-l border-textLigntColor bg-textColor px-6 text-base font-medium text-white   ${
@@ -241,8 +265,6 @@ const Quiz = ({
                 Submit
               </button>
             ) : (
-              // || checked === true
-              // disabled={checked === true}
               <button
                 onClick={() => handleNext()}
                 className={`flex h-10 items-center justify-center rounded-md border-textLigntColor bg-textColor px-8 text-base font-medium text-white   ${
@@ -343,17 +365,18 @@ const Quiz = ({
       <div className=" h-full w-full rounded-lg bg-white md:p-5 lg:p-10 lg:pt-40 xl:max-w-4xl xl:p-12 xl:pt-32 ">
         <div className=" rounded-t border-b pb-5">
           <h3 className=" dayOne text-2xl  font-semibold text-textColor">
-            {currentQuestions[0].title}
+            {/* {currentQuestions[0].title} */}
+            Quiz
           </h3>
         </div>
         {currentQuestions.map((q, index) => (
           <div key={index}>
             <div className="space-y-4 p-5 ">
               <label
-                htmlFor={`question-${q.key}`}
+                htmlFor={`question-${index}`}
                 className="dayOne text-lg text-textColor"
               >
-                {q.key} {") "}
+                {index + 1} {") "}
                 {q.question}
               </label>
               <div className="answer flex flex-col gap-5">
@@ -361,10 +384,6 @@ const Quiz = ({
                   <div key={index} className="">
                     <button
                       className={`q_answer flex w-full cursor-pointer items-center gap-3 rounded-[10px] border  p-2 text-left text-textLigntColor duration-300 hover:border-textColor hover:boxShadow sm:w-[90%] xl:w-[90%] ${
-                        // checked === true
-                        //   ? index === currentAns &&
-                        //     "border-green-700 boxShadow1 "
-                        //   :
                         index === clickedOption &&
                         "border-[#008000] boxShadow1 hover:boxShadow1"
                       }`}
@@ -378,7 +397,7 @@ const Quiz = ({
             </div>
             <div className="w-full md:w-full md:max-w-3xl">
               <Pagination
-                id={q.key}
+                id={index + 1}
                 quizid1={q.quizId}
                 setMotivationalBoxVissble={setMotivationalBoxVissble}
                 isMotivationalBoxVissble={isMotivationalBoxVissble}

@@ -40,12 +40,13 @@ const CourseDetails = () => {
       try {
         const res = await get("/user/getCourseById", config);
         setData(res.data);
-        const allListItems =
-          res.data &&
-          res.data.whatYouWillLearn
-            .split(".")
-            .filter((sentence) => sentence.trim() !== "");
-        setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
+        // console.log(res.data);
+        // console.log(res.data);
+        const allListItems = res.data && res.data.whatYouWillLearn;
+        //     .split(".")
+        //     .filter((sentence) => sentence.trim() !== "");
+        // setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
+        //console.log(res.data);
       } catch (err) {
         //console.log("error", err);
       }
@@ -84,7 +85,7 @@ const CourseDetails = () => {
               </div>
               {/*  */}
 
-              <div className="mx-auto w-10/12   lg:h-[250px] lg:w-[85ch] xl:mx-0 xl:w-[60ch]">
+              <div className="mx-auto h-auto   w-10/12 lg:w-[85ch] xl:mx-0 xl:w-[60ch]">
                 <div className="">
                   <div className="flex flex-row">
                     <img src={ForwardArrow} alt="" className="w-3" />
@@ -97,7 +98,9 @@ const CourseDetails = () => {
                     {data.title}
                   </h1>
                   <p className="my-3 text-lg leading-normal text-textColor  xl:text-white">
-                    {data.description}
+                    {data.description.length > 40
+                      ? `${data.description.substring(0, 140)}...`
+                      : data.description}
                   </p>
                   <div className="flex flex-col ">
                     <div className="my-2 flex  gap-3">
@@ -150,7 +153,7 @@ const CourseDetails = () => {
               </div>
               {/* <div className="absolute top-10 xl:right-[150px] xl:block  "> */}
               <div className="card">
-                <Card />
+                <Card img={data.thumbNail} />
               </div>
             </section>
           )}
@@ -163,15 +166,16 @@ const CourseDetails = () => {
                     What you'll learn
                   </h1>
                   <div className="">
-                    <ul className="place-iems-center grid list-outside list-disc grid-cols-1 gap-4  p-4   text-sm duration-500 md:grid-cols-2">
-                      {itemsToShow &&
+                    <p className="text-sm text-textColor">
+                      {data.whatYouWillLearn}
+                      {/* {itemsToShow &&
                         itemsToShow.map((item, index) => (
                           <li key={index} data-testid="list">
                             {item}
                           </li>
-                        ))}
-                    </ul>
-                    <div className="  flex h-11 w-full flex-row">
+                        ))} */}
+                    </p>
+                    {/* <div className="  flex h-11 w-full flex-row">
                       {itemsToShow && itemsToShow.length > 8 ? (
                         <button
                           className="  flex "
@@ -189,7 +193,7 @@ const CourseDetails = () => {
                       ) : (
                         ""
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

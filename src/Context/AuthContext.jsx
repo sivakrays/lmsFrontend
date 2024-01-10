@@ -50,6 +50,7 @@ export const AuthContextProvider = ({ children }) => {
         res.data && localStorage.setItem("token", localToken);
         localStorage.setItem("Current User", res.data.name);
         localStorage.setItem("userID", res.data.userId);
+        localStorage.setItem("email", res.data.email);
         const parseTokenObj = JSON.parse(localToken);
         const actualToken = parseTokenObj.token;
         localStorage.setItem("Role", res.data.role);

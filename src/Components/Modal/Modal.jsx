@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Video from "../Video/Video";
 import "./Modal.css";
 import Reward from "../Reward/Reward";
+
 import { RxCross1 } from "react-icons/rx";
 import CourseFormInput from "../CourseFormInput/CourseFormInput";
 
@@ -20,6 +21,11 @@ const Modal = ({
   energyPoint,
   profileModal,
   setProfileModal,
+  profileDetails,
+  inputs,
+  handleChange,
+  handleSubmit,
+  formData,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -47,61 +53,6 @@ const Modal = ({
     const close = () => {
       setProfileModal(false);
     };
-
-    const inputs = [
-      {
-        id: 1,
-        name: "User Name",
-        label: "User Name",
-        type: "text",
-        errorMsg: "Please enter correct name",
-        required: true,
-      },
-      {
-        id: 2,
-        name: "Country",
-        label: "Country",
-        type: "text",
-        errorMsg: "Please enter valid email",
-        required: true,
-      },
-      {
-        id: 3,
-        name: "password",
-        label: "Password",
-        type: "password",
-        errorMsg: "Password must contain  atleast 6 characters",
-        pattern: `^(?=.*[a-zA-Z\d])[a-zA-Z\d]{6,}$`,
-        required: true,
-      },
-      {
-        id: 4,
-        name: "confirmPassword",
-        label: "Confirm Paasword",
-        type: "password",
-        errorMsg: "Password does not matched",
-        // pattern: values.password,
-        required: true,
-      },
-      {
-        id: 5,
-        name: "Address",
-        label: "Address",
-        type: "textarea",
-        errorMsg: "Please enter valid email",
-        required: true,
-      },
-      {
-        id: 6,
-        name: "City",
-        label: "City",
-        type: "text",
-        errorMsg: "Please enter valid email",
-        required: true,
-      },
-    ];
-
-    const handleChange = () => {};
 
     return (
       <>
@@ -133,25 +84,31 @@ const Modal = ({
 
               {/* Modal body */}
               <div className=" w-full p-5">
-                <div className="flex  flex-wrap gap-5 ">
-                  {inputs.map((input1) => {
-                    return (
-                      <CourseFormInput
-                        key={input1.id}
-                        {...input1}
-                        value=""
-                        onChange={handleChange}
-                        path="profileModal"
-                      />
-                    );
-                  })}
-                </div>
-                <button
-                  className="mt-5 rounded bg-textColor px-6 py-1.5 text-white shadow-sm"
-                  onClick={close}
-                >
-                  Submit
-                </button>
+                <form onSubmit={handleSubmit}>
+                  <div className="flex flex-row flex-wrap gap-5 ">
+                    {inputs.map((input1) => {
+                      return (
+                        <div className=" flex w-[48%] flex-col">
+                          <CourseFormInput
+                            key={input1.id}
+                            {...input1}
+                            onChange={handleChange}
+                            value={formData[input1.name]}
+                            path="profileModal"
+                            errorMsg={input1.errorMsg}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="mt-5 rounded bg-textColor px-6 py-1.5 text-white shadow-sm"
+                  >
+                    Submit
+                  </button>
+                </form>
               </div>
               {/* Modal footer */}
             </div>

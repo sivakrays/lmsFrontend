@@ -10,7 +10,8 @@ import folder from "../../Assets/coursedetails/folder.svg";
 import trophy from "../../Assets/coursedetails/trophy.svg";
 import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
 
-const Card = () => {
+const Card = ({ img }) => {
+  console.log(img);
   const [isCardFixed, setIscardFixed] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
@@ -42,7 +43,7 @@ const Card = () => {
       }`}
     >
       <div className="relative">
-        <img src={cardImage} alt="" className="h-52 w-full rounded-t-lg " />
+        <img src={img} alt="" className="h-52 w-full rounded-t-lg " />
         <img
           src={playCircle}
           alt=""

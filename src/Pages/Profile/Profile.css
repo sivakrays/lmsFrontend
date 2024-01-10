@@ -1,0 +1,68 @@
+@media screen and (max-width: 320px) {
+  .profile {
+    font-size: 12px;
+  }
+  .info-text {
+    font-size: 13px;
+  }
+  .card {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .profile_header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 376px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .profile_header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 476px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .profile_header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 501px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .profile_header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 769px) {
+  .profile_header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+  }
+  .medals {
+    width: 100%;
+  }
+  .children-img {
+    height: auto;
+  }
+}

@@ -24,6 +24,9 @@ const MyVideo = () => {
   const [subSectionId, setSubSectionId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [sectionId, setSectionId] = useState(0);
+
   const bearer_token = JSON.parse(localStorage.getItem("token"));
 
   const config = {
@@ -37,26 +40,56 @@ const MyVideo = () => {
     const getAccordionDetails = async () => {
       await get("/user/getCourseById", config)
         .then((res) => {
+          // console.log("response", res.data.sections);
           setAccordionDetails(res && res.data && res.data.sections);
           setVideoUrl(
-            res && res.data && res.data.sections[0].subSections[0].link,
+            //res && res.data && res.data.sections[0].subSections[0].link,
+            res &&
+              res.data &&
+              res.data.sections[sectionId].subSections[currentIndex].link,
+          );
+          console.log(
+            "videoUrl",
+            res.data.sections[sectionId].subSections[currentIndex].link,
           );
         })
         .catch((err) => console.log(err));
     };
 
     getAccordionDetails();
-  }, []);
+  }, [currentIndex]);
+
+  console.log("currentIndex", currentIndex);
+  console.log("sectionId", sectionId);
+  // useEffect(() => {
+  //   const getAccordionDetails = async () => {
+  //     await get("/user/getCourseById", config)
+  //       .then((res) => {
+  //         setAccordionDetails(res && res.data && res.data.sections);
+  //         setVideoUrl(
+  //           res &&
+  //             res.data &&
+  //             res.data.sections[currentIndex].subSections[currentIndex].link,
+  //         );
+  //       })
+  //       .catch((err) => console.log(err));
+  //   };
+
+  //   getAccordionDetails();
+  // }, [currentIndex]);
 
   const isSmallScreen = window.innerWidth < 1024;
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
   };
 
-  const setUrl = (link) => {
+  const setUrl = (link, index, subSectionId) => {
     setVideoUrl(link);
     setIsQuizClicked(false);
+    setCurrentIndex(index);
+    console.log("index", index);
   };
+  console.log("currentIndex", currentIndex);
   const handleQuizOpen = (quizItem, subSectionId) => {
     setEnergyPoint(0);
     setCurrentPage(1);
@@ -68,7 +101,7 @@ const MyVideo = () => {
 
   const myLearningVideo = () => {
     return (
-      <div className="relative  w-[100%]">
+      <div className="relative  w-[100%]" data-testid="learningvideo">
         <ReactPlayer
           controls
           width={isSmallScreen ? "100%" : "70%"}
@@ -91,12 +124,13 @@ const MyVideo = () => {
                   accordianDetails={accordionDetails}
                   path="MyVideo"
                   setUrl={setUrl}
-                  isVideoAllOpen={isVideoAll}
+                  // isVideoAllOpen={isVideoAll}
                   handleQuizOpen={handleQuizOpen}
                   isQuizClicked={isQuizClicked}
+                  setSectionId={setSectionId}
                 />
               </div>
-              <div
+              {/* <div
                 className=" float-right mr-3 w-28 cursor-pointer   rounded-md bg-yellowColor p-2"
                 onClick={handleCollapse}
               >
@@ -110,7 +144,7 @@ const MyVideo = () => {
                     Expand All
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
 
             <div className="h-auto w-full lg:w-[70%]">
@@ -127,6 +161,10 @@ const MyVideo = () => {
                       currentPage={currentPage}
                       setBadge={setBadge}
                       badge={badge}
+                      setUrl={setUrl}
+                      setCurrentIndex={setCurrentIndex}
+                      currentIndex={currentIndex}
+                      setIsQuizClicked={setIsQuizClicked}
                     />
                     {isrewardModal && (
                       <Modal
@@ -170,6 +208,10 @@ const MyVideo = () => {
                       currentPage={currentPage}
                       setBadge={setBadge}
                       badge={badge}
+                      setCurrentIndex={setCurrentIndex}
+                      setUrl={setUrl}
+                      currentIndex={currentIndex}
+                      setIsQuizClicked={setIsQuizClicked}
                     />
                     {isrewardModal && (
                       <Modal
@@ -190,7 +232,7 @@ const MyVideo = () => {
                   accordianDetails={accordionDetails}
                   path="MyVideo"
                   setUrl={setUrl}
-                  isVideoAllOpen={isVideoAll}
+                  //isVideoAllOpen={isVideoAll}
                   handleQuizOpen={handleQuizOpen}
                 />
               </div>

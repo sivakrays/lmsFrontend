@@ -15,11 +15,16 @@ const InputField = ({
   title,
 }) => {
   const [error, setError] = useState(false);
+  const [letters, setLetters] = useState(0);
 
   const handleValidation = (e) => {
     const { name, value } = e.target;
-    if (name === "teachingDes" || name === "courseDes") {
+    if (name === "teachingDes") {
       setError(value.length < 50);
+      setLetters(50);
+    } else if (name === "courseDes") {
+      setError(value.length < 20);
+      setLetters(20);
     }
   };
 
@@ -63,7 +68,7 @@ const InputField = ({
       )}
       {error && (
         <p className="mt-1 text-sm text-red-500">
-          Must contain the 50 letters in {label.toLowerCase()}
+          Must contain the {letters} letters in {label.toLowerCase()}
           {/* Please enter a valid {label.toLowerCase()} */}
         </p>
       )}
@@ -311,9 +316,9 @@ const SectionForm = ({ courseId, setCourseId, bearer_token }) => {
       VideoLink: "",
       isQuizAvailable: false,
       quizInputs: [
-        { question: "", options: ["", ""], answer: "" },
-        { question: "", options: ["", ""], answer: "" },
-        { question: "", options: ["", ""], answer: "" },
+        { key: 1, question: "", options: ["", ""], answer: "" },
+        { key: 2, question: "", options: ["", ""], answer: "" },
+        { key: 3, question: "", options: ["", ""], answer: "" },
       ],
     },
   ]);

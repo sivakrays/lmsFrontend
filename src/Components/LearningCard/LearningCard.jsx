@@ -8,7 +8,7 @@ const LearningCard = ({ cardDetails }) => {
     navigate(`/myvideo/${cardDetails.key}`);
   };
   return (
-    <div className="p-4  " onClick={goToVideo}>
+    <div className="p-4  " onClick={goToVideo} data-testid="learningCard">
       <div className="flex w-[280px]  cursor-pointer flex-col  rounded border-2 border-textColor bg-white   shadow-md boxShadow">
         <div className="h-3/5 w-full p-1.5">
           <img
@@ -20,7 +20,7 @@ const LearningCard = ({ cardDetails }) => {
         <div className="mb-4 flex flex-col gap-4  p-4">
           <div className="h-14">
             <h1 className="dayOne text-md  text-textColor">
-              {cardDetails.title.length > 40
+              {cardDetails.title && cardDetails.title.length > 40
                 ? `${cardDetails.title.substring(0, 40)}...`
                 : cardDetails.title}
             </h1>
