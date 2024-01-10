@@ -32,7 +32,7 @@ const MyVideo = () => {
   const config = {
     headers: {
       Authorization: `Bearer ${bearer_token}`,
-      courseId: "1",
+      courseId: "252",
     },
   };
 
@@ -57,7 +57,7 @@ const MyVideo = () => {
     };
 
     getAccordionDetails();
-  }, [currentIndex]);
+  }, []);
 
   console.log("currentIndex", currentIndex);
   console.log("sectionId", sectionId);

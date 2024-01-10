@@ -132,14 +132,6 @@ const Quiz = ({
       });
       setEnergyPoint(energyPoint + 1);
 
-      if (energyPoint > 0) {
-        setCurrentIndex(currentIndex + 1);
-        setIsQuizClicked(false);
-      } else {
-        setCurrentIndex(currentIndex);
-        setIsQuizClicked(true);
-      }
-
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -152,14 +144,6 @@ const Quiz = ({
     } else {
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
-
-      if (energyPoint > 0) {
-        setCurrentIndex(currentIndex + 1);
-        setIsQuizClicked(false);
-      } else {
-        setCurrentIndex(currentIndex);
-        setIsQuizClicked(true);
-      }
 
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
@@ -376,7 +360,7 @@ const Quiz = ({
                 htmlFor={`question-${index}`}
                 className="dayOne text-lg text-textColor"
               >
-                {index + 1} {") "}
+                {q.key} {") "}
                 {q.question}
               </label>
               <div className="answer flex flex-col gap-5">
@@ -397,7 +381,7 @@ const Quiz = ({
             </div>
             <div className="w-full md:w-full md:max-w-3xl">
               <Pagination
-                id={index + 1}
+                id={q.key}
                 quizid1={q.quizId}
                 setMotivationalBoxVissble={setMotivationalBoxVissble}
                 isMotivationalBoxVissble={isMotivationalBoxVissble}
