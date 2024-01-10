@@ -14,6 +14,9 @@ const Quiz = ({
   setCurrentPage,
   badge,
   setBadge,
+  setCurrentIndex,
+  currentIndex,
+  setIsQuizClicked,
 }) => {
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
   const [isMotivationalBoxVissble, setMotivationalBoxVissble] = useState(false);
@@ -49,6 +52,7 @@ const Quiz = ({
         .then((res) => {
           if (res.data) {
             updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+            console.log("update badge api called");
           }
         })
         .catch((err) => console.log(err));
@@ -124,6 +128,14 @@ const Quiz = ({
       });
       setEnergyPoint(energyPoint + 1);
 
+      if (energyPoint > 0) {
+        setCurrentIndex(currentIndex + 1);
+        setIsQuizClicked(false);
+      } else {
+        setCurrentIndex(currentIndex);
+        setIsQuizClicked(true);
+      }
+
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();
@@ -136,6 +148,15 @@ const Quiz = ({
     } else {
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
+
+      if (energyPoint > 0) {
+        setCurrentIndex(currentIndex + 1);
+        setIsQuizClicked(false);
+      } else {
+        setCurrentIndex(currentIndex);
+        setIsQuizClicked(true);
+      }
+
       if (isMotivationalBoxVissble === false) {
         setTimeout(() => {
           setClickedOption();

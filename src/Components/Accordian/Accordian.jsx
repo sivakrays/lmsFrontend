@@ -13,6 +13,7 @@ const NestedAccordionItem = ({
   link,
   handleQuizOpen,
   subSectionId,
+  key2,
 }) => {
   const [isNestedAccordionOpen, setIsNestedAccordionOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -32,6 +33,31 @@ const NestedAccordionItem = ({
     setIsModalOpen1(!isModalOpen1);
   };
 
+  //   setQuizCompleted(true);
+
+  //   const currentIndex = accordianDetails
+  //     .flatMap((item) => item.subSections)
+  //     .findIndex((item) => item.subSectionId === subSectionId);
+
+  //   if (currentIndex < accordianDetails.length - 1) {
+  //     const nextVideo = accordianDetails[currentIndex + 1].subSections[0];
+  //     setActiveVideo(nextVideo);
+  //   }
+
+  //   if (handleQuizCompletion) {
+  //     handleQuizCompletion();
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (quizCompleted && activeVideo) {
+  //     // Auto-play the next video after quiz completion.
+  //     setUrl(activeVideo.link);
+  //     setIsVideoVisible(true);
+  //     setIsModalOpen1(true);
+  //   }
+  // }, [quizCompleted, activeVideo]);
+
   return (
     <>
       <div>
@@ -42,7 +68,7 @@ const NestedAccordionItem = ({
           <div className="flex w-3/4  items-center gap-5 ">
             {videoPath === "MyVideo" ? (
               <button
-                onClick={() => setUrl(link)}
+                onClick={() => setUrl(link, key2, subSectionId)}
                 className="flex items-center gap-5"
                 data-testid="videoButton"
               >
@@ -101,9 +127,13 @@ const NestedAccordionItem = ({
             )}
           </div>
         </div>
-        {quiz && quiz.length != 0 && (
+        {quiz && quiz.length !== 0 && (
           <div
-            onClick={() => handleQuizOpen(quiz, subSectionId)}
+            onClick={
+              videoPath == "MyVideo"
+                ? () => handleQuizOpen(quiz, subSectionId)
+                : undefined
+            }
             className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
           >
             <span>
@@ -135,8 +165,12 @@ const AccordionItem = ({
   setUrl,
   isVideoAllOpen,
   handleQuizOpen,
+  key1,
+  setSectionId,
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+
+  // console.log("nestedItems", key1);
 
   useEffect(() => {
     if (isAllOpen || isVideoAllOpen) {
@@ -146,8 +180,12 @@ const AccordionItem = ({
     }
   }, [isAllOpen, isVideoAllOpen]);
 
-  const toggleAccordion = () => {
+  const toggleAccordion = (sectionId, path) => {
     setIsAccordionOpen(!isAccordionOpen);
+    console.log("sectionId", sectionId);
+    if (path == "MyVideo") {
+      setSectionId(sectionId - 1);
+    }
   };
 
   return (
@@ -155,7 +193,7 @@ const AccordionItem = ({
       <h2>
         <button
           type="button"
-          onClick={toggleAccordion}
+          onClick={() => toggleAccordion(key1, videoPath)}
           className="flex w-full items-center justify-between gap-3  border 
            p-5 font-medium text-textColor hover:bg-gray-100 
              rtl:text-right "
@@ -179,7 +217,7 @@ const AccordionItem = ({
             nestedItems.map((item, index) => (
               <div key={index}>
                 <NestedAccordionItem
-                  key={item.key}
+                  key2={index}
                   title={item.title}
                   previewText={item.description}
                   link={item.link}
@@ -205,21 +243,26 @@ const Accordion = ({
   setUrl,
   isVideoAllOpen,
   handleQuizOpen,
+  setSectionId,
 }) => {
+  //console.log("AccordionDetails", accordianDetails);
   return (
     <div className="mb-8 bg-white">
       {accordianDetails &&
-        accordianDetails.map((item) => (
-          <AccordionItem
-            key={item.key}
-            title={item.title}
-            nestedItems={item.subSections}
-            isAllOpen={isAllOpen}
-            isVideoAllOpen={isVideoAllOpen}
-            videoPath={path}
-            setUrl={setUrl}
-            handleQuizOpen={handleQuizOpen}
-          />
+        accordianDetails.map((item, index) => (
+          <div key={index}>
+            <AccordionItem
+              key1={item.key}
+              title={item.title}
+              nestedItems={item.subSections}
+              isAllOpen={isAllOpen}
+              isVideoAllOpen={isVideoAllOpen}
+              videoPath={path}
+              setUrl={setUrl}
+              handleQuizOpen={handleQuizOpen}
+              setSectionId={setSectionId}
+            />
+          </div>
         ))}
     </div>
   );
