@@ -27,7 +27,7 @@ const CourseDetails = () => {
   const [isAllOpen, setIsAllOpen] = useState(false);
   const [itemsToShow, setItemToShow] = useState([]);
   const [data, setData] = useState({});
-  const bearer_token = JSON.parse(localStorage.getItem("token"));
+  const bearer_token = localStorage.getItem("token");
   const config = {
     headers: {
       courseId: id.id,
