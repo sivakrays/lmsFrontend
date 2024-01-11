@@ -59,8 +59,6 @@ const MyVideo = () => {
     getAccordionDetails();
   }, []);
 
-  console.log("currentIndex", currentIndex);
-  console.log("sectionId", sectionId);
   // useEffect(() => {
   //   const getAccordionDetails = async () => {
   //     await get("/user/getCourseById", config)
@@ -89,7 +87,6 @@ const MyVideo = () => {
     setCurrentIndex(index);
     console.log("index", index);
   };
-  console.log("currentIndex", currentIndex);
   const handleQuizOpen = (quizItem, subSectionId) => {
     setEnergyPoint(0);
     setCurrentPage(1);

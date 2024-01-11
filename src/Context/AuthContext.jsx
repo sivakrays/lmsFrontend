@@ -19,6 +19,23 @@ export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState("");
 
+  setInterval(() => {
+    const data = {};
+    const refresh = localStorage.getItem("refresh token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${refresh}`,
+      },
+    };
+    post("auth/refreshToken", data, config)
+      .then((res) => {
+        console.log(res.data.token);
+        JSON.stringify(localStorage.setItem("token", res.data.token));
+      })
+      .catch((err) => console.log(err));
+  }, 720000);
+
   useEffect(() => {
     if (storedToken && storedToken !== "") {
       setIsTokenValid(true);
@@ -48,6 +65,11 @@ export const AuthContextProvider = ({ children }) => {
       .then((res) => {
         const localToken = JSON.stringify(res.data.token);
         res.data && localStorage.setItem("token", localToken);
+        res.data &&
+          localStorage.setItem(
+            "refresh token",
+            JSON.stringify(res.data.refreshToken),
+          );
         localStorage.setItem("Current User", res.data.name);
         localStorage.setItem("userID", res.data.userId);
         localStorage.setItem("email", res.data.email);
@@ -82,13 +104,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("Current User");
-    localStorage.removeItem("userID");
-    localStorage.removeItem("bronze");
-    localStorage.removeItem("silver");
-    localStorage.removeItem("gold");
-    localStorage.removeItem("Role");
+    localStorage.clear();
     setToken("");
     setIsTokenValid(false);
   };

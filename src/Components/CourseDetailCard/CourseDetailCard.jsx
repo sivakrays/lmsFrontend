@@ -11,7 +11,6 @@ import trophy from "../../Assets/coursedetails/trophy.svg";
 import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
 
 const Card = ({ img }) => {
-  console.log(img);
   const [isCardFixed, setIscardFixed] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
 

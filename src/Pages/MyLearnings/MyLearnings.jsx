@@ -9,36 +9,36 @@ const MyLearnings = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      "Acess-Control-Allow-Origin": "*",
-      "Acess-Control-Allow-Headers": "*",
-      Accept: "application/json",
-      courseId: "202",
-    },
-  };
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Acess-Control-Allow-Origin": "*",
+  //     "Acess-Control-Allow-Headers": "*",
+  //     Accept: "application/json",
+  //     courseId: "202",
+  //   },
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await get("/user/getCourseById", config);
-        //setData(res.data);
-        // console.log(res.data);
-        const allListItems =
-          res.data &&
-          res.data.whatYouWillLearn
-            .split(".")
-            .filter((sentence) => sentence.trim() !== "");
-        //setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
-        // console.log(res.data);
-      } catch (err) {
-        console.log("error", err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await get("/user/getCourseById", config);
+  //       //setData(res.data);
+  //       // console.log(res.data);
+  //       const allListItems =
+  //         res.data &&
+  //         res.data.whatYouWillLearn
+  //           .split(".")
+  //           .filter((sentence) => sentence.trim() !== "");
+  //       //setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
+  //       // console.log(res.data);
+  //     } catch (err) {
+  //       console.log("error", err);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
   const cardDetails = [
     {
       key: 1,

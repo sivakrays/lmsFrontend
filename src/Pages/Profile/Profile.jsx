@@ -128,9 +128,6 @@ const Profile = (props) => {
 
   const [formData, setFormData] = useState({});
 
-  console.log("Profile Details:", profileDetails);
-  console.log("Form Data:", formData);
-
   const successNotify = () =>
     toast.success("Updated Successfully!", {
       position: "top-right",
