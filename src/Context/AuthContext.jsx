@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
 
   setInterval(() => {
     const data = {};
-    const refresh = localStorage.getItem("refresh token");
+    const refresh = JSON.parse(localStorage.getItem("refresh token"));
     console.log(refresh);
     const config = {
       headers: {
@@ -31,10 +31,11 @@ export const AuthContextProvider = ({ children }) => {
     post("auth/refreshToken", data, config)
       .then((res) => {
         console.log(res.data.token);
-        JSON.stringify(localStorage.setItem("token", res.data.token));
+        const refresh = JSON.stringify(res.data.token);
+        localStorage.setItem("token", refresh);
       })
       .catch((err) => console.log(err));
-  }, 720000);
+  }, 120000);
 
   useEffect(() => {
     if (storedToken && storedToken !== "") {
@@ -65,8 +66,8 @@ export const AuthContextProvider = ({ children }) => {
       .then((res) => {
         const localToken = JSON.stringify(res.data.token);
         res.data && localStorage.setItem("token", localToken);
-        res.data &&
-          localStorage.setItem("refresh token", res.data.refreshToken);
+        const refreshToken = JSON.stringify(res.data.refreshToken);
+        res.data && localStorage.setItem("refresh token", refreshToken);
         localStorage.setItem("Current User", res.data.name);
         localStorage.setItem("userID", res.data.userId);
         localStorage.setItem("email", res.data.email);
@@ -86,17 +87,17 @@ export const AuthContextProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log("Errorrrrrrr", err);
-        if (err.response.status && err.response.status === 403) {
-          errorNotify("Please provide valid credentials");
-          setTimeout(() => {
-            setIsButtonClicked(false);
-          }, 500);
-        } else if (err.response.status && err.response.status === 400) {
-          errorNotify("Bad request");
-          setIsButtonClicked(false);
-        }
+        // if (err.response.status && err.response.status === 403) {
+        //   errorNotify("Please provide valid credentials");
+        //   setTimeout(() => {
+        //     setIsButtonClicked(false);
+        //   }, 500);
+        // } else if (err.response.status && err.response.status === 400) {
+        //   errorNotify("Bad request");
+        //   setIsButtonClicked(false);
+        // }
 
-        errorNotify(err.message);
+        // errorNotify(err.message);
       });
   };
 

@@ -27,7 +27,7 @@ const MyVideo = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sectionId, setSectionId] = useState(0);
 
-  const bearer_token = localStorage.getItem("token");
+  const bearer_token = JSON.parse(localStorage.getItem("token"));
 
   const config = {
     headers: {
