@@ -22,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
   setInterval(() => {
     const data = {};
     const refresh = JSON.parse(localStorage.getItem("refresh token"));
-    console.log(refresh);
+    // console.log(refresh);
     const config = {
       headers: {
         Authorization: `Bearer ${refresh}`,
@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
     };
     post("auth/refreshToken", data, config)
       .then((res) => {
-        console.log(res.data.token);
+        // console.log(res.data.token);
         const refresh = JSON.stringify(res.data.token);
         localStorage.setItem("token", refresh);
       })

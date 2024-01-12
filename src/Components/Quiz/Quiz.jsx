@@ -34,8 +34,8 @@ const Quiz = ({
   const currentQuestions =
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("clicked Option", clickedOption);
-  console.log("quizzArray from quiz", quizzArray);
+  // console.log("clicked Option", clickedOption);
+  // console.log("quizzArray from quiz", quizzArray);
 
   // Api Call
 

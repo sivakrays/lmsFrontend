@@ -26,13 +26,16 @@ const MyVideo = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sectionId, setSectionId] = useState(0);
+  const [subSectionLength, setSubSectionLength] = useState(0);
+  const [isNextButtonVisible, setIsNextButtonVisible] = useState(false);
 
+  console.log("AccordionDetails", accordionDetails);
   const bearer_token = JSON.parse(localStorage.getItem("token"));
 
   const config = {
     headers: {
       Authorization: `Bearer ${bearer_token}`,
-      courseId: "252",
+      courseId: "1",
     },
   };
 
@@ -40,72 +43,115 @@ const MyVideo = () => {
     const getAccordionDetails = async () => {
       await get("/user/getCourseById", config)
         .then((res) => {
-          // console.log("response", res.data.sections);
           setAccordionDetails(res && res.data && res.data.sections);
+
           setVideoUrl(
-            //res && res.data && res.data.sections[0].subSections[0].link,
-            res &&
-              res.data &&
-              res.data.sections[sectionId].subSections[currentIndex].link,
-          );
-          console.log(
-            "videoUrl",
-            res.data.sections[sectionId].subSections[currentIndex].link,
+            res && res.data && res.data.sections[0].subSections[0].link,
           );
         })
         .catch((err) => console.log(err));
     };
-
     getAccordionDetails();
   }, []);
 
-  // useEffect(() => {
-  //   const getAccordionDetails = async () => {
-  //     await get("/user/getCourseById", config)
-  //       .then((res) => {
-  //         setAccordionDetails(res && res.data && res.data.sections);
-  //         setVideoUrl(
-  //           res &&
-  //             res.data &&
-  //             res.data.sections[currentIndex].subSections[currentIndex].link,
-  //         );
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-
-  //   getAccordionDetails();
-  // }, [currentIndex]);
+  useEffect(() => {
+    if (accordionDetails.length > 0) {
+      setVideoUrl(accordionDetails[sectionId].subSections[currentIndex].link);
+    }
+  }, [currentIndex, sectionId]);
 
   const isSmallScreen = window.innerWidth < 1024;
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
   };
 
-  const setUrl = (link, index, subSectionId) => {
+  const setUrl = (link, index, key2) => {
     setVideoUrl(link);
     setIsQuizClicked(false);
     setCurrentIndex(index);
-    console.log("index", index);
   };
-  const handleQuizOpen = (quizItem, subSectionId) => {
+
+  const handleQuizOpen = (quizItem, subSectionId, key2) => {
     setEnergyPoint(0);
     setCurrentPage(1);
     setQuizzArray(quizItem);
     setSubSectionId(subSectionId);
     setIsQuizClicked(true);
     setVideoUrl("");
+    setCurrentIndex(key2);
+  };
+
+  const handleNext = () => {
+    console.log("currentIndex", currentIndex);
+    console.log("subSectionLength", subSectionLength);
+
+    if (currentIndex === subSectionLength - 1) {
+      setSectionId(sectionId + 1);
+      setCurrentIndex(0);
+      setIsNextButtonVisible(false);
+    } else {
+      setCurrentIndex(currentIndex + 1);
+      setIsNextButtonVisible(false);
+    }
+  };
+
+  const setNextVisible = () => {
+    const lastSection =
+      accordionDetails &&
+      accordionDetails.length > 0 &&
+      accordionDetails[accordionDetails.length - 1];
+    const lastSubSection =
+      lastSection &&
+      lastSection.subSections &&
+      lastSection.subSections > 0 &&
+      lastSection.subSections[lastSection.subSections.length - 1];
+    const lastItemTitle = lastSubSection && lastSubSection.title;
+    const currentTitle =
+      accordionDetails &&
+      accordionDetails.length > 0 &&
+      accordionDetails[sectionId] &&
+      accordionDetails[sectionId].subSections &&
+      accordionDetails[sectionId].subSections.length > 0 &&
+      accordionDetails[sectionId].subSections[currentIndex] &&
+      accordionDetails[sectionId].subSections[currentIndex].title;
+    if (currentTitle === lastItemTitle) {
+      setIsNextButtonVisible(false);
+    } else {
+      setIsNextButtonVisible(true);
+    }
+  };
+
+  const activeAccordion = () => {
+    const currentTitle =
+      accordionDetails &&
+      accordionDetails.length > 0 &&
+      accordionDetails[sectionId] &&
+      accordionDetails[sectionId].subSections &&
+      accordionDetails[sectionId].subSections.length > 0 &&
+      accordionDetails[sectionId].subSections[currentIndex] &&
+      accordionDetails[sectionId].subSections[currentIndex].title;
   };
 
   const myLearningVideo = () => {
     return (
-      <div className="relative  w-[100%]" data-testid="learningvideo">
+      <div className="relative w-[100%] " data-testid="learningvideo">
         <ReactPlayer
           controls
           width={isSmallScreen ? "100%" : "70%"}
-          height="100%"
+          height="85%"
           url={videoUrl}
           className=" lg:fixed "
+          onEnded={setNextVisible}
+          onStart={() => setIsNextButtonVisible(false)}
         />
+        {isNextButtonVisible && (
+          <button
+            className=" fixed right-2 top-[750px] flex h-10 cursor-pointer flex-row items-center justify-center rounded-md border-textLigntColor bg-textColor px-12 font-medium text-white"
+            onClick={handleNext}
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   };
@@ -125,6 +171,7 @@ const MyVideo = () => {
                   handleQuizOpen={handleQuizOpen}
                   isQuizClicked={isQuizClicked}
                   setSectionId={setSectionId}
+                  setSubSectionLength={setSubSectionLength}
                 />
               </div>
               {/* <div
@@ -159,8 +206,8 @@ const MyVideo = () => {
                       setBadge={setBadge}
                       badge={badge}
                       setUrl={setUrl}
-                      setCurrentIndex={setCurrentIndex}
-                      currentIndex={currentIndex}
+                      // setCurrentIndex={setCurrentIndex}
+                      // currentIndex={currentIndex}
                       setIsQuizClicked={setIsQuizClicked}
                     />
                     {isrewardModal && (
@@ -168,6 +215,16 @@ const MyVideo = () => {
                         isrewardModal={isrewardModal}
                         setRewardModal={setRewardModal}
                         energyPoint={energyPoint}
+                        currentIndex={currentIndex}
+                        setCurrentIndex={setCurrentIndex}
+                        isQuizClicked={isQuizClicked}
+                        setIsQuizClicked={setIsQuizClicked}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        setSubSectionLength={setSubSectionLength}
+                        subSectionLength={subSectionLength}
+                        setSubSectionId={setSubSectionId}
+                        subSectionId={subSectionId}
                       />
                     )}
                   </div>
@@ -215,6 +272,16 @@ const MyVideo = () => {
                         isrewardModal={isrewardModal}
                         setRewardModal={setRewardModal}
                         energyPoint={energyPoint}
+                        currentIndex={currentIndex}
+                        setCurrentIndex={setCurrentIndex}
+                        isQuizClicked={isQuizClicked}
+                        setIsQuizClicked={setIsQuizClicked}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        setSubSectionLength={setSubSectionLength}
+                        subSectionLength={subSectionLength}
+                        setSubSectionId={setSubSectionId}
+                        subSectionId={subSectionId}
                       />
                     )}
                   </div>
@@ -231,6 +298,8 @@ const MyVideo = () => {
                   setUrl={setUrl}
                   //isVideoAllOpen={isVideoAll}
                   handleQuizOpen={handleQuizOpen}
+                  setSectionId={setSectionId}
+                  setSubSectionLength={setSubSectionLength}
                 />
               </div>
             </div>

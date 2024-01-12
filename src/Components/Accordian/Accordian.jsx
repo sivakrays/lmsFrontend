@@ -14,13 +14,20 @@ const NestedAccordionItem = ({
   handleQuizOpen,
   subSectionId,
   key2,
+  subSectionLength,
 }) => {
   const [isNestedAccordionOpen, setIsNestedAccordionOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [activeNestedItem, setActiveNestedItem] = useState(null);
+
+  console.log("Length of this section", key2);
 
   const toggleNestedAccordion = () => {
     setIsNestedAccordionOpen(!isNestedAccordionOpen);
+    if (path === "MyVideo") {
+      setActiveNestedItem(isNestedAccordionOpen ? null : subSectionId);
+    }
   };
 
   const toggleModal1 = () => {
@@ -33,43 +40,20 @@ const NestedAccordionItem = ({
     setIsModalOpen1(!isModalOpen1);
   };
 
-  //   setQuizCompleted(true);
-
-  //   const currentIndex = accordianDetails
-  //     .flatMap((item) => item.subSections)
-  //     .findIndex((item) => item.subSectionId === subSectionId);
-
-  //   if (currentIndex < accordianDetails.length - 1) {
-  //     const nextVideo = accordianDetails[currentIndex + 1].subSections[0];
-  //     setActiveVideo(nextVideo);
-  //   }
-
-  //   if (handleQuizCompletion) {
-  //     handleQuizCompletion();
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (quizCompleted && activeVideo) {
-  //     // Auto-play the next video after quiz completion.
-  //     setUrl(activeVideo.link);
-  //     setIsVideoVisible(true);
-  //     setIsModalOpen1(true);
-  //   }
-  // }, [quizCompleted, activeVideo]);
-
   return (
     <>
       <div>
         <div
           type="button"
-          className=" flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right "
+          className={`flex w-full items-center gap-5  border p-5 font-medium text-textColor hover:bg-gray-100  rtl:text-right ${
+            activeNestedItem === subSectionId ? "bg-gray-100" : ""
+          } `}
         >
           <div className="flex w-3/4  items-center gap-5 ">
             {videoPath === "MyVideo" ? (
               <button
                 onClick={() => setUrl(link, key2, subSectionId)}
-                className="flex items-center gap-5"
+                className=" flex items-center gap-5"
                 data-testid="videoButton"
               >
                 <img
@@ -77,7 +61,9 @@ const NestedAccordionItem = ({
                   alt=""
                   className="h-4 w-4 hover:text-yellowColor "
                 />
-                <span className=" text-xs  text-textColor  hover:text-yellowColor hover:underline md:text-sm">
+                <span
+                  className={`text-xs  text-textColor  hover:text-yellowColor hover:underline md:text-sm `}
+                >
                   {title}
                 </span>
               </button>
@@ -131,7 +117,7 @@ const NestedAccordionItem = ({
           <div
             onClick={
               videoPath == "MyVideo"
-                ? () => handleQuizOpen(quiz, subSectionId)
+                ? () => handleQuizOpen(quiz, subSectionId, key2)
                 : undefined
             }
             className=" flex w-full cursor-pointer items-center  gap-5 border p-5  hover:bg-gray-100  rtl:text-right "
@@ -167,10 +153,10 @@ const AccordionItem = ({
   handleQuizOpen,
   key1,
   setSectionId,
+  setSubSectionLength,
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-
-  // console.log("nestedItems", key1);
+  const [activeAccordion, setActiveAccordion] = useState(null);
 
   useEffect(() => {
     if (isAllOpen || isVideoAllOpen) {
@@ -181,9 +167,12 @@ const AccordionItem = ({
   }, [isAllOpen, isVideoAllOpen]);
 
   const toggleAccordion = (sectionId, path) => {
+    const length = nestedItems.length;
     setIsAccordionOpen(!isAccordionOpen);
-    console.log("sectionId", sectionId);
     if (path == "MyVideo") {
+      setActiveAccordion(isAccordionOpen ? null : sectionId);
+
+      setSubSectionLength(length);
       setSectionId(sectionId - 1);
     }
   };
@@ -194,9 +183,9 @@ const AccordionItem = ({
         <button
           type="button"
           onClick={() => toggleAccordion(key1, videoPath)}
-          className="flex w-full items-center justify-between gap-3  border 
+          className={`flex w-full items-center justify-between gap-3  border 
            p-5 font-medium text-textColor hover:bg-gray-100 
-             rtl:text-right "
+             rtl:text-right ${activeAccordion === key1 ? "bg-gray-100" : ""}`}
           data-testid="accordion-item"
         >
           <span className=" md:text-md dayOne text-sm text-textColor">
@@ -244,8 +233,8 @@ const Accordion = ({
   isVideoAllOpen,
   handleQuizOpen,
   setSectionId,
+  setSubSectionLength,
 }) => {
-  //console.log("AccordionDetails", accordianDetails);
   return (
     <div className="mb-8 bg-white">
       {accordianDetails &&
@@ -261,6 +250,7 @@ const Accordion = ({
               setUrl={setUrl}
               handleQuizOpen={handleQuizOpen}
               setSectionId={setSectionId}
+              setSubSectionLength={setSubSectionLength}
             />
           </div>
         ))}
