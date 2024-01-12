@@ -7,15 +7,12 @@ import Globe from "../../Assets/coursedetails/Globe.svg";
 import alert from "../../Assets/coursedetails/alert.svg";
 import cardImage from "../../Assets/courseCard/courseImg.jpg";
 import playCircle from "../../Assets/coursedetails/PlayCircle.svg";
-
-import downArrow from "../../Assets/coursedetails/downArrow.svg";
-import upArrow from "../../Assets/coursedetails/upArrow.svg";
-
 import Accordion from "../../Components/Accordian/Accordian";
 import Card from "../../Components/CourseDetailCard/CourseDetailCard";
 import Footer from "../../Sections/Footer/Footer";
-import { get } from "../../ApiCall/ApiCall";
+import { get, post } from "../../ApiCall/ApiCall";
 import Loader from "../../Components/Loader/Loader";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const CourseDetails = () => {
   const id = useParams();
@@ -23,41 +20,43 @@ const CourseDetails = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [readMore, setReadMore] = useState(false);
   const [isAllOpen, setIsAllOpen] = useState(false);
-  const [itemsToShow, setItemToShow] = useState([]);
   const [data, setData] = useState({});
 
-  const bearer_token = JSON.parse(localStorage.getItem("token"));
-  const config = {
-    headers: {
-      courseId: id.id,
-      Authorization: `Bearer ${bearer_token}`,
-    },
-  };
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
-    const fetchData = async () => {
+    console.log("working");
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
+
+    const fetchCourseDetails = async () => {
       try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+
+        const config = {
+          headers: {
+            courseId: id.id,
+            Authorization: `Bearer ${refreshedToken}`,
+          },
+        };
+
         const res = await get("/user/getCourseById", config);
         setData(res.data);
-        // console.log(res.data);
-        // console.log(res.data);
-        const allListItems = res.data && res.data.whatYouWillLearn;
-        //     .split(".")
-        //     .filter((sentence) => sentence.trim() !== "");
-        // setItemToShow(readMore ? allListItems : allListItems.slice(0, 8));
-        //console.log(res.data);
       } catch (err) {
-        //console.log("error", err);
+        console.log("error", err);
       }
     };
 
-    fetchData();
-  }, [readMore]);
+    if (currentToken) {
+      fetchCourseDetails();
+    } else {
+      console.log("Token not present");
+    }
+  }, [id.id, token]);
 
   const showAll = () => {
-    // console.log("Working");
     setIsAllOpen(!isAllOpen);
   };
 

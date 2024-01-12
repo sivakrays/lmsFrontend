@@ -3,9 +3,11 @@ import ReactPlayer from "react-player";
 import Accordion from "../../Components/Accordian/Accordian";
 import Quiz from "../../Components/Quiz/Quiz";
 import Modal from "../../Components/Modal/Modal";
-import { get } from "../../ApiCall/ApiCall";
+import { get, post } from "../../ApiCall/ApiCall";
 import Loader from "../../Components/Loader/Loader";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const MyVideo = () => {
   const id = useParams();
@@ -13,6 +15,7 @@ const MyVideo = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const [isrewardModal, setRewardModal] = useState(false);
   const [energyPoint, setEnergyPoint] = useState(0);
   const [badge, setBadge] = useState("");
@@ -29,37 +32,49 @@ const MyVideo = () => {
 
   const bearer_token = JSON.parse(localStorage.getItem("token"));
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${bearer_token}`,
-      courseId: "252",
-    },
-  };
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
-    const getAccordionDetails = async () => {
-      await get("/user/getCourseById", config)
-        .then((res) => {
-          // console.log("response", res.data.sections);
-          setAccordionDetails(res && res.data && res.data.sections);
-          setVideoUrl(
-            //res && res.data && res.data.sections[0].subSections[0].link,
-            res &&
-              res.data &&
-              res.data.sections[sectionId].subSections[currentIndex].link,
-          );
-          console.log(
-            "videoUrl",
-            res.data.sections[sectionId].subSections[currentIndex].link,
-          );
-        })
-        .catch((err) => console.log(err));
+    console.log("working");
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
+
+    const fetchVideoDetails = async () => {
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${bearer_token}`,
+            courseId: id.id,
+          },
+        };
+
+        const res = await get("/user/getCourseById", config);
+        setAccordionDetails(res.data.sections);
+        setVideoUrl(
+          res.data.sections[sectionId].subSections[currentIndex].link,
+        );
+      } catch (err) {
+        console.log("error", err);
+      }
     };
 
-    getAccordionDetails();
-  }, []);
+    if (currentToken) {
+      fetchVideoDetails();
+    } else {
+      console.log("Token not present");
+    }
+  }, [token]);
 
   // useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${bearer_token}`,
+  //       courseId: id.id,
+  //     },
+  //   };
   //   const getAccordionDetails = async () => {
   //     await get("/user/getCourseById", config)
   //       .then((res) => {
@@ -67,14 +82,18 @@ const MyVideo = () => {
   //         setVideoUrl(
   //           res &&
   //             res.data &&
-  //             res.data.sections[currentIndex].subSections[currentIndex].link,
+  //             res.data.sections[sectionId].subSections[currentIndex].link,
+  //         );
+  //         console.log(
+  //           "videoUrl",
+  //           res.data.sections[sectionId].subSections[currentIndex].link,
   //         );
   //       })
   //       .catch((err) => console.log(err));
   //   };
 
   //   getAccordionDetails();
-  // }, [currentIndex]);
+  // }, []);
 
   const isSmallScreen = window.innerWidth < 1024;
   const handleCollapse = () => {
