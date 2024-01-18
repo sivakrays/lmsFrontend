@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const Profile = (props) => {
+const Profile = () => {
   const [profileModal, setProfileModal] = useState(false);
 
   const openProfileModal = () => {
@@ -94,7 +94,7 @@ const Profile = (props) => {
   const [profileDetails, setProfileDetails] = useState([
     {
       id: 1,
-      title: "USER NAME1",
+      title: "USER NAME",
       data: localStorage.getItem("Current User") || "",
     },
     {
@@ -125,8 +125,16 @@ const Profile = (props) => {
       data: "",
     },
   ]);
+  console.log(profileDetails);
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    userName: "",
+    gender: "",
+    school: "",
+    standard: "",
+    city: "",
+    country: "",
+  });
 
   const successNotify = () =>
     toast.success("Updated Successfully!", {
@@ -151,15 +159,21 @@ const Profile = (props) => {
       theme: "light",
     });
 
+  //const token = JSON.parse(localStorage.getItem("token"));
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
   useEffect(() => {
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
     const fetchProfileData = async () => {
       try {
         const response = await get("/auth/getProfileById", {
           headers: {
-            id: 354,
+            id: localStorage.getItem("userID"),
+            Authorization: `Bearer ${token}`,
           },
         });
         const profileData = response.data;
+        console.log(profileData);
 
         setFormData({
           userName: profileData.name || "",
@@ -190,21 +204,25 @@ const Profile = (props) => {
     };
     fetchProfileData();
   }, []);
-
   const updateProfileDetails = (newDetails) => {
+    console.log("Updated profile", newDetails);
     setProfileDetails(newDetails);
   };
 
   const profileApi = async () => {
-    //API Call
+    // Get user ID from localStorage
+    const userId = localStorage.getItem("userID");
 
+    // API Call
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
+
     const data = {
-      id: 354,
+      id: userId,
       name: formData.userName,
       gender: formData.gender,
       school: formData.school,
@@ -216,26 +234,29 @@ const Profile = (props) => {
     try {
       const res = await post("/auth/saveAndEditProfile", data, config);
       successNotify();
-      console.log(res.data.name);
-      localStorage.setItem("Current User", res.data.name);
-      // Inside Profile.jsx after setting localStorage
-      console.log(
-        "Updated Name in Profile:",
-        localStorage.getItem("Current User"),
-      );
 
-      const newProfileDetails = [
-        { id: 1, title: "USER NAME", data: res.data.name || "" },
-        { id: 2, title: "GENDER", data: res.data.gender || "" },
-        { id: 3, title: "SCHOOL", data: res.data.school || "" },
-        { id: 4, title: "STANDARD", data: res.data.standard || "" },
-        { id: 5, title: "CITY", data: res.data.city || "" },
-        { id: 6, title: "COUNTRY", data: res.data.country || "" },
-      ];
+      // if (userId === res.data.id) {
+      //   const newProfileDetails = [
+      //     { id: 1, title: "USER NAME", data: res.data.name || "" },
+      //     { id: 2, title: "GENDER", data: res.data.gender || "" },
+      //     { id: 3, title: "SCHOOL", data: res.data.school || "" },
+      //     { id: 4, title: "STANDARD", data: res.data.standard || "" },
+      //     { id: 5, title: "CITY", data: res.data.city || "" },
+      //     { id: 6, title: "COUNTRY", data: res.data.country || "" },
+      //   ];
 
-      setProfileDetails(newProfileDetails);
+      //   updateProfileDetails(newProfileDetails);
 
-      return res.data;
+      //   localStorage.setItem("Current User", res.data.name);
+      //   console.log(
+      //     "Updated Name in Profile:",
+      //     localStorage.getItem("Current User"),
+      //   );
+      // }
+
+      // return res.data;
+      const newdatas = res.data;
+      updateProfileDetails(newdatas);
     } catch (error) {
       console.error("API Error:", error);
       errorNotify();
@@ -246,18 +267,24 @@ const Profile = (props) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    if (formData[name] !== value) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log("Form data:", formData);
-    setErrors({});
-    profileApi();
+    console.log("Form data:", formData);
+    try {
+      setErrors({});
+      await profileApi();
+    } catch (error) {
+      console.log(error);
+    }
 
     setProfileModal(false);
   };
@@ -304,7 +331,7 @@ const Profile = (props) => {
             />
           </div>
 
-          <div className=" medals  mt-5 flex items-center justify-around gap-10 rounded-md  p-3 shadow-sm sm:w-full lg:w-[35%] xl:w-[25%]">
+          <div className=" medals  mt-5 flex items-center justify-around gap-10 rounded-md  bg-white p-3  shadow-sm sm:w-full lg:w-[35%] xl:w-[25%]">
             <div className="image mt-2 flex h-[60px] w-[60px] flex-col items-center justify-center">
               <img
                 className="h-[70px] w-[70px] object-contain"
@@ -312,7 +339,9 @@ const Profile = (props) => {
                 alt=""
               />
               <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
-                <p className="flex justify-center text-white shadow-lg">2</p>
+                <p className="flex justify-center text-white shadow-lg">
+                  {localStorage.getItem("bronze")}
+                </p>
               </div>
             </div>
             <div className="image ] flex h-[60px] w-[60px] flex-col items-center justify-center">
@@ -322,7 +351,9 @@ const Profile = (props) => {
                 alt=""
               />
               <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
-                <p className="flex justify-center text-white shadow-lg">2</p>
+                <p className="flex justify-center text-white shadow-lg">
+                  {localStorage.getItem("gold")}
+                </p>
               </div>
             </div>
             <div className="image mt-2 flex h-[60px] w-[60px] flex-col items-center justify-center">
@@ -332,7 +363,9 @@ const Profile = (props) => {
                 alt=""
               />
               <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
-                <p className="flex justify-center text-white shadow-lg">2</p>
+                <p className="flex justify-center text-white shadow-lg">
+                  {localStorage.getItem("silver")}
+                </p>
               </div>
             </div>
           </div>
