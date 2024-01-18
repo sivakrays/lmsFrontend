@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Nav from "./Components/Nav/Nav";
@@ -12,7 +12,6 @@ import Quiz from "./Components/Quiz/Quiz";
 import MyLearnings from "./Pages/MyLearnings/MyLearnings";
 import MyVideo from "./Pages/MyLearnings/MyVideo";
 import Reward from "./Components/Reward/Reward";
-import { authContext } from "./Context/AuthContext";
 import Profile from "./Pages/Profile/Profile";
 import Dashboard from "./Dashboard/Dashboard";
 import MyCourse from "./Dashboard/MyCourse/MyCourse";
@@ -20,11 +19,9 @@ import SideBar from "./Dashboard/SideBar/SideBar";
 import Users from "./Dashboard/Users/Users";
 // import Profile from "./Dashboard/Profile/Profile";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
-import UploadCourse from "./Dashboard/UploadCourse/UploadCourse";
 import Upload from "./Dashboard/Upload/Upload";
 
 const App = () => {
-  //const { token } = useContext(authContext);
   const token = localStorage.getItem("token");
 
   const ProtectedRoute = ({ children }) => {
@@ -77,7 +74,6 @@ const App = () => {
           <Route path="/myCourse" element={<MyCourse />} />
           <Route path="/users" element={<Users />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
-          <Route path="/uploadCourse" element={<UploadCourse />} />
           <Route path="/upload" element={<Upload />} />
         </Route>
       </Routes>

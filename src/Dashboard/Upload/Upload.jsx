@@ -3,6 +3,9 @@ import data from "../../Data/Data";
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { post } from "../../ApiCall/ApiCall";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const InputField = ({
   label,
@@ -154,33 +157,64 @@ const CourseForm = ({
     }
   };
 
+  const successNotify = () =>
+    toast.success("Register Successfully!", {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   // Course Api Call
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearer_token}`,
-    },
-  };
+  const sendCourseDetails = async () => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(bearer_token);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
 
-  const sendCourseDetails = () => {
-    const data = {
-      title: formData.courseTitle,
-      authorName: formData.authorName,
-      description: formData.courseDes,
-      thumbNail: formData.thumbnailBase64,
-      category: formData.category,
-      whatYouWillLearn: formData.teachingDes,
-    };
+      const data = {
+        title: formData.courseTitle,
+        authorName: formData.authorName,
+        description: formData.courseDes,
+        thumbNail: formData.thumbnailBase64,
+        category: formData.category,
+        whatYouWillLearn: formData.teachingDes,
+      };
 
-    post("/user/saveCourse", data, config)
-      .then((res) => {
-        setCourseId(res.data.courseId);
-        const courseID = JSON.parse(res.data.courseId);
-        localStorage.setItem("Current Upload CourseId", courseID);
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+      const res = await post("/user/saveCourse", data, config);
+      setCourseId(res.data.courseId);
+      const courseID = JSON.parse(res.data.courseId);
+      localStorage.setItem("Current Upload CourseId", courseID);
+      console.log(res.data);
+      if (Boolean(res)) {
+        successNotify();
+        setTimeout(() => {
+          setSectionFormVisibile(true);
+        }, 1000);
+      }
+    } catch (err) {
+      errorNotify("error");
+      console.log(err);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -194,9 +228,7 @@ const CourseForm = ({
       );
       return;
     } else {
-      setSectionFormVisibile(true);
       sendCourseDetails();
-      // console.log("Form Data", formData);
     }
   };
 
@@ -206,7 +238,11 @@ const CourseForm = ({
         <div className="profile_header">
           <h2 className="dayOne text-2xl text-textColor md:pt-5">Upload</h2>
           <h4 className="text-textLigntColor">
-            Welcome to <b className="dayOne">{data[0].title}</b> Upload page
+            Welcome to{" "}
+            <Link to="/" className="dayOne">
+              {data[0].title}
+            </Link>{" "}
+            Upload page
           </h4>
         </div>
         <div className="uploadForm mt-5 rounded-md bg-white p-3 shadow lg:w-[90%]">
@@ -299,15 +335,30 @@ const CourseForm = ({
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        data-testid="toast"
+      />
     </div>
   );
 };
 
-const SectionForm = ({ courseId, setCourseId, bearer_token }) => {
-  console.log(
-    "courseId from sectionform",
-    localStorage.getItem("Current Upload CourseId"),
-  );
+const SectionForm = ({
+  courseId,
+  setCourseId,
+  bearer_token,
+  setSectionFormVisibile,
+}) => {
+  console.log("courseId from sectionform", courseId);
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
     {
@@ -423,42 +474,76 @@ const SectionForm = ({ courseId, setCourseId, bearer_token }) => {
     setSubSections(updatedSubSections);
   };
 
+  const successNotify = () =>
+    toast.success("Register Successfully!", {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   // Course Api Call
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearer_token}`,
-    },
-  };
+  const sendCourseSectionDetails = async () => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(bearer_token);
+      const updatedConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
 
-  const sendCourseSectionDetails = () => {
-    const data = [
-      {
-        title: sectionTitle,
-        course_id: localStorage.getItem("Current Upload CourseId"),
-        subSections: subSections.map((subSection) => ({
-          title: subSection.SubSectionTitle,
-          description: subSection.SubSectionDes,
-          link: subSection.VideoLink,
-          quizList: subSection.quizInputs,
-        })),
-      },
-    ];
-    console.log(data);
-    post("/user/saveSection", data, config)
-      .then((res) => {
-        setCourseId(res.data.courseId);
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+      const data = [
+        {
+          title: sectionTitle,
+          // course_id: localStorage.getItem("Current Upload CourseId"),
+          course_id: courseId,
+          subSections: subSections.map((subSection) => ({
+            title: subSection.SubSectionTitle,
+            description: subSection.SubSectionDes,
+            link: subSection.VideoLink,
+            quizList: subSection.quizInputs,
+          })),
+        },
+      ];
+
+      console.log(data);
+
+      const res = await post("/user/saveSection", data, updatedConfig);
+      if (Boolean(res)) {
+        successNotify();
+        setTimeout(() => {
+          setSectionFormVisibile(false);
+        }, 1000);
+        localStorage.removeItem("Current Upload CourseId");
+        setCourseId("");
+      }
+    } catch (error) {
+      errorNotify("error");
+      console.error("Error saving section details:", error);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (deserror === false) {
       sendCourseSectionDetails();
-      localStorage.removeItem("Current Upload CourseId");
     }
   };
   return (
@@ -696,6 +781,19 @@ const SectionForm = ({ courseId, setCourseId, bearer_token }) => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        data-testid="toast"
+      />
     </div>
   );
 };
@@ -712,6 +810,7 @@ const Upload = () => {
           setCourseId={setCourseId}
           courseId={courseId}
           bearer_token={bearer_token}
+          setSectionFormVisibile={setSectionFormVisibile}
         />
       ) : (
         <CourseForm
