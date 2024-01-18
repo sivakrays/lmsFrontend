@@ -14,6 +14,7 @@ import { get } from "../../ApiCall/ApiCall";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const Profile = (props) => {
   const [profileModal, setProfileModal] = useState(false);
@@ -151,14 +152,22 @@ const Profile = (props) => {
       theme: "light",
     });
 
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+
   useEffect(() => {
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
     const fetchProfileData = async () => {
       try {
-        const response = await get("/auth/getProfileById", {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+        const config = {
           headers: {
+            Authorization: `Bearer ${refreshedToken}`,
             id: 354,
           },
-        });
+        };
+        const response = await get("/user/getProfileById", config);
         const profileData = response.data;
 
         setFormData({
@@ -189,7 +198,7 @@ const Profile = (props) => {
       }
     };
     fetchProfileData();
-  }, []);
+  }, [token]);
 
   const updateProfileDetails = (newDetails) => {
     setProfileDetails(newDetails);
@@ -214,7 +223,7 @@ const Profile = (props) => {
     };
 
     try {
-      const res = await post("/auth/saveAndEditProfile", data, config);
+      const res = await post("/user/saveAndEditProfile", data, config);
       successNotify();
       console.log(res.data.name);
       localStorage.setItem("Current User", res.data.name);

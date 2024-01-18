@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../Components/Loader/Loader";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const Course = () => {
   useEffect(() => {
@@ -27,42 +28,71 @@ const Course = () => {
     const endRange = Math.min((pageNo + 1) * pageSize, totalCourses);
     return { startRange, endRange };
   };
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "Acess-Control-Allow-Origin": "*",
-        "Acess-Control-Allow-Headers": "*",
-        Accept: "application/json",
-        pageNo: pageNo,
-        pageSize: 6,
-      },
-    };
-    get("/user/getAllCourse", config)
-      .then((res) => {
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
+
+    const fetchCourse = async () => {
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${refreshedToken}`,
+            Accept: "application/json",
+            pageNo: pageNo,
+            pageSize: 6,
+          },
+        };
+
+        const res = await get("/user/getAllCourse", config);
         setCourseData(res.data.content);
-        setTotalPage(res.data.totalPages);
-        setTotalCourses(res.data.totalElements);
-      })
-      .catch((err) => console.log(err));
-  }, [pageNo]);
+      } catch (err) {
+        console.log("error", err);
+      }
+    };
+    if (currentToken) {
+      fetchCourse();
+    } else {
+      console.log("Token not present");
+    }
+  }, [pageNo, token]);
 
   useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
-    if (searchValue.length >= 3) {
-      get(`/user/searchCourses?search=${searchValue}`, config)
-        .then((res) => {
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
+    const searchCourse = async () => {
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${refreshedToken}`,
+            Accept: "application/json",
+          },
+        };
+        if (searchValue.length >= 3) {
+          const res = await get(
+            `/user/searchCourses?search=${searchValue}`,
+            config,
+          );
           setSearchData(res.data);
-        })
-        .catch((err) => console.log(err));
+        }
+      } catch (err) {
+        console.log("error", err);
+      }
+    };
+
+    if (currentToken) {
+      searchCourse();
+    } else {
+      console.log("Token not Present");
     }
-  }, [searchValue]);
+  }, [searchValue, token]);
 
   const paginate = (pageNo) => {
     if (pageNo >= 0 && pageNo <= totalpage) {
