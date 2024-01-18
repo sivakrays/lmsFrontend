@@ -7,13 +7,8 @@ import profile from "../../Assets/HeroSection/stelly-orange.svg";
 import BadgeDetail from "../BadgeDetail/BadgeDetail";
 
 const Nav = () => {
-  const {
-    logout,
-    isTokenValid,
-
-    user,
-  } = useContext(authContext);
-
+  const { logout, isTokenValid, user } = useContext(authContext);
+  console.log(user);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -132,7 +127,8 @@ const Nav = () => {
                     className="h-7 w-7 rounded-full bg-textColor"
                   />
                   <p className="text-md font-semibold text-textLigntColor">
-                    {localStorage.getItem("Current User")}
+                    {/* {localStorage.getItem("Current User")} */}
+                    {user}
                   </p>
                 </div>
 
