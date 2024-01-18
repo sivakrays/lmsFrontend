@@ -3,6 +3,7 @@ import data from "../../Data/Data";
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { post } from "../../ApiCall/ApiCall";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const InputField = ({
   label,
@@ -156,31 +157,33 @@ const CourseForm = ({
 
   // Course Api Call
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearer_token}`,
-    },
-  };
+  const sendCourseDetails = async () => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(bearer_token);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
 
-  const sendCourseDetails = () => {
-    const data = {
-      title: formData.courseTitle,
-      authorName: formData.authorName,
-      description: formData.courseDes,
-      thumbNail: formData.thumbnailBase64,
-      category: formData.category,
-      whatYouWillLearn: formData.teachingDes,
-    };
+      const data = {
+        title: formData.courseTitle,
+        authorName: formData.authorName,
+        description: formData.courseDes,
+        thumbNail: formData.thumbnailBase64,
+        category: formData.category,
+        whatYouWillLearn: formData.teachingDes,
+      };
 
-    post("/user/saveCourse", data, config)
-      .then((res) => {
-        setCourseId(res.data.courseId);
-        const courseID = JSON.parse(res.data.courseId);
-        localStorage.setItem("Current Upload CourseId", courseID);
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+      const res = await post("/user/saveCourse", data, config);
+      setCourseId(res.data.courseId);
+      const courseID = JSON.parse(res.data.courseId);
+      localStorage.setItem("Current Upload CourseId", courseID);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -196,7 +199,6 @@ const CourseForm = ({
     } else {
       setSectionFormVisibile(true);
       sendCourseDetails();
-      // console.log("Form Data", formData);
     }
   };
 
@@ -425,40 +427,44 @@ const SectionForm = ({ courseId, setCourseId, bearer_token }) => {
 
   // Course Api Call
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${bearer_token}`,
-    },
-  };
+  const sendCourseSectionDetails = async () => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(bearer_token);
+      const updatedConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
 
-  const sendCourseSectionDetails = () => {
-    const data = [
-      {
-        title: sectionTitle,
-        course_id: localStorage.getItem("Current Upload CourseId"),
-        subSections: subSections.map((subSection) => ({
-          title: subSection.SubSectionTitle,
-          description: subSection.SubSectionDes,
-          link: subSection.VideoLink,
-          quizList: subSection.quizInputs,
-        })),
-      },
-    ];
-    console.log(data);
-    post("/user/saveSection", data, config)
-      .then((res) => {
-        setCourseId(res.data.courseId);
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+      const data = [
+        {
+          title: sectionTitle,
+          course_id: localStorage.getItem("Current Upload CourseId"),
+          subSections: subSections.map((subSection) => ({
+            title: subSection.SubSectionTitle,
+            description: subSection.SubSectionDes,
+            link: subSection.VideoLink,
+            quizList: subSection.quizInputs,
+          })),
+        },
+      ];
+
+      console.log(data);
+
+      const res = await post("/user/saveSection", data, updatedConfig);
+      setCourseId(res.data.courseId);
+      console.log(res.data);
+      localStorage.removeItem("Current Upload CourseId");
+    } catch (error) {
+      console.error("Error saving section details:", error);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (deserror === false) {
       sendCourseSectionDetails();
-      localStorage.removeItem("Current Upload CourseId");
     }
   };
   return (

@@ -50,6 +50,8 @@ const Course = () => {
 
         const res = await get("/user/getAllCourse", config);
         setCourseData(res.data.content);
+        setTotalPage(res.data.totalPages);
+        setTotalCourses(res.data.totalElements);
       } catch (err) {
         console.log("error", err);
       }

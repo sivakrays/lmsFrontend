@@ -127,10 +127,10 @@ const NestedAccordionItem = ({
             )}
           </div>
         </div>
-        {quiz && quiz.length !== 0 && (
+        {quiz && quiz.length !== 0 && quiz[0].question.length >= 1 && (
           <div
             onClick={
-              videoPath == "MyVideo"
+              videoPath === "MyVideo"
                 ? () => handleQuizOpen(quiz, subSectionId)
                 : undefined
             }
