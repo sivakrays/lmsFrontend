@@ -14,6 +14,7 @@ import { get } from "../../ApiCall/ApiCall";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const Profile = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -159,19 +160,21 @@ const Profile = () => {
       theme: "light",
     });
 
-  //const token = JSON.parse(localStorage.getItem("token"));
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+
   useEffect(() => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
     setToken(currentToken);
     const fetchProfileData = async () => {
       try {
-        const response = await get("/auth/getProfileById", {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+        const config = {
           headers: {
-            id: localStorage.getItem("userID"),
-            Authorization: `Bearer ${token}`,
+            id: 354,
           },
-        });
+        };
+        const response = await get("/user/getProfileById", config);
         const profileData = response.data;
         console.log(profileData);
 
@@ -204,6 +207,7 @@ const Profile = () => {
     };
     fetchProfileData();
   }, []);
+
   const updateProfileDetails = (newDetails) => {
     console.log("Updated profile", newDetails);
     setProfileDetails(newDetails);
@@ -232,7 +236,7 @@ const Profile = () => {
     };
 
     try {
-      const res = await post("/auth/saveAndEditProfile", data, config);
+      const res = await post("/user/saveAndEditProfile", data, config);
       successNotify();
 
       // if (userId === res.data.id) {
