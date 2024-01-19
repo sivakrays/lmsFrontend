@@ -25,27 +25,46 @@ import floatimg from "../../Assets/HeroSection/img1234.png";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../Components/Loader/Loader";
 import { authContext } from "../../Context/AuthContext";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const Home = () => {
   const { isTokenValid } = useContext(authContext);
   const [courseData, setCourseData] = useState([]);
+
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+
   useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "Acess-Control-Allow-Origin": "*",
-        "Acess-Control-Allow-Headers": "*",
-        Accept: "application/json",
-        pageNo: 0,
-        pageSize: 6,
-      },
-    };
-    get("/user/getAllCourse", config)
-      .then((res) => {
+    console.log("working");
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
+
+    const fetchCourse = async () => {
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${refreshedToken}`,
+            Accept: "application/json",
+            pageNo: 0,
+            pageSize: 6,
+          },
+        };
+
+        const res = await get("/user/getAllCourse", config);
         setCourseData(res.data.content);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+      } catch (err) {
+        console.log("error", err);
+      }
+    };
+
+    if (currentToken) {
+      fetchCourse();
+    } else {
+      console.log("Token not present");
+    }
+  }, [token]);
 
   const BeforeLoginData = [
     {

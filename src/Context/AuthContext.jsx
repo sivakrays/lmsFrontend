@@ -19,24 +19,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState("");
 
-  setInterval(() => {
-    const data = {};
-    const refresh = JSON.parse(localStorage.getItem("refresh token"));
-    // console.log(refresh);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${refresh}`,
-      },
-    };
-    post("auth/refreshToken", data, config)
-      .then((res) => {
-        // console.log(res.data.token);
-        const refresh = JSON.stringify(res.data.token);
-        localStorage.setItem("token", refresh);
-      })
-      .catch((err) => console.log(err));
-  }, 120000);
-
   useEffect(() => {
     if (storedToken && storedToken !== "") {
       setIsTokenValid(true);

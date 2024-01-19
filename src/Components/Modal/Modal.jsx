@@ -36,6 +36,8 @@ const Modal = ({
   subSectionId,
   currentPage,
   setCurrentPage,
+  handleVideoClick,
+  sectionId,
 }) => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const itemsPerPage = 1;
@@ -152,6 +154,8 @@ const Modal = ({
             subSectionId={subSectionId}
             setCurrentPage={setCurrentPage}
             currentPage={currentPage}
+            handleVideoClick={handleVideoClick}
+            sectionId={sectionId}
           />
         </div>
       )}

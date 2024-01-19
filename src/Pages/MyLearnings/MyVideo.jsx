@@ -3,9 +3,12 @@ import ReactPlayer from "react-player";
 import Accordion from "../../Components/Accordian/Accordian";
 import Quiz from "../../Components/Quiz/Quiz";
 import Modal from "../../Components/Modal/Modal";
-import { get } from "../../ApiCall/ApiCall";
+import { get, post } from "../../ApiCall/ApiCall";
 import Loader from "../../Components/Loader/Loader";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
+import "./MyVideo.css";
 
 const MyVideo = () => {
   const id = useParams();
@@ -13,6 +16,7 @@ const MyVideo = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const [isrewardModal, setRewardModal] = useState(false);
   const [energyPoint, setEnergyPoint] = useState(0);
   const [badge, setBadge] = useState("");
@@ -21,43 +25,79 @@ const MyVideo = () => {
   const [isQuizClicked, setIsQuizClicked] = useState(false);
   const [accordionDetails, setAccordionDetails] = useState([]);
   const [quizzArray, setQuizzArray] = useState([]);
-  const [subSectionId, setSubSectionId] = useState("");
+  const [subSectionId, setSubSectionId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [sectionId, setSectionId] = useState(0);
-  const [subSectionLength, setSubSectionLength] = useState(0);
+  const [sectionId, setSectionId] = useState(null);
+  const [sectionIndex, setSectionIndex] = useState(0);
+  const [subSectionLength, setSubSectionLength] = useState(null);
   const [isNextButtonVisible, setIsNextButtonVisible] = useState(false);
+  const [activeVideo, setActiveVideo] = useState(null);
+  const [activeQuizItem, setActiveQuizItem] = useState(null);
+  const [activeSection, setActiveSection] = useState(null);
 
-  console.log("AccordionDetails", accordionDetails);
+  //console.log("AccordionDetails", accordionDetails);
+  //console.log("sectionIndex", sectionIndex);
   const bearer_token = JSON.parse(localStorage.getItem("token"));
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${bearer_token}`,
-      courseId: "1",
-    },
-  };
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
-    const getAccordionDetails = async () => {
-      await get("/user/getCourseById", config)
-        .then((res) => {
-          setAccordionDetails(res && res.data && res.data.sections);
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setToken(currentToken);
 
-          setVideoUrl(
-            res && res.data && res.data.sections[0].subSections[0].link,
-          );
-        })
-        .catch((err) => console.log(err));
+    const fetchVideoDetails = async () => {
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        setToken(refreshedToken);
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${bearer_token}`,
+            courseId: id.id,
+          },
+        };
+
+        const res = await get("/user/getCourseById", config);
+        setAccordionDetails(res.data.sections);
+        setVideoUrl(
+          res.data.sections[sectionIndex].subSections[currentIndex].link,
+        );
+        setSubSectionLength(res.data.sections[sectionIndex].subSections.length);
+        setSectionId(res.data.sections[sectionIndex].sectionId);
+        setSubSectionId(
+          res.data.sections[sectionIndex].subSections[currentIndex]
+            .subSectionId,
+        );
+      } catch (err) {
+        console.log("error", err);
+      }
     };
-    getAccordionDetails();
-  }, []);
+
+    if (currentToken) {
+      fetchVideoDetails();
+    } else {
+      console.log("Token not present");
+    }
+    handleVideoClick(currentIndex, sectionId, subSectionId);
+  }, [token]);
 
   useEffect(() => {
-    if (accordionDetails.length > 0) {
-      setVideoUrl(accordionDetails[sectionId].subSections[currentIndex].link);
+    if (
+      accordionDetails.length > 0 &&
+      accordionDetails[sectionIndex] &&
+      accordionDetails[sectionIndex].subSections &&
+      accordionDetails[sectionIndex].subSections.length > 0 &&
+      accordionDetails[sectionIndex].subSections[currentIndex]
+    ) {
+      setSubSectionLength(accordionDetails[sectionIndex].subSections.length);
+
+      setVideoUrl(
+        accordionDetails[sectionIndex].subSections[currentIndex].link,
+      );
     }
+    handleVideoClick(currentIndex, sectionId, subSectionId);
   }, [currentIndex, sectionId]);
 
   const isSmallScreen = window.innerWidth < 1024;
@@ -65,28 +105,45 @@ const MyVideo = () => {
     setIsVideoAll(!isVideoAll);
   };
 
-  const setUrl = (link, index, key2) => {
+  const setUrl = (
+    link,
+    index,
+    subSectionId,
+    accordionSectionId,
+    accordionItemIndex,
+  ) => {
     setVideoUrl(link);
     setIsQuizClicked(false);
     setCurrentIndex(index);
+    setSubSectionId(subSectionId);
+    setSectionId(accordionSectionId);
+    setSectionIndex(accordionItemIndex);
   };
 
-  const handleQuizOpen = (quizItem, subSectionId, key2) => {
+  const handleQuizOpen = (
+    quizItem,
+    subSectionId,
+    index,
+    accordionSectionId,
+    accordionItemIndex,
+  ) => {
     setEnergyPoint(0);
     setCurrentPage(1);
     setQuizzArray(quizItem);
     setSubSectionId(subSectionId);
     setIsQuizClicked(true);
     setVideoUrl("");
-    setCurrentIndex(key2);
+    setCurrentIndex(index);
+    setSectionId(accordionSectionId);
+    //setSubSectionLength(subSectionLength);
+    setSectionIndex(accordionItemIndex);
+    //setActiveQuiz(true);
   };
 
   const handleNext = () => {
-    console.log("currentIndex", currentIndex);
-    console.log("subSectionLength", subSectionLength);
-
     if (currentIndex === subSectionLength - 1) {
       setSectionId(sectionId + 1);
+      setSectionIndex(sectionIndex + 1);
       setCurrentIndex(0);
       setIsNextButtonVisible(false);
     } else {
@@ -94,7 +151,10 @@ const MyVideo = () => {
       setIsNextButtonVisible(false);
     }
   };
-
+  console.log("sectionId@@@@@@@@@@@@@@@", sectionId);
+  console.log("currentIndex##############", currentIndex);
+  console.log("subSectionLength", subSectionLength);
+  console.log("sectionIndex", sectionIndex);
   const setNextVisible = () => {
     const lastSection =
       accordionDetails &&
@@ -121,15 +181,25 @@ const MyVideo = () => {
     }
   };
 
-  const activeAccordion = () => {
-    const currentTitle =
-      accordionDetails &&
-      accordionDetails.length > 0 &&
-      accordionDetails[sectionId] &&
-      accordionDetails[sectionId].subSections &&
-      accordionDetails[sectionId].subSections.length > 0 &&
-      accordionDetails[sectionId].subSections[currentIndex] &&
-      accordionDetails[sectionId].subSections[currentIndex].title;
+  const handleVideoClick = (index, accordionSectionId, subSectionId) => {
+    setActiveVideo({
+      index: index,
+      sectionId: accordionSectionId,
+      subSectionId: subSectionId,
+    });
+    setActiveSection({ sectionId: accordionSectionId });
+    setActiveQuizItem(null);
+  };
+
+  const handleQuizItemClick = (index, accordionSectionId, subSectionId) => {
+    setActiveQuizItem({
+      index: index,
+      sectionId: accordionSectionId,
+      subSectionId: subSectionId,
+    });
+    setActiveSection({ sectionId: accordionSectionId });
+
+    setActiveVideo(null);
   };
 
   const myLearningVideo = () => {
@@ -146,7 +216,7 @@ const MyVideo = () => {
         />
         {isNextButtonVisible && (
           <button
-            className=" fixed right-2 top-[750px] flex h-10 cursor-pointer flex-row items-center justify-center rounded-md border-textLigntColor bg-textColor px-12 font-medium text-white"
+            className="nextButton flex h-10 cursor-pointer flex-row items-center justify-center rounded-md border-textLigntColor bg-textColor px-12 font-medium text-white "
             onClick={handleNext}
           >
             Next
@@ -172,6 +242,16 @@ const MyVideo = () => {
                   isQuizClicked={isQuizClicked}
                   setSectionId={setSectionId}
                   setSubSectionLength={setSubSectionLength}
+                  subSectionLength={subSectionLength}
+                  sectionIndex={sectionIndex}
+                  setSectionIndex={setSectionIndex}
+                  activeVideo={activeVideo}
+                  activeQuizItem={activeQuizItem}
+                  setActiveQuizItem={setActiveQuizItem}
+                  setActiveVideo={setActiveVideo}
+                  handleVideoClick={handleVideoClick}
+                  handleQuizItemClick={handleQuizItemClick}
+                  activeSection={activeSection}
                 />
               </div>
               {/* <div
@@ -225,6 +305,8 @@ const MyVideo = () => {
                         subSectionLength={subSectionLength}
                         setSubSectionId={setSubSectionId}
                         subSectionId={subSectionId}
+                        sectionId={sectionId}
+                        handleVideoClick={handleVideoClick}
                       />
                     )}
                   </div>
@@ -290,16 +372,31 @@ const MyVideo = () => {
                 myLearningVideo()
               )}
             </div>
-            <div className=" mt-2 pl-1">
+            <div
+              className={` ${
+                isNextButtonVisible ? "mt-20" : "mt-2"
+              } pl-1 lg:mt-2`}
+            >
               <div className="  h-auto  w-full">
                 <Accordion
                   accordianDetails={accordionDetails}
                   path="MyVideo"
                   setUrl={setUrl}
-                  //isVideoAllOpen={isVideoAll}
+                  // isVideoAllOpen={isVideoAll}
                   handleQuizOpen={handleQuizOpen}
+                  isQuizClicked={isQuizClicked}
                   setSectionId={setSectionId}
                   setSubSectionLength={setSubSectionLength}
+                  sectionIndex={sectionIndex}
+                  setSectionIndex={setSectionIndex}
+                  subSectionLength={subSectionLength}
+                  activeVideo={activeVideo}
+                  activeQuizItem={activeQuizItem}
+                  setActiveQuizItem={setActiveQuizItem}
+                  setActiveVideo={setActiveVideo}
+                  handleVideoClick={handleVideoClick}
+                  handleQuizItemClick={handleQuizItemClick}
+                  activeSection={activeSection}
                 />
               </div>
             </div>

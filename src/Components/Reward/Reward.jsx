@@ -17,9 +17,18 @@ const Reward = ({
   subSectionLength,
   setSubSectionId,
   subSectionId,
+  handleVideoClick,
+  sectionId,
 }) => {
-  console.log("currentPage", currentPage);
+  // console.log("currentPage", currentPage);
   const handleClick = () => {
+    console.log(
+      "currentIndex,sectionId,subSectionId and subSectionLength from reward",
+      currentIndex,
+      sectionId,
+      subSectionId,
+      subSectionLength,
+    );
     setRewardModal(false);
     if (energyPoint === 0) {
       setCurrentPage(1);
@@ -33,6 +42,7 @@ const Reward = ({
         setCurrentIndex(currentIndex + 1);
         setIsQuizClicked(false);
       }
+      handleVideoClick(currentIndex, sectionId, subSectionId);
     }
   };
 

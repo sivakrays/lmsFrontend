@@ -1,0 +1,24 @@
+.nextButton {
+  position: fixed;
+  top: 280px;
+  right: 8px;
+}
+
+/* Media Query */
+
+@media (min-width: 1024px) {
+  .nextButton {
+    top: 800px;
+  }
+}
+@media (min-width: 1280px) {
+  .nextButton {
+    top: 800px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .nextButton {
+    top: 730px;
+  }
+}

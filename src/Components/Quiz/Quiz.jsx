@@ -3,6 +3,7 @@ import confetti from "canvas-confetti";
 import success from "../../Assets/reward/star.png";
 import { post } from "../../ApiCall/ApiCall";
 import { authContext } from "../../Context/AuthContext";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const Quiz = ({
   setRewardModal,
@@ -34,32 +35,37 @@ const Quiz = ({
   const currentQuestions =
     quizzArray && quizzArray.slice(indexOfFirstItem, indexOfLastItem);
 
-  // console.log("clicked Option", clickedOption);
-  // console.log("quizzArray from quiz", quizzArray);
-
   // Api Call
 
   const sendPoints = async () => {
-    if (energyPoint != 0 && (badge != " " || badge != null)) {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const data = {
-        userId: userID,
-        energyPoints: energyPoint,
-        badge: badge,
-        subSectionId: subSectionId,
-      };
-      await post("/user/saveBadge", data, config)
-        .then((res) => {
-          if (res.data) {
-            updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
-            console.log("update badge api called");
-          }
-        })
-        .catch((err) => console.log(err));
+    try {
+      const currentToken = JSON.parse(localStorage.getItem("token"));
+      const refreshedToken = await checkAndRefreshToken(currentToken);
+
+      if (energyPoint !== 0 && (badge !== " " || badge !== null)) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${refreshedToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+
+        const data = {
+          userId: userID,
+          energyPoints: energyPoint,
+          badge: badge,
+          subSectionId: subSectionId,
+        };
+
+        const res = await post("/user/saveBadge", data, config);
+
+        if (res.data) {
+          updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+          console.log("update badge api called");
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
