@@ -6,10 +6,47 @@ import start from "../../Assets/reward/star.png";
 
 import "./Reward.css";
 
-const Reward = ({ setRewardModal, energyPoint }) => {
+const Reward = ({
+  setRewardModal,
+  energyPoint,
+  currentIndex,
+  setCurrentIndex,
+  setIsQuizClicked,
+  currentPage,
+  setCurrentPage,
+  subSectionLength,
+  setSubSectionId,
+  subSectionId,
+  handleVideoClick,
+  sectionId,
+}) => {
+  // console.log("currentPage", currentPage);
   const handleClick = () => {
+    console.log(
+      "currentIndex,sectionId,subSectionId and subSectionLength from reward",
+      currentIndex,
+      sectionId,
+      subSectionId,
+      subSectionLength,
+    );
     setRewardModal(false);
+    if (energyPoint === 0) {
+      setCurrentPage(1);
+      setCurrentIndex(currentIndex);
+    } else {
+      if (currentIndex === subSectionLength - 1) {
+        setSubSectionId(subSectionId + 1);
+        setCurrentIndex(0);
+        setIsQuizClicked(false);
+      } else {
+        setCurrentIndex(currentIndex + 1);
+        setIsQuizClicked(false);
+      }
+      handleVideoClick(currentIndex, sectionId, subSectionId);
+    }
   };
+
+  console.log("currentIndex from reward", currentIndex);
 
   return (
     <>
