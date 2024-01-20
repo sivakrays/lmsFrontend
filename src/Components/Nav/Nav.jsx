@@ -128,7 +128,7 @@ const Nav = () => {
                   />
                   <p className="text-md font-semibold text-textLigntColor">
                     {/* {localStorage.getItem("Current User")} */}
-                    {user}
+                    {user || localStorage.getItem("Current User")}
                   </p>
                 </div>
 

@@ -10,6 +10,7 @@ import silver from "../../Assets/reward/Silver Medal.png";
 import children from "../../Assets/reward/graduation.png";
 import { post } from "../../ApiCall/ApiCall";
 import { get } from "../../ApiCall/ApiCall";
+import Loader from "../../Components/Loader/Loader";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -94,6 +95,8 @@ const Profile = (props) => {
     },
   ];
 
+  const [loading, setloading] = useState(true);
+
   const [profileDetails, setProfileDetails] = useState([]);
 
   const [formData, setFormData] = useState({});
@@ -162,6 +165,7 @@ const Profile = (props) => {
           { id: 6, title: "COUNTRY", data: profileData.country || "" },
         ];
         updateProfileDetails(newProfileDetails);
+        setloading(false);
       } catch (error) {
         console.log(error);
       }
@@ -248,157 +252,168 @@ const Profile = (props) => {
   };
 
   return (
-    <div className="h-auto  bg-herobg pb-16 pt-28 sm:h-auto sm:pb-3 xl:h-screen">
-      <div className="mx-auto w-11/12  ">
-        <div className="profile_header flex justify-between ">
-          <div className="flex flex-col">
-            <div>
-              <h2 className="dayOne pt-9 text-2xl text-textColor">Profile</h2>
-              <h4 className="text-textLigntColor">
-                Welcome to Course Desk Profile page
-              </h4>
+    <div className="min-h-screen  bg-herobg pb-16 pt-28 sm:h-auto sm:pb-3">
+      {loading ? (
+        <div className="flex h-[40vh] w-full items-center justify-center">
+          <Loader color={"#334456"} />
+        </div>
+      ) : (
+        <div className="mx-auto w-11/12  ">
+          <div className="profile_header flex justify-between ">
+            <div className="flex flex-col">
+              <div>
+                <h2 className="dayOne pt-9 text-2xl text-textColor">Profile</h2>
+                <h4 className="text-textLigntColor">
+                  Welcome to Course Desk Profile page
+                </h4>
+              </div>
+
+              <div className=" mt-5 flex gap-6 rounded-md  bg-white p-3 shadow-sm sm:w-full lg:w-[100%] xl:w-[100%]">
+                <div className="user_profile ">
+                  <img
+                    src={profile}
+                    alt=""
+                    className="h-[60px] w-[60px] rounded-full object-cover"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <p className="font-semibold  text-textColor sm:text-sm">
+                    {
+                      profileDetails.find((item) => item.title === "USER NAME")
+                        ?.data
+                    }
+                  </p>
+                  <p className="font-semibold text-[#b4b5c2] sm:text-sm">
+                    {localStorage.getItem("email")}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className=" mt-5 flex gap-6 rounded-md  bg-white p-3 shadow-sm sm:w-full lg:w-[100%] xl:w-[100%]">
-              <div className="user_profile ">
+            <div className=" flex justify-center ">
+              <img
+                src={children}
+                alt=""
+                className="children-img  h-56 object-fill"
+              />
+            </div>
+
+            <div className=" medals  mt-5 flex items-center justify-around gap-10 rounded-md  bg-white p-3 shadow-sm sm:w-full lg:w-[35%] xl:w-[25%]">
+              <div className="image mt-2 flex h-[60px] w-[60px] flex-col items-center justify-center">
                 <img
-                  src={profile}
+                  className="h-[70px] w-[70px] object-contain"
+                  src={bronze}
                   alt=""
-                  className="h-[60px] w-[60px] rounded-full object-cover"
                 />
+                <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
+                  <p className="flex justify-center text-white shadow-lg">
+                    {localStorage.getItem("bronze")}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col justify-center">
-                <p className="font-semibold  text-textColor sm:text-sm">
-                  {
-                    profileDetails.find((item) => item.title === "USER NAME")
-                      ?.data
-                  }
-                </p>
-                <p className="font-semibold text-[#b4b5c2] sm:text-sm">
-                  {localStorage.getItem("email")}
-                </p>
+              <div className="image ] flex h-[60px] w-[60px] flex-col items-center justify-center">
+                <img
+                  className="h-[100px] w-[100px] object-contain"
+                  src={gold}
+                  alt=""
+                />
+                <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
+                  <p className="flex justify-center text-white shadow-lg">
+                    {localStorage.getItem("gold")}
+                  </p>
+                </div>
+              </div>
+              <div className="image mt-2 flex h-[60px] w-[60px] flex-col items-center justify-center">
+                <img
+                  className="h-[70px] w-[70px] object-contain"
+                  src={silver}
+                  alt=""
+                />
+                <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
+                  <p className="flex justify-center text-white shadow-lg">
+                    {localStorage.getItem("silver")}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className=" flex justify-center ">
-            <img
-              src={children}
-              alt=""
-              className="children-img  h-56 object-fill"
-            />
-          </div>
+          {/* Top section in Profile Dashboard */}
 
-          <div className=" medals  mt-5 flex items-center justify-around gap-10 rounded-md  bg-white p-3 shadow-sm sm:w-full lg:w-[35%] xl:w-[25%]">
-            <div className="image mt-2 flex h-[60px] w-[60px] flex-col items-center justify-center">
-              <img
-                className="h-[70px] w-[70px] object-contain"
-                src={bronze}
-                alt=""
-              />
-              <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
-                <p className="flex justify-center text-white shadow-lg">
-                  {localStorage.getItem("bronze")}
-                </p>
-              </div>
-            </div>
-            <div className="image ] flex h-[60px] w-[60px] flex-col items-center justify-center">
-              <img
-                className="h-[100px] w-[100px] object-contain"
-                src={gold}
-                alt=""
-              />
-              <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
-                <p className="flex justify-center text-white shadow-lg">
-                  {localStorage.getItem("gold")}
-                </p>
-              </div>
-            </div>
-            <div className="image mt-2 flex h-[60px] w-[60px] flex-col items-center justify-center">
-              <img
-                className="h-[70px] w-[70px] object-contain"
-                src={silver}
-                alt=""
-              />
-              <div className="mt-2 h-[60px] w-12 rounded-full bg-[#2d3a43]">
-                <p className="flex justify-center text-white shadow-lg">
-                  {localStorage.getItem("silver")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+          {/* Profile details in Profile Dashboard */}
 
-        {/* Top section in Profile Dashboard */}
-
-        {/* Profile details in Profile Dashboard */}
-
-        <div className="mx-auto mt-5 w-full items-center justify-center  gap-7 lg:flex">
-          <div className="profile_card mx-auto mt-6 rounded-md border-black bg-white p-3 shadow-sm lg:w-full">
-            <div className="mb-4">
-              <div className="mx-5  flex items-center justify-between">
-                <p className="dayOne text-textColor">Personal Information</p>
-                <button
-                  className="cursor-pointer rounded bg-textColor px-4 py-1.5 text-white sm:px-7"
-                  onClick={openProfileModal}
-                >
-                  Edit
-                </button>
-              </div>
-              <div className="flex flex-col flex-wrap  justify-around sm:flex-row sm:gap-3">
-                <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
-                  <p className="text-sm uppercase text-[#b4b5c2]">USER NAME</p>
-                  <p className="font-bold text-textColor">
-                    {localStorage.getItem("Current User") || ""}
-                  </p>
+          <div className="mx-auto mt-5 w-full items-center justify-center  gap-7 lg:flex">
+            <div className="profile_card mx-auto mt-6 rounded-md border-black bg-white p-3 shadow-sm lg:w-full">
+              <div className="mb-4">
+                <div className="mx-5  flex items-center justify-between">
+                  <p className="dayOne text-textColor">Personal Information</p>
+                  <button
+                    className="cursor-pointer rounded bg-textColor px-4 py-1.5 text-white sm:px-7"
+                    onClick={openProfileModal}
+                  >
+                    Edit
+                  </button>
                 </div>
-                <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
-                  <p className="text-sm uppercase text-[#b4b5c2]">GENDER</p>
-                  <p className="font-bold text-textColor">
-                    {
-                      profileDetails.find((item) => item.title === "GENDER")
-                        ?.data
-                    }
-                  </p>
-                </div>
-                <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
-                  <p className="text-sm uppercase text-[#b4b5c2]">SCHOOL</p>
-                  <p className="font-bold text-textColor">
-                    {
-                      profileDetails.find((item) => item.title === "SCHOOL")
-                        ?.data
-                    }
-                  </p>
-                </div>
-                <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
-                  <p className="text-sm uppercase text-[#b4b5c2]">STANDARD</p>
-                  <p className="font-bold text-textColor">
-                    {
-                      profileDetails.find((item) => item.title === "STANDARD")
-                        ?.data
-                    }
-                  </p>
-                </div>
-                <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
-                  <p className="text-sm uppercase text-[#b4b5c2]">CITY</p>
-                  <p className="font-bold text-textColor">
-                    {profileDetails.find((item) => item.title === "CITY")?.data}
-                  </p>
-                </div>
-                <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
-                  <p className="text-sm uppercase text-[#b4b5c2]">COUNTRY</p>
-                  <p className="font-bold text-textColor">
-                    {
-                      profileDetails.find((item) => item.title === "COUNTRY")
-                        ?.data
-                    }
-                  </p>
+                <div className="flex flex-col flex-wrap  justify-around sm:flex-row sm:gap-3">
+                  <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
+                    <p className="text-sm uppercase text-[#b4b5c2]">
+                      USER NAME
+                    </p>
+                    <p className="font-bold text-textColor">
+                      {localStorage.getItem("Current User") || ""}
+                    </p>
+                  </div>
+                  <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
+                    <p className="text-sm uppercase text-[#b4b5c2]">GENDER</p>
+                    <p className="font-bold text-textColor">
+                      {
+                        profileDetails.find((item) => item.title === "GENDER")
+                          ?.data
+                      }
+                    </p>
+                  </div>
+                  <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
+                    <p className="text-sm uppercase text-[#b4b5c2]">SCHOOL</p>
+                    <p className="font-bold text-textColor">
+                      {
+                        profileDetails.find((item) => item.title === "SCHOOL")
+                          ?.data
+                      }
+                    </p>
+                  </div>
+                  <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
+                    <p className="text-sm uppercase text-[#b4b5c2]">STANDARD</p>
+                    <p className="font-bold text-textColor">
+                      {
+                        profileDetails.find((item) => item.title === "STANDARD")
+                          ?.data
+                      }
+                    </p>
+                  </div>
+                  <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
+                    <p className="text-sm uppercase text-[#b4b5c2]">CITY</p>
+                    <p className="font-bold text-textColor">
+                      {
+                        profileDetails.find((item) => item.title === "CITY")
+                          ?.data
+                      }
+                    </p>
+                  </div>
+                  <div className="mt-5 rounded-md border  bg-[#f5f8fa] p-4 sm:w-[48%] md:w-[48%] lg:w-[48%] xl:w-[30%]">
+                    <p className="text-sm uppercase text-[#b4b5c2]">COUNTRY</p>
+                    <p className="font-bold text-textColor">
+                      {
+                        profileDetails.find((item) => item.title === "COUNTRY")
+                          ?.data
+                      }
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       {profileModal && (
         <Modal
           profileModal={profileModal}
