@@ -12,6 +12,7 @@ export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(storedToken || "");
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [userId, setuserId] = useState("");
 
   const [totalBronze, setTotalBronze] = useState(storedBronze || "");
   const [totalSilver, setTotalSilver] = useState(storedSilver || "");
@@ -37,6 +38,10 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const login = async ({ email, password }) => {
+    try {
+    } catch (err) {
+      console.log(err);
+    }
     const config = {
       headers: {
         email: email,
@@ -57,7 +62,7 @@ export const AuthContextProvider = ({ children }) => {
         const actualToken = parseTokenObj.token;
         localStorage.setItem("Role", res.data.role);
         setToken(actualToken);
-        setUser(localStorage.getItem("Current User"));
+        setUser(res.data.name);
         setTotalBronze(res.data.bronze);
         setTotalSilver(res.data.silver);
         setTotalGold(res.data.gold);
@@ -65,6 +70,7 @@ export const AuthContextProvider = ({ children }) => {
         successNotify();
         setIsButtonClicked(false);
         setIsTokenValid(true);
+        setuserId(res.data.userId);
         console.log(res.data);
       })
       .catch((err) => {
@@ -119,8 +125,9 @@ export const AuthContextProvider = ({ children }) => {
         token,
         logout,
         isTokenValid,
-
+        userId,
         user,
+        setUser,
         isButtonClicked,
         setIsButtonClicked,
         updateBadgeCount,
