@@ -364,6 +364,8 @@ const MyVideo = () => {
                         subSectionLength={subSectionLength}
                         setSubSectionId={setSubSectionId}
                         subSectionId={subSectionId}
+                        sectionId={sectionId}
+                        handleVideoClick={handleVideoClick}
                       />
                     )}
                   </div>
