@@ -17,9 +17,9 @@ import Dashboard from "./Dashboard/Dashboard";
 import MyCourse from "./Dashboard/MyCourse/MyCourse";
 import SideBar from "./Dashboard/SideBar/SideBar";
 import Users from "./Dashboard/Users/Users";
-// import Profile from "./Dashboard/Profile/Profile";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
 import Upload from "./Dashboard/Upload/Upload";
+import AddToCart from "./Pages/AddToCart/AddToCart";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -39,6 +39,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/addToCart" element={<AddToCart />} />
           <Route
             path="/coursedetails/:id"
             element={

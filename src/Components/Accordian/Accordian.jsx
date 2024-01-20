@@ -33,31 +33,6 @@ const NestedAccordionItem = ({
     setIsModalOpen1(!isModalOpen1);
   };
 
-  //   setQuizCompleted(true);
-
-  //   const currentIndex = accordianDetails
-  //     .flatMap((item) => item.subSections)
-  //     .findIndex((item) => item.subSectionId === subSectionId);
-
-  //   if (currentIndex < accordianDetails.length - 1) {
-  //     const nextVideo = accordianDetails[currentIndex + 1].subSections[0];
-  //     setActiveVideo(nextVideo);
-  //   }
-
-  //   if (handleQuizCompletion) {
-  //     handleQuizCompletion();
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (quizCompleted && activeVideo) {
-  //     // Auto-play the next video after quiz completion.
-  //     setUrl(activeVideo.link);
-  //     setIsVideoVisible(true);
-  //     setIsModalOpen1(true);
-  //   }
-  // }, [quizCompleted, activeVideo]);
-
   return (
     <>
       <div>
@@ -183,7 +158,7 @@ const AccordionItem = ({
   const toggleAccordion = (sectionId, path) => {
     setIsAccordionOpen(!isAccordionOpen);
     console.log("sectionId", sectionId);
-    if (path == "MyVideo") {
+    if (path === "MyVideo") {
       setSectionId(sectionId - 1);
     }
   };

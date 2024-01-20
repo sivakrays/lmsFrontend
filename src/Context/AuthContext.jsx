@@ -10,6 +10,9 @@ export const AuthContextProvider = ({ children }) => {
   const storedToken = localStorage.getItem("token");
 
   const [token, setToken] = useState(storedToken || "");
+  const [userId, setUserId] = useState(
+    JSON.parse(localStorage.getItem("userID")),
+  );
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
@@ -17,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
   const [totalSilver, setTotalSilver] = useState(storedSilver || "");
   const [totalGold, setTotalGold] = useState(storedGold || "");
 
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(localStorage.getItem("Current User"));
 
   useEffect(() => {
     if (storedToken && storedToken !== "") {
@@ -51,13 +54,14 @@ export const AuthContextProvider = ({ children }) => {
         const refreshToken = JSON.stringify(res.data.refreshToken);
         res.data && localStorage.setItem("refresh token", refreshToken);
         localStorage.setItem("Current User", res.data.name);
-        localStorage.setItem("userID", res.data.userId);
+        JSON.stringify(localStorage.setItem("userID", res.data.userId));
         localStorage.setItem("email", res.data.email);
         const parseTokenObj = JSON.parse(localToken);
         const actualToken = parseTokenObj.token;
         localStorage.setItem("Role", res.data.role);
+        setUserId(res.data.userId);
         setToken(actualToken);
-        setUser(localStorage.getItem("Current User"));
+        setUser(res.data.name);
         setTotalBronze(res.data.bronze);
         setTotalSilver(res.data.silver);
         setTotalGold(res.data.gold);
@@ -119,7 +123,7 @@ export const AuthContextProvider = ({ children }) => {
         token,
         logout,
         isTokenValid,
-
+        userId,
         user,
         isButtonClicked,
         setIsButtonClicked,

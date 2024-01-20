@@ -3,17 +3,40 @@ import "./Nav.css";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
-
 import BadgeDetail from "../BadgeDetail/BadgeDetail";
 
+const Cart = () => {
+  return (
+    <>
+      <Link to={"addToCart"}>
+        <div className="flex  cursor-pointer items-center justify-center">
+          <div className="relative scale-75">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="h-8 w-8 text-gray-600"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+              />
+            </svg>
+            <span className="absolute -top-2 left-4 rounded-full bg-red-500 p-0.5 px-2 text-sm text-red-50">
+              4
+            </span>
+          </div>
+        </div>
+      </Link>
+    </>
+  );
+};
+
 const Nav = () => {
-  const {
-    logout,
-    isTokenValid,
-
-    user,
-  } = useContext(authContext);
-
+  const { logout, isTokenValid, user } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -122,6 +145,7 @@ const Nav = () => {
             {isTokenValid ? (
               <div className="relative flex lg:gap-5 xl:gap-8">
                 <BadgeDetail />
+                <Cart />
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "
                   onClick={handleProfile}
@@ -135,7 +159,6 @@ const Nav = () => {
                     {localStorage.getItem("Current User")}
                   </p>
                 </div>
-
                 <div
                   className={` ${
                     clicked
@@ -143,14 +166,6 @@ const Nav = () => {
                       : "hidden"
                   }`}
                 >
-                  <Link to="mylearnings">
-                    <div
-                      className="text-md cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
-                      onClick={handleProfile}
-                    >
-                      My Learnings
-                    </div>
-                  </Link>
                   <Link to="profile">
                     <div
                       className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
@@ -197,26 +212,30 @@ const Nav = () => {
             )}
           </div>
           {!toggle ? (
-            <button
-              className="z-10 block lg:hidden"
-              onClick={() => setToggle(!toggle)}
-              data-testid="toggleBtn"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-11 w-11 text-textColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </button>
+            <>
+              <div className="z-10 flex gap-4 lg:hidden">
+                <Cart />
+                <button
+                  onClick={() => setToggle(!toggle)}
+                  data-testid="toggleBtn"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-11 w-11 text-textColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </>
           ) : (
             <button
               className="z-10 block lg:hidden"
@@ -232,6 +251,7 @@ const Nav = () => {
               </svg>
             </button>
           )}
+
           {/* Mobile Menu */}
           <ul
             className={`fixed flex h-full w-full flex-col items-center justify-center gap-5  bg-mobilebg uppercase text-textColor duration-500 ${

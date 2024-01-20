@@ -8,7 +8,7 @@ import { authContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
 
 const CourseCard = ({ course, path }) => {
-  const { isTokenValid } = useContext(authContext);
+  const { isTokenValid, userId } = useContext(authContext);
   const navigate = useNavigate();
 
   const errorNotify = () =>
@@ -35,16 +35,11 @@ const CourseCard = ({ course, path }) => {
   };
 
   return (
-    <div
-      className="mt-6 cursor-pointer rounded duration-500 ease-in-out boxShadow"
-      onClick={isAuthorizedUser}
-    >
+    <div className="mt-6 cursor-pointer rounded duration-500 ease-in-out boxShadow">
       <div
-        className={`courseCard flex ${
-          path === "homeCard" ? "h-[350px]" : "h-[400px] "
-        } w-[260px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg `}
+        className={`courseCard flex h-[340px] w-[260px] flex-col gap-2 overflow-hidden rounded-lg border-2 border-textColor bg-cardbg `}
       >
-        <div className="cardImg p-3">
+        <div className="cardImg p-3" onClick={isAuthorizedUser}>
           <div className="courseImgWrapper h-36 overflow-hidden rounded-lg">
             <img
               // src={`data:image/jpeg;base64,${course.thumbNail}`}
@@ -71,30 +66,30 @@ const CourseCard = ({ course, path }) => {
               ? `${course.title.substring(0, 40)}...`
               : course.title}
           </div>
-          {path == "course" && (
+          {/* {path == "course" && (
             <div className="courseDes text-sm text-textLigntColor">
               {course.description.length > 40
-                ? `${course.description.substring(0, 90)}...`
+                ? `${course.description.substring(0, 70)}...`
                 : course.description}
             </div>
-          )}
+          )} */}
         </div>
         <div className="courseBtn flex items-center justify-between px-3 pb-3">
           <button
-            className={`rounded-md ${
-              path === "homeCard" && "mt-3"
-            } bg-textColor px-5 py-2 text-white`}
+            className={`mt-3 rounded-md
+             bg-textColor px-5 py-2 text-white shadow-sm`}
+            onClick={isAuthorizedUser}
           >
             Join
           </button>
-          {!path === "homeCard" && (
-            <p className="flex gap-2">
-              <span className="dayOne text-sm text-textColor">
-                {course.enrolled}
-              </span>
-              <span className="text-sm text-textLigntColor">Enrolled</span>
-            </p>
-          )}
+
+          <button
+            onClick={() => console.log(course.courseId, userId)}
+            className={`mt-3 rounded-md
+             bg-yellow-300 px-5 py-2 font-medium text-textColor shadow-sm `}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
