@@ -1,51 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import "../Course/Course.css";
-import img from "../../Assets/Home/course1.jpg";
 import { Link } from "react-router-dom";
 import { post } from "../../ApiCall/ApiCall";
 import { cartContext } from "../../Context/CartContext";
 
 const AddToCart = () => {
-  const { total, setTotal, totalCartItem, setTotalCartItem } =
+  const { cartData, total, setTotal, totalCartItem, setTotalCartItem } =
     useContext(cartContext);
-
-  const cartData = [
-    {
-      courseId: 1,
-      image: img,
-      title: "The Complete Personal Finance For Kids",
-      author: "Steeve Simbert",
-      price: 500,
-    },
-    {
-      courseId: 2,
-      image: img,
-      title: "React JS Full Course",
-      author: "Manoj Kumar",
-      price: 499,
-    },
-    // {
-    //   courseId: 3,
-    //   image: img,
-    //   title: "Java Springboot Tutorial",
-    //   author: "Siva",
-    //   price: 399,
-    // },
-    // {
-    //   courseId: 4,
-    //   image: img,
-    //   title: "Java Springboot Tutorial",
-    //   author: "Siva",
-    //   price: 299,
-    // },
-  ];
-
-  useEffect(() => {
-    setTotalCartItem(cartData.length);
-    const calculatedTotal = cartData.reduce((acc, cart) => acc + cart.price, 0);
-    setTotal(calculatedTotal);
-    console.log(calculatedTotal);
-  }, [cartData]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
