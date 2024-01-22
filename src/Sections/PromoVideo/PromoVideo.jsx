@@ -1,23 +1,13 @@
 import React from "react";
 import "./PromoVideo.css";
 import promo from "../../Assets/Promo/promo.mp4";
-import reviewer1 from "../../Assets/Promo/reviewer1.jpg";
-import reviewer2 from "../../Assets/Promo/reviewer2.jpg";
-import star from "../../Assets/courseCard/star.png";
-import halfStar from "../../Assets/courseCard/halfStar.png";
-import Button from "../../Components/Button/Button";
-
 import planet from "../../Assets/Promo/Frame-2.png";
 import Alphabet from "../../Assets/Promo/Frame.png";
 import pencil from "../../Assets/Promo/Frame-1.png";
-
-// import systamatic1 from "../../Assets/Promo/Group 39-1.png";
-// import systamatic from "../../Assets/Promo/Group 39.png";
 import sym1 from "../../Assets/Promo/sym1.jpeg";
 import sym2 from "../../Assets/Promo/sym2.jpeg";
 import sym3 from "../../Assets/Promo/sym3.jpeg";
 import sym4 from "../../Assets/Promo/sym4.jpeg";
-
 import paperRocket from "../../Assets/Promo/Frame.svg";
 import colorStars from "../../Assets/Promo/shape-4.png";
 import stars from "../../Assets/Promo/Star.png";
@@ -68,7 +58,7 @@ const PromoVideo = () => {
         <p className="promoHeading dayOne pt-6 text-center text-3xl text-textColor">
           Watch our promo video
         </p>
-        <p className="mt-4 pb-6 text-center text-xs text-textLigntColor">
+        <p className="text-textLightColor mt-4 pb-6 text-center text-xs">
           "Discover Neetie's essence in our captivating, defining promotional
           video."
         </p>
@@ -95,7 +85,7 @@ const PromoVideo = () => {
         <div className="systamaticEducation  relative mx-auto  w-[90%] p-3">
           <div className="flex ">
             <div className="mx-auto flex w-[50ch] flex-col items-center justify-center text-center">
-              <p className="dayOne font-semibold text-textLigntColor">
+              <p className="dayOne text-textLightColor font-semibold">
                 Educational Programs
               </p>
               <p className="dayOne text-center text-3xl text-textColor">
@@ -128,10 +118,10 @@ const PromoVideo = () => {
                 </div>
                 <div className="flex flex-col">
                   <p className="dayOne text-lg text-textColor">{card.title}</p>
-                  <p className="mt-3 text-sm text-textLigntColor">{card.des}</p>
+                  <p className="text-textLightColor mt-3 text-sm">{card.des}</p>
                   <Link
                     to={"/course"}
-                    className="mt-3 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold text-textColor  hover:text-textLigntColor"
+                    className="hover:text-textLightColor mt-3 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold  text-textColor"
                   >
                     View Course {"->"}
                   </Link>

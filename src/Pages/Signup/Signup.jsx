@@ -149,7 +149,7 @@ const Signup = () => {
           </div>
         </form>
         <div className="mt-8 w-full">
-          <p className="text-textLigntColor">
+          <p className="text-textLightColor">
             Already have an account? Please{" "}
             <span className="text-center text-blue-600 underline">
               <Link to="/login">login</Link>

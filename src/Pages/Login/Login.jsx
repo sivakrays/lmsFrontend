@@ -90,7 +90,7 @@ const Login = () => {
           </div>
         </form>
         <div className="mt-8">
-          <p className="text-textLigntColor" data-testid="para">
+          <p className="text-textLightColor" data-testid="para">
             {" "}
             If you don't have an account? Please{" "}
             <span

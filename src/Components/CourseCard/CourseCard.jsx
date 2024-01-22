@@ -67,7 +67,7 @@ const CourseCard = ({ course, path }) => {
               : course.title}
           </div>
           {/* {path == "course" && (
-            <div className="courseDes text-sm text-textLigntColor">
+            <div className="courseDes text-sm text-textLightColor">
               {course.description.length > 40
                 ? `${course.description.substring(0, 70)}...`
                 : course.description}

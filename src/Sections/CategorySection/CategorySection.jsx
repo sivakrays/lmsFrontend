@@ -47,7 +47,7 @@ const CategorySection = () => {
               </h1>
             </div>
             <div className="  md:px-4">
-              <p className="text-center text-sm text-textLigntColor ">
+              <p className="text-textLightColor text-center text-sm ">
                 {item.des}
               </p>
             </div>

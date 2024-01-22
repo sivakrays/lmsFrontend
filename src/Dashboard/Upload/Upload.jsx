@@ -33,7 +33,7 @@ const InputField = ({
 
   return (
     <div className="flex w-full flex-col  lg:w-[45%] xl:w-[48%]">
-      <label htmlFor={name} className="text-textLigntColor">
+      <label htmlFor={name} className="text-textLightColor">
         {label}
       </label>
       {type === "textarea" ? (
@@ -89,7 +89,7 @@ const SelectField = ({ label, name, value, onChange, options, required }) => {
 
   return (
     <div className="flex w-full flex-col lg:w-[45%] xl:w-[48%]">
-      <label htmlFor={name} className="text-textLigntColor">
+      <label htmlFor={name} className="text-textLightColor">
         {label}
       </label>
       <select
@@ -237,7 +237,7 @@ const CourseForm = ({
       <div className="ml-1 p-4 md:pl-12 ">
         <div className="profile_header">
           <h2 className="dayOne text-2xl text-textColor md:pt-5">Upload</h2>
-          <h4 className="text-textLigntColor">
+          <h4 className="text-textLightColor">
             Welcome to{" "}
             <Link to="/" className="dayOne">
               {data[0].title}
@@ -328,7 +328,7 @@ const CourseForm = ({
             <button
               // onClick={() => setSectionFormVisibile(true)}
               type="submit"
-              className="mt-5 w-full rounded-md border bg-textLigntColor py-2.5 text-white md:w-[15%]"
+              className="bg-textLightColor mt-5 w-full rounded-md border py-2.5 text-white md:w-[15%]"
             >
               Next
             </button>
@@ -551,7 +551,7 @@ const SectionForm = ({
       <div className="ml-1 p-4  md:pl-12 ">
         <div className="profile_header">
           <h2 className="dayOne text-2xl text-textColor md:pt-5">Upload</h2>
-          <h4 className="text-textLigntColor">
+          <h4 className="text-textLightColor">
             Welcome to{" "}
             <Link to="/" className="dayOne">
               {data[0].title}
@@ -569,7 +569,7 @@ const SectionForm = ({
               className="rounded-md border bg-white p-4"
             >
               <div className="mb-2 flex flex-col gap-4 rounded ">
-                <label className="text-textLigntColor">Section Name</label>
+                <label className="text-textLightColor">Section Name</label>
                 <input
                   type="text"
                   name="sectionTitle"
@@ -587,12 +587,12 @@ const SectionForm = ({
                 return (
                   <div key={i}>
                     <div className="mb-3 flex items-center gap-3">
-                      <p className="w-[70%] rounded-md bg-textLigntColor p-2 px-3 text-center text-white  sm:w-[30%] xl:w-[20%]">
+                      <p className="bg-textLightColor w-[70%] rounded-md p-2 px-3 text-center text-white  sm:w-[30%] xl:w-[20%]">
                         Sub Section {i + 1}
                       </p>
                       {subSections.length > 1 && (
                         <button
-                          className="rounded-sm border text-xl text-textLigntColor"
+                          className="text-textLightColor rounded-sm border text-xl"
                           onClick={() => handleRemoveSubSection(i)}
                         >
                           <RxCross2 />
@@ -601,7 +601,7 @@ const SectionForm = ({
                     </div>
                     <div className="subSection flex flex-wrap gap-3">
                       <div className="flex w-full flex-col xl:w-[49%]">
-                        <label className="text-textLigntColor">
+                        <label className="text-textLightColor">
                           SubSection Title
                         </label>
                         <input
@@ -616,7 +616,7 @@ const SectionForm = ({
                         />
                       </div>
                       <div className="flex w-full flex-col xl:w-[49%]">
-                        <label className="text-textLigntColor">Video URL</label>
+                        <label className="text-textLightColor">Video URL</label>
                         <input
                           type="text"
                           name="VideoLink"
@@ -629,7 +629,7 @@ const SectionForm = ({
                         />
                       </div>
                       <div className="flex w-full flex-col">
-                        <label className="text-textLigntColor">
+                        <label className="text-textLightColor">
                           SubSection Description
                         </label>
                         <textarea
@@ -650,7 +650,7 @@ const SectionForm = ({
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <label className="text-textLigntColor">Quiz</label>
+                        <label className="text-textLightColor">Quiz</label>
                         <input
                           type="checkbox"
                           name="isQuizAvailable"
@@ -668,7 +668,7 @@ const SectionForm = ({
                             className="flex w-full flex-col xl:w-[100%]"
                           >
                             <hr className="my-3 border xl:w-[100%]" />
-                            <label className="text-textLigntColor">
+                            <label className="text-textLightColor">
                               {`Question - ${quizIndex + 1} `}
                             </label>
                             <input
@@ -683,7 +683,7 @@ const SectionForm = ({
                             />
                             <button
                               type="button"
-                              className="my-3  rounded-md bg-textLigntColor p-2 text-white"
+                              className="bg-textLightColor  my-3 rounded-md p-2 text-white"
                               onClick={(e) =>
                                 handleAddQuizOptions(i, quizIndex)
                               }
@@ -697,7 +697,7 @@ const SectionForm = ({
                                   key={optionIndex}
                                   className="flex w-full flex-col  xl:w-[49%]"
                                 >
-                                  <label className="text-textLigntColor">{`Option ${
+                                  <label className="text-textLightColor">{`Option ${
                                     optionIndex + 1
                                   }`}</label>
                                   <div className="flex items-center gap-3">
@@ -718,7 +718,7 @@ const SectionForm = ({
                                     />
                                     {quiz.options.length > 2 && (
                                       <button
-                                        className="rounded-sm border text-xl text-textLigntColor"
+                                        className="text-textLightColor rounded-sm border text-xl"
                                         onClick={() =>
                                           handleRemoveQuizOptions(
                                             i,
@@ -738,7 +738,7 @@ const SectionForm = ({
                             {/* Answer input field*/}
                             <hr className="my-3 border xl:w-[100%]" />
                             <div className="flex flex-col">
-                              <label className="text-textLigntColor">
+                              <label className="text-textLightColor">
                                 {`Answer Of - ${quizIndex + 1} Question`}
                               </label>
                               <input

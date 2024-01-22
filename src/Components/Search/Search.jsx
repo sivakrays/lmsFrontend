@@ -9,14 +9,14 @@ const Search = ({ setSearchValue, searchValue }) => {
           <form onSubmit={(e) => e.preventDefault()}>
             <label
               htmlFor="default-search"
-              className="sr-only mb-2 text-sm font-medium text-textLigntColor"
+              className="text-textLightColor sr-only mb-2 text-sm font-medium"
             >
               Search
             </label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg
-                  className="h-4 w-4 text-textLigntColor"
+                  className="text-textLightColor h-4 w-4"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

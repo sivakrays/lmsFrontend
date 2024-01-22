@@ -26,12 +26,12 @@ const LearningCard = ({ cardDetails }) => {
             </h1>
           </div>
           <div className="h-3">
-            <p className=" mt-1 text-sm text-textLigntColor">
+            <p className=" text-textLightColor mt-1 text-sm">
               {cardDetails.author}
             </p>
           </div>
           <div className="mt-1  flex items-center  justify-between   ">
-            <p className="  text-center text-xs text-textLigntColor">
+            <p className="  text-textLightColor text-center text-xs">
               80% Completed
             </p>
 

@@ -126,7 +126,7 @@ const Home = () => {
             <p className="text-lg font-semibold text-textColor">
               Partnering with Neetie to Unleash Potential
             </p>
-            <p className="text-justify text-sm text-textLigntColor">
+            <p className="text-textLightColor text-justify text-sm">
               Unveiling the natural genius within each child is our passion at{" "}
               {data[0].title}. Our commitment is to foster and guide young minds
               with meticulously designed lessons, finely crafted for children
@@ -174,13 +174,13 @@ const Home = () => {
               <div className="desHeading dayOne text-textColor lg:text-sm xl:text-xl">
                 Best Platform
               </div>
-              <div className="desText text-textLigntColor lg:text-sm ">
+              <div className="desText text-textLightColor lg:text-sm ">
                 "Elevating learning journeys with engaging content for young
                 minds."
               </div>
             </div>
-            <div className="divider hidden h-14 rounded border-r-4 border-textLigntColor lg:flex"></div>
-            <div className="divider mb-4 w-11 rounded border-b-4 border-textLigntColor lg:hidden"></div>
+            <div className="divider border-textLightColor hidden h-14 rounded border-r-4 lg:flex"></div>
+            <div className="divider border-textLightColor mb-4 w-11 rounded border-b-4 lg:hidden"></div>
           </div>
 
           <div className="courseCenter flex flex-col gap-3 rounded border-textColor py-3 sm:mx-auto sm:w-[60%] md:mb-7 md:items-center md:border-2 md:px-2 md:text-center lg:mb-0 lg:w-[30%] lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:px-0 lg:py-0">
@@ -195,13 +195,13 @@ const Home = () => {
               <div className="desHeading dayOne text-textColor lg:text-sm xl:text-xl">
                 Great materials
               </div>
-              <div className="desText text-textLigntColor lg:text-sm">
+              <div className="desText text-textLightColor lg:text-sm">
                 "Neetie: Exceptional materials, elevating learning for young
                 minds worldwide.
               </div>
             </div>
-            <div className="divider hidden h-14 rounded border-r-4 border-textLigntColor lg:flex"></div>
-            <div className="divider mb-4 w-11 rounded border-b-4 border-textLigntColor lg:hidden"></div>
+            <div className="divider border-textLightColor hidden h-14 rounded border-r-4 lg:flex"></div>
+            <div className="divider border-textLightColor mb-4 w-11 rounded border-b-4 lg:hidden"></div>
           </div>
 
           <div className="courseRight flex flex-col gap-3 rounded border-textColor py-3 sm:mx-auto sm:w-[60%] md:mb-7 md:items-center md:border-2 md:px-2 md:text-center lg:mb-0 lg:mr-4 lg:w-[30%] lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:px-0 lg:py-0">
@@ -216,7 +216,7 @@ const Home = () => {
               <div className="desHeading dayOne text-textColor lg:text-sm xl:text-xl">
                 Professional Course
               </div>
-              <div className="desText text-textLigntColor lg:text-sm">
+              <div className="desText text-textLightColor lg:text-sm">
                 " Elevating young learners with premium, expert-led professional
                 courses."
               </div>
@@ -230,7 +230,7 @@ const Home = () => {
           <p className="dayOne text-2xl text-textColor md:text-3xl">
             Featured Courses
           </p>
-          <p className=" sm:text-md px-4 text-justify text-textLigntColor sm:w-[60%] sm:text-center md:w-[45%] md:text-[14px] lg:w-[35%] xl:w-[25%] xl:text-sm">
+          <p className=" sm:text-md text-textLightColor px-4 text-justify sm:w-[60%] sm:text-center md:w-[45%] md:text-[14px] lg:w-[35%] xl:w-[25%] xl:text-sm">
             "Explore Neetie's standout courses, expertly designed to ignite
             curiosity and foster lifelong learning journeys."
           </p>

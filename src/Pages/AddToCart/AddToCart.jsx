@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "../Course/Course.css";
 import img from "../../Assets/Home/course1.jpg";
 import { Link } from "react-router-dom";
+import { post } from "../../ApiCall/ApiCall";
+import { cartContext } from "../../Context/CartContext";
 
 const AddToCart = () => {
+  const { total, setTotal, totalCartItem, setTotalCartItem } =
+    useContext(cartContext);
+
   const cartData = [
     {
       courseId: 1,
@@ -35,9 +40,6 @@ const AddToCart = () => {
     // },
   ];
 
-  const [total, setTotal] = useState(0);
-  const [totalCartItem, setTotalCartItem] = useState(0);
-
   useEffect(() => {
     setTotalCartItem(cartData.length);
     const calculatedTotal = cartData.reduce((acc, cart) => acc + cart.price, 0);
@@ -45,16 +47,65 @@ const AddToCart = () => {
     console.log(calculatedTotal);
   }, [cartData]);
 
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+
+      script.onload = () => {
+        resolve(true);
+      };
+
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
+  const PaymentHandler = async (total) => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js",
+    );
+    if (!res) {
+      alert("You are offline!");
+      return;
+    }
+
+    const options = {
+      key: "rzp_test_9x1DYeY8MIVVTO",
+      currency: "INR",
+      amount: total * 100,
+      name: "KraysInfotech",
+      description: "Thanks for Purchasing",
+
+      handler: function (response) {
+        alert(response.razorpay_payment_id);
+        alert("Payment Success");
+      },
+
+      prefill: {
+        name: "MANOJ",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
   return (
     <div className="min-h-screen w-full bg-herobg">
-      <div className="pb-10 pt-28">
-        <div className="mx-11 flex gap-5 pt-5">
+      <div className="pb-10 pt-20 lg:pt-28">
+        <div className="flex gap-5 lg:mx-11">
           <div className="container mx-auto">
             <div className="lg:flex">
               <div className="rounded-md bg-white px-10 py-10 lg:w-3/4">
-                <div className="flex justify-between border-b pb-8">
-                  <h1 className="text-2xl font-semibold">My Cart</h1>
-                  <h2 className="text-2xl font-semibold">
+                <div className=" flex justify-between border-b pb-8">
+                  <h1 className="dayOne text-2xl font-semibold text-textColor">
+                    My Cart
+                  </h1>
+                  <h2 className="dayOne text-2xl font-semibold text-textColor">
                     {totalCartItem} Items
                   </h2>
                 </div>
@@ -62,16 +113,16 @@ const AddToCart = () => {
                 {/* Cart Headings */}
 
                 <div className="mb-5 mt-10 flex">
-                  <h3 className="w-2/5 text-xs font-semibold uppercase text-gray-600">
+                  <h3 className="w-2/5 text-xs font-semibold uppercase text-textColor">
                     Product Details
                   </h3>
-                  <h3 className="w-1/5 text-center  text-xs font-semibold uppercase text-gray-600">
+                  <h3 className="w-1/5 text-center  text-xs font-semibold uppercase text-textColor">
                     Price
                   </h3>
-                  <h3 className="w-1/5  text-center text-xs font-semibold uppercase text-gray-600">
+                  <h3 className="w-1/5  text-center text-xs font-semibold uppercase text-textColor">
                     Total
                   </h3>
-                  <h3 className="w-1/5  text-center text-xs font-semibold uppercase text-gray-600">
+                  <h3 className="w-1/5  text-center text-xs font-semibold uppercase text-textColor">
                     Action
                   </h3>
                 </div>
@@ -79,7 +130,7 @@ const AddToCart = () => {
                 {/* Cart Body */}
                 {cartData.map((course, i) => (
                   <div key={i}>
-                    <div className="-mx-8 flex items-center px-6 py-5 hover:bg-gray-100">
+                    <div className="-mx-8 flex items-center px-6 py-2 hover:bg-gray-100 lg:py-0">
                       <div className="flex w-2/5">
                         <div className="w-20 ">
                           <img
@@ -88,21 +139,26 @@ const AddToCart = () => {
                             alt=""
                           />
                         </div>
-                        <div className="ml-4 flex flex-grow flex-col justify-center">
-                          <span className="text-sm font-bold">
-                            {course.title}
-                          </span>
-                          <span className="text-xs text-red-500">
+                        <div className="ml-4 flex flex-grow flex-col justify-center text-textColor">
+                          <Link to={`/coursedetails/${course.courseId}`}>
+                            <span className="text-sm font-bold">
+                              {course.title.length > 15
+                                ? `${course.title.substring(0, 20)}...`
+                                : course.title}
+                            </span>
+                          </Link>
+
+                          <span className="text-textLightColor text-xs">
                             {course.author}
                           </span>
                         </div>
                       </div>
 
-                      <span className="w-1/5 text-center text-sm font-semibold">
-                        {course.price}.00 Rs
+                      <span className="w-1/5 text-center text-sm font-semibold text-textColor">
+                        {course.price} .Rs
                       </span>
-                      <span className="w-1/5 text-center text-sm font-semibold">
-                        {course.price}.00 Rs
+                      <span className="w-1/5 text-center text-sm font-semibold text-textColor">
+                        {course.price} .Rs
                       </span>
                       <span className="w-1/5 text-center text-sm font-semibold">
                         <button>
@@ -145,10 +201,10 @@ const AddToCart = () => {
               {/* Order Summary Card */}
 
               <div id="summary" className="px-8 py-10 lg:w-1/4">
-                <h1 className="border-b pb-8 text-2xl font-semibold">
+                <h1 className="dayOne border-b pb-8 text-2xl font-semibold text-textColor">
                   Order Summary
                 </h1>
-                <div className="mb-5 mt-10 flex justify-between">
+                <div className="mb-5 mt-10 flex justify-between text-textColor">
                   <span className="text-sm font-semibold uppercase">
                     Items {totalCartItem}
                   </span>
@@ -156,12 +212,16 @@ const AddToCart = () => {
                     <span>{total}.00</span>
                   </span>
                 </div>
-                <div className="mt-8 border-t">
+                <div className="mt-8 border-t text-textColor">
                   <div className="flex justify-between py-6 text-sm font-semibold uppercase">
                     <span>Total cost</span>
                     <span>{total}.00</span>
                   </div>
-                  <button className="w-full bg-yellow-300 py-3 text-sm font-semibold uppercase text-white hover:bg-yellow-400">
+                  <button
+                    type="submit"
+                    onClick={() => PaymentHandler(total)}
+                    className="dayOne w-full rounded-md bg-yellow-300 py-3 text-sm font-semibold uppercase text-white hover:bg-yellow-400"
+                  >
                     Checkout
                   </button>
                 </div>

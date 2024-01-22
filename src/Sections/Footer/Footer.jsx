@@ -19,7 +19,7 @@ const Footer = () => {
               </span>
               <span className="text-lg font-bold text-textColor">desk</span>
             </div>
-            <div className="footerDes text-textLigntColor">
+            <div className="footerDes text-textLightColor">
               Unveiling the natural genius within each child is our passion at
               Neetie. Our commitment is to foster and guide young minds with
               meticulously designed lessons, finely crafted for children between

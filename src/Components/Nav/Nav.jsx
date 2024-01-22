@@ -4,8 +4,9 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import profile from "../../Assets/HeroSection/stelly-orange.svg";
 import BadgeDetail from "../BadgeDetail/BadgeDetail";
+import { cartContext } from "../../Context/CartContext";
 
-const Cart = () => {
+const Cart = ({ totalCartItem }) => {
   return (
     <>
       <Link to={"addToCart"}>
@@ -26,7 +27,7 @@ const Cart = () => {
               />
             </svg>
             <span className="absolute -top-2 left-4 rounded-full bg-red-500 p-0.5 px-2 text-sm text-red-50">
-              4
+              {totalCartItem}
             </span>
           </div>
         </div>
@@ -36,6 +37,7 @@ const Cart = () => {
 };
 
 const Nav = () => {
+  const { totalCartItem } = useContext(cartContext);
   const { logout, isTokenValid, user } = useContext(authContext);
   const location = useLocation();
   const [toggle, setToggle] = useState(false);
@@ -145,7 +147,7 @@ const Nav = () => {
             {isTokenValid ? (
               <div className="relative flex lg:gap-5 xl:gap-8">
                 <BadgeDetail />
-                <Cart />
+                <Cart totalCartItem={totalCartItem} />
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "
                   onClick={handleProfile}
@@ -155,7 +157,7 @@ const Nav = () => {
                     alt=""
                     className="h-7 w-7 rounded-full bg-textColor"
                   />
-                  <p className="text-md font-semibold text-textLigntColor">
+                  <p className="text-md text-textLightColor font-semibold">
                     {localStorage.getItem("Current User")}
                   </p>
                 </div>
@@ -213,8 +215,8 @@ const Nav = () => {
           </div>
           {!toggle ? (
             <>
-              <div className="z-10 flex gap-4 lg:hidden">
-                <Cart />
+              <div className="z-10 flex items-center gap-4 lg:hidden">
+                <Cart totalCartItem={totalCartItem} />
                 <button
                   onClick={() => setToggle(!toggle)}
                   data-testid="toggleBtn"

@@ -98,7 +98,7 @@ const NestedAccordionItem = ({
         <div className={` ${isNestedAccordionOpen ? "block" : "hidden"}`}>
           <div className="border  border-b-0 p-5 ">
             {previewText && (
-              <p className="text-textLigntColor ">{previewText}</p>
+              <p className="text-textLightColor ">{previewText}</p>
             )}
           </div>
         </div>

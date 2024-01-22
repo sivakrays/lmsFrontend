@@ -10,7 +10,7 @@ const LeaderBoard = () => {
             <h2 className="dayOne pt-9 text-2xl text-textColor">
               Leader Board
             </h2>
-            <h4 className="text-textLigntColor">
+            <h4 className="text-textLightColor">
               Welcome to Course Desk Leader Board Page
             </h4>
           </div>

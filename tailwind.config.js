@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       colors: {
         textColor: "#334456",
-        textLigntColor: "#6F6F6F",
+        textLightColor: "#6F6F6F",
         footerColor: "#4A4A4A",
         mobilebg: "#FFF7E0",
         herobg: "#FCFAF0",

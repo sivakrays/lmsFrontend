@@ -55,7 +55,7 @@ const Card = ({ img }) => {
         {/* <div className="flex flex-col">
           <p className="text-2xl font-bold text-textColor">
             ₹449{" "}
-            <span className=" text-sm font-thin text-textLigntColor line-through">
+            <span className=" text-sm font-thin text-textLightColor line-through">
               {" "}
               ₹2,999
             </span>{" "}

@@ -206,7 +206,7 @@ const Modal = ({
                           checked={selectedAnswers[q.id] === index}
                           onChange={() => handleAnswerChange(q.id, index)}
                         />
-                        <span className="text-md text-textLigntColor">
+                        <span className="text-md text-textLightColor">
                           {option}
                         </span>
                       </div>
@@ -246,7 +246,7 @@ const Modal = ({
                   </button>
                   <button
                     onClick={() => setCurrentPage(currentPage + 1)}
-                    className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLigntColor bg-textColor px-4 text-base font-medium text-white  ${
+                    className={`border-textLightColor flex h-10 items-center justify-center rounded-r border-0 border-l bg-textColor px-4 text-base font-medium text-white  ${
                       currentPage === totalPages
                         ? "cursor-not-allowed opacity-50"
                         : ""
