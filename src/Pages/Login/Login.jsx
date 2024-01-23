@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../../Components/FormInput/FormInput";
 import { authContext } from "../../Context/AuthContext";
@@ -6,15 +6,36 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
+import { get } from "../../ApiCall/ApiCall";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, isButtonClicked, setIsButtonClicked } =
     useContext(authContext);
+  const [dropdown, setDropDown] = useState([]);
+
+  useEffect(() => {
+    const fetchTenant = async () => {
+      try {
+        const res = await get("/endpoint");
+        const dropDownValue =
+          res.data &&
+          res.data.length > 0 &&
+          res.data.map((item) => {
+            return { label: item, value: item };
+          });
+        setDropDown(dropDownValue);
+      } catch (error) {
+        console.log("errr", error);
+      }
+    };
+    fetchTenant();
+  }, []);
 
   const [values, setValues] = useState({
     email: "",
     password: "",
+    tenant: "",
   });
   const inputs = [
     {
@@ -36,13 +57,65 @@ const Login = () => {
       required: true,
       pattern: `^[a-zA-Z0-9]{6,8}$`,
     },
+    {
+      id: 3,
+      name: "tenant",
+      label: "Tenant",
+      type: "dropdown",
+      // errorMsg:
+      //   "Password must contain  atleast 6 characters do not exceed 8 characters",
+      required: true,
+    },
   ];
+
+  const dropDown = [
+    "option1",
+    "option2",
+    "option3",
+    "option4",
+    "option5",
+    "option6",
+    "option7",
+    "option8",
+    "option9",
+    "option10",
+  ];
+
+  const options = dropDown.map((item) => {
+    return { label: item, value: item };
+  });
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const handleDropdownChange = async (selectedOptions) => {
+    console.log("selectedOptions", selectedOptions);
+    const selectedValue =
+      selectedOptions && selectedOptions.length > 0
+        ? selectedOptions[0].value
+        : "";
+
+    console.log("selected Value", selectedValue);
+    if (!selectedValue) {
+      try {
+        const config = {
+          tenant: selectedValue,
+        };
+        const res = await post("/endPoint", config);
+        const tenantId = res.data && res.data.tenantId;
+        setValues((prevValues) => ({
+          ...prevValues,
+          tenant: tenantId,
+        }));
+      } catch (error) {
+        console.log("errorr", error);
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
+    console.log("values", values);
     setIsButtonClicked(true);
     e.preventDefault();
     await login(values);
@@ -71,6 +144,8 @@ const Login = () => {
               value={values[inputs.name]}
               onChange={handleChange}
               data-testid="input"
+              options={options}
+              handleDropdownChange={handleDropdownChange}
             />
           ))}
 

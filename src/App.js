@@ -20,6 +20,8 @@ import Users from "./Dashboard/Users/Users";
 // import Profile from "./Dashboard/Profile/Profile";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
 import Upload from "./Dashboard/Upload/Upload";
+import SuperAdminLogin from "./Admin/superAdmin/superAdminLogin";
+import TenantAdminLogin from "./Admin/TenantAdmin/TenantAdmin";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -76,6 +78,9 @@ const App = () => {
           <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/upload" element={<Upload />} />
         </Route>
+
+        <Route path="/superAdmin" element={<SuperAdminLogin />} />
+        <Route path="/tenantAdmin" element={<TenantAdminLogin />} />
       </Routes>
     </BrowserRouter>
   );

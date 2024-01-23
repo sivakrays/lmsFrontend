@@ -8,7 +8,7 @@ const apiInstance = axios.create({
 });
 
 apiInstance.interceptors.request.use((config) => {
-  //console.log("API Request", config);
+  console.log("API Request", config);
   return config;
 });
 
