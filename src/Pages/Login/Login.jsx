@@ -34,7 +34,7 @@ const Login = () => {
       errorMsg:
         "Password must contain  atleast 6 characters do not exceed 8 characters",
       required: true,
-      pattern: `^[a-zA-Z0-9]{6,8}$`,
+      pattern: `^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$`,
     },
   ];
 

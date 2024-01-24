@@ -11,16 +11,9 @@ export const CartContextProvider = ({ children }) => {
     {
       courseId: 1,
       image: img,
-      title: "The Complete Personal Finance For Kids",
+      title: "Finance course for Kids",
       author: "Steeve Simbert",
       price: 500,
-    },
-    {
-      courseId: 2,
-      image: img,
-      title: "React JS Full Course",
-      author: "Manoj Kumar",
-      price: 499,
     },
   ];
 
