@@ -15,6 +15,7 @@ const FormInput = (props) => {
     options,
     handleChange,
     handleDropdownChange,
+    isButtonClicked,
     ...inputProps
   } = props;
   const handleFocus = (e) => {
@@ -113,44 +114,44 @@ const FormInput = (props) => {
           </label>
 
           <div className="mt-2 ">
-            <div className="mt-2 ">
-              {type == "dropdown" ? (
-                <>
-                  <Select
-                    options={options}
-                    onChange={handleDropdownChange}
-                    dropdownHeight="150px"
-                    className="selectDropdown input"
-                    style={{
-                      border: "1px solid gray",
-                      borderRadius: "8px",
-                    }}
-                    autoFocus={focused}
-                    placeholder="Select Tenant"
-                    value={inputProps.value}
-                  />
-                </>
-              ) : (
-                <div className="flex  flex-col rounded-lg  sm:max-w-md">
-                  <input
-                    id={label}
-                    data-testid="inputBox"
-                    className="input block flex-1 rounded-lg border border-gray-300 py-1.5  pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm  sm:leading-6"
-                    {...inputProps}
-                    onFocus={handleFocus}
-                    focused={focused.toString()}
-                    autoComplete="off"
-                    type={type}
-                  />
-                  <span
-                    className="errSpan mt-2 text-sm text-red-800"
-                    data-testid="errMsg"
-                  >
-                    {errorMsg}
-                  </span>
-                </div>
-              )}
-            </div>
+            {type == "dropdown" ? (
+              <>
+                <Select
+                  options={options}
+                  onChange={handleDropdownChange}
+                  dropdownHeight="150px"
+                  className="selectDropdown input"
+                  style={{
+                    border: "1px solid gray",
+                    borderRadius: "8px",
+                  }}
+                  autoFocus={focused}
+                  placeholder="Select Tenant"
+                  value={inputProps.value}
+                  disabled={isButtonClicked === true}
+                />
+              </>
+            ) : (
+              <div className="flex  flex-col rounded-lg  sm:max-w-md">
+                <input
+                  id={label}
+                  data-testid="inputBox"
+                  className="input block flex-1 rounded-lg border border-gray-300 py-1.5  pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm  sm:leading-6"
+                  {...inputProps}
+                  onFocus={handleFocus}
+                  focused={focused.toString()}
+                  autoComplete="off"
+                  type={type}
+                  disabled={isButtonClicked === true}
+                />
+                <span
+                  className="errSpan mt-2 text-sm text-red-800"
+                  data-testid="errMsg"
+                >
+                  {errorMsg}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}

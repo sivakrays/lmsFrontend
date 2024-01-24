@@ -6,25 +6,26 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
-import { get } from "../../ApiCall/ApiCall";
+import { get, post } from "../../ApiCall/ApiCall";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, isButtonClicked, setIsButtonClicked } =
     useContext(authContext);
-  const [dropdown, setDropDown] = useState([]);
+  const [options, setOptions] = useState([]);
 
   useEffect(() => {
     const fetchTenant = async () => {
       try {
-        const res = await get("/endpoint");
+        const res = await get(`tenant/getAllTenants`);
+        console.log("response", res);
         const dropDownValue =
           res.data &&
           res.data.length > 0 &&
           res.data.map((item) => {
             return { label: item, value: item };
           });
-        setDropDown(dropDownValue);
+        setOptions(dropDownValue);
       } catch (error) {
         console.log("errr", error);
       }
@@ -53,14 +54,15 @@ const Login = () => {
       label: "Password",
       type: "password",
       errorMsg:
-        "Password must contain  atleast 6 characters do not exceed 8 characters",
+        "Password must be at least 6 characters long and include one digit and one special character",
       required: true,
-      pattern: `^[a-zA-Z0-9]{6,8}$`,
+      pattern: `^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$`,
+      // pattern: `^[a-zA-Z0-9]{6,8}$`,
     },
     {
       id: 3,
       name: "tenant",
-      label: "Tenant",
+      label: "Institution Name",
       type: "dropdown",
       // errorMsg:
       //   "Password must contain  atleast 6 characters do not exceed 8 characters",
@@ -68,22 +70,22 @@ const Login = () => {
     },
   ];
 
-  const dropDown = [
-    "option1",
-    "option2",
-    "option3",
-    "option4",
-    "option5",
-    "option6",
-    "option7",
-    "option8",
-    "option9",
-    "option10",
-  ];
+  // const dropDown = [
+  //   "option1",
+  //   "option2",
+  //   "option3",
+  //   "option4",
+  //   "option5",
+  //   "option6",
+  //   "option7",
+  //   "option8",
+  //   "option9",
+  //   "option10",
+  // ];
 
-  const options = dropDown.map((item) => {
-    return { label: item, value: item };
-  });
+  // const options = dropDown.map((item) => {
+  //   return { label: item, value: item };
+  // });
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -97,13 +99,15 @@ const Login = () => {
         : "";
 
     console.log("selected Value", selectedValue);
-    if (!selectedValue) {
+    if (selectedValue !== "") {
+      console.log("selected value", selectedValue);
       try {
         const config = {
-          tenant: selectedValue,
+          headers: { issuer: selectedValue },
         };
-        const res = await post("/endPoint", config);
-        const tenantId = res.data && res.data.tenantId;
+        const res = await get(`tenant/getTenantByIssuer`, config);
+        console.log("response", res);
+        const tenantId = res.data;
         setValues((prevValues) => ({
           ...prevValues,
           tenant: tenantId,
@@ -146,6 +150,7 @@ const Login = () => {
               data-testid="input"
               options={options}
               handleDropdownChange={handleDropdownChange}
+              isButtonClicked={isButtonClicked}
             />
           ))}
 

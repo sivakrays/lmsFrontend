@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { post } from "../../ApiCall/ApiCall";
 import logo from "../../Assets/Admin/kraysLogo.jpg";
 import logo1 from "../../Assets/Admin/kraysLogoNoBg.png";
 
@@ -38,29 +39,45 @@ const TenantAdminLogin = () => {
   };
 
   const validatePassword = () => {
-    // Add your password validation logic here
-    // For example, you can check if the password is at least 6 characters long
+    const passwordRegex =
+      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$/;
     if (loginData.password === "") {
       setPasswordError("Please fill the field");
       return false;
-    } else if (loginData.password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
+    } else if (passwordRegex) {
+      setPasswordError(
+        "Password must be at least 6 characters long and include one digit and one special character",
+      );
       return false;
     }
     setPasswordError("");
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("values", loginData);
     const isEmailValid = validateEmail();
-    const isValidPassword = validatePassword();
-    if (!isEmailValid || !isValidPassword) {
+    // const isValidPassword = validatePassword();
+    if (!isEmailValid) {
       return;
     } else {
       console.log("login successfull");
-      navigate("/users");
+      try {
+        const config = {
+          headers: {
+            email: loginData.email,
+            password: loginData.password,
+          },
+        };
+        const res = await post(`tenant/tenantLogin`, {}, config);
+        if (res !== "") {
+          localStorage.setItem("role", "tenant");
+          navigate("/users");
+        }
+      } catch (error) {
+        console.log("err", error);
+      }
     }
   };
 

@@ -37,7 +37,7 @@ export const AuthContextProvider = ({ children }) => {
     setTotalGold(gold);
   };
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password, tenant }) => {
     try {
     } catch (err) {
       console.log(err);
@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }) => {
       headers: {
         email: email,
         password: password,
-        //tenantId:tenant
+        tenantId: tenant,
       },
     };
 

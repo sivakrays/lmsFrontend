@@ -155,7 +155,9 @@ const Nav = () => {
                       Profile
                     </div>
                   </Link>
-                  {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+                  {isTokenValid &&
+                  localStorage.getItem("Role").toLocaleLowerCase() ===
+                    "admin" ? (
                     <>
                       <Link to="/dashboard">
                         <div
