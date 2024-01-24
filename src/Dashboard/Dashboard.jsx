@@ -5,7 +5,7 @@ import SideBar from "./SideBar/SideBar";
 const DashBoardContent = () => {
   return (
     <>
-      <div className="h-screen w-full bg-herobg">
+      <div className="min-h-screen w-full bg-herobg">
         <div className="mx-auto w-11/12  ">
           <div className="profile_header">
             <h2 className="dayOne pt-9 text-2xl text-textColor">Dashboard</h2>

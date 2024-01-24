@@ -26,7 +26,6 @@ const CourseDetails = () => {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
-    console.log("working");
     const currentToken = JSON.parse(localStorage.getItem("token"));
     setToken(currentToken);
 

@@ -54,9 +54,7 @@ const Nav = () => {
   }, [location.pathname]);
 
   const handleProfile = () => {
-    console.log(clicked);
     setClicked(!clicked);
-    console.log("clickedddddddd");
   };
   const unAuthorizedMenuItem = [
     { name: "Home", path: "/" },
@@ -157,8 +155,9 @@ const Nav = () => {
                     alt=""
                     className="h-7 w-7 rounded-full bg-textColor"
                   />
-                  <p className="text-md text-textLightColor font-semibold">
-                    {localStorage.getItem("Current User")}
+                  <p className="text-md font-semibold text-textLightColor">
+                    {/* {localStorage.getItem("Current User")} */}
+                    {user || localStorage.getItem("Current User")}
                   </p>
                 </div>
                 <div
@@ -176,7 +175,9 @@ const Nav = () => {
                       Profile
                     </div>
                   </Link>
-                  {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+                  {isTokenValid &&
+                  localStorage.getItem("Role").toLocaleLowerCase() ===
+                    "admin" ? (
                     <>
                       <Link to="/dashboard">
                         <div

@@ -26,8 +26,19 @@ const Modal = ({
   handleChange,
   handleSubmit,
   formData,
+  currentIndex,
+  setCurrentIndex,
+  isQuizClicked,
+  setIsQuizClicked,
+  setSubSectionLength,
+  subSectionLength,
+  setSubSectionId,
+  subSectionId,
+  currentPage,
+  setCurrentPage,
+  handleVideoClick,
+  sectionId,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const itemsPerPage = 1;
 
@@ -130,7 +141,22 @@ const Modal = ({
           data-testid="modal"
           style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
         >
-          <Reward setRewardModal={setRewardModal} energyPoint={energyPoint} />
+          <Reward
+            setRewardModal={setRewardModal}
+            energyPoint={energyPoint}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            isQuizClicked={isQuizClicked}
+            setIsQuizClicked={setIsQuizClicked}
+            setSubSectionLength={setSubSectionLength}
+            subsectionLength={subSectionLength}
+            setSubSectionId={setSubSectionId}
+            subSectionId={subSectionId}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            handleVideoClick={handleVideoClick}
+            sectionId={sectionId}
+          />
         </div>
       )}
 

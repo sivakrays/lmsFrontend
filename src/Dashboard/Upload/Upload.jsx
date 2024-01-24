@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import data from "../../Data/Data";
+import Loader from "../../Components/Loader/Loader";
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { post } from "../../ApiCall/ApiCall";
@@ -137,6 +138,7 @@ const CourseForm = ({
     language: "",
   });
 
+  const [loading, setloading] = useState(false);
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
     if (type === "file" && e.target.files.length > 0) {
@@ -183,6 +185,7 @@ const CourseForm = ({
 
   const sendCourseDetails = async () => {
     try {
+      setloading(true);
       const refreshedToken = await checkAndRefreshToken(bearer_token);
       const config = {
         headers: {
@@ -204,9 +207,9 @@ const CourseForm = ({
       setCourseId(res.data.courseId);
       const courseID = JSON.parse(res.data.courseId);
       localStorage.setItem("Current Upload CourseId", courseID);
-      console.log(res.data);
       if (Boolean(res)) {
         successNotify();
+
         setTimeout(() => {
           setSectionFormVisibile(true);
         }, 1000);
@@ -214,6 +217,8 @@ const CourseForm = ({
     } catch (err) {
       errorNotify("error");
       console.log(err);
+    } finally {
+      setloading(false);
     }
   };
 
@@ -233,7 +238,7 @@ const CourseForm = ({
   };
 
   return (
-    <div className="h-auto  pb-16 md:pb-4">
+    <div className="min-h-screen  pb-16 md:pb-4">
       <div className="ml-1 p-4 md:pl-12 ">
         <div className="profile_header">
           <h2 className="dayOne text-2xl text-textColor md:pt-5">Upload</h2>
@@ -245,6 +250,11 @@ const CourseForm = ({
             Upload page
           </h4>
         </div>
+        {loading && (
+          <div className="flex h-[40vh] w-full items-center justify-center">
+            <Loader color={"#334456"} />
+          </div>
+        )}
         <div className="uploadForm mt-5 rounded-md bg-white p-3 shadow lg:w-[90%]">
           <form action="" className="" onSubmit={handleSubmit}>
             <div className="flex flex-col flex-wrap gap-4 md:flex-row  md:gap-8">
@@ -325,10 +335,11 @@ const CourseForm = ({
                 required
               />
             </div>
+
             <button
               // onClick={() => setSectionFormVisibile(true)}
               type="submit"
-              className="bg-textLightColor mt-5 w-full rounded-md border py-2.5 text-white md:w-[15%]"
+              className="mt-5 w-full rounded-md border bg-textLightColor py-2.5 text-white md:w-[15%]"
             >
               Next
             </button>
@@ -358,7 +369,6 @@ const SectionForm = ({
   bearer_token,
   setSectionFormVisibile,
 }) => {
-  console.log("courseId from sectionform", courseId);
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
     {
@@ -523,8 +533,6 @@ const SectionForm = ({
         },
       ];
 
-      console.log(data);
-
       const res = await post("/user/saveSection", data, updatedConfig);
       if (Boolean(res)) {
         successNotify();
@@ -587,12 +595,12 @@ const SectionForm = ({
                 return (
                   <div key={i}>
                     <div className="mb-3 flex items-center gap-3">
-                      <p className="bg-textLightColor w-[70%] rounded-md p-2 px-3 text-center text-white  sm:w-[30%] xl:w-[20%]">
+                      <p className="w-[70%] rounded-md bg-textLightColor p-2 px-3 text-center text-white  sm:w-[30%] xl:w-[20%]">
                         Sub Section {i + 1}
                       </p>
                       {subSections.length > 1 && (
                         <button
-                          className="text-textLightColor rounded-sm border text-xl"
+                          className="rounded-sm border text-xl text-textLightColor"
                           onClick={() => handleRemoveSubSection(i)}
                         >
                           <RxCross2 />
@@ -683,7 +691,7 @@ const SectionForm = ({
                             />
                             <button
                               type="button"
-                              className="bg-textLightColor  my-3 rounded-md p-2 text-white"
+                              className="my-3  rounded-md bg-textLightColor p-2 text-white"
                               onClick={(e) =>
                                 handleAddQuizOptions(i, quizIndex)
                               }
@@ -718,7 +726,7 @@ const SectionForm = ({
                                     />
                                     {quiz.options.length > 2 && (
                                       <button
-                                        className="text-textLightColor rounded-sm border text-xl"
+                                        className="rounded-sm border text-xl text-textLightColor"
                                         onClick={() =>
                                           handleRemoveQuizOptions(
                                             i,

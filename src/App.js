@@ -19,6 +19,8 @@ import SideBar from "./Dashboard/SideBar/SideBar";
 import Users from "./Dashboard/Users/Users";
 import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
 import Upload from "./Dashboard/Upload/Upload";
+import SuperAdminLogin from "./Admin/superAdmin/superAdminLogin";
+import TenantAdminLogin from "./Admin/TenantAdmin/TenantAdmin";
 import AddToCart from "./Pages/AddToCart/AddToCart";
 
 const App = () => {
@@ -77,6 +79,9 @@ const App = () => {
           <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/upload" element={<Upload />} />
         </Route>
+
+        <Route path="/superAdmin" element={<SuperAdminLogin />} />
+        <Route path="/tenantAdmin" element={<TenantAdminLogin />} />
       </Routes>
     </BrowserRouter>
   );

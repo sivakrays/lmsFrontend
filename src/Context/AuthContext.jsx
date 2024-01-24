@@ -39,12 +39,16 @@ export const AuthContextProvider = ({ children }) => {
     setTotalGold(gold);
   };
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password, tenant }) => {
+    try {
+    } catch (err) {
+      console.log(err);
+    }
     const config = {
       headers: {
         email: email,
         password: password,
-        tenantId: "public",
+        tenantId: tenant,
       },
     };
 
@@ -70,7 +74,7 @@ export const AuthContextProvider = ({ children }) => {
         successNotify();
         setIsButtonClicked(false);
         setIsTokenValid(true);
-        console.log(res.data);
+        setUserId(res.data.userId);
       })
       .catch((err) => {
         console.log("Errorrrrrrr", err);
@@ -126,6 +130,7 @@ export const AuthContextProvider = ({ children }) => {
         isTokenValid,
         userId,
         user,
+        setUser,
         isButtonClicked,
         setIsButtonClicked,
         updateBadgeCount,

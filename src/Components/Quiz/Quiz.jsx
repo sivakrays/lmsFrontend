@@ -61,7 +61,6 @@ const Quiz = ({
 
         if (res.data) {
           updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
-          console.log("update badge api called");
         }
       }
     } catch (err) {
@@ -210,7 +209,6 @@ const Quiz = ({
         }, 1000);
       }
     }
-    console.log("Current Page", currentPage);
   };
 
   useEffect(() => {
@@ -242,7 +240,7 @@ const Quiz = ({
           <div>
             {currentPage === totalPages ? (
               <button
-                className={`border-textLightColor flex h-10 items-center justify-center rounded border-0 border-l bg-textColor px-6 text-base font-medium text-white   ${
+                className={`flex h-10 items-center justify-center rounded border-0 border-l border-textLightColor bg-textColor px-6 text-base font-medium text-white   ${
                   isMotivationalBoxVissble === true || clickedOption === ""
                     ? "cursor-not-allowed opacity-50 "
                     : ""
@@ -257,7 +255,7 @@ const Quiz = ({
             ) : (
               <button
                 onClick={() => handleNext()}
-                className={`border-textLightColor flex h-10 items-center justify-center rounded-md bg-textColor px-8 text-base font-medium text-white   ${
+                className={`flex h-10 items-center justify-center rounded-md border-textLightColor bg-textColor px-8 text-base font-medium text-white   ${
                   currentPage === totalPages ||
                   isMotivationalBoxVissble === true ||
                   clickedOption === ""
@@ -285,7 +283,7 @@ const Quiz = ({
           {isCorrectAns ? (
             <>
               <button
-                className="text-textLightColor  absolute cursor-pointer"
+                className="absolute  cursor-pointer text-textLightColor"
                 onClick={() => setMotivationalBoxVissble(false)}
               >
                 <svg
@@ -316,7 +314,7 @@ const Quiz = ({
           ) : (
             <>
               <button
-                className="text-textLightColor absolute right-1 top-1 cursor-pointer "
+                className="absolute right-1 top-1 cursor-pointer text-textLightColor "
                 onClick={() => setMotivationalBoxVissble(false)}
               >
                 <svg
@@ -373,7 +371,7 @@ const Quiz = ({
                 {q.options.map((option, index) => (
                   <div key={index} className="">
                     <button
-                      className={`q_answer text-textLightColor flex w-full cursor-pointer items-center gap-3 rounded-[10px]  border p-2 text-left duration-300 hover:border-textColor hover:boxShadow sm:w-[90%] xl:w-[90%] ${
+                      className={`q_answer flex w-full cursor-pointer items-center gap-3 rounded-[10px] border  p-2 text-left text-textLightColor duration-300 hover:border-textColor hover:boxShadow sm:w-[90%] xl:w-[90%] ${
                         index === clickedOption &&
                         "border-[#008000] boxShadow1 hover:boxShadow1"
                       }`}

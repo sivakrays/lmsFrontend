@@ -12,7 +12,6 @@ const Profile = () => {
 
   const openProfileModal = () => {
     setProfileModal(!profileModal);
-    console.log(profileModal);
   };
 
   const profileDetails = [

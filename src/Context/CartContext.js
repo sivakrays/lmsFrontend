@@ -21,7 +21,6 @@ export const CartContextProvider = ({ children }) => {
     setTotalCartItem(cartData.length);
     const calculatedTotal = cartData.reduce((acc, cart) => acc + cart.price, 0);
     setTotal(calculatedTotal);
-    console.log(calculatedTotal);
   }, [cartData]);
 
   return (
