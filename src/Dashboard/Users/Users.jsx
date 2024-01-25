@@ -277,9 +277,9 @@ const UserCreationModal = ({ setIsCreation, isCreation }) => {
 
 const Users = () => {
   const [isCreation, setIsCreation] = useState(false);
-  const [allTenants, setAllTenants] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
-  const role = "Admin";
+  const role = "";
 
   useEffect(() => {
     const getAllTenantUser = async () => {
@@ -291,7 +291,7 @@ const Users = () => {
 
       try {
         const res = await get("/tenant/getAllTenants", config);
-        setAllTenants(res.data);
+        setAllUsers(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -301,7 +301,7 @@ const Users = () => {
       console.log("working");
     };
 
-    if (role.toLowerCase === "admin") {
+    if (role === "admin") {
       getAllTenantUser();
     } else {
       getAllUsers();
@@ -342,8 +342,8 @@ const Users = () => {
                   </div>
                 ))}
               </div>
-              {allTenants &&
-                allTenants.map((tenant, i) => (
+              {allUsers &&
+                allUsers.map((tenant, i) => (
                   <div className="heading flex justify-between p-4" key={i}>
                     <div className="w-2/6">
                       <p>Manoj@gmail.com</p>
@@ -364,13 +364,13 @@ const Users = () => {
 
         {/* Register Modal */}
 
-        {role.toLowerCase === "admin" && isCreation ? (
+        {role === "admin" && isCreation ? (
           <CreationModal
             setIsCreation={setIsCreation}
             isCreation={isCreation}
           />
         ) : (
-          role.toLowerCase === "tenantAdmin" &&
+          role === "" &&
           isCreation && (
             <UserCreationModal
               setIsCreation={setIsCreation}
