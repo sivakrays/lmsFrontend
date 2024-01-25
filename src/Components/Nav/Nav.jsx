@@ -206,11 +206,11 @@ const Nav = () => {
                     Login
                   </button>
                 </Link>
-                <Link to="signup">
+                {/* <Link to="signup">
                   <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
                     Sign Up
                   </button>
-                </Link>
+                </Link> */}
               </div>
             )}
           </div>
@@ -328,20 +328,20 @@ const Nav = () => {
                 <div className="flex flex-col items-center gap-3">
                   <Link to="login">
                     <button
-                      className="text-md cursor-pointer  rounded-[10px] border-2 border-solid bg-textColor px-6 py-1.5 font-semibold uppercase text-white"
+                      className="text-md font-semiboldnuppercase cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor px-6 py-1.5 text-white"
                       onClick={handleToggle}
                     >
-                      Login
+                      Login1
                     </button>
                   </Link>
-                  <Link to="signup">
+                  {/* <Link to="signup">
                     <button
                       className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5 font-semibold   uppercase text-white"
                       onClick={handleToggle}
                     >
                       Sign Up
                     </button>
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </li>
