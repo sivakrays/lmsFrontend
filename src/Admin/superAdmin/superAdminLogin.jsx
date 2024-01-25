@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { post } from "../../ApiCall/ApiCall";
-import logo from "../../Assets/Admin/kraysLogo.jpg";
 import logo1 from "../../Assets/Admin/kraysLogoNoBg.png";
 
 const SuperAdminLogin = () => {
@@ -12,6 +11,7 @@ const SuperAdminLogin = () => {
     password: "",
   });
 
+  const pathName = window.location.pathname;
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const handleInputchange = (e) => {
@@ -54,28 +54,52 @@ const SuperAdminLogin = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleTenantLogin = async () => {
+    try {
+      const config = {
+        headers: {
+          email: loginData.email,
+          password: loginData.password,
+        },
+      };
+      const res = await post(`tenant/tenantLogin`, {}, config);
+      if (res !== "") {
+        localStorage.setItem("role", "tenant");
+        navigate("/users");
+      }
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  const handleSuperAdminLogin = async () => {
+    try {
+      const config = {
+        headers: {
+          email: loginData.email,
+          password: loginData.password,
+        },
+      };
+      const res = await post(`admin/adminLogin`, {}, config);
+      if (res !== "") {
+        console.log("superAdminLogin succesfully");
+        navigate("/users");
+      }
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isEmailValid = validateEmail();
     const isValidPassword = validatePassword();
-    if (!isEmailValid) {
+    if (!isEmailValid || !isValidPassword) {
       return;
+    } else if (pathName === "/superAdmin") {
+      handleSuperAdminLogin();
     } else {
-      try {
-        const config = {
-          headers: {
-            email: loginData.email,
-            password: loginData.password,
-          },
-        };
-        const res = await post(`tenant/tenantLogin`, {}, config);
-        if (res !== "") {
-          localStorage.setItem("role", "tenant");
-          navigate("/users");
-        }
-      } catch (error) {
-        console.log("err", error);
-      }
+      handleTenantLogin();
     }
   };
 
@@ -83,13 +107,18 @@ const SuperAdminLogin = () => {
     <>
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="mx-auto flex min-h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
-          <div className="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
+          <div className="mb-6 flex items-center text-2xl font-semibold text-textColor dark:text-white">
             <img
               className="  h-14 w-14 object-contain"
               src={logo1}
               alt="logo"
             />
-            <span className="text-textColor">Krays Infotech</span>
+            {pathName === "/superAdmin" && (
+              <span className="text-textColor">Krays Infotech</span>
+            )}
+            {pathName === "/tenantAdmin" && (
+              <span className="text-textColor">Tenant Login</span>
+            )}
           </div>
           <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
             <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
@@ -108,7 +137,7 @@ const SuperAdminLogin = () => {
                     type="email"
                     name="email"
                     id="email"
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 "
+                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-textColor dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 "
                     placeholder="name@company.com"
                     //required
                     value={loginData.email.trim()}
@@ -128,7 +157,7 @@ const SuperAdminLogin = () => {
                     Password
                   </label>
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     id="password"
                     placeholder="••••••••"
