@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { post } from "../../ApiCall/ApiCall";
 import logo from "../../Assets/Admin/kraysLogo.jpg";
 import logo1 from "../../Assets/Admin/kraysLogoNoBg.png";
 
@@ -53,14 +54,28 @@ const SuperAdminLogin = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isEmailValid = validateEmail();
     const isValidPassword = validatePassword();
-    if (!isEmailValid || !isValidPassword) {
+    if (!isEmailValid) {
       return;
     } else {
-      navigate("/users");
+      try {
+        const config = {
+          headers: {
+            email: loginData.email,
+            password: loginData.password,
+          },
+        };
+        const res = await post(`tenant/tenantLogin`, {}, config);
+        if (res !== "") {
+          localStorage.setItem("role", "tenant");
+          navigate("/users");
+        }
+      } catch (error) {
+        console.log("err", error);
+      }
     }
   };
 
