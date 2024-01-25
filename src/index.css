@@ -9,7 +9,7 @@
   @apply relative;
 }
 .nav::after {
-  @apply bg-textLightColor absolute -bottom-[5px] left-0 h-[4px] w-[0%] rounded-md duration-200 content-[''];
+  @apply absolute -bottom-[5px] left-0 h-[4px] w-[0%] rounded-md bg-textLightColor duration-200 content-[''];
 }
 .nav:hover::after {
   @apply w-[100%];
@@ -18,7 +18,7 @@
   @apply relative;
 }
 .activeNav::after {
-  @apply bg-textLightColor absolute -bottom-[5px] left-0 h-[4px] w-[100%] rounded-md duration-200 content-[''];
+  @apply absolute -bottom-[5px] left-0 h-[4px] w-[100%] rounded-md bg-textLightColor duration-200 content-[''];
 }
 
 .dayOne {
