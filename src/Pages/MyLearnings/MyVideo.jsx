@@ -314,7 +314,7 @@ const MyVideo = () => {
         ) : (
           <>
             <div className="flex h-[100vh] w-full items-center justify-center">
-              <Loader color={"#334456"} />
+              <Loader color={"#334456"} height={"15%"} width={"15%"} />
             </div>
           </>
         )}
@@ -400,7 +400,7 @@ const MyVideo = () => {
           </>
         ) : (
           <div className="flex h-[100vh] w-full items-center justify-center">
-            <Loader color={"#334456"} />
+            <Loader color={"#334456"} height={"15%"} width={"15%"} />
           </div>
         )}
       </div>

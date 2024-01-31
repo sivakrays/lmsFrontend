@@ -64,7 +64,6 @@ const SuperAdminLogin = () => {
       };
       const res = await post(`tenant/tenantLogin`, {}, config);
       if (res !== "") {
-        localStorage.setItem("role", "tenant");
         navigate("/users");
       }
     } catch (error) {

@@ -8,48 +8,7 @@ import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InputField from "../../Components/CommonInputField/CommonInputField";
-
-const SelectField = ({ label, name, value, onChange, options, required }) => {
-  const [error, setError] = useState(false);
-
-  const handleValidation = (e) => {
-    const selectedValue = e.target.value;
-    setError(selectedValue === "");
-  };
-
-  return (
-    <div className="flex w-full flex-col lg:w-[45%] xl:w-[48%]">
-      <label htmlFor={name} className="text-textLightColor">
-        {label}
-      </label>
-      <select
-        id={name}
-        name={name}
-        value={value}
-        onChange={(e) => {
-          onChange(e);
-          handleValidation(e);
-        }}
-        required={required}
-        className={`rounded-md border bg-dashboardLightColor py-3.5 pl-1 text-textColor outline-none placeholder:text-gray-400 sm:text-sm sm:leading-6 ${
-          error ? "border-red-500" : ""
-        }`}
-      >
-        <option value="">Please Select {label}</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      {error && (
-        <p className="mt-1 text-sm text-red-500">
-          Please select a {label.toLowerCase()}
-        </p>
-      )}
-    </div>
-  );
-};
+import SelectField from "../../Components/CommonSelectField/SelectField";
 
 const CourseForm = ({
   setSectionFormVisibile,
@@ -183,7 +142,7 @@ const CourseForm = ({
         </div>
         {loading && (
           <div className="flex h-[40vh] w-full items-center justify-center">
-            <Loader color={"#334456"} />
+            <Loader color={"#334456"} height={"15%"} width={"15%"} />
           </div>
         )}
         <div className="uploadForm mt-5 rounded-md bg-white p-3 shadow lg:w-[90%]">

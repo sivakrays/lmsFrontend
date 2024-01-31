@@ -243,7 +243,7 @@ const CourseDetails = () => {
         </div>
       ) : (
         <div className=" flex h-[45vh] w-full items-center justify-center ">
-          <Loader color={"#334456"} />
+          <Loader color={"#334456"} height={"15%"} width={"15%"} />
         </div>
       )}
 

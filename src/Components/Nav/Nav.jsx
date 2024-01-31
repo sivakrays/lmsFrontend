@@ -202,7 +202,7 @@ const Nav = () => {
             ) : (
               <div className="flex items-center gap-8">
                 <Link to="login">
-                  <button className="text-md cursor-pointer font-semibold  text-textColor">
+                  <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor  px-6 py-1.5  font-semibold text-white hover:bg-transparent hover:text-textColor hover:duration-500">
                     Login
                   </button>
                 </Link>

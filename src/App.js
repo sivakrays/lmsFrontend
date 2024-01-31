@@ -73,7 +73,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<SideBar />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/myCourse" element={<MyCourse />} />
+          <Route path="/courses" element={<MyCourse />} />
           <Route path="/users" element={<Users />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/upload" element={<Upload />} />

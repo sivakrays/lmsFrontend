@@ -168,7 +168,7 @@ const Course = () => {
                 </button>
                 <button
                   onClick={() => paginate(pageNo + 1)}
-                  className={`border-textLightColor flex h-10 items-center justify-center rounded-r border-0 border-l bg-textColor px-4 text-base font-medium text-white  
+                  className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLightColor bg-textColor px-4 text-base font-medium text-white  
               ${pageNo === totalpage - 1 ? "cursor-not-allowed opacity-50" : ""}
               `}
                   disabled={pageNo === totalpage - 1}
@@ -196,7 +196,7 @@ const Course = () => {
         </>
       ) : (
         <div className="flex h-[40vh] w-full items-center justify-center">
-          <Loader color={"#334456"} />
+          <Loader color={"#334456"} height={"15%"} width={"15%"} />
         </div>
       )}
       <p className="h-[2px] border-b-2 bg-textColor text-textColor opacity-5"></p>

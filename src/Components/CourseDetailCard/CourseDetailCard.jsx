@@ -16,7 +16,7 @@ const Card = ({ img }) => {
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
-    const isFixed = scrollPosition > 200;
+    const isFixed = scrollPosition > 50;
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
     const reachedBottom =
@@ -37,7 +37,7 @@ const Card = ({ img }) => {
 
   return (
     <div
-      className={` hidden h-[450px] w-80 rounded-lg border-2 bg-white  xl:block ${
+      className={` hidden h-[360px] w-80 rounded-lg border-2 bg-white  xl:block ${
         isCardFixed ? "fixedCard " : ""
       }`}
     >
@@ -52,7 +52,7 @@ const Card = ({ img }) => {
       </div>
 
       <div className="mx-2 mt-4 flex h-52  flex-col ">
-        {/* <div className="flex flex-col">
+        <div className="flex flex-col">
           <p className="text-2xl font-bold text-textColor">
             ₹449{" "}
             <span className=" text-sm font-thin text-textLightColor line-through">
@@ -61,78 +61,12 @@ const Card = ({ img }) => {
             </span>{" "}
             <span className="text-sm font-medium text-textColor"> 83% off</span>
           </p>
-          <div className="mb-3 flex">
-            <img src={Alarm} alt="" className="mr-2 w-4 object-contain" />
-            <p className="text-sm font-bold text-red-700">
-              1 day{" "}
-              <span className="text-sm font-light text-red-700">
-                left at this price!
-              </span>
-            </p>
-          </div>
         </div>
-        <div className="mb-2 flex flex-col  items-center space-y-4 ">
+        <div className="mt-5 flex flex-col  items-center space-y-4 ">
           <button className=" w-full border-2 border-textColor bg-mobilebg p-3 boxShadow">
             Add to cart
           </button>
-          <button className=" w-full border-2 border-textColor p-3 boxShadow">
-            Buy now
-          </button>
-        </div> */}
-
-        <div className="space-y-3">
-          <p className="text-lg text-textColor">This course includes:</p>
-          <div className="flex items-center gap-2">
-            <span>
-              <img src={YoutubeTv} alt="" className="w-4 object-contain" />
-            </span>
-            <span className="text-sm text-textColor">
-              {" "}
-              4 hours on-demand video
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span>
-              <img src={file} alt="" className="w-4 object-contain" />
-            </span>
-            <span className="text-sm text-textColor"> 1 article</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span>
-              <img src={folder} alt="" className="w-4 object-contain" />
-            </span>
-            <span className="text-sm text-textColor">
-              28 downloadable resources
-            </span>
-          </div>
-          {/* <div className="flex items-center gap-2">
-            <span>
-              <img src={mobile} alt="" className="w-4 object-contain" />
-            </span>
-            <span className="text-sm text-textColor">
-              Access on mobile and TV
-            </span>
-          </div> */}
-          {/* <div className="flex items-center gap-2">
-            <span>
-              <img src={infinity} alt="" className="w-4 object-contain" />
-            </span>
-            <span className="text-sm text-textColor">Full lifetime access</span>
-          </div> */}
-          <div className="flex items-center gap-2">
-            <span>
-              <img src={trophy} alt="" className="w-4 object-contain" />
-            </span>
-            <span className="text-sm text-textColor">
-              Certificate of completion
-            </span>
-          </div>
         </div>
-        <Link>
-          <p className="mt-4 text-sm font-bold text-textColor underline">
-            Share
-          </p>
-        </Link>
       </div>
     </div>
   );

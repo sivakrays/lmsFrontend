@@ -247,7 +247,7 @@ const Profile = (props) => {
     <div className="min-h-screen  bg-herobg pb-16 pt-28 sm:h-auto sm:pb-3">
       {loading ? (
         <div className="flex h-[40vh] w-full items-center justify-center">
-          <Loader color={"#334456"} />
+          <Loader color={"#334456"} height={"15%"} width={"15%"} />
         </div>
       ) : (
         <div className="mx-auto w-11/12  ">

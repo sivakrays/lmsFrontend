@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { authContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
+import { post } from "../../ApiCall/ApiCall";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const CourseCard = ({ course, path }) => {
-  const { isTokenValid, userId } = useContext(authContext);
+  const { isTokenValid, userId, token } = useContext(authContext);
   const navigate = useNavigate();
-
   const errorNotify = () =>
     toast.info("Please login to access this course", {
       position: "top-center",
@@ -31,6 +32,29 @@ const CourseCard = ({ course, path }) => {
       setTimeout(() => {
         navigate("/login");
       }, 2500);
+    }
+  };
+
+  const currentToken = JSON.parse(localStorage.getItem("token"));
+  const addCart = async (courseId, userId) => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(currentToken);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
+
+      const data = {
+        userId: userId,
+        courseId: courseId,
+      };
+
+      const res = await post("/user/saveCart", data, config);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -84,7 +108,7 @@ const CourseCard = ({ course, path }) => {
           </button>
 
           <button
-            onClick={() => console.log(course.courseId, userId)}
+            onClick={() => addCart(course.courseId, userId)}
             className={`mt-3 rounded-md
              bg-yellow-300 px-5 py-2 font-medium text-textColor shadow-sm `}
           >

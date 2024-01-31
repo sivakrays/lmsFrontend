@@ -9,7 +9,9 @@ export const AuthContextProvider = ({ children }) => {
   const storedGold = localStorage.getItem("gold");
   const storedToken = localStorage.getItem("token");
 
-  const [token, setToken] = useState(storedToken || "");
+  const [token, setToken] = useState(
+    storedToken || localStorage.getItem("token"),
+  );
   const [userId, setUserId] = useState(
     JSON.parse(localStorage.getItem("userID")),
   );

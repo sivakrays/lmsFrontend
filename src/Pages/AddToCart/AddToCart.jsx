@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import "../Course/Course.css";
 import { Link } from "react-router-dom";
-import { post } from "../../ApiCall/ApiCall";
+import { del, post } from "../../ApiCall/ApiCall";
 import { cartContext } from "../../Context/CartContext";
 
 const AddToCart = () => {
   const { cartData, total, setTotal, totalCartItem, setTotalCartItem } =
     useContext(cartContext);
+  console.log(cartData);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -25,7 +26,7 @@ const AddToCart = () => {
     });
   };
 
-  const PaymentHandler = async (total) => {
+  const PaymentHandler = async (total, orderID, OrderKey) => {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js",
     );
@@ -35,12 +36,13 @@ const AddToCart = () => {
     }
 
     const options = {
-      key: "rzp_test_9x1DYeY8MIVVTO",
+      // key: "rzp_test_9x1DYeY8MIVVTO",
+      key: `${OrderKey}`,
       currency: "INR",
       amount: total * 100,
       name: "KraysInfotech",
       description: "Thanks for Purchasing",
-
+      orderID: orderID,
       handler: function (response) {
         alert(response.razorpay_payment_id);
         alert("Payment Success");
@@ -53,6 +55,27 @@ const AddToCart = () => {
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
+  };
+
+  const checkout = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const data = {
+      amount: total,
+      customerName: localStorage.getItem("Current User"),
+      email: localStorage.getItem("email"),
+      phoneNumber: "9089786789",
+    };
+
+    const res = await post("/auth/createOrder", data, config);
+    const orderID = res.data.razorpayOrderId;
+    const OrderKey = res.data.secretId;
+
+    PaymentHandler(total, orderID, OrderKey);
   };
 
   return (
@@ -96,7 +119,7 @@ const AddToCart = () => {
                         <div className=" ">
                           <img
                             className="min-w-[70px] sm:max-w-[100px]"
-                            src={course.image}
+                            src={course.thumbNail}
                             alt=""
                           />
                         </div>
@@ -114,7 +137,7 @@ const AddToCart = () => {
                           </Link>
 
                           <span className="text-[10px] text-textLightColor sm:text-xs">
-                            {course.author}
+                            {course.authorName}
                           </span>
                         </div>
                       </div>
@@ -187,7 +210,8 @@ const AddToCart = () => {
                   </div>
                   <button
                     type="submit"
-                    onClick={() => PaymentHandler(total)}
+                    // onClick={() => PaymentHandler(total)}
+                    onClick={() => checkout()}
                     className="dayOne w-full rounded-md bg-yellow-300 py-3 text-sm font-semibold uppercase text-white hover:bg-yellow-400"
                   >
                     Checkout
