@@ -1,13 +1,59 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../Course/Course.css";
 import { Link } from "react-router-dom";
 import { del, post } from "../../ApiCall/ApiCall";
 import { cartContext } from "../../Context/CartContext";
+import { authContext } from "../../Context/AuthContext";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
+import { ToastContainer, toast } from "react-toastify";
 
 const AddToCart = () => {
-  const { cartData, total, setTotal, totalCartItem, setTotalCartItem } =
-    useContext(cartContext);
-  console.log(cartData);
+  const [cartId, setCartId] = useState(null);
+
+  const {
+    cartData,
+    total,
+    setTotal,
+    totalCartItem,
+    setTotalCartItem,
+    setCartUpdated,
+    cartUpdated,
+  } = useContext(cartContext);
+
+  const { token } = useContext(authContext);
+
+  const successNotify = (msg) =>
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const handleDelete = async (cartId) => {
+    setCartId(cartId);
+    console.log(cartId);
+    try {
+      const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+          cartId: cartId,
+        },
+      };
+
+      const res = await del("/user/deleteCartById", config);
+      successNotify("Successfully Deleted!");
+      setCartUpdated(!cartUpdated);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -149,7 +195,7 @@ const AddToCart = () => {
                         {course.price} .Rs
                       </span> */}
                       <span className="w-1/5 text-center text-sm font-semibold">
-                        <button>
+                        <button onClick={() => handleDelete(course.cartId)}>
                           <svg
                             className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
                             fill="none"
@@ -222,6 +268,20 @@ const AddToCart = () => {
           </div>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        data-testid="toast"
+      />
     </div>
   );
 };

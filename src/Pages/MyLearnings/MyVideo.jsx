@@ -5,14 +5,13 @@ import Quiz from "../../Components/Quiz/Quiz";
 import Modal from "../../Components/Modal/Modal";
 import { get, post } from "../../ApiCall/ApiCall";
 import Loader from "../../Components/Loader/Loader";
-import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { useNavigate, useParams } from "react-router-dom";
 import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 import "./MyVideo.css";
 
 const MyVideo = () => {
   const id = useParams();
-
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -59,22 +58,29 @@ const MyVideo = () => {
 
         const res = await get("/user/getCourseById", config);
         setAccordionDetails(res.data.sections);
-        setVideoUrl(
-          res.data.sections[sectionIndex].subSections[currentIndex].link,
-        );
-        setSubSectionLength(res.data.sections[sectionIndex].subSections.length);
-        setSectionId(res.data.sections[sectionIndex].sectionId);
-        setSubSectionId(
-          res.data.sections[sectionIndex].subSections[currentIndex]
-            .subSectionId,
-        );
+
+        if (res.status === 200) {
+          setVideoUrl(
+            res.data.sections[sectionIndex].subSections[currentIndex].link,
+          );
+          setSubSectionLength(
+            res.data.sections[sectionIndex].subSections.length,
+          );
+          setSectionId(res.data.sections[sectionIndex].sectionId);
+          setSubSectionId(
+            res.data.sections[sectionIndex].subSections[currentIndex]
+              .subSectionId,
+          );
+        } else if (res.status === 204) {
+          navigate("/mylearnings");
+        }
       } catch (err) {
         console.log("error", err);
       }
     };
 
     if (currentToken) {
-      fetchVideoDetails();
+      return () => fetchVideoDetails();
     } else {
       console.log("Token not present");
     }
@@ -99,6 +105,7 @@ const MyVideo = () => {
   }, [currentIndex, sectionId]);
 
   const isSmallScreen = window.innerWidth < 1024;
+
   const handleCollapse = () => {
     setIsVideoAll(!isVideoAll);
   };
@@ -313,8 +320,12 @@ const MyVideo = () => {
           </>
         ) : (
           <>
-            <div className="flex h-[100vh] w-full items-center justify-center">
-              <Loader color={"#334456"} height={"15%"} width={"15%"} />
+            <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
+              <Loader color={"#334456"} height={"10%"} width={"10%"} />
+            </div>
+
+            <div className="hidden h-[100vh] w-full items-center justify-center sm:flex">
+              <Loader color={"#334456"} height={"4%"} width={"4%"} />
             </div>
           </>
         )}
@@ -400,7 +411,7 @@ const MyVideo = () => {
           </>
         ) : (
           <div className="flex h-[100vh] w-full items-center justify-center">
-            <Loader color={"#334456"} height={"15%"} width={"15%"} />
+            <Loader color={"#334456"} height={"8%"} width={"8%"} />
           </div>
         )}
       </div>

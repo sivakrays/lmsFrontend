@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { post } from "../../ApiCall/ApiCall";
 import logo1 from "../../Assets/Admin/kraysLogoNoBg.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SuperAdminLogin = () => {
   const navigate = useNavigate();
@@ -14,6 +16,30 @@ const SuperAdminLogin = () => {
   const pathName = window.location.pathname;
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const successNotify = (msg) =>
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   const handleInputchange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -64,9 +90,20 @@ const SuperAdminLogin = () => {
       };
       const res = await post(`tenant/tenantLogin`, {}, config);
       if (res !== "") {
-        navigate("/users");
+        localStorage.setItem("role", res.data.role);
+        localStorage.setItem("tenantId", res.data.tenantId);
+        successNotify("Successfully Login");
+        setTimeout(() => {
+          navigate("/users");
+        }, 1000);
       }
     } catch (error) {
+      // errorNotify("Please try again!");
+      errorNotify("Bad Credetials!");
+      setLoginData({
+        email: "",
+        password: "",
+      });
       console.log("err", error);
     }
   };
@@ -80,12 +117,21 @@ const SuperAdminLogin = () => {
         },
       };
       const res = await post(`admin/adminLogin`, {}, config);
-      if (res !== "") {
-        console.log("superAdminLogin succesfully");
-        navigate("/users");
+      if (res.status === 200) {
+        successNotify("Successfully Login");
+        setTimeout(() => {
+          navigate("/users");
+        }, 1000);
+        localStorage.setItem("role", res.data.role);
       }
     } catch (error) {
+      // errorNotify("Please try again!");
+      errorNotify("Bad Credetials!");
       console.log("err", error);
+      setLoginData({
+        email: "",
+        password: "",
+      });
     }
   };
 
@@ -183,6 +229,19 @@ const SuperAdminLogin = () => {
           </div>
         </div>
       </section>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        data-testid="toast"
+      />
     </>
   );
 };

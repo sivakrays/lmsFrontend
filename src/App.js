@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Nav from "./Components/Nav/Nav";
@@ -21,12 +21,14 @@ import LeaderBoard from "./Dashboard/LeaderBoard/LeaderBoard";
 import Upload from "./Dashboard/Upload/Upload";
 import SuperAdminLogin from "./Admin/superAdmin/superAdminLogin";
 import AddToCart from "./Pages/AddToCart/AddToCart";
+import { authContext } from "./Context/AuthContext";
 
 const App = () => {
   const token = localStorage.getItem("token");
+  const { user } = useContext(authContext);
 
   const ProtectedRoute = ({ children }) => {
-    if (!token) {
+    if (!user) {
       return <Navigate to={"/"} />;
     }
     return children;

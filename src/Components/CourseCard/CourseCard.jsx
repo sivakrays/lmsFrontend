@@ -5,16 +5,19 @@ import halfStar from "../../Assets/courseCard/halfStar.png";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { authContext } from "../../Context/AuthContext";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { post } from "../../ApiCall/ApiCall";
 import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
+import { cartContext } from "../../Context/CartContext";
 
 const CourseCard = ({ course, path }) => {
   const { isTokenValid, userId, token } = useContext(authContext);
+  const { setCartUpdated, cartUpdated } = useContext(cartContext);
+
   const navigate = useNavigate();
-  const errorNotify = () =>
-    toast.info("Please login to access this course", {
-      position: "top-center",
+  const errorNotify = (err) =>
+    toast.info(err, {
+      position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -28,12 +31,35 @@ const CourseCard = ({ course, path }) => {
     if (isTokenValid) {
       navigate(`/coursedetails/${course.courseId}`);
     } else {
-      errorNotify();
+      errorNotify("Please login to access this course");
       setTimeout(() => {
         navigate("/login");
       }, 2500);
     }
   };
+
+  const isCartAuthorized = () => {
+    if (isTokenValid) {
+      addCart(course.courseId, userId);
+    } else {
+      errorNotify("Please login to access this course");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2500);
+    }
+  };
+
+  const successNotify = () =>
+    toast.success("Course Added to Cart", {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const currentToken = JSON.parse(localStorage.getItem("token"));
   const addCart = async (courseId, userId) => {
@@ -52,9 +78,14 @@ const CourseCard = ({ course, path }) => {
       };
 
       const res = await post("/user/saveCart", data, config);
-      console.log(res);
+      setCartUpdated(!cartUpdated);
+      if (res.status === 201) {
+        successNotify();
+        console.log(res);
+      }
     } catch (err) {
-      console.log(err);
+      const error = err.response.data;
+      errorNotify(error);
     }
   };
 
@@ -66,8 +97,6 @@ const CourseCard = ({ course, path }) => {
         <div className="cardImg p-3" onClick={isAuthorizedUser}>
           <div className="courseImgWrapper h-36 overflow-hidden rounded-lg">
             <img
-              // src={`data:image/jpeg;base64,${course.thumbNail}`}
-              // src={`${course.thumbNail}`}
               src={isTokenValid ? `${course.thumbNail}` : course.thumbNail}
               alt="course thumbnail"
               className="courseImg h-full w-full object-cover"
@@ -90,13 +119,6 @@ const CourseCard = ({ course, path }) => {
               ? `${course.title.substring(0, 40)}...`
               : course.title}
           </div>
-          {/* {path == "course" && (
-            <div className="courseDes text-sm text-textLightColor">
-              {course.description.length > 40
-                ? `${course.description.substring(0, 70)}...`
-                : course.description}
-            </div>
-          )} */}
         </div>
         <div className="courseBtn flex items-center justify-between px-3 pb-3">
           <button
@@ -108,7 +130,7 @@ const CourseCard = ({ course, path }) => {
           </button>
 
           <button
-            onClick={() => addCart(course.courseId, userId)}
+            onClick={() => isCartAuthorized()}
             className={`mt-3 rounded-md
              bg-yellow-300 px-5 py-2 font-medium text-textColor shadow-sm `}
           >
@@ -116,6 +138,19 @@ const CourseCard = ({ course, path }) => {
           </button>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        data-testid="toast"
+      />
     </div>
   );
 };

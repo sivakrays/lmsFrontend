@@ -94,12 +94,10 @@ const CourseForm = ({
 
       const res = await post("/user/saveCourse", data, config);
       setCourseId(res.data.courseId);
-      const courseID = JSON.parse(res.data.courseId);
-      localStorage.setItem("Current Upload CourseId", courseID);
       if (Boolean(res)) {
         successNotify();
-
         setTimeout(() => {
+          setLoading(false);
           setSectionFormVisibile(true);
         }, 1000);
       }

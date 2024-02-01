@@ -59,7 +59,7 @@ const Home = () => {
     };
 
     if (currentToken) {
-      fetchCourse();
+      return () => fetchCourse();
     } else {
       console.log("Token not present");
     }
@@ -252,9 +252,14 @@ const Home = () => {
                     ))}
                 </>
               ) : (
-                <div className="flex h-[20vh] w-full items-center justify-center">
-                  <Loader color={"#334456"} height={"15%"} width={"15%"} />
-                </div>
+                <>
+                  <div className="flex h-[20vh] w-full items-center justify-center md:hidden">
+                    <Loader color={"#334456"} height={"10%"} width={"10%"} />
+                  </div>
+                  <div className="hidden h-[20vh] w-full items-center justify-center md:flex">
+                    <Loader color={"#334456"} height={"5%"} width={"5%"} />
+                  </div>
+                </>
               )
             ) : (
               <>

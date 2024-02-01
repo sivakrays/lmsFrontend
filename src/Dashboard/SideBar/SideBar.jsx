@@ -77,6 +77,12 @@ const BottomBar = () => {
 };
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const logOut = () => {
+    navigate("/");
+    localStorage.clear();
+  };
+
   return (
     <>
       <Tooltip id="my-tooltip" place="right" />
@@ -112,7 +118,7 @@ const SideBar = () => {
           <ul className="item-center flex justify-center pb-10">
             <li className=" text-herobg">
               <button
-                // onClick={() => navigate("/login")}
+                onClick={() => logOut()}
                 data-tooltip-id="my-tooltip1"
                 data-tooltip-content="Logout"
               >

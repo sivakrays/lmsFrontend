@@ -175,9 +175,7 @@ const Nav = () => {
                       Profile
                     </div>
                   </Link>
-                  {isTokenValid &&
-                  localStorage.getItem("Role").toLocaleLowerCase() ===
-                    "admin" ? (
+                  {isTokenValid && localStorage.getItem("Role") === "admin" ? (
                     <>
                       <Link to="/dashboard">
                         <div
@@ -331,7 +329,7 @@ const Nav = () => {
                       className="text-md font-semiboldnuppercase cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor px-6 py-1.5 text-white"
                       onClick={handleToggle}
                     >
-                      Login1
+                      Login
                     </button>
                   </Link>
                   {/* <Link to="signup">

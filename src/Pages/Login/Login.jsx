@@ -18,17 +18,17 @@ const Login = () => {
     const fetchTenant = async () => {
       try {
         const res = await get(`tenant/getAllTenants`);
-        const dropDownValue =
-          res.data &&
-          res.data.length > 0 &&
-          res.data.map((item) => {
-            return { label: item, value: item };
-          });
+        console.log(res.data);
+        const dropDownValue = Object.entries(res.data).map(([key, value]) => ({
+          label: key,
+          value: value,
+        }));
         setOptions(dropDownValue);
       } catch (error) {
         console.log("errr", error);
       }
     };
+
     fetchTenant();
   }, []);
 
@@ -69,49 +69,18 @@ const Login = () => {
     },
   ];
 
-  // const dropDown = [
-  //   "option1",
-  //   "option2",
-  //   "option3",
-  //   "option4",
-  //   "option5",
-  //   "option6",
-  //   "option7",
-  //   "option8",
-  //   "option9",
-  //   "option10",
-  // ];
-
-  // const options = dropDown.map((item) => {
-  //   return { label: item, value: item };
-  // });
-
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleDropdownChange = async (selectedOptions) => {
-    const selectedValue =
-      selectedOptions && selectedOptions.length > 0
-        ? selectedOptions[0].value
-        : "";
+    console.log(selectedOptions[0].value);
+    const selectValue = selectedOptions[0].value;
 
-    console.log("selected Value", selectedValue);
-    if (selectedValue !== "") {
-      try {
-        const config = {
-          headers: { issuer: selectedValue },
-        };
-        const res = await get(`tenant/getTenantByIssuer`, config);
-        const tenantId = res.data;
-        setValues((prevValues) => ({
-          ...prevValues,
-          tenant: tenantId,
-        }));
-      } catch (error) {
-        console.log("errorr", error);
-      }
-    }
+    setValues((prevValues) => ({
+      ...prevValues,
+      tenant: selectValue,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -166,13 +135,12 @@ const Login = () => {
         </form>
         <div className="mt-8">
           <p className="text-textLightColor" data-testid="para">
-            {" "}
-            If you don't have an account? Please{" "}
+            Admin Login ! click here{" "}
             <span
               className="text-center text-blue-600 underline"
               data-testid="link"
             >
-              <Link to="/signup">signup</Link>
+              <Link to="/tenantAdmin">Organization</Link>
             </span>
           </p>
         </div>

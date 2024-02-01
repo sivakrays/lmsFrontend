@@ -10,7 +10,7 @@ import folder from "../../Assets/coursedetails/folder.svg";
 import trophy from "../../Assets/coursedetails/trophy.svg";
 import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
 
-const Card = ({ img }) => {
+const Card = ({ img, price }) => {
   const [isCardFixed, setIscardFixed] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
@@ -54,7 +54,7 @@ const Card = ({ img }) => {
       <div className="mx-2 mt-4 flex h-52  flex-col ">
         <div className="flex flex-col">
           <p className="text-2xl font-bold text-textColor">
-            ₹449{" "}
+            {price}.Rs{" "}
             <span className=" text-sm font-thin text-textLightColor line-through">
               {" "}
               ₹2,999

@@ -13,55 +13,31 @@ export const CartContextProvider = ({ children }) => {
   const [totalCartItem, setTotalCartItem] = useState(0);
   const [cartData, setCartData] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-  //       const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${refreshedToken}`,
-  //           userId: userId,
-  //         },
-  //       };
+  const [cartUpdated, setCartUpdated] = useState(false);
 
-  //       const res = await get("/user/getCartDetailByUserId", config);
-  //       console.log(res);
-  //       setCartData(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        if (token) {
+          const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${refreshedToken}`,
+              userId: userId,
+            },
+          };
 
-  //   fetchCartData();
-  // }, []);
+          const res = await get("/user/getCartDetailByUserId", config);
+          setCartData(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  // const cartData = [
-  //   {
-  //     courseId: 1,
-  //     image: img,
-  //     title: "Finance course for Kids",
-  //     category: "Finance",
-  //     author: "Steeve Simbert",
-  //     price: 500,
-  //   },
-  //   {
-  //     courseId: 2,
-  //     image: img,
-  //     title: "React course for Developers",
-  //     category: "Coding",
-  //     author: "Manoj Kumar",
-  //     price: 800,
-  //   },
-  //   {
-  //     courseId: 3,
-  //     image: img,
-  //     title: "React course for Developers",
-  //     category: "Coding",
-  //     author: "Manoj Kumar",
-  //     price: 800,
-  //   },
-  // ];
+    return () => fetchCartData();
+  }, [cartUpdated]);
 
   useEffect(() => {
     setTotalCartItem(cartData.length);
@@ -71,7 +47,15 @@ export const CartContextProvider = ({ children }) => {
 
   return (
     <cartContext.Provider
-      value={{ cartData, total, setTotal, totalCartItem, setTotalCartItem }}
+      value={{
+        cartData,
+        total,
+        setTotal,
+        totalCartItem,
+        setTotalCartItem,
+        setCartUpdated,
+        cartUpdated,
+      }}
     >
       {children}
     </cartContext.Provider>

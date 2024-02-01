@@ -11,6 +11,8 @@ const CreationModal = ({
   loading,
   setLoading,
   closeModal,
+  setGetAllData,
+  getAllData,
 }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -72,10 +74,21 @@ const CreationModal = ({
         setIsCreation(false);
         setLoading(false);
         successNotify();
+        setGetAllData(!getAllData);
       }
     } catch (error) {
-      console.error("Error registering tenant:", error);
-      errorNotify(error);
+      const err = error.response.data;
+      if (error.response.status === 409) {
+        errorNotify(err);
+        setFormData({
+          email: "",
+          password: "",
+          confirmPassword: "",
+          tenantId: "",
+          issuer: "",
+        });
+        setLoading(false);
+      }
     }
   };
 

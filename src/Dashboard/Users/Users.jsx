@@ -15,14 +15,18 @@ const UserModal = ({
   loading,
   setLoading,
   closeModal,
+  setGetAllData,
+  getAllData,
 }) => {
-  return role === "admin" ? (
+  return role === "owner" ? (
     <CreationModal
       setIsCreation={setIsCreation}
       isCreation={isCreation}
       loading={loading}
       setLoading={setLoading}
       closeModal={closeModal}
+      setGetAllData={setGetAllData}
+      getAllData={getAllData}
     />
   ) : (
     <UserCreationModal
@@ -31,6 +35,8 @@ const UserModal = ({
       loading={loading}
       setLoading={setLoading}
       closeModal={closeModal}
+      setGetAllData={setGetAllData}
+      getAllData={getAllData}
     />
   );
 };
@@ -39,8 +45,12 @@ const Users = () => {
   const [isCreation, setIsCreation] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [getAllData, setGetAllData] = useState(false);
 
-  const role = "admin";
+  const pageNo = 0;
+  const pageSize = 6;
+
+  const role = localStorage.getItem("role");
 
   const closeModal = () => {
     setIsCreation(!isCreation);
@@ -49,19 +59,36 @@ const Users = () => {
 
   useEffect(() => {
     const getAllUserData = async () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const getAllUsers = async () => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            tenantId: localStorage.getItem("tenantId"),
+            pageNo: parseInt(pageNo),
+            pageSize: parseInt(pageSize),
+          },
+        };
+        const res = await get("/auth/getAllUser", config);
+        setAllUsers(res.data.content);
       };
-
       try {
-        if (role === "admin") {
-          const res = await get("/tenant/getAllTenants", config);
-          setAllUsers(res.data);
-        } else {
-          const res = await get("/tenant/getAllTenants", config);
-          setAllUsers(res.data);
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        switch (role) {
+          case "owner":
+            const res = await get("/tenant/viewAllTenants", config);
+            setAllUsers(res.data);
+            break;
+
+          case "manager":
+            getAllUsers();
+            break;
+
+          default:
+            break;
         }
       } catch (err) {
         console.log(err);
@@ -69,7 +96,7 @@ const Users = () => {
     };
 
     return () => getAllUserData();
-  }, [role]);
+  }, [role, getAllData]);
 
   return (
     <>
@@ -107,13 +134,13 @@ const Users = () => {
 
                 <div className="w-2/6">
                   <p className="text-[15px] font-semibold uppercase text-textColor">
-                    TenantID
+                    {role === "owner" ? "TenantID" : "Role"}
                   </p>
                 </div>
 
                 <div className="w-2/6">
                   <p className="text-[15px] font-semibold uppercase text-textColor">
-                    Issuer
+                    {role === "owner" ? "Issuer" : "Name"}
                   </p>
                 </div>
 
@@ -127,15 +154,24 @@ const Users = () => {
                 allUsers.map((tenant, i) => (
                   <div className="heading flex justify-between p-4" key={i}>
                     <div className="w-2/6">
-                      <p>Manoj@gmail.com</p>
+                      <p>{tenant.email}</p>
                     </div>
 
                     <div className="w-2/6">
-                      <p>{tenant}</p>
+                      <p>
+                        {" "}
+                        {role === "owner"
+                          ? `${tenant.tenantId}`
+                          : `${tenant.role}`}
+                      </p>
                     </div>
 
                     <div className="w-2/6">
-                      <p>Manoj</p>
+                      <p>
+                        {role === "owner"
+                          ? `${tenant.issuer}`
+                          : `${tenant.name}`}
+                      </p>
                     </div>
 
                     <div className="w-2/6">
@@ -156,6 +192,8 @@ const Users = () => {
             loading={loading}
             setLoading={setLoading}
             closeModal={closeModal}
+            setGetAllData={setGetAllData}
+            getAllData={getAllData}
           />
         )}
       </div>

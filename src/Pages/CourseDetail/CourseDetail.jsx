@@ -152,7 +152,7 @@ const CourseDetails = () => {
               </div>
               {/* <div className="absolute top-10 xl:right-[150px] xl:block  "> */}
               <div className="card">
-                <Card img={data.thumbNail} />
+                <Card img={data.thumbNail} price={data.price} />
               </div>
             </section>
           )}
@@ -242,9 +242,14 @@ const CourseDetails = () => {
           )}
         </div>
       ) : (
-        <div className=" flex h-[45vh] w-full items-center justify-center ">
-          <Loader color={"#334456"} height={"15%"} width={"15%"} />
-        </div>
+        <>
+          <div className="flex  h-[45vh] w-full items-center justify-center md:hidden">
+            <Loader color={"#334456"} height={"10%"} width={"10%"} />
+          </div>
+          <div className="hidden  h-[45vh] w-full items-center justify-center md:flex">
+            <Loader color={"#334456"} height={"5%"} width={"5%"} />
+          </div>
+        </>
       )}
 
       <Footer />

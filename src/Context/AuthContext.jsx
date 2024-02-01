@@ -9,6 +9,10 @@ export const AuthContextProvider = ({ children }) => {
   const storedGold = localStorage.getItem("gold");
   const storedToken = localStorage.getItem("token");
 
+  const [userDetails, setUserDetails] = useState(
+    JSON.parse(localStorage.getItem("userDetails")) || null,
+  );
+
   const [token, setToken] = useState(
     storedToken || localStorage.getItem("token"),
   );
@@ -56,6 +60,8 @@ export const AuthContextProvider = ({ children }) => {
 
     await post(`/auth/login`, {}, config)
       .then((res) => {
+        setUserDetails(res.data);
+
         const localToken = JSON.stringify(res.data.token);
         res.data && localStorage.setItem("token", localToken);
         const refreshToken = JSON.stringify(res.data.refreshToken);
@@ -69,9 +75,12 @@ export const AuthContextProvider = ({ children }) => {
         setUserId(res.data.userId);
         setToken(actualToken);
         setUser(res.data.name);
+
         setTotalBronze(res.data.bronze);
         setTotalSilver(res.data.silver);
         setTotalGold(res.data.gold);
+
+        // function
         updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
         successNotify();
         setIsButtonClicked(false);
@@ -93,6 +102,10 @@ export const AuthContextProvider = ({ children }) => {
         // errorNotify(err.message);
       });
   };
+
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  });
 
   const logout = () => {
     localStorage.clear();

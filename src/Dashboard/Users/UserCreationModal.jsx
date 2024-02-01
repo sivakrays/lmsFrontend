@@ -11,6 +11,8 @@ const UserCreationModal = ({
   loading,
   setLoading,
   closeModal,
+  getAllData,
+  setGetAllData,
 }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -29,8 +31,8 @@ const UserCreationModal = ({
     }));
   };
 
-  const successNotify = () =>
-    toast.success("Register Successfully!", {
+  const successNotify = (msg) =>
+    toast.success(msg, {
       position: "top-right",
       autoClose: 500,
       hideProgressBar: false,
@@ -56,7 +58,7 @@ const UserCreationModal = ({
     const config = {
       headers: {
         "Content-Type": "application/json",
-        tenantId: "krays",
+        tenantId: localStorage.getItem("tenantId"),
       },
     };
 
@@ -69,9 +71,9 @@ const UserCreationModal = ({
     };
     try {
       const res = await post("/auth/register", data, config);
-      console.log(res);
       if (res) {
-        successNotify();
+        setGetAllData(!getAllData);
+        successNotify("User Created Successfully!");
         setFormData({
           name: "",
           email: "",
@@ -82,9 +84,8 @@ const UserCreationModal = ({
         setIsCreation(false);
       }
     } catch (error) {
-      console.error("Error registering tenant:", error);
       setLoading(false);
-      errorNotify(error);
+      errorNotify("user Alredy exist!");
     }
   };
 
@@ -175,10 +176,10 @@ const UserCreationModal = ({
                   type="radio"
                   name="role"
                   id="role1"
-                  value={"Teacher"}
+                  value={"admin"}
                   className="cursor-pointer"
                   style={{ width: 17, height: 17 }}
-                  checked={formData.role === "Teacher"}
+                  checked={formData.role === "admin"}
                   onChange={handleInputChange}
                   required
                 />
@@ -189,11 +190,11 @@ const UserCreationModal = ({
               >
                 Student
                 <input
-                  checked={formData.role === "Student"}
+                  checked={formData.role === "user"}
                   type="radio"
                   name="role"
                   id="role2"
-                  value={"Student"}
+                  value={"user"}
                   className="cursor-pointer"
                   style={{ width: 17, height: 17 }}
                   onChange={handleInputChange}

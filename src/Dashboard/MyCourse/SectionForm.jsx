@@ -130,7 +130,7 @@ const SectionForm = ({
   };
 
   const successNotify = () =>
-    toast.success("Register Successfully!", {
+    toast.success("Section Added Successfully", {
       position: "top-right",
       autoClose: 500,
       hideProgressBar: false,
@@ -181,11 +181,22 @@ const SectionForm = ({
       const res = await post("/user/saveSection", data, updatedConfig);
       if (Boolean(res)) {
         successNotify();
-        setTimeout(() => {
-          setSectionFormVisibile(false);
-        }, 1000);
-        localStorage.removeItem("Current Upload CourseId");
-        setCourseId("");
+        setLoading(false);
+
+        setSectionTitle("");
+        setSubSections([
+          {
+            SubSectionTitle: "",
+            SubSectionDes: "",
+            VideoLink: "",
+            isQuizAvailable: false,
+            quizInputs: [
+              { key: 1, question: "", options: ["", ""], answer: "" },
+              { key: 2, question: "", options: ["", ""], answer: "" },
+              { key: 3, question: "", options: ["", ""], answer: "" },
+            ],
+          },
+        ]);
       }
     } catch (error) {
       errorNotify("error");
@@ -198,6 +209,7 @@ const SectionForm = ({
     if (deserror === false) {
       sendCourseSectionDetails();
       setLoading(true);
+      console.log(loading);
     }
   };
   return (
@@ -420,7 +432,7 @@ const SectionForm = ({
               </button>
               <button
                 type="submit"
-                className="my-3 rounded-md bg-textColor p-2 px-3 text-white sm:px-5"
+                className="my-3 rounded-md bg-textColor p-2 px-3 text-white sm:px-5 md:w-[150px]"
                 disabled={loading === true}
               >
                 {loading === true ? (
@@ -428,7 +440,7 @@ const SectionForm = ({
                     <Loader color={"#FFFFFF"} height={"15%"} width={"15%"} />
                   </div>
                 ) : (
-                  "submit"
+                  "Submit"
                 )}
               </button>
             </div>

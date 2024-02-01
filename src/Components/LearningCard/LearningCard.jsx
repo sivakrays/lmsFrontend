@@ -9,7 +9,7 @@ const LearningCard = ({ cardDetails }) => {
   };
   return (
     <div className="p-4  " onClick={goToVideo} data-testid="learningCard">
-      <div className="flex w-[280px]  cursor-pointer flex-col  rounded border-2 border-textColor bg-white   shadow-md boxShadow">
+      <div className="flex w-[250px]  cursor-pointer flex-col  rounded border-2 border-textColor bg-white   shadow-md boxShadow">
         <div className="h-3/5 w-full p-1.5">
           <img
             src={cardDetails.image}
@@ -26,12 +26,12 @@ const LearningCard = ({ cardDetails }) => {
             </h1>
           </div>
           <div className="h-3">
-            <p className=" text-textLightColor mt-1 text-sm">
+            <p className=" mt-1 text-sm text-textLightColor">
               {cardDetails.author}
             </p>
           </div>
           <div className="mt-1  flex items-center  justify-between   ">
-            <p className="  text-textLightColor text-center text-xs">
+            <p className="  text-center text-xs text-textLightColor">
               80% Completed
             </p>
 

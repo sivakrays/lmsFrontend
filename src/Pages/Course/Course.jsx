@@ -195,9 +195,14 @@ const Course = () => {
           </div>
         </>
       ) : (
-        <div className="flex h-[40vh] w-full items-center justify-center">
-          <Loader color={"#334456"} height={"15%"} width={"15%"} />
-        </div>
+        <>
+          <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
+            <Loader color={"#334456"} height={"10%"} width={"10%"} />
+          </div>
+          <div className="hidden h-[40vh] w-full items-center justify-center sm:flex">
+            <Loader color={"#334456"} height={"4%"} width={"4%"} />
+          </div>
+        </>
       )}
       <p className="h-[2px] border-b-2 bg-textColor text-textColor opacity-5"></p>
       <Footer />

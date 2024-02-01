@@ -58,7 +58,7 @@ const PromoVideo = () => {
         <p className="promoHeading dayOne pt-6 text-center text-3xl text-textColor">
           Watch our promo video
         </p>
-        <p className="text-textLightColor mt-4 pb-6 text-center text-xs">
+        <p className="mt-4 pb-6 text-center text-xs text-textLightColor">
           "Discover Neetie's essence in our captivating, defining promotional
           video."
         </p>
@@ -85,7 +85,7 @@ const PromoVideo = () => {
         <div className="systamaticEducation  relative mx-auto  w-[90%] p-3">
           <div className="flex ">
             <div className="mx-auto flex w-[50ch] flex-col items-center justify-center text-center">
-              <p className="dayOne text-textLightColor font-semibold">
+              <p className="dayOne font-semibold text-textLightColor">
                 Educational Programs
               </p>
               <p className="dayOne text-center text-3xl text-textColor">
@@ -107,21 +107,23 @@ const PromoVideo = () => {
             </div>
           </div>
           {/* systamatic Cards */}
-          <div className="systamaticcards   mx-auto mt-16 flex w-[80%] flex-wrap items-center justify-center gap-12">
+          <div className="systamaticcards mt-16 flex flex-wrap items-center  justify-center gap-12">
             {systamaticCard.map((card, index) => (
               <div
                 key={index}
-                className="systamaticCard  mb-6 flex h-[170px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-coursebg p-3 shadow boxShadow md:w-[400px]"
+                className="systamaticCard  mb-6 flex h-[170px] min-w-[290px] items-center justify-center gap-4 rounded-2xl border-2 border-textColor bg-coursebg p-3  shadow boxShadow sm:w-[400px]"
               >
                 <div className="image-container mt-16 ">
                   <img src={card.img} alt="" className="mask" />
                 </div>
                 <div className="flex flex-col">
                   <p className="dayOne text-lg text-textColor">{card.title}</p>
-                  <p className="text-textLightColor mt-3 text-sm">{card.des}</p>
+                  <p className="mt-1.5 text-xs text-textLightColor sm:mt-3 sm:text-sm">
+                    {card.des}
+                  </p>
                   <Link
                     to={"/course"}
-                    className="hover:text-textLightColor mt-3 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold  text-textColor"
+                    className="mt-1.5 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold text-textColor hover:text-textLightColor sm:mt-3"
                   >
                     View Course {"->"}
                   </Link>
