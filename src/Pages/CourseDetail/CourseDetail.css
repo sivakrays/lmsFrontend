@@ -2,3 +2,22 @@
   border-radius: 10px;
   box-shadow: whitesmoke 0px -50px 100px 12px inset;
 }
+
+.card {
+  display: block;
+  position: absolute;
+  top: 40px;
+}
+
+/* MediaQuery */
+
+@media (min-width: 1280px) {
+  .card {
+    right: 20px;
+  }
+}
+@media (min-width: 1440px) {
+  .card {
+    right: 150px;
+  }
+}

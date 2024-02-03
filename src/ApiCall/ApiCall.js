@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = "https://lms-production-e6b8.up.railway.app/lms/api";
+const BASE_URL = "https://lms-multitenant-production.up.railway.app/lms/api";
+// const BASE_URL =
+//   "http://ec2-34-203-239-128.compute-1.amazonaws.com:8080/lms/api";
+
+// const BASE_URL = "http://192.168.1.3:8080/lms/api";
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,

@@ -5,13 +5,14 @@ module.exports = {
     extend: {
       colors: {
         textColor: "#334456",
-        textLigntColor: "#6F6F6F",
+        textLightColor: "#6F6F6F",
         footerColor: "#4A4A4A",
         mobilebg: "#FFF7E0",
         herobg: "#FCFAF0",
         coursebg: "#FFF7E0",
         cardbg: "#F9F8F4",
         yellowColor: "#FACC48",
+        dashboardLightColor: "#f5f8fa",
       },
     },
   },
@@ -22,6 +23,13 @@ module.exports = {
           boxShadow: "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
           "-webkit-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
           "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 0, 0, 0.75)",
+          borderRadius: "10px",
+        },
+        //Used for Display a correct quiz answers
+        ".boxShadow1": {
+          boxShadow: "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          "-webkit-box-shadow": "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
+          "-moz-box-shadow": "5px 5px 0px 0px rgba(0, 128, 0, 0.75)",
           borderRadius: "10px",
         },
       };

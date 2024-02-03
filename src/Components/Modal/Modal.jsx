@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Video from "../Video/Video";
 import "./Modal.css";
+import Reward from "../Reward/Reward";
+
+import { RxCross1 } from "react-icons/rx";
+import CourseFormInput from "../CourseFormInput/CourseFormInput";
 
 const Modal = ({
   toggleModal,
@@ -12,10 +16,31 @@ const Modal = ({
   isModalOpen1,
   toggleModal1,
   path,
+  isrewardModal,
+  setRewardModal,
+  energyPoint,
+  profileModal,
+  setProfileModal,
+  profileDetails,
+  inputs,
+  handleChange,
+  handleSubmit,
+  formData,
+  currentIndex,
+  setCurrentIndex,
+  isQuizClicked,
+  setIsQuizClicked,
+  setSubSectionLength,
+  subSectionLength,
+  setSubSectionId,
+  subSectionId,
+  currentPage,
+  setCurrentPage,
+  handleVideoClick,
+  sectionId,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const itemsPerPage = 2;
+  const itemsPerPage = 1;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -35,11 +60,106 @@ const Modal = ({
     }));
   };
 
+  const profileModalComponent = () => {
+    const close = () => {
+      setProfileModal(false);
+    };
+
+    return (
+      <>
+        <div
+          className=" fixed left-0 top-0 flex h-screen  w-full items-center justify-center overflow-y-auto overflow-x-hidden p-5 pt-12 md:inset-0"
+          data-modal-backdrop="static"
+          style={{ backgroundColor: "rgba(252, 250, 240, 0.7)" }}
+        >
+          <div className="relative  max-h-full w-full max-w-5xl">
+            {/* Modal content */}
+            <div className="relative h-auto rounded-lg bg-white shadow-sm ">
+              {/* Modal header */}
+              <div className=" rounded-t border-b p-4  md:p-5">
+                <div className="flex items-center justify-between">
+                  <h6 className="text-sm text-textColor">Profile</h6>
+                  <button
+                    onClick={close}
+                    className=" h-7 w-7 rounded-xl  text-lg font-semibold text-textColor"
+                  >
+                    <RxCross1 />
+                  </button>
+                </div>
+                <div>
+                  <h2 className="dayOne text-textColor">
+                    Edit Profile Details
+                  </h2>
+                </div>
+              </div>
+
+              {/* Modal body */}
+              <div className=" w-full p-5">
+                <form onSubmit={handleSubmit}>
+                  <div className="flex flex-row flex-wrap gap-5 ">
+                    {inputs.map((input1) => {
+                      return (
+                        <div className=" flex w-[48%] flex-col">
+                          <CourseFormInput
+                            key={input1.id}
+                            {...input1}
+                            onChange={handleChange}
+                            value={formData[input1.name]}
+                            path="profileModal"
+                            errorMsg={input1.errorMsg}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="mt-5 rounded bg-textColor px-6 py-1.5 text-white shadow-sm"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
+              {/* Modal footer */}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div
       className="mt-24 flex  items-center justify-center"
       data-testid="modal"
     >
+      {isrewardModal && (
+        <div
+          className="fixed top-0 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+          data-modal-backdrop="static"
+          data-testid="modal"
+          style={{ backgroundColor: "rgba(252, 250, 240, 0.90)" }}
+        >
+          <Reward
+            setRewardModal={setRewardModal}
+            energyPoint={energyPoint}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            isQuizClicked={isQuizClicked}
+            setIsQuizClicked={setIsQuizClicked}
+            setSubSectionLength={setSubSectionLength}
+            subsectionLength={subSectionLength}
+            setSubSectionId={setSubSectionId}
+            subSectionId={subSectionId}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            handleVideoClick={handleVideoClick}
+            sectionId={sectionId}
+          />
+        </div>
+      )}
+
       {/* Main modal */}
       {isModalOpen1 && path && (
         <div
@@ -93,14 +213,14 @@ const Modal = ({
             </div>
             {currentQuestions.map((q) => (
               <div key={q.id} className="relative">
-                <div className="space-y-4 p-4 md:p-5">
+                <div className=" space-y-4 p-4 md:p-5">
                   <label
                     htmlFor={`question-${q.id}`}
-                    className="text-textColor"
+                    className="dayOne text-lg text-textColor"
                   >
                     {q.question}
                   </label>
-                  <div className="answer flex gap-5">
+                  <div className="answer flex flex-col gap-5">
                     {q.options.map((option, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <input
@@ -112,7 +232,7 @@ const Modal = ({
                           checked={selectedAnswers[q.id] === index}
                           onChange={() => handleAnswerChange(q.id, index)}
                         />
-                        <span className="text-sm text-textLigntColor">
+                        <span className="text-md text-textLightColor">
                           {option}
                         </span>
                       </div>
@@ -152,7 +272,7 @@ const Modal = ({
                   </button>
                   <button
                     onClick={() => setCurrentPage(currentPage + 1)}
-                    className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLigntColor bg-textColor px-4 text-base font-medium text-white  ${
+                    className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLightColor bg-textColor px-4 text-base font-medium text-white  ${
                       currentPage === totalPages
                         ? "cursor-not-allowed opacity-50"
                         : ""
@@ -167,6 +287,8 @@ const Modal = ({
           </div>
         </div>
       )}
+
+      {profileModal && <>{profileModalComponent()}</>}
     </div>
   );
 };

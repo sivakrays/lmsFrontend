@@ -1,0 +1,14 @@
+.errSpan {
+  display: none;
+}
+input:invalid[focused="true"] {
+  border: 1 px solid red;
+}
+input:invalid[focused="true"] ~ span {
+  display: block;
+}
+
+input:focus {
+  border-color: #facc48;
+  outline: #facc48;
+}

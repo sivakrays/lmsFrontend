@@ -5,6 +5,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.nav {
+  @apply relative;
+}
+.nav::after {
+  @apply absolute -bottom-[5px] left-0 h-[4px] w-[0%] rounded-md bg-textLightColor duration-200 content-[''];
+}
+.nav:hover::after {
+  @apply w-[100%];
+}
+.activeNav {
+  @apply relative;
+}
+.activeNav::after {
+  @apply absolute -bottom-[5px] left-0 h-[4px] w-[100%] rounded-md bg-textLightColor duration-200 content-[''];
+}
+
 .dayOne {
   font-family: "Days One";
   font-weight: 400;

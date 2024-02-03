@@ -4,41 +4,111 @@ import { toast } from "react-toastify";
 export const authContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState("");
+  const storedBronze = localStorage.getItem("bronze");
+  const storedSilver = localStorage.getItem("silver");
+  const storedGold = localStorage.getItem("gold");
+  const storedToken = localStorage.getItem("token");
+
+  const [userDetails, setUserDetails] = useState(
+    JSON.parse(localStorage.getItem("userDetails")) || null,
+  );
+
+  const [token, setToken] = useState(
+    storedToken || localStorage.getItem("token"),
+  );
+  const [userId, setUserId] = useState(
+    JSON.parse(localStorage.getItem("userID")),
+  );
   const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  const [totalBronze, setTotalBronze] = useState(storedBronze || "");
+  const [totalSilver, setTotalSilver] = useState(storedSilver || "");
+  const [totalGold, setTotalGold] = useState(storedGold || "");
+
+  const [user, setUser] = useState(localStorage.getItem("Current User"));
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-
     if (storedToken && storedToken !== "") {
-      setToken(storedToken);
       setIsTokenValid(true);
     } else {
       setIsTokenValid(false);
     }
-  }, [token]);
-  const login = async ({ email, password }) => {
+  }, []);
+
+  const updateBadgeCount = (bronze, silver, gold) => {
+    localStorage.setItem("bronze", bronze);
+    localStorage.setItem("silver", silver);
+    localStorage.setItem("gold", gold);
+    setTotalBronze(bronze);
+    setTotalSilver(silver);
+    setTotalGold(gold);
+  };
+
+  const login = async ({ email, password, tenant }) => {
+    try {
+    } catch (err) {
+      console.log(err);
+    }
     const config = {
       headers: {
         email: email,
         password: password,
+        tenantId: tenant,
       },
     };
 
     await post(`/auth/login`, {}, config)
       .then((res) => {
-        res.data && localStorage.setItem("token", res.data.token);
-        setToken(localStorage.getItem("token"));
+        setUserDetails(res.data);
+
+        const localToken = JSON.stringify(res.data.token);
+        res.data && localStorage.setItem("token", localToken);
+        const refreshToken = JSON.stringify(res.data.refreshToken);
+        res.data && localStorage.setItem("refresh token", refreshToken);
+        localStorage.setItem("Current User", res.data.name);
+        JSON.stringify(localStorage.setItem("userID", res.data.userId));
+        localStorage.setItem("email", res.data.email);
+        const parseTokenObj = JSON.parse(localToken);
+        const actualToken = parseTokenObj.token;
+        localStorage.setItem("Role", res.data.role);
+        setUserId(res.data.userId);
+        setToken(actualToken);
+        setUser(res.data.name);
+
+        setTotalBronze(res.data.bronze);
+        setTotalSilver(res.data.silver);
+        setTotalGold(res.data.gold);
+
+        // function
+        updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
         successNotify();
+        setIsButtonClicked(false);
+        setIsTokenValid(true);
+        setUserId(res.data.userId);
       })
       .catch((err) => {
         console.log("Errorrrrrrr", err);
-        errorNotify(err.message);
+        // if (err.response.status && err.response.status === 403) {
+        //   errorNotify("Please provide valid credentials");
+        //   setTimeout(() => {
+        //     setIsButtonClicked(false);
+        //   }, 500);
+        // } else if (err.response.status && err.response.status === 400) {
+        //   errorNotify("Bad request");
+        //   setIsButtonClicked(false);
+        // }
+
+        // errorNotify(err.message);
       });
   };
 
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  });
+
   const logout = () => {
-    localStorage.removeItem("token", token);
+    localStorage.clear();
     setToken("");
     setIsTokenValid(false);
   };
@@ -57,7 +127,7 @@ export const AuthContextProvider = ({ children }) => {
   const errorNotify = (err) =>
     toast.error(err, {
       position: "top-right",
-      autoClose: 500,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -65,8 +135,25 @@ export const AuthContextProvider = ({ children }) => {
       progress: undefined,
       theme: "light",
     });
+
   return (
-    <authContext.Provider value={{ login, token, logout, isTokenValid }}>
+    <authContext.Provider
+      value={{
+        login,
+        token,
+        logout,
+        isTokenValid,
+        userId,
+        user,
+        setUser,
+        isButtonClicked,
+        setIsButtonClicked,
+        updateBadgeCount,
+        totalBronze,
+        totalSilver,
+        totalGold,
+      }}
+    >
       {children}
     </authContext.Provider>
   );
