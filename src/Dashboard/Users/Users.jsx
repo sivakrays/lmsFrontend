@@ -71,6 +71,7 @@ const Users = () => {
         const res = await get("/auth/getAllUser", config);
         setAllUsers(res.data.content);
       };
+
       try {
         const config = {
           headers: {

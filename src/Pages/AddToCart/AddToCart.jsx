@@ -20,6 +20,10 @@ const AddToCart = () => {
     cartUpdated,
   } = useContext(cartContext);
 
+  useEffect(() => {
+    setCartUpdated(!cartUpdated);
+  }, []);
+
   const { token } = useContext(authContext);
 
   const successNotify = (msg) =>
@@ -245,6 +249,12 @@ const AddToCart = () => {
                   <span className="text-sm font-semibold uppercase">
                     Items {totalCartItem}
                   </span>
+                  <span className="text-sm font-semibold">
+                    <span>{total}.00</span>
+                  </span>
+                </div>
+                <div className="mb-5 mt-10 flex justify-between text-textColor">
+                  <span className="text-sm font-semibold uppercase">Tax</span>
                   <span className="text-sm font-semibold">
                     <span>{total}.00</span>
                   </span>

@@ -13,6 +13,7 @@ const SectionForm = ({
   setIsCourseUpload,
   loading,
   setLoading,
+  closeModal,
 }) => {
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
@@ -21,11 +22,7 @@ const SectionForm = ({
       SubSectionDes: "",
       VideoLink: "",
       isQuizAvailable: false,
-      quizInputs: [
-        { key: 1, question: "", options: ["", ""], answer: "" },
-        { key: 2, question: "", options: ["", ""], answer: "" },
-        { key: 3, question: "", options: ["", ""], answer: "" },
-      ],
+      quizInputs: [{ key: 1, question: "", options: ["", ""], answer: "" }],
     },
   ]);
 
@@ -47,11 +44,7 @@ const SectionForm = ({
         SubSectionDes: "",
         VideoLink: "",
         isQuizAvailable: false,
-        quizInputs: [
-          { question: "", options: ["", ""], answer: "" },
-          { question: "", options: ["", ""], answer: "" },
-          { question: "", options: ["", ""], answer: "" },
-        ],
+        quizInputs: [{ question: "", options: ["", ""], answer: "" }],
       },
     ]);
   };
@@ -152,6 +145,25 @@ const SectionForm = ({
       theme: "light",
     });
 
+  const handleAddQuiz = (sectionIndex) => {
+    setSubSections((prevSubSections) => {
+      const updatedSubSections = [...prevSubSections];
+      const newKey = updatedSubSections[sectionIndex].quizInputs.length + 1; // Calculate new key based on the length of quizInputs array
+      updatedSubSections[sectionIndex].quizInputs.push({
+        key: newKey,
+        question: "",
+        options: ["", ""],
+        answer: "",
+      });
+      return updatedSubSections;
+    });
+  };
+
+  const handleRemoveQuiz = (sectionIndex, quizIndex) => {
+    const updatedSubSections = [...subSections];
+    updatedSubSections[sectionIndex].quizInputs.splice(quizIndex, 1);
+    setSubSections(updatedSubSections);
+  };
   // Course Api Call
 
   const sendCourseSectionDetails = async () => {
@@ -200,6 +212,7 @@ const SectionForm = ({
       }
     } catch (error) {
       errorNotify("error");
+      setLoading(false);
       console.error("Error saving section details:", error);
     }
   };
@@ -216,7 +229,7 @@ const SectionForm = ({
     <div className="relative mx-auto mb-8  mt-8 w-3/4 rounded-md bg-white p-8 shadow">
       <button
         type="button"
-        onClick={() => setIsCourseUpload(false)}
+        onClick={() => closeModal()}
         className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full  border bg-textColor p-1 text-white"
       >
         x
@@ -311,7 +324,7 @@ const SectionForm = ({
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ">
                       <label className="text-textLightColor">Quiz</label>
                       <input
                         type="checkbox"
@@ -330,6 +343,15 @@ const SectionForm = ({
                           className="flex w-full flex-col xl:w-[100%]"
                         >
                           <hr className="my-3 border xl:w-[100%]" />
+                          {ssection.quizInputs.length > 1 && ( // Check if there are more than one quiz inputs
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveQuiz(i, quizIndex)}
+                            >
+                              Remove Quiz
+                            </button>
+                          )}
+
                           <label className="text-textLightColor">
                             {`Question - ${quizIndex + 1} `}
                           </label>
@@ -343,15 +365,19 @@ const SectionForm = ({
                             required
                             className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                           />
-                          <button
-                            type="button"
-                            className="my-3  rounded-md bg-textLightColor p-2 text-white"
-                            onClick={(e) => handleAddQuizOptions(i, quizIndex)}
-                          >
-                            Add Options
-                          </button>
+                          <div className="flex w-full justify-end">
+                            <button
+                              type="button"
+                              className="my-3 rounded-md bg-textLightColor p-2 text-white"
+                              onClick={(e) =>
+                                handleAddQuizOptions(i, quizIndex)
+                              }
+                            >
+                              Add Options
+                            </button>
+                          </div>
+
                           <div className="flex flex-wrap gap-3">
-                            {" "}
                             {quiz.options.map((option, optionIndex) => (
                               <div
                                 key={optionIndex}
@@ -414,6 +440,16 @@ const SectionForm = ({
                               className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                             />
                           </div>
+
+                          {quizIndex === ssection.quizInputs.length - 1 && (
+                            <button
+                              type="button"
+                              className="my-3 rounded-md bg-textLightColor p-2 text-white"
+                              onClick={(e) => handleAddQuiz(i)}
+                            >
+                              Add Quiz
+                            </button>
+                          )}
                         </div>
                       ))}
                     </>
@@ -422,6 +458,7 @@ const SectionForm = ({
                 </div>
               );
             })}
+
             <div className="flex items-center justify-between">
               <button
                 type="button"

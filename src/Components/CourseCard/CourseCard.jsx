@@ -78,7 +78,7 @@ const CourseCard = ({ course, path }) => {
       };
 
       const res = await post("/user/saveCart", data, config);
-      setCartUpdated(!cartUpdated);
+      setCartUpdated(true);
       if (res.status === 201) {
         successNotify();
         console.log(res);

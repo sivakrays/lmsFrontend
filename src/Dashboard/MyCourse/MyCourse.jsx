@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import data from "../../Data/Data";
-import { cartContext } from "../../Context/CartContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CourseForm from "./CourseForm";
 import SectionForm from "./SectionForm";
+import { get } from "../../ApiCall/ApiCall";
+import { authContext } from "../../Context/AuthContext";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const UploadModal = ({
   setIsCourseUpload,
@@ -16,6 +18,7 @@ const UploadModal = ({
   courseId,
   loading,
   setLoading,
+  closeModal,
 }) => {
   return (
     <div
@@ -33,6 +36,7 @@ const UploadModal = ({
           setIsCourseUpload={setIsCourseUpload}
           loading={loading}
           setLoading={setLoading}
+          closeModal={closeModal}
         />
       ) : (
         <CourseForm
@@ -43,6 +47,7 @@ const UploadModal = ({
           setIsCourseUpload={setIsCourseUpload}
           loading={loading}
           setLoading={setLoading}
+          closeModal={closeModal}
         />
       )}
     </div>
@@ -50,11 +55,43 @@ const UploadModal = ({
 };
 
 const MyCourse = () => {
+  const { userDetails } = useContext(authContext);
+
   const [isCourseUpload, setIsCourseUpload] = useState(false);
   const bearer_token = JSON.parse(localStorage.getItem("token"));
   const [courseId, setCourseId] = useState("");
   const [sectionFormVisible, setSectionFormVisibile] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [courseData, setCouresData] = useState(null);
+
+  const closeModal = () => {
+    setLoading(false);
+    setIsCourseUpload(false);
+  };
+
+  useEffect(() => {
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    const usersCoures = async () => {
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshedToken}`,
+            userId: JSON.parse(userDetails.userId),
+          },
+        };
+
+        const res = await get("user/getCourseByUserId", config);
+      } catch (err) {
+        const error = err.response;
+        console.log(error);
+      }
+    };
+
+    return () => usersCoures();
+  }, []);
 
   return (
     <>
@@ -142,6 +179,7 @@ const MyCourse = () => {
             sectionFormVisible={sectionFormVisible}
             loading={loading}
             setLoading={setLoading}
+            closeModal={closeModal}
           />
         )}
       </div>

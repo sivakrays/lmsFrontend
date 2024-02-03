@@ -29,15 +29,6 @@ const BottomBar = () => {
               <MdDashboard className="bottomIcon h-7 w-7 cursor-pointer object-cover text-herobg sm:h-7 " />
             </Link>
           </li>
-          {/* <li>
-            <Link
-              to={"/upload"}
-              data-tooltip-id="my-tooltip1"
-              data-tooltip-content="UploadCourse"
-            >
-              <RiUploadCloud2Fill className="bottomIcon h-7 w-7 object-cover text-herobg sm:h-6  " />
-            </Link>
-          </li> */}
           <li>
             <Link
               to={"/courses"}

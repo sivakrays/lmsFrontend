@@ -15,6 +15,7 @@ const CourseForm = ({
   setIsCourseUpload,
   setLoading,
   loading,
+  closeModal,
 }) => {
   const [formData, setFormData] = useState({
     courseTitle: "",
@@ -48,7 +49,7 @@ const CourseForm = ({
   };
 
   const successNotify = () =>
-    toast.success("Register Successfully!", {
+    toast.success("Success", {
       position: "top-right",
       autoClose: 500,
       hideProgressBar: false,
@@ -103,6 +104,7 @@ const CourseForm = ({
       }
     } catch (err) {
       errorNotify("error");
+      setLoading(false);
       console.log(err);
     }
   };
@@ -129,7 +131,7 @@ const CourseForm = ({
     <div className="relative mx-auto mb-8  mt-8 w-[400px] rounded-md bg-white p-8 shadow">
       <button
         type="button"
-        onClick={() => setIsCourseUpload(false)}
+        onClick={() => closeModal()}
         className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full  border bg-textColor p-1 text-white"
       >
         x

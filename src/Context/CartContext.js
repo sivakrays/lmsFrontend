@@ -36,7 +36,7 @@ export const CartContextProvider = ({ children }) => {
       }
     };
 
-    return () => fetchCartData();
+    fetchCartData();
   }, [cartUpdated]);
 
   useEffect(() => {
