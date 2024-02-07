@@ -89,23 +89,18 @@ export const AuthContextProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log("Errorrrrrrr", err);
-        // if (err.response.status && err.response.status === 403) {
-        //   errorNotify("Please provide valid credentials");
-        //   setTimeout(() => {
-        //     setIsButtonClicked(false);
-        //   }, 500);
-        // } else if (err.response.status && err.response.status === 400) {
-        //   errorNotify("Bad request");
-        //   setIsButtonClicked(false);
-        // }
-
-        // errorNotify(err.message);
+        if (err.response.status && err.response.status === 403) {
+          errorNotify("Please provide valid credentials");
+          setTimeout(() => {
+            setIsButtonClicked(false);
+          }, 500);
+        }
       });
   };
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
-  });
+  }, [userDetails]);
 
   const logout = () => {
     localStorage.clear();

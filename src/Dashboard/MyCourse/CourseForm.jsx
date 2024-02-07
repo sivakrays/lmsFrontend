@@ -84,6 +84,7 @@ const CourseForm = ({
       };
 
       const data = {
+        userId: localStorage.getItem("userID"),
         title: formData.courseTitle,
         authorName: formData.authorName,
         description: formData.courseDes,

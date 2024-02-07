@@ -69,8 +69,12 @@ const BottomBar = () => {
 
 const SideBar = () => {
   const navigate = useNavigate();
+
+  const role = localStorage.getItem("Role");
+  console.log(role);
+
   const logOut = () => {
-    navigate("/");
+    navigate("/login");
     localStorage.clear();
   };
 
@@ -85,26 +89,26 @@ const SideBar = () => {
                 <MdDashboard className="mx-auto h-8 w-9 cursor-pointer text-herobg" />
               </Link>
             </li>
-            {/* <li>
-              <Link to={"/upload"}>
-                <RiUploadCloud2Fill className="mx-auto h-9 w-9  text-herobg" />
-              </Link>
-            </li> */}
-            <li>
-              <Link to={"/courses"}>
-                <FaLayerGroup className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
-              </Link>
-            </li>
+            {role === "admin" && (
+              <li>
+                <Link to={"/courses"}>
+                  <FaLayerGroup className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
+                </Link>
+              </li>
+            )}
+
             <li>
               <Link to={"/leaderboard"}>
                 <GiAchievement className="mx-auto h-9 w-9  text-herobg" />
               </Link>
             </li>
-            <li>
-              <Link to={"/users"}>
-                <FaUsers className="mx-auto h-9 w-9  text-herobg" />
-              </Link>
-            </li>
+            {!role === "admin" && (
+              <li>
+                <Link to={"/users"}>
+                  <FaUsers className="mx-auto h-9 w-9  text-herobg" />
+                </Link>
+              </li>
+            )}
           </ul>
           <ul className="item-center flex justify-center pb-10">
             <li className=" text-herobg">

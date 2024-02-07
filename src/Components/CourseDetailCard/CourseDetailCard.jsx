@@ -37,7 +37,7 @@ const Card = ({ img, price }) => {
 
   return (
     <div
-      className={` hidden h-[360px] w-80 rounded-lg border-2 bg-white  xl:block ${
+      className={` hidden h-[360px] w-80 rounded-lg border-2 bg-white  lg:block ${
         isCardFixed ? "fixedCard " : ""
       }`}
     >

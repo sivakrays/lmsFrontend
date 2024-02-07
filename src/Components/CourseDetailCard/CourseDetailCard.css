@@ -17,6 +17,12 @@
 
 /* MediaQuery */
 
+@media (min-width: 1024px) {
+  .fixedCard {
+    right: 10px;
+  }
+}
+
 @media (min-width: 1280px) {
   .fixedCard {
     right: 20px;

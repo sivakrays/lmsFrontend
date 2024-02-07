@@ -53,6 +53,7 @@ const MyVideo = () => {
           headers: {
             Authorization: `Bearer ${bearer_token}`,
             courseId: id.id,
+            // tenantId: "public",
           },
         };
 
@@ -80,7 +81,7 @@ const MyVideo = () => {
     };
 
     if (currentToken) {
-      return () => fetchVideoDetails();
+      fetchVideoDetails();
     } else {
       console.log("Token not present");
     }

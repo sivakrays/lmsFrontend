@@ -9,6 +9,9 @@ import "./Login.css";
 import { get, post } from "../../ApiCall/ApiCall";
 
 const Login = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const navigate = useNavigate();
   const { login, isButtonClicked, setIsButtonClicked } =
     useContext(authContext);
@@ -17,8 +20,7 @@ const Login = () => {
   useEffect(() => {
     const fetchTenant = async () => {
       try {
-        const res = await get(`tenant/getAllTenants`);
-        console.log(res.data);
+        const res = await get(`admin/getAllTenants`);
         const dropDownValue = Object.entries(res.data).map(([key, value]) => ({
           label: key,
           value: value,

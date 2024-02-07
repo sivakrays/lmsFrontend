@@ -29,6 +29,7 @@ const Course = () => {
     return { startRange, endRange };
   };
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
@@ -45,10 +46,14 @@ const Course = () => {
             Accept: "application/json",
             pageNo: pageNo,
             pageSize: 6,
+            // tenantId: "public",
           },
         };
 
         const res = await get("/user/getAllCourse", config);
+        if (res) {
+          setLoading(false);
+        }
         setCourseData(res.data.content);
         setTotalPage(res.data.totalPages);
         setTotalCourses(res.data.totalElements);
@@ -103,103 +108,115 @@ const Course = () => {
   };
 
   return (
-    <section className="courseBg bg-coursebg pt-28">
-      {searchData.length > 0 || courseData.length > 0 ? (
+    <section className="courseBg bg-coursebg ">
+      {!loading ? (
         <>
-          <div className="searchBar">
-            <Search setSearchValue={setSearchValue} searchValue={searchValue} />
-          </div>
-          <div className="cardSection">
-            <div className="cardDiv mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
-              {searchData && searchData.length > 0
-                ? searchData &&
-                  searchData.map((searchResult, index) => (
-                    <div key={index}>
-                      <CourseCard course={searchResult} path="course" />
-                    </div>
-                  ))
-                : courseData &&
-                  courseData.map((course, index) => (
-                    <div key={index}>
-                      <CourseCard course={course} path="course" />
-                    </div>
-                  ))}
-            </div>
-            <div className="mb-5 mt-4 flex flex-col items-center">
-              <span className="text-sm text-textColor">
-                Showing{" "}
-                <span className="font-semibold text-textColor">
-                  {calculateRange().startRange}
-                </span>{" "}
-                to{" "}
-                <span className="font-semibold text-textColor">
-                  {calculateRange().endRange}
-                </span>{" "}
-                of{" "}
-                <span className="font-semibold text-textColor">
-                  {totalCourses}
-                </span>{" "}
-                Courses
-              </span>
-              <div className="xs:mt-0 mt-2 inline-flex">
-                <button
-                  onClick={() => paginate(pageNo - 1)}
-                  className={`flex h-10 items-center justify-center rounded-l bg-textColor px-4 text-base font-medium text-white 
+          {searchData.length > 0 ||
+            (courseData.length > 0 ? (
+              <div className="pt-28">
+                <div className="searchBar">
+                  <Search
+                    setSearchValue={setSearchValue}
+                    searchValue={searchValue}
+                  />
+                </div>
+                <div className="cardSection">
+                  <div className="cardDiv mx-auto flex w-[75%] flex-wrap items-center justify-center gap-5 pb-14 md:w-[90%] md:gap-20 lg:w-[75%]">
+                    {searchData && searchData.length > 0
+                      ? searchData &&
+                        searchData.map((searchResult, index) => (
+                          <div key={index}>
+                            <CourseCard course={searchResult} path="course" />
+                          </div>
+                        ))
+                      : courseData &&
+                        courseData.map((course, index) => (
+                          <div key={index}>
+                            <CourseCard course={course} path="course" />
+                          </div>
+                        ))}
+                  </div>
+                  <div className="mb-5 mt-4 flex flex-col items-center">
+                    <span className="text-sm text-textColor">
+                      Showing{" "}
+                      <span className="font-semibold text-textColor">
+                        {calculateRange().startRange}
+                      </span>{" "}
+                      to{" "}
+                      <span className="font-semibold text-textColor">
+                        {calculateRange().endRange}
+                      </span>{" "}
+                      of{" "}
+                      <span className="font-semibold text-textColor">
+                        {totalCourses}
+                      </span>{" "}
+                      Courses
+                    </span>
+                    <div className="xs:mt-0 mt-2 inline-flex">
+                      <button
+                        onClick={() => paginate(pageNo - 1)}
+                        className={`flex h-10 items-center justify-center rounded-l bg-textColor px-4 text-base font-medium text-white 
                ${pageNo === 0 ? "cursor-not-allowed opacity-50" : ""}
               `}
-                  disabled={pageNo === 0}
-                >
-                  <svg
-                    className="mr-2 h-3.5 w-3.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 5H1m0 0 4 4M1 5l4-4"
-                    />
-                  </svg>
-                  Prev
-                </button>
-                <button
-                  onClick={() => paginate(pageNo + 1)}
-                  className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLightColor bg-textColor px-4 text-base font-medium text-white  
+                        disabled={pageNo === 0}
+                      >
+                        <svg
+                          className="mr-2 h-3.5 w-3.5"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 14 10"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 5H1m0 0 4 4M1 5l4-4"
+                          />
+                        </svg>
+                        Prev
+                      </button>
+                      <button
+                        onClick={() => paginate(pageNo + 1)}
+                        className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLightColor bg-textColor px-4 text-base font-medium text-white  
               ${pageNo === totalpage - 1 ? "cursor-not-allowed opacity-50" : ""}
               `}
-                  disabled={pageNo === totalpage - 1}
-                >
-                  Next
-                  <svg
-                    className="ml-2 h-3.5 w-3.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </button>
+                        disabled={pageNo === totalpage - 1}
+                      >
+                        Next
+                        <svg
+                          className="ml-2 h-3.5 w-3.5"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 14 10"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M1 5h12m0 0L9 1m4 4L9 9"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            ) : (
+              <div className="flex h-screen items-center justify-center text-lg font-semibold text-textLightColor">
+                No Data found !
+              </div>
+            ))}
         </>
       ) : (
         <>
-          <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
+          <div className="flex min-h-screen w-full items-center justify-center sm:hidden">
             <Loader color={"#334456"} height={"10%"} width={"10%"} />
           </div>
-          <div className="hidden h-[40vh] w-full items-center justify-center sm:flex">
+          <div className="hidden min-h-screen w-full items-center justify-center sm:flex">
             <Loader color={"#334456"} height={"4%"} width={"4%"} />
           </div>
         </>

@@ -26,6 +26,8 @@ const Quiz = ({
   const [currentAns, setCurrentAns] = useState("");
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
+  const [wrongAnswer, setWrongAnswer] = useState(false);
+
   const { updateBadgeCount } = useContext(authContext);
 
   const itemsPerPage = 1;
@@ -199,6 +201,7 @@ const Quiz = ({
         }, 1000);
       }
     } else {
+      setWrongAnswer(true);
       setCorrectAns(false);
       setMotivationalBoxVissble(true);
       if (isMotivationalBoxVissble === false) {
@@ -374,7 +377,7 @@ const Quiz = ({
                       className={`q_answer flex w-full cursor-pointer items-center gap-3 rounded-[10px] border  p-2 text-left text-textLightColor duration-300 hover:border-textColor hover:boxShadow sm:w-[90%] xl:w-[90%] ${
                         index === clickedOption &&
                         "border-[#008000] boxShadow1 hover:boxShadow1"
-                      }`}
+                      } `}
                       onClick={() => setClickedOption(index)}
                     >
                       {option}

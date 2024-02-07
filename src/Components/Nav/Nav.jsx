@@ -204,18 +204,13 @@ const Nav = () => {
                     Login
                   </button>
                 </Link>
-                {/* <Link to="signup">
-                  <button className="text-md cursor-pointer rounded-[10px] border-2 border-solid border-textColor px-6  py-1.5 font-semibold  text-textColor hover:bg-textColor hover:text-white hover:duration-500">
-                    Sign Up
-                  </button>
-                </Link> */}
               </div>
             )}
           </div>
           {!toggle ? (
             <>
               <div className="z-10 flex items-center gap-4 lg:hidden">
-                <Cart totalCartItem={totalCartItem} />
+                {isTokenValid && <Cart totalCartItem={totalCartItem} />}
                 <button
                   onClick={() => setToggle(!toggle)}
                   data-testid="toggleBtn"

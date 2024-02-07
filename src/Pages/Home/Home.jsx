@@ -30,7 +30,7 @@ import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 const Home = () => {
   const { isTokenValid } = useContext(authContext);
   const [courseData, setCourseData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
@@ -48,10 +48,14 @@ const Home = () => {
             Accept: "application/json",
             pageNo: 0,
             pageSize: 6,
+            // tenantId: "public",
           },
         };
 
         const res = await get("/user/getAllCourse", config);
+        if (res) {
+          setLoading(false);
+        }
         setCourseData(res.data.content);
       } catch (err) {
         console.log("error", err);
@@ -59,7 +63,7 @@ const Home = () => {
     };
 
     if (currentToken) {
-      return () => fetchCourse();
+      fetchCourse();
     } else {
       console.log("Token not present");
     }
@@ -242,14 +246,21 @@ const Home = () => {
             {/* Course Card with Data */}
 
             {isTokenValid ? (
-              courseData.length > 0 ? (
+              !loading ? (
                 <>
-                  {courseData &&
+                  {courseData.length > 0 ? (
                     courseData.map((course, index) => (
                       <div key={index}>
                         <CourseCard course={course} path="homeCard" />
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <div className="mt-5 flex h-[20vh] w-full items-center justify-center">
+                      <p className=" text-lg font-semibold text-textLightColor">
+                        No Data Found
+                      </p>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>

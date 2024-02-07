@@ -16,6 +16,8 @@ import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 
 const CourseDetails = () => {
   const id = useParams();
+
+  console.log(id);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -38,6 +40,7 @@ const CourseDetails = () => {
           headers: {
             courseId: id.id,
             Authorization: `Bearer ${refreshedToken}`,
+            // tenantId: "public",
           },
         };
 
@@ -60,21 +63,21 @@ const CourseDetails = () => {
   };
 
   return (
-    <div className=" bg-herobg pt-16 md:pt-24 lg:pt-20   xl:pt-28">
+    <div className=" bg-herobg pt-16 md:pt-28 lg:pt-28   xl:pt-28">
       {Object.keys(data).length > 0 ? (
         <div>
           {data && (
-            <section className="courseHeader relative mb-6 py-3  xl:h-80  xl:bg-textColor xl:px-40">
+            <section className="courseHeader relative mb-6 py-3  lg:h-80  lg:bg-textColor lg:px-40">
               <div className="relative  w-full bg-textColor">
                 {/* display untill 1024px */}
-                <div className=" mx-auto h-60 w-full md:h-96 xl:hidden">
+                <div className=" mx-auto h-60 w-full md:h-96 lg:hidden">
                   <img
                     src={cardImage}
                     alt=""
                     className="h-60 w-full object-cover md:h-96"
                   />
                 </div>
-                <div className="xl:hidden">
+                <div className="lg:hidden">
                   <img
                     src={playCircle}
                     alt=""
@@ -84,7 +87,7 @@ const CourseDetails = () => {
               </div>
               {/*  */}
 
-              <div className="mx-auto h-auto   w-10/12 lg:w-[85ch] xl:mx-0 xl:w-[60ch]">
+              <div className="mx-auto h-auto w-10/12   lg:mx-0 lg:w-[60ch]">
                 <div className="">
                   <div className="flex flex-row">
                     <img src={ForwardArrow} alt="" className="w-3" />
@@ -93,10 +96,10 @@ const CourseDetails = () => {
                     </p>
                   </div>
 
-                  <h1 className="dayOne text-3xl font-medium leading-normal text-textColor xl:text-white">
+                  <h1 className="dayOne text-3xl font-medium leading-normal text-textColor lg:text-white">
                     {data.title}
                   </h1>
-                  <p className="my-3 text-lg leading-normal text-textColor  xl:text-white">
+                  <p className="my-3 text-lg leading-normal text-textColor  lg:text-white">
                     {data.description.length > 40
                       ? `${data.description.substring(0, 140)}...`
                       : data.description}
@@ -118,11 +121,11 @@ const CourseDetails = () => {
                           (123 ratings)
                         </p>
                       </Link>
-                      <p className=" text-[10px] text-textColor md:text-sm xl:text-white">
+                      <p className=" text-[10px] text-textColor md:text-sm lg:text-white">
                         {data.enrolled}
                       </p>
                     </div>
-                    <p className=" text-[10px] text-textColor md:text-sm xl:text-white">
+                    <p className=" text-[10px] text-textColor md:text-sm lg:text-white">
                       Created by{" "}
                       <Link>
                         <span className="text-[#C0C3FA] underline">
@@ -130,10 +133,10 @@ const CourseDetails = () => {
                         </span>
                       </Link>
                     </p>
-                    <div className="flex  flex-col  gap-2 xl:flex-row xl:gap-3 ">
+                    <div className="flex  flex-col  gap-2 lg:gap-3 xl:flex-row ">
                       <div className="flex flex-row items-center gap-2">
                         <img src={alert} alt="" className="w-5" />
-                        <p className="my-2 text-[10px] text-textColor xl:text-white">
+                        <p className="my-2 text-[10px] text-textColor lg:text-white">
                           {` Last updated ${
                             data && data.date && data.date.substring(0, 10)
                           }`}
@@ -142,7 +145,7 @@ const CourseDetails = () => {
 
                       <div className="flex flex-row items-center gap-2">
                         <img src={Globe} alt="" className="w-5" />
-                        <p className="text-[10px] text-textColor xl:text-white">
+                        <p className="text-[10px] text-textColor lg:text-white">
                           {data.language}
                         </p>
                       </div>
@@ -158,41 +161,16 @@ const CourseDetails = () => {
           )}
           {/* what you will learn section */}
           {data && (
-            <section className=" mx-auto mt-10  w-[90%]  xl:mt-20 xl:w-[80%] ">
-              <div className="topShadow mb-10  border  bg-white px-4 py-2  xl:w-[80ch]">
-                <div className="mb-3   xl:w-full">
+            <section className=" mx-auto mt-10  w-[90%]  lg:mt-20 lg:w-[80%] ">
+              <div className="topShadow mb-10  border  bg-white px-4 py-2  lg:w-[80ch]">
+                <div className="mb-3   lg:w-full">
                   <h1 className="dayOne text-xl font-bold text-textColor">
                     What you'll learn
                   </h1>
                   <div className="">
                     <p className="text-sm text-textColor">
                       {data.whatYouWillLearn}
-                      {/* {itemsToShow &&
-                        itemsToShow.map((item, index) => (
-                          <li key={index} data-testid="list">
-                            {item}
-                          </li>
-                        ))} */}
                     </p>
-                    {/* <div className="  flex h-11 w-full flex-row">
-                      {itemsToShow && itemsToShow.length > 8 ? (
-                        <button
-                          className="  flex "
-                          onClick={() => setReadMore(!readMore)}
-                        >
-                          {readMore ? "Show less" : "Show more"}
-                          <span>
-                            {readMore ? (
-                              <img src={downArrow} alt="" />
-                            ) : (
-                              <img src={upArrow} alt="" />
-                            )}
-                          </span>
-                        </button>
-                      ) : (
-                        ""
-                      )}
-                    </div> */}
                   </div>
                 </div>
               </div>
@@ -200,8 +178,8 @@ const CourseDetails = () => {
           )}
           {/* Accordian Section */}
           {data && (
-            <section className=" mx-auto w-[90%] xl:w-[80%]">
-              <div className="sm:py-2 xl:w-[80ch]">
+            <section className=" mx-auto w-[90%] lg:w-[80%]">
+              <div className="sm:py-2 lg:w-[80ch]">
                 <div className="mb-8 ">
                   <h1 className=" dayOne p-2  text-xl font-bold text-textColor">
                     Course content

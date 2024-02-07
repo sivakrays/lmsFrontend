@@ -5,14 +5,14 @@ import star from "../../Assets/courseCard/star.png";
 const LearningCard = ({ cardDetails }) => {
   const navigate = useNavigate();
   const goToVideo = () => {
-    navigate(`/myvideo/${cardDetails.key}`);
+    navigate(`/myvideo/${cardDetails.courseId}`);
   };
   return (
     <div className="p-4  " onClick={goToVideo} data-testid="learningCard">
       <div className="flex w-[250px]  cursor-pointer flex-col  rounded border-2 border-textColor bg-white   shadow-md boxShadow">
         <div className="h-3/5 w-full p-1.5">
           <img
-            src={cardDetails.image}
+            src={`${cardDetails.thumbNail}`}
             alt=""
             className=" h-36 w-full rounded-t-xl  object-cover"
           />

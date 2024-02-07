@@ -7,6 +7,9 @@ import CreationModal from "./CreationModal";
 import UserCreationModal from "./UserCreationModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Pagination from "../../Components/Pagination/Pagination";
+import Loader from "../../Components/Loader/Loader";
+import "./Users.css";
 
 const UserModal = ({
   role,
@@ -46,11 +49,16 @@ const Users = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [getAllData, setGetAllData] = useState(false);
-
-  const pageNo = 0;
-  const pageSize = 6;
-
   const role = localStorage.getItem("role");
+
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  //Pagination State
+  const [pageNo, setPageNo] = useState(0);
+  const [totalpage, setTotalPage] = useState(0);
+  const [totalCourses, setTotalCourses] = useState(0);
+
+  const [pageSize] = useState(10);
 
   const closeModal = () => {
     setIsCreation(!isCreation);
@@ -65,23 +73,33 @@ const Users = () => {
             "Content-Type": "application/json",
             tenantId: localStorage.getItem("tenantId"),
             pageNo: parseInt(pageNo),
-            pageSize: parseInt(pageSize),
+            pageSize: pageSize,
           },
         };
         const res = await get("/auth/getAllUser", config);
+        if (res) {
+          setIsEmpty(false);
+        }
         setAllUsers(res.data.content);
+        setTotalPage(res.data.totalPages);
+        setTotalCourses(res.data.totalElements);
       };
 
       try {
         const config = {
           headers: {
             "Content-Type": "application/json",
+            pageNo: parseInt(pageNo),
+            pageSize: pageSize,
           },
         };
         switch (role) {
           case "owner":
-            const res = await get("/tenant/viewAllTenants", config);
-            setAllUsers(res.data);
+            const res = await get("/admin/viewAllTenants", config);
+            if (res) {
+              setIsEmpty(false);
+            }
+            setAllUsers(res.data.content);
             break;
 
           case "manager":
@@ -96,8 +114,22 @@ const Users = () => {
       }
     };
 
-    return () => getAllUserData();
-  }, [role, getAllData]);
+    getAllUserData();
+  }, [getAllData, pageNo]);
+
+  // Pagination logic
+
+  const calculateRange = () => {
+    const startRange = pageNo * pageSize + 1;
+    const endRange = Math.min((pageNo + 1) * pageSize, totalCourses);
+    return { startRange, endRange };
+  };
+
+  const paginate = (pageNo) => {
+    if (pageNo >= 0 && pageNo <= totalpage) {
+      setPageNo(pageNo);
+    }
+  };
 
   return (
     <>
@@ -120,66 +152,94 @@ const Users = () => {
             <div className="flex justify-end">
               <button
                 onClick={() => setIsCreation(!isCreation)}
-                className="mr-2 w-[150px] rounded-md border bg-textColor py-1.5 text-white"
+                className="addBtn mr-2 rounded-md border bg-textColor py-1.5 text-white sm:w-[100px]"
               >
                 Add
               </button>
             </div>
             <div className="w-full ">
               <div className="heading mt-2 flex justify-between rounded-t-md bg-gray-300 p-4 ">
-                <div className="w-2/6">
-                  <p className="text-[15px] font-semibold uppercase text-textColor">
+                <div className="w-1/4">
+                  <p className="heading text-[15px] font-semibold uppercase text-textColor">
                     E-Mail
                   </p>
                 </div>
 
-                <div className="w-2/6">
-                  <p className="text-[15px] font-semibold uppercase text-textColor">
+                <div className="w-1/4">
+                  <p className="heading text-[15px] font-semibold uppercase text-textColor">
                     {role === "owner" ? "TenantID" : "Role"}
                   </p>
                 </div>
 
-                <div className="w-2/6">
-                  <p className="text-[15px] font-semibold uppercase text-textColor">
+                <div className="w-1/4">
+                  <p className="heading text-[15px] font-semibold uppercase text-textColor">
                     {role === "owner" ? "Issuer" : "Name"}
                   </p>
                 </div>
 
-                <div className="w-2/6">
-                  <p className="text-[15px] font-semibold uppercase text-textColor">
+                <div className="w-1/4">
+                  <p className="heading text-[15px] font-semibold uppercase text-textColor">
                     Action
                   </p>
                 </div>
               </div>
-              {allUsers &&
-                allUsers.map((tenant, i) => (
-                  <div className="heading flex justify-between p-4" key={i}>
-                    <div className="w-2/6">
-                      <p>{tenant.email}</p>
-                    </div>
+              <div className="rounded-b-md bg-white">
+                {isEmpty === false ? (
+                  allUsers.length > 0 ? (
+                    allUsers.map((tenant, i) => (
+                      <div key={i} className="cursor-pointer border-b">
+                        <div className="heading flex  w-full flex-wrap justify-between  p-4">
+                          <div className="w-1/4 overflow-scroll  ">
+                            <p>{tenant.email}</p>
+                          </div>
 
-                    <div className="w-2/6">
-                      <p>
-                        {" "}
-                        {role === "owner"
-                          ? `${tenant.tenantId}`
-                          : `${tenant.role}`}
-                      </p>
-                    </div>
+                          <div className="w-1/4 overflow-scroll  pl-3">
+                            <p>
+                              {" "}
+                              {role === "owner"
+                                ? `${tenant.tenantId}`
+                                : `${tenant.role}`}
+                            </p>
+                          </div>
 
-                    <div className="w-2/6">
-                      <p>
-                        {role === "owner"
-                          ? `${tenant.issuer}`
-                          : `${tenant.name}`}
-                      </p>
-                    </div>
+                          <div className="w-1/4 overflow-scroll">
+                            <p>
+                              {role === "owner"
+                                ? `${tenant.issuer}`
+                                : `${tenant.name}`}
+                            </p>
+                          </div>
 
-                    <div className="w-2/6">
-                      <p>Action</p>
+                          <div className="w-1/4 overflow-scroll">
+                            <p>Action</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      <p className="py-6 text-center">No Data found</p>
+                    </>
+                  )
+                ) : (
+                  <>
+                    <div className="flex h-[20vh] w-full items-center justify-center md:hidden">
+                      <Loader color={"#334456"} height={"10%"} width={"10%"} />
                     </div>
-                  </div>
-                ))}
+                    <div className="hidden h-[20vh] w-full items-center justify-center md:flex">
+                      <Loader color={"#334456"} height={"4%"} width={"4%"} />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <Pagination
+                calculateRange={calculateRange}
+                paginate={paginate}
+                totalCourses={totalCourses}
+                pageNo={pageNo}
+                totalpage={totalpage}
+              />
             </div>
           </div>
         </div>
