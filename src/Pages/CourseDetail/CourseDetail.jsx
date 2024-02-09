@@ -45,7 +45,9 @@ const CourseDetails = () => {
         };
 
         const res = await get("/user/getCourseById", config);
-        setData(res.data);
+        if (res.status === 200 && res.data) {
+          setData(res.data);
+        }
       } catch (err) {
         console.log("error", err);
       }

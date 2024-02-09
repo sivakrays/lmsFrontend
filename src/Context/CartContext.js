@@ -7,7 +7,7 @@ import { authContext } from "./AuthContext";
 export const cartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
-  const { userId, token } = useContext(authContext);
+  const { token, userId } = useContext(authContext);
 
   const [total, setTotal] = useState(0);
   const [totalCartItem, setTotalCartItem] = useState(0);
@@ -15,36 +15,37 @@ export const CartContextProvider = ({ children }) => {
 
   const [cartUpdated, setCartUpdated] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-  //       if (token) {
-  //         const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
-  //         const config = {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${refreshedToken}`,
-  //             userId: userId,
-  //           },
-  //         };
+  useEffect(() => {
+    const fetchCartData = async () => {
+      console.log("Get the Cart data API working");
+      try {
+        if (token) {
+          const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${refreshedToken}`,
+              userId: userId,
+            },
+          };
 
-  //         const res = await get("/user/getCartByUserId", config);
-  //         setCartData(res.data);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+          const res = await get("/user/getCartByUserId", config);
+          setCartData(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  //   fetchCartData();
-  // }, [cartUpdated]);
+    fetchCartData();
+  }, [cartUpdated]);
 
-  // useEffect(() => {
-  //   setTotalCartItem(cartData.length);
-  //   const calculatedTotal =
-  //     cartData && cartData.reduce((acc, cart) => acc + cart.price, 0);
-  //   setTotal(calculatedTotal);
-  // }, [cartData]);
+  useEffect(() => {
+    setTotalCartItem(cartData.length);
+    const calculatedTotal =
+      cartData && cartData.reduce((acc, cart) => acc + cart.price, 0);
+    setTotal(calculatedTotal);
+  }, [cartData]);
 
   return (
     <cartContext.Provider
@@ -56,6 +57,7 @@ export const CartContextProvider = ({ children }) => {
         setTotalCartItem,
         setCartUpdated,
         cartUpdated,
+        setCartData,
       }}
     >
       {children}

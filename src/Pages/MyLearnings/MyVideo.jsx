@@ -58,9 +58,9 @@ const MyVideo = () => {
         };
 
         const res = await get("/user/getCourseById", config);
-        setAccordionDetails(res.data.sections);
 
         if (res.status === 200) {
+          setAccordionDetails(res.data.sections);
           setVideoUrl(
             res.data.sections[sectionIndex].subSections[currentIndex].link,
           );
@@ -232,7 +232,7 @@ const MyVideo = () => {
   return (
     <>
       <div className=" hidden w-full lg:flex ">
-        {accordionDetails.length > 0 ? (
+        {accordionDetails && accordionDetails.length > 0 ? (
           <>
             <div className="  w-full  pl-1  pt-20 md:pt-28  lg:w-[30%] lg:pt-28">
               <div className=" h-auto " data-testid="accordion">
@@ -335,7 +335,7 @@ const MyVideo = () => {
       {/* small device view  */}
 
       <div className=" flex  w-full flex-col  pt-14 md:pt-20 lg:hidden">
-        {accordionDetails.length > 0 ? (
+        {accordionDetails && accordionDetails.length > 0 ? (
           <>
             <div className=" mt-6 w-full  ">
               {isQuizClicked ? (

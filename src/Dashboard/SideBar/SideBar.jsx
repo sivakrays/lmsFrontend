@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./SideBar.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { PiUserSwitchFill } from "react-icons/pi";
@@ -9,8 +9,9 @@ import { FaUsers } from "react-icons/fa6";
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { Tooltip } from "react-tooltip";
 import { IoLogOut } from "react-icons/io5";
+import { authContext } from "../../Context/AuthContext";
 
-const BottomBar = () => {
+const BottomBar = ({ role }) => {
   return (
     <>
       {/* Mobile BottomBar */}
@@ -29,15 +30,17 @@ const BottomBar = () => {
               <MdDashboard className="bottomIcon h-7 w-7 cursor-pointer object-cover text-herobg sm:h-7 " />
             </Link>
           </li>
-          <li>
-            <Link
-              to={"/courses"}
-              data-tooltip-id="my-tooltip1"
-              data-tooltip-content="MyCourse"
-            >
-              <FaLayerGroup className="bottomIcon h-7 w-7 cursor-pointer object-cover text-herobg sm:h-6 " />
-            </Link>
-          </li>
+          {role === "admin" && (
+            <li>
+              <Link
+                to={"/courses"}
+                data-tooltip-id="my-tooltip1"
+                data-tooltip-content="MyCourse"
+              >
+                <FaLayerGroup className="bottomIcon h-7 w-7 cursor-pointer object-cover text-herobg sm:h-6 " />
+              </Link>
+            </li>
+          )}
           <li>
             <Link
               to={"/leaderboard"}
@@ -47,15 +50,17 @@ const BottomBar = () => {
               <GiAchievement className="bottomIcon h-7 w-7 object-cover  text-herobg sm:h-8 " />
             </Link>
           </li>
-          <li>
-            <Link
-              to={"/users"}
-              data-tooltip-id="my-tooltip1"
-              data-tooltip-content="Users"
-            >
-              <FaUsers className="bottomIcon h-7 w-7 object-cover text-herobg sm:h-6  " />
-            </Link>
-          </li>
+          {role !== "admin" && (
+            <li>
+              <Link
+                to={"/users"}
+                data-tooltip-id="my-tooltip1"
+                data-tooltip-content="Users"
+              >
+                <FaUsers className="bottomIcon h-7 w-7 object-cover text-herobg sm:h-6  " />
+              </Link>
+            </li>
+          )}
           <li className=" flex items-center justify-center text-herobg">
             <button data-tooltip-id="my-tooltip1" data-tooltip-content="Logout">
               <IoLogOut className="h-7 w-7" />
@@ -70,10 +75,12 @@ const BottomBar = () => {
 const SideBar = () => {
   const navigate = useNavigate();
 
-  const role = localStorage.getItem("Role");
-  console.log(role);
+  const { logout } = useContext(authContext);
 
+  const role = localStorage.getItem("role");
+  console.log(role);
   const logOut = () => {
+    logout();
     navigate("/login");
     localStorage.clear();
   };
@@ -102,7 +109,7 @@ const SideBar = () => {
                 <GiAchievement className="mx-auto h-9 w-9  text-herobg" />
               </Link>
             </li>
-            {!role === "admin" && (
+            {role !== "admin" && (
               <li>
                 <Link to={"/users"}>
                   <FaUsers className="mx-auto h-9 w-9  text-herobg" />
@@ -129,7 +136,7 @@ const SideBar = () => {
       </div>
 
       <div className="relative flex w-full flex-col  sm:hidden">
-        <BottomBar />
+        <BottomBar role={role} />
       </div>
     </>
   );

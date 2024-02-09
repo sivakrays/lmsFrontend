@@ -14,6 +14,7 @@ const SectionForm = ({
   loading,
   setLoading,
   closeModal,
+  setCourseUpdated,
 }) => {
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
@@ -44,7 +45,7 @@ const SectionForm = ({
         SubSectionDes: "",
         VideoLink: "",
         isQuizAvailable: false,
-        quizInputs: [{ question: "", options: ["", ""], answer: "" }],
+        quizInputs: [{ key: 1, question: "", options: ["", ""], answer: "" }],
       },
     ]);
   };
@@ -191,10 +192,10 @@ const SectionForm = ({
       ];
 
       const res = await post("/user/saveSection", data, updatedConfig);
-      if (Boolean(res)) {
+      setLoading(false);
+      if (res.status === 200 && res.data) {
         successNotify();
-        setLoading(false);
-
+        setCourseUpdated(true);
         setSectionTitle("");
         setSubSections([
           {
@@ -204,8 +205,6 @@ const SectionForm = ({
             isQuizAvailable: false,
             quizInputs: [
               { key: 1, question: "", options: ["", ""], answer: "" },
-              { key: 2, question: "", options: ["", ""], answer: "" },
-              { key: 3, question: "", options: ["", ""], answer: "" },
             ],
           },
         ]);

@@ -96,10 +96,10 @@ const CourseForm = ({
 
       const res = await post("/user/saveCourse", data, config);
       setCourseId(res.data.courseId);
-      if (Boolean(res)) {
+      setLoading(false);
+      if (res.status === 200 && res.data) {
         successNotify();
         setTimeout(() => {
-          setLoading(false);
           setSectionFormVisibile(true);
         }, 1000);
       }

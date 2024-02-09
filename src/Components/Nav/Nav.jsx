@@ -75,6 +75,10 @@ const Nav = () => {
     }, 500);
   };
 
+  // const navigateTo = (path) => {
+  //   navigate(`${path}`, { replace: true });
+  // };
+
   return (
     <>
       <div className="navbar w-full">
@@ -104,6 +108,7 @@ const Nav = () => {
                       key={index}
                     >
                       <Link
+                        // onClick={() => navigateTo(item.path)}
                         to={item.path}
                         className={`text-md  font-semibold ${
                           currentPath === item.path ? "activeNav" : "nav"
@@ -175,7 +180,7 @@ const Nav = () => {
                       Profile
                     </div>
                   </Link>
-                  {isTokenValid && localStorage.getItem("Role") === "admin" ? (
+                  {isTokenValid && localStorage.getItem("role") === "admin" ? (
                     <>
                       <Link to="/dashboard">
                         <div
@@ -293,7 +298,7 @@ const Nav = () => {
                 </Link>
               </li>
             )}
-            {isTokenValid && localStorage.getItem("Role") === "Admin" ? (
+            {isTokenValid && localStorage.getItem("role") === "Admin" ? (
               <>
                 <Link to="/dashboard">
                   <div

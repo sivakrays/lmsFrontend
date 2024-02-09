@@ -31,8 +31,8 @@ const CreationModal = ({
     }));
   };
 
-  const successNotify = () =>
-    toast.success("Register Successfully!", {
+  const successNotify = (msg) =>
+    toast.success(msg, {
       position: "top-right",
       autoClose: 500,
       hideProgressBar: false,
@@ -69,17 +69,17 @@ const CreationModal = ({
     };
     try {
       const res = await post("/tenant/registerTenant", data, config);
+      setLoading(false);
       console.log(res);
-      if (Boolean(res)) {
+      if (res.status === 200 && res.data) {
         setIsCreation(false);
-        setLoading(false);
-        successNotify();
+        successNotify("Register Successfully!");
         setGetAllData(!getAllData);
       }
     } catch (error) {
-      const err = error.response.data;
-      if (error.response.status === 409) {
-        errorNotify(err);
+      setLoading(false);
+      if (error.response.status === 403) {
+        errorNotify("User alredy exist!");
         setFormData({
           email: "",
           password: "",
@@ -87,7 +87,6 @@ const CreationModal = ({
           tenantId: "",
           issuer: "",
         });
-        setLoading(false);
       }
     }
   };

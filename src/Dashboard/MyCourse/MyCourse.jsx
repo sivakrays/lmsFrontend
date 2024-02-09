@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import data from "../../Data/Data";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CourseForm from "./CourseForm";
 import SectionForm from "./SectionForm";
@@ -21,6 +21,7 @@ const UploadModal = ({
   loading,
   setLoading,
   closeModal,
+  setCourseUpdated,
 }) => {
   return (
     <div
@@ -39,6 +40,7 @@ const UploadModal = ({
           loading={loading}
           setLoading={setLoading}
           closeModal={closeModal}
+          setCourseUpdated={setCourseUpdated}
         />
       ) : (
         <CourseForm
@@ -71,7 +73,10 @@ const MyCourse = () => {
   const [totalpage, setTotalPage] = useState(0);
   const [totalCourses, setTotalCourses] = useState(0);
 
-  const [pageSize] = useState(10);
+  // check course UPdated or not
+  const [courseUpdated, setCourseUpdated] = useState(false);
+
+  const [pageSize] = useState(4);
 
   const closeModal = () => {
     setLoading(false);
@@ -79,6 +84,18 @@ const MyCourse = () => {
   };
 
   const [apiLoading, setApiLoading] = useState(true);
+
+  const errorNotify = (err) =>
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   useEffect(() => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
@@ -108,13 +125,17 @@ const MyCourse = () => {
           setCouresData(res.data.content);
         }
       } catch (err) {
+        // setApiLoading(false);
+        // if (err.message === "Network Error") {
+        //   errorNotify("Poor network Connection!");
+        // }
         const error = err.response;
         console.log(err);
       }
     };
 
     usersCoures();
-  }, [pageNo]);
+  }, [pageNo, courseUpdated]);
 
   // Pagination logic
 
@@ -249,6 +270,7 @@ const MyCourse = () => {
             loading={loading}
             setLoading={setLoading}
             closeModal={closeModal}
+            setCourseUpdated={setCourseUpdated}
           />
         )}
       </div>

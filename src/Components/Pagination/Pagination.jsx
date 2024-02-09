@@ -49,13 +49,9 @@ const Pagination = ({
         <button
           onClick={() => paginate(pageNo + 1)}
           className={`flex h-10 items-center justify-center rounded-r border-0 border-l border-textLightColor bg-textColor px-1.5 text-base font-medium text-white sm:px-4 
-              ${
-                pageNo === totalpage - 1 || pageNo === 0
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }
+              ${pageNo === totalpage - 1 ? "cursor-not-allowed opacity-50" : ""}
               `}
-          disabled={pageNo === totalpage - 1 || pageNo === 0}
+          disabled={pageNo === totalpage - 1}
         >
           <span className="text-sm sm:text-[16px]"> Next</span>
           <svg

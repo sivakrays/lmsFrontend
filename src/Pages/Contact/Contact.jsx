@@ -11,11 +11,13 @@ import Footer from "../../Sections/Footer/Footer";
 import { FaInstagram } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa6";
 import { FaSquareXTwitter } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const [values, setValues] = useState({
     name: "",
     email: "",

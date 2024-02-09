@@ -1,15 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../Course/Course.css";
 import { Link } from "react-router-dom";
-import { del, post } from "../../ApiCall/ApiCall";
+import { del, get, post } from "../../ApiCall/ApiCall";
 import { cartContext } from "../../Context/CartContext";
 import { authContext } from "../../Context/AuthContext";
 import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 import { ToastContainer, toast } from "react-toastify";
+import Loader from "../../Components/Loader/Loader";
 
 const AddToCart = () => {
-  const [cartId, setCartId] = useState(null);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
+  const [isApiLoading, setApiLoading] = useState(false);
+
+  const { userId, token } = useContext(authContext);
   const {
     cartData,
     total,
@@ -18,13 +24,8 @@ const AddToCart = () => {
     setTotalCartItem,
     setCartUpdated,
     cartUpdated,
+    setCartData,
   } = useContext(cartContext);
-
-  useEffect(() => {
-    setCartUpdated(!cartUpdated);
-  }, []);
-
-  const { token } = useContext(authContext);
 
   const successNotify = (msg) =>
     toast.success(msg, {
@@ -38,16 +39,40 @@ const AddToCart = () => {
       theme: "light",
     });
 
-  const handleDelete = async (cartId) => {
-    setCartId(cartId);
-    console.log(cartId);
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        if (token) {
+          const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${refreshedToken}`,
+              userId: userId,
+            },
+          };
+
+          const res = await get("/user/getCartByUserId", config);
+          setCartData(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchCartData();
+  }, [cartUpdated]);
+
+  const handleDelete = async (ID) => {
+    console.log(ID);
     try {
       const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
+
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${refreshedToken}`,
-          cartId: cartId,
+          cartId: ID,
         },
       };
 
@@ -58,7 +83,6 @@ const AddToCart = () => {
       console.log(err);
     }
   };
-
   const loadScript = (src) => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -83,6 +107,8 @@ const AddToCart = () => {
     if (!res) {
       alert("You are offline!");
       return;
+    } else {
+      setApiLoading(false);
     }
 
     const options = {
@@ -93,14 +119,14 @@ const AddToCart = () => {
       name: "KraysInfotech",
       description: "Thanks for Purchasing",
       orderID: orderID,
-      handler: function (response) {
-        alert(response.razorpay_payment_id);
-        alert("Payment Success");
-      },
+      // handler: function (response) {
+      //   alert(response.razorpay_payment_id);
+      //   alert("Payment Success");
+      // },
 
-      prefill: {
-        name: "MANOJ",
-      },
+      // prefill: {
+      //   name: whose payment details ,
+      // },
     };
 
     const paymentObject = new window.Razorpay(options);
@@ -108,24 +134,29 @@ const AddToCart = () => {
   };
 
   const checkout = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    setApiLoading(true);
+    const checkoutApi = async () => {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const data = {
+        amount: total,
+        customerName: localStorage.getItem("Current User"),
+        email: localStorage.getItem("email"),
+        phoneNumber: "9089786789",
+      };
+
+      const res = await post("/auth/createOrder", data, config);
+      if (res.status === 200 && res.data) {
+        const orderID = res.data.razorpayOrderId;
+        const OrderKey = res.data.secretId;
+        PaymentHandler(total, orderID, OrderKey);
+      }
     };
-
-    const data = {
-      amount: total,
-      customerName: localStorage.getItem("Current User"),
-      email: localStorage.getItem("email"),
-      phoneNumber: "9089786789",
-    };
-
-    const res = await post("/auth/createOrder", data, config);
-    const orderID = res.data.razorpayOrderId;
-    const OrderKey = res.data.secretId;
-
-    PaymentHandler(total, orderID, OrderKey);
+    checkoutApi();
   };
 
   return (
@@ -162,63 +193,64 @@ const AddToCart = () => {
                 </div>
 
                 {/* Cart Body */}
-                {cartData.map((course, i) => (
-                  <div key={i} className="py-3 lg:py-2">
-                    <div className=" -mx-8 flex cursor-pointer items-center rounded-md px-6 py-2 hover:bg-coursebg hover:text-white lg:py-2">
-                      <div className="flex w-3/5 items-center">
-                        <div className=" ">
-                          <img
-                            className="min-w-[70px] sm:max-w-[100px]"
-                            src={course.thumbNail}
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-4  flex min-w-[100px] max-w-[250px] flex-grow flex-col justify-center  text-textColor sm:min-w-0">
-                          <Link
-                            to={`/coursedetails/${course.courseId}`}
-                            className="hover:text-blue-600 hover:underline"
-                          >
-                            <span className="  text-xs font-bold sm:text-sm">
-                              {course.title}
-                              {/* {course.title.length > 15
+                {cartData &&
+                  cartData.map((course, i) => (
+                    <div key={i} className="py-3 lg:py-2">
+                      <div className=" -mx-8 flex cursor-pointer items-center rounded-md px-6 py-2 hover:bg-coursebg hover:text-white lg:py-2">
+                        <div className="flex w-3/5 items-center">
+                          <div className=" ">
+                            <img
+                              className="min-w-[70px] sm:max-w-[100px]"
+                              src={course.thumbNail}
+                              alt=""
+                            />
+                          </div>
+                          <div className="ml-4  flex min-w-[100px] max-w-[250px] flex-grow flex-col justify-center  text-textColor sm:min-w-0">
+                            <Link
+                              to={`/coursedetails/${course.courseId}`}
+                              className="hover:text-blue-600 hover:underline"
+                            >
+                              <span className="  text-xs font-bold sm:text-sm">
+                                {course.title}
+                                {/* {course.title.length > 15
                                 ? `${course.title.substring(0, 60)}...`
                                 : course.title} */}
+                              </span>
+                            </Link>
+
+                            <span className="text-[10px] text-textLightColor sm:text-xs">
+                              {course.authorName}
                             </span>
-                          </Link>
-
-                          <span className="text-[10px] text-textLightColor sm:text-xs">
-                            {course.authorName}
-                          </span>
+                          </div>
                         </div>
-                      </div>
 
-                      <span className="w-1/5 text-center text-xs font-semibold text-textColor sm:text-sm">
-                        {course.price} .Rs
-                      </span>
-                      {/* <span className="w-1/5 text-center text-sm font-semibold text-textColor">
+                        <span className="w-1/5 text-center text-xs font-semibold text-textColor sm:text-sm">
+                          {course.price} .Rs
+                        </span>
+                        {/* <span className="w-1/5 text-center text-sm font-semibold text-textColor">
                         {course.price} .Rs
                       </span> */}
-                      <span className="w-1/5 text-center text-sm font-semibold">
-                        <button onClick={() => handleDelete(course.cartId)}>
-                          <svg
-                            className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path>
-                          </svg>
-                        </button>
-                      </span>
+                        <span className="w-1/5 text-center text-sm font-semibold">
+                          <button onClick={() => handleDelete(course.cartId)}>
+                            <svg
+                              className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              ></path>
+                            </svg>
+                          </button>
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
 
                 {/* Cart footer */}
 
@@ -270,7 +302,13 @@ const AddToCart = () => {
                     onClick={() => checkout()}
                     className="dayOne w-full rounded-md bg-yellow-300 py-3 text-sm font-semibold uppercase text-white hover:bg-yellow-400"
                   >
-                    Checkout
+                    {isApiLoading === true ? (
+                      <div className="flex items-center justify-center">
+                        <Loader color={"#FFFFFF"} height={"3%"} width={"5%"} />
+                      </div>
+                    ) : (
+                      "Checkout"
+                    )}
                   </button>
                 </div>
               </div>

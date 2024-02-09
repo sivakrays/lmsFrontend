@@ -71,7 +71,8 @@ const UserCreationModal = ({
     };
     try {
       const res = await post("/auth/register", data, config);
-      if (res) {
+      setLoading(false);
+      if (res.status === 200 && res.data) {
         setGetAllData(!getAllData);
         successNotify("User Created Successfully!");
         setFormData({
@@ -80,12 +81,13 @@ const UserCreationModal = ({
           password: "",
           confirmPassword: "",
         });
-        setLoading(false);
         setIsCreation(false);
       }
-    } catch (error) {
+    } catch (err) {
       setLoading(false);
-      errorNotify("user Alredy exist!");
+      if (err.response && err.response.status === 403) {
+        errorNotify("user Alredy exist!");
+      }
     }
   };
 

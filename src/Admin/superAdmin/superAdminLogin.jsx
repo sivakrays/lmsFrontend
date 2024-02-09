@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { post } from "../../ApiCall/ApiCall";
 import logo1 from "../../Assets/Admin/kraysLogoNoBg.png";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,6 +16,7 @@ const SuperAdminLogin = () => {
   const pathName = window.location.pathname;
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const successNotify = (msg) =>
     toast.success(msg, {
@@ -89,7 +90,8 @@ const SuperAdminLogin = () => {
         },
       };
       const res = await post(`tenant/tenantLogin`, {}, config);
-      if (res !== "") {
+      setLoading(false);
+      if (res.status === 200) {
         localStorage.setItem("role", res.data.role);
         localStorage.setItem("tenantId", res.data.tenantId);
         successNotify("Successfully Login");
@@ -97,14 +99,17 @@ const SuperAdminLogin = () => {
           navigate("/users");
         }, 1000);
       }
-    } catch (error) {
-      // errorNotify("Please try again!");
-      errorNotify("Bad Credetials!");
-      setLoginData({
-        email: "",
-        password: "",
-      });
-      console.log("err", error);
+    } catch (err) {
+      setLoading(false);
+      if (err.response && err.response.status === 403) {
+        errorNotify("Bad Credetials!");
+        setLoginData({
+          email: "",
+          password: "",
+        });
+      } else if (err.message === "Network Error") {
+        errorNotify("Poor Connection!");
+      }
     }
   };
 
@@ -117,34 +122,42 @@ const SuperAdminLogin = () => {
         },
       };
       const res = await post(`admin/adminLogin`, {}, config);
+      setLoading(false);
       if (res.status === 200) {
         successNotify("Successfully Login");
+
         setTimeout(() => {
           navigate("/users");
         }, 1000);
         localStorage.setItem("role", res.data.role);
       }
-    } catch (error) {
-      // errorNotify("Please try again!");
-      errorNotify("Bad Credetials!");
-      console.log("err", error);
-      setLoginData({
-        email: "",
-        password: "",
-      });
+    } catch (err) {
+      setLoading(false);
+      if (err.response && err.response.status === 403) {
+        errorNotify("Bad Credetials!");
+        setLoginData({
+          email: "",
+          password: "",
+        });
+      } else if (err.message === "Network Error") {
+        errorNotify("Poor Connection!");
+      }
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const isEmailValid = validateEmail();
     const isValidPassword = validatePassword();
     if (!isEmailValid || !isValidPassword) {
       return;
     } else if (pathName === "/superAdmin") {
       handleSuperAdminLogin();
+      setLoading(true);
     } else {
       handleTenantLogin();
+      setLoading(true);
     }
   };
 
@@ -152,7 +165,7 @@ const SuperAdminLogin = () => {
     <>
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="mx-auto flex min-h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
-          <div className="mb-6 flex items-center text-2xl font-semibold text-textColor dark:text-white">
+          <div className="mb-6 flex items-center  text-2xl font-semibold text-textColor dark:text-white">
             <img
               className="  h-14 w-14 object-contain"
               src={logo1}
@@ -220,10 +233,28 @@ const SuperAdminLogin = () => {
 
                 <button
                   type="submit"
-                  className="w-full rounded-lg bg-yellow-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-yellow-800 focus:outline-none "
+                  className={`w-full rounded-lg bg-yellow-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-yellow-800 focus:outline-none  ${
+                    loading === true
+                      ? "cursor-progress opacity-50"
+                      : "cursor-pointer"
+                  }`}
+                  disabled={loading === true}
                 >
                   Login
                 </button>
+                {pathName !== "/superAdmin" && (
+                  <div className="mt-8">
+                    <p className="text-textLightColor" data-testid="para">
+                      User's Login ! click here{" "}
+                      <span
+                        className="text-center text-blue-600 underline"
+                        data-testid="link"
+                      >
+                        <Link to="/login">User</Link>
+                      </span>
+                    </p>
+                  </div>
+                )}
               </form>
             </div>
           </div>

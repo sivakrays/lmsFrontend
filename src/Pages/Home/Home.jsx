@@ -53,10 +53,10 @@ const Home = () => {
         };
 
         const res = await get("/user/getAllCourse", config);
-        if (res) {
+        if (res.status === 200 && res.data.content) {
           setLoading(false);
+          setCourseData(res.data.content);
         }
-        setCourseData(res.data.content);
       } catch (err) {
         console.log("error", err);
       }

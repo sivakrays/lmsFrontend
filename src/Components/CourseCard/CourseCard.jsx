@@ -12,7 +12,7 @@ import { cartContext } from "../../Context/CartContext";
 
 const CourseCard = ({ course, path }) => {
   const { isTokenValid, userId, token } = useContext(authContext);
-  const { setCartUpdated, cartUpdated } = useContext(cartContext);
+  const { setCartUpdated, cartUpdated, setCartData } = useContext(cartContext);
 
   const navigate = useNavigate();
   const errorNotify = (err) =>
@@ -78,10 +78,13 @@ const CourseCard = ({ course, path }) => {
       };
 
       const res = await post("/user/saveCart", data, config);
-      setCartUpdated(true);
-      if (res.status === 201) {
+      setCartUpdated(!cartUpdated);
+      if (res.status === 200 && res.data !== "Course already exists") {
         successNotify();
+        setCartData(res.data);
         console.log(res);
+      } else {
+        errorNotify("Course alredy exsist!");
       }
     } catch (err) {
       const error = err.response.data;

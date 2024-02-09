@@ -77,12 +77,12 @@ const Users = () => {
           },
         };
         const res = await get("/auth/getAllUser", config);
-        if (res) {
-          setIsEmpty(false);
+        setIsEmpty(false);
+        if (res.status === 200 && res.data.content) {
+          setAllUsers(res.data.content);
+          setTotalPage(res.data.totalPages);
+          setTotalCourses(res.data.totalElements);
         }
-        setAllUsers(res.data.content);
-        setTotalPage(res.data.totalPages);
-        setTotalCourses(res.data.totalElements);
       };
 
       try {
@@ -96,10 +96,12 @@ const Users = () => {
         switch (role) {
           case "owner":
             const res = await get("/admin/viewAllTenants", config);
-            if (res) {
-              setIsEmpty(false);
+            setIsEmpty(false);
+            if (res.status === 200 && res.data.content) {
+              setAllUsers(res.data.content);
+              setTotalPage(res.data.totalPages);
+              setTotalCourses(res.data.totalElements);
             }
-            setAllUsers(res.data.content);
             break;
 
           case "manager":
@@ -111,6 +113,9 @@ const Users = () => {
         }
       } catch (err) {
         console.log(err);
+        //  if (err.message === "Network Error") {
+        //    errorNotify("Poor network Connection!");
+        //  }
       }
     };
 
@@ -167,7 +172,7 @@ const Users = () => {
 
                 <div className="w-1/4">
                   <p className="heading text-[15px] font-semibold uppercase text-textColor">
-                    {role === "owner" ? "TenantID" : "Role"}
+                    {role === "owner" ? "TenantID" : "role"}
                   </p>
                 </div>
 
@@ -218,7 +223,9 @@ const Users = () => {
                     ))
                   ) : (
                     <>
-                      <p className="py-6 text-center">No Data found</p>
+                      <p className="py-6 text-center font-semibold text-textLightColor">
+                        No Data found
+                      </p>
                     </>
                   )
                 ) : (
@@ -255,6 +262,7 @@ const Users = () => {
             closeModal={closeModal}
             setGetAllData={setGetAllData}
             getAllData={getAllData}
+            // pagination data
           />
         )}
       </div>
