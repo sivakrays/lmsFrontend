@@ -15,12 +15,15 @@ export const CartContextProvider = ({ children }) => {
 
   const [cartUpdated, setCartUpdated] = useState(false);
 
+  const appToken = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchCartData = async () => {
-      console.log("Get the Cart data API working");
       try {
-        if (token) {
-          const refreshedToken = await checkAndRefreshToken(JSON.parse(token));
+        if (appToken) {
+          const refreshedToken = await checkAndRefreshToken(
+            JSON.parse(appToken),
+          );
           const config = {
             headers: {
               "Content-Type": "application/json",
@@ -31,6 +34,7 @@ export const CartContextProvider = ({ children }) => {
 
           const res = await get("/user/getCartByUserId", config);
           setCartData(res.data);
+          console.log("get all response", res.data);
         }
       } catch (err) {
         console.log(err);

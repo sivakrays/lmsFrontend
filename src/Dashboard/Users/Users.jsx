@@ -191,36 +191,45 @@ const Users = () => {
               <div className="rounded-b-md bg-white">
                 {isEmpty === false ? (
                   allUsers.length > 0 ? (
-                    allUsers.map((tenant, i) => (
-                      <div key={i} className="cursor-pointer border-b">
-                        <div className="heading flex  w-full flex-wrap justify-between  p-4">
-                          <div className="w-1/4 overflow-scroll  ">
-                            <p>{tenant.email}</p>
-                          </div>
+                    <>
+                      {allUsers.map((tenant, i) => (
+                        <div key={i} className="cursor-pointer border-b">
+                          <div className="heading flex  w-full flex-wrap justify-between  p-4">
+                            <div className="w-1/4 overflow-scroll  ">
+                              <p>{tenant.email}</p>
+                            </div>
 
-                          <div className="w-1/4 overflow-scroll  pl-3">
-                            <p>
-                              {" "}
-                              {role === "owner"
-                                ? `${tenant.tenantId}`
-                                : `${tenant.role}`}
-                            </p>
-                          </div>
+                            <div className="w-1/4 overflow-scroll  pl-3">
+                              <p>
+                                {" "}
+                                {role === "owner"
+                                  ? `${tenant.tenantId}`
+                                  : `${tenant.role}`}
+                              </p>
+                            </div>
 
-                          <div className="w-1/4 overflow-scroll">
-                            <p>
-                              {role === "owner"
-                                ? `${tenant.issuer}`
-                                : `${tenant.name}`}
-                            </p>
-                          </div>
+                            <div className="w-1/4 overflow-scroll">
+                              <p>
+                                {role === "owner"
+                                  ? `${tenant.issuer}`
+                                  : `${tenant.name}`}
+                              </p>
+                            </div>
 
-                          <div className="w-1/4 overflow-scroll">
-                            <p>Action</p>
+                            <div className="w-1/4 overflow-scroll">
+                              <p>Action</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      ))}
+                      <Pagination
+                        calculateRange={calculateRange}
+                        paginate={paginate}
+                        totalCourses={totalCourses}
+                        pageNo={pageNo}
+                        totalpage={totalpage}
+                      />
+                    </>
                   ) : (
                     <>
                       <p className="py-6 text-center font-semibold text-textLightColor">
@@ -239,14 +248,6 @@ const Users = () => {
                   </>
                 )}
               </div>
-
-              <Pagination
-                calculateRange={calculateRange}
-                paginate={paginate}
-                totalCourses={totalCourses}
-                pageNo={pageNo}
-                totalpage={totalpage}
-              />
             </div>
           </div>
         </div>

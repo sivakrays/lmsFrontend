@@ -16,6 +16,8 @@ const SectionForm = ({
   closeModal,
   setCourseUpdated,
 }) => {
+  console.log(courseId);
+
   const [sectionTitle, setSectionTitle] = useState("");
   const [subSections, setSubSections] = useState([
     {
@@ -181,7 +183,7 @@ const SectionForm = ({
         {
           title: sectionTitle,
           // course_id: localStorage.getItem("Current Upload CourseId"),
-          course_id: courseId,
+          courseId: courseId,
           subSections: subSections.map((subSection) => ({
             title: subSection.SubSectionTitle,
             description: subSection.SubSectionDes,

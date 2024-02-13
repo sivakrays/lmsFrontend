@@ -116,14 +116,24 @@ const MyCourse = () => {
 
         const res = await get("user/getCourseByUserId", config);
         setApiLoading(false);
-        if (res.status === 204) {
-          setEmptyData(true);
-        } else {
-          setEmptyData(false);
+
+        if (res.status === 200 && res.data.content.length > 0) {
           setTotalPage(res.data.totalPages);
           setTotalCourses(res.data.totalElements);
           setCouresData(res.data.content);
+          setEmptyData(false);
+        } else if (res.status === 200 && res.data.content.length === 0) {
+          setEmptyData(true);
         }
+
+        // if (res.status === 204) {
+        //   setEmptyData(true);
+        // } else {
+        //   setEmptyData(false);
+        //   setTotalPage(res.data.totalPages);
+        //   setTotalCourses(res.data.totalElements);
+        //   setCouresData(res.data.content);
+        // }
       } catch (err) {
         // setApiLoading(false);
         // if (err.message === "Network Error") {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CourseCard.css";
 import star from "../../Assets/courseCard/star.png";
 import halfStar from "../../Assets/courseCard/halfStar.png";
@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { post } from "../../ApiCall/ApiCall";
 import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 import { cartContext } from "../../Context/CartContext";
+import Loader from "../Loader/Loader";
 
 const CourseCard = ({ course, path }) => {
   const { isTokenValid, userId, token } = useContext(authContext);
@@ -38,8 +39,11 @@ const CourseCard = ({ course, path }) => {
     }
   };
 
+  const [cartLoading, setCartLoading] = useState(false);
+
   const isCartAuthorized = () => {
     if (isTokenValid) {
+      setCartLoading(true);
       addCart(course.courseId, userId);
     } else {
       errorNotify("Please login to access this course");
@@ -80,11 +84,13 @@ const CourseCard = ({ course, path }) => {
       const res = await post("/user/saveCart", data, config);
       setCartUpdated(!cartUpdated);
       if (res.status === 200 && res.data !== "Course already exists") {
+        setCartLoading(false);
         successNotify();
         setCartData(res.data);
         console.log(res);
       } else {
         errorNotify("Course alredy exsist!");
+        setCartLoading(false);
       }
     } catch (err) {
       const error = err.response.data;

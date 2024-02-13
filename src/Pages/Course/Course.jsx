@@ -82,13 +82,13 @@ const Course = () => {
             Accept: "application/json",
           },
         };
-        if (searchValue.length >= 3) {
-          const res = await get(
-            `/user/searchCourses?search=${searchValue}`,
-            config,
-          );
-          setSearchData(res.data);
-        }
+        // if (searchValue.length >= 3) {
+        const res = await get(
+          `/user/searchCourses?search=${searchValue}`,
+          config,
+        );
+        setSearchData(res.data);
+        // }
       } catch (err) {
         console.log("error", err);
       }
