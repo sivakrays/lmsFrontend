@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./CourseDetailCard.css";
 
 import cardImage from "../../Assets/courseCard/courseImg.jpg";
@@ -9,8 +9,16 @@ import file from "../../Assets/coursedetails/file.svg";
 import folder from "../../Assets/coursedetails/folder.svg";
 import trophy from "../../Assets/coursedetails/trophy.svg";
 import YoutubeTv from "../../Assets/coursedetails/YoutubeTv.svg";
+import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
+import { authContext } from "../../Context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { post } from "../../ApiCall/ApiCall";
+import { cartContext } from "../../Context/CartContext";
 
-const Card = ({ img, price }) => {
+const Card = ({ img, price, courseId }) => {
+  const { isTokenValid, userId, token } = useContext(authContext);
+  const { setCartUpdated, cartUpdated, setCartData } = useContext(cartContext);
   const [isCardFixed, setIscardFixed] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
@@ -34,6 +42,78 @@ const Card = ({ img, price }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isCardFixed]);
+
+  const navigate = useNavigate();
+  const [cartLoading, setCartLoading] = useState(false);
+
+  const errorNotify = (err) =>
+    toast.info(err, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const successNotify = () =>
+    toast.success("Course Added to Cart", {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const isCartAuthorized = () => {
+    if (isTokenValid) {
+      setCartLoading(true);
+      addCart(courseId, userId);
+    } else {
+      errorNotify("Please login to access this course");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2500);
+    }
+  };
+
+  const currentToken = JSON.parse(localStorage.getItem("token"));
+  const addCart = async (courseId, userId) => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(currentToken);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
+
+      const data = {
+        userId: userId,
+        courseId: courseId,
+      };
+
+      const res = await post("/user/saveCart", data, config);
+      setCartUpdated(!cartUpdated);
+      if (res.status === 200 && res.data !== "Course already exists") {
+        setCartLoading(false);
+        successNotify();
+        setCartData(res.data);
+        console.log(res);
+      } else {
+        errorNotify("Course alredy exsist!");
+        setCartLoading(false);
+      }
+    } catch (err) {
+      const error = err.response.data;
+      errorNotify(error);
+    }
+  };
 
   return (
     <div
@@ -63,11 +143,27 @@ const Card = ({ img, price }) => {
           </p>
         </div>
         <div className="mt-5 flex flex-col  items-center space-y-4 ">
-          <button className=" w-full border-2 border-textColor bg-mobilebg p-3 boxShadow">
+          <button
+            className=" w-full border-2 border-textColor bg-mobilebg p-3 boxShadow"
+            onClick={() => isCartAuthorized()}
+          >
             Add to cart
           </button>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        data-testid="toast"
+      />
     </div>
   );
 };

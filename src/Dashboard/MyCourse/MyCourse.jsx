@@ -81,6 +81,7 @@ const MyCourse = () => {
   const closeModal = () => {
     setLoading(false);
     setIsCourseUpload(false);
+    setSectionFormVisibile(false);
   };
 
   const [apiLoading, setApiLoading] = useState(true);

@@ -157,7 +157,11 @@ const CourseDetails = () => {
               </div>
               {/* <div className="absolute top-10 xl:right-[150px] xl:block  "> */}
               <div className="card">
-                <Card img={data.thumbNail} price={data.price} />
+                <Card
+                  img={data.thumbNail}
+                  price={data.price}
+                  courseId={data.courseId}
+                />
               </div>
             </section>
           )}
