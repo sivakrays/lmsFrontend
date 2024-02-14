@@ -17,6 +17,8 @@ const Course = () => {
 
   const [searchLoading, setSearchLoading] = useState(false);
 
+  const [apiLoading, setApiLoading] = useState(false);
+
   const [pageNo, setPageNo] = useState(0);
   const [totalpage, setTotalPage] = useState(0);
   const [totalCourses, setTotalCourses] = useState(0);
@@ -54,6 +56,9 @@ const Course = () => {
         setCourseData(res.data.content);
         setTotalPage(res.data.totalPages);
         setTotalCourses(res.data.totalElements);
+        if (res.data.content.length === 0) {
+          setApiLoading(true);
+        }
       } catch (err) {
         console.log("error", err);
       }
@@ -87,6 +92,10 @@ const Course = () => {
             config,
           );
           setSearchData(res.data.content);
+          if (res.data.length === 0) {
+            setApiLoading(true);
+            console.log(res.data.content.length);
+          }
         }
       } catch (err) {
         console.log("error", err);
@@ -108,7 +117,8 @@ const Course = () => {
 
   return (
     <section className="courseBg bg-coursebg pt-28">
-      {searchData.length > 0 || courseData.length > 0 ? (
+      {(searchData && searchData.length > 0) ||
+      (courseData && courseData.length > 0) ? (
         <>
           <div className="searchBar">
             <Search setSearchValue={setSearchValue} searchValue={searchValue} />
@@ -200,12 +210,21 @@ const Course = () => {
         </>
       ) : (
         <>
-          <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
-            <Loader color={"#334456"} height={"10%"} width={"10%"} />
-          </div>
-          <div className="hidden h-[40vh] w-full items-center justify-center sm:flex">
-            <Loader color={"#334456"} height={"4%"} width={"4%"} />
-          </div>
+          {apiLoading === true ? (
+            <div className=" flex h-[40vh] items-center justify-center font-semibold text-textLightColor">
+              No data Found
+            </div>
+          ) : (
+            <>
+              {" "}
+              <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
+                <Loader color={"#334456"} height={"10%"} width={"10%"} />
+              </div>
+              <div className="hidden h-[40vh] w-full items-center justify-center sm:flex">
+                <Loader color={"#334456"} height={"4%"} width={"4%"} />
+              </div>
+            </>
+          )}
         </>
       )}
       <p className="h-[2px] border-b-2 bg-textColor text-textColor opacity-5"></p>
