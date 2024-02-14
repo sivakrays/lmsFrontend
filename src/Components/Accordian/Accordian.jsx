@@ -83,7 +83,7 @@ const NestedAccordionItem = ({
               </button>
             ) : (
               <button
-                onClick={showPreview}
+                // onClick={showPreview}
                 className="flex items-center gap-5"
                 data-testid="videoButtonCourse"
               >
@@ -113,7 +113,7 @@ const NestedAccordionItem = ({
           >
             <p
               className="text-xs  text-textColor underline  md:text-sm"
-              onClick={showPreview}
+              // onClick={showPreview}
             >
               Preview
             </p>

@@ -250,7 +250,10 @@ const SuperAdminLogin = () => {
                         className="text-center text-blue-600 underline"
                         data-testid="link"
                       >
-                        <Link to="/login">User</Link>
+                        <Link to="/login" className="mr-2">
+                          User
+                        </Link>{" "}
+                        <Link to="/superAdmin">Owner</Link>
                       </span>
                     </p>
                   </div>
