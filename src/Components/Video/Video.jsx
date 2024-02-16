@@ -185,7 +185,7 @@ const Video = () => {
       >
         <ReactPlayer
           ref={playerRef}
-          url="https://www.dropbox.com/scl/fi/6sqhtxqkf1uero0qip0eg/1-Introduction.mp4?rlkey=vbpa0hsfsj2hqm3pztsqfmrib&dl=0"
+          url="https://krays-lms-s3.s3.ap-south-1.amazonaws.com/LmsCourse//360d4784-898a-4995-8eef-9ea36976c98c"
           controls
           width="100%"
           height="10%"

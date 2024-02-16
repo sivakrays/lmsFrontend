@@ -22,6 +22,7 @@ import Upload from "./Dashboard/Upload/Upload";
 import SuperAdminLogin from "./Admin/superAdmin/superAdminLogin";
 import AddToCart from "./Pages/AddToCart/AddToCart";
 import { authContext } from "./Context/AuthContext";
+import VideoUpload from "./Components/VideoUpload/VideoUpload";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -83,6 +84,7 @@ const App = () => {
 
         <Route path="/superAdmin" element={<SuperAdminLogin />} />
         <Route path="/tenantAdmin" element={<SuperAdminLogin />} />
+        <Route path="/videoUpload" element={<VideoUpload />} />
       </Routes>
     </BrowserRouter>
   );

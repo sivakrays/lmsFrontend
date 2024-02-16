@@ -4,6 +4,7 @@ import { post } from "../../ApiCall/ApiCall";
 import { RxCross2 } from "react-icons/rx";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
+import VideoUpload from "../../Components/VideoUpload/VideoUpload";
 
 const SectionForm = ({
   courseId,
@@ -16,9 +17,10 @@ const SectionForm = ({
   closeModal,
   setCourseUpdated,
 }) => {
-  console.log(courseId);
-
   const [sectionTitle, setSectionTitle] = useState("");
+  const [uploadVideoLink, setUploadVideoLink] = useState("");
+
+  console.log(uploadVideoLink);
   const [subSections, setSubSections] = useState([
     {
       SubSectionTitle: "",
@@ -47,6 +49,7 @@ const SectionForm = ({
         SubSectionDes: "",
         VideoLink: "",
         isQuizAvailable: false,
+        uploadVideo: false,
         quizInputs: [{ key: 1, question: "", options: ["", ""], answer: "" }],
       },
     ]);
@@ -187,7 +190,7 @@ const SectionForm = ({
           subSections: subSections.map((subSection) => ({
             title: subSection.SubSectionTitle,
             description: subSection.SubSectionDes,
-            link: subSection.VideoLink,
+            link: subSection.VideoLink || uploadVideoLink,
             quizList: subSection.quizInputs,
           })),
         },
@@ -227,7 +230,7 @@ const SectionForm = ({
     }
   };
   return (
-    <div className="relative mx-auto mb-8  mt-8 w-3/4 rounded-md bg-white p-8 shadow">
+    <div className="relative mx-auto mb-8  mt-8 w-full rounded-md bg-white shadow sm:w-3/4 sm:p-8">
       <button
         type="button"
         onClick={() => closeModal()}
@@ -236,13 +239,16 @@ const SectionForm = ({
         x
       </button>
       <div className="uploadForm  mt-5">
-        <div className="w-full rounded-md border bg-herobg p-4 shadow-sm ">
-          <button className="mb-2.5 rounded-md  bg-textColor p-2 text-white">
+        <div className="w-full rounded-md bg-herobg shadow-sm sm:border sm:p-4 ">
+          <button
+            type="button"
+            className=" mb-2.5  rounded-md bg-textColor p-2 text-white"
+          >
             Course Section
           </button>
           <form
             onSubmit={(e) => handleSubmit(e)}
-            className="rounded-md border bg-white p-4"
+            className="rounded-md bg-white p-4 sm:border"
           >
             <div className="mb-2 flex flex-col gap-4 rounded ">
               <label className="text-textLightColor">Section Name</label>
@@ -262,13 +268,29 @@ const SectionForm = ({
             {subSections.map((ssection, i) => {
               return (
                 <div key={i}>
-                  <div className="mb-3 flex items-center gap-3">
-                    <p className="w-[70%] rounded-md bg-textLightColor p-2 px-3 text-center text-white  sm:w-[30%] xl:w-[20%]">
-                      Sub Section {i + 1}
-                    </p>
+                  <div className="mb-3 flex items-center justify-between gap-3 ">
+                    <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center">
+                      <p className=" rounded-md bg-textLightColor p-2 px-3 text-center  text-white ">
+                        Sub Section {i + 1}
+                      </p>
+                      <label
+                        htmlFor="uploadVideo"
+                        className="flex items-center gap-2 text-textLightColor"
+                      >
+                        UploadVideo
+                        <input
+                          type="checkbox"
+                          name="uploadVideo"
+                          checked={ssection.uploadVideo}
+                          onChange={(e) => handleSubSectionInputChange(i, e)}
+                          className="h-4 w-4 cursor-pointer"
+                        />
+                      </label>
+                    </div>
                     {subSections.length > 1 && (
                       <button
-                        className="rounded-sm border text-xl text-textLightColor"
+                        type="button"
+                        className="rounded-sm border bg-textLightColor text-xl text-white"
                         onClick={() => handleRemoveSubSection(i)}
                       >
                         <RxCross2 />
@@ -276,7 +298,7 @@ const SectionForm = ({
                     )}
                   </div>
                   <div className="subSection flex flex-wrap gap-3">
-                    <div className="flex w-full flex-col xl:w-[49%]">
+                    <div className="flex w-full flex-col lg:w-[49%]">
                       <label className="text-textLightColor">
                         SubSection Title
                       </label>
@@ -291,19 +313,36 @@ const SectionForm = ({
                         className=" rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                       />
                     </div>
-                    <div className="flex w-full flex-col xl:w-[49%]">
-                      <label className="text-textLightColor">Video URL</label>
-                      <input
-                        type="text"
-                        name="VideoLink"
-                        value={ssection.VideoLink}
-                        onChange={(e) => handleSubSectionInputChange(i, e)}
-                        pattern=".{3,}"
-                        title="please ensure that field minimum have 3 letters"
-                        required
-                        className=" rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                      />
-                    </div>
+                    {ssection.uploadVideo === true ? (
+                      <div className="flex w-full flex-col lg:w-[49%]">
+                        <label className="text-textLightColor">
+                          Upload Video
+                        </label>
+                        <VideoUpload
+                          courseId={courseId}
+                          setUploadVideoLink={setUploadVideoLink}
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex w-full flex-col lg:w-[49%]">
+                          <label className="text-textLightColor">
+                            Video URL
+                          </label>
+                          <input
+                            type="text"
+                            name="VideoLink"
+                            value={ssection.VideoLink}
+                            onChange={(e) => handleSubSectionInputChange(i, e)}
+                            pattern=".{3,}"
+                            title="please ensure that field minimum have 3 letters"
+                            required
+                            className=" rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                      </>
+                    )}
+
                     <div className="flex w-full flex-col">
                       <label className="text-textLightColor">
                         SubSection Description
@@ -352,24 +391,24 @@ const SectionForm = ({
                               Remove Quiz
                             </button>
                           )}
-
                           <label className="text-textLightColor">
                             {`Question - ${quizIndex + 1} `}
                           </label>
-                          <input
-                            type="text"
-                            name={`question-${i}-${quizIndex}`}
-                            value={quiz.question}
-                            onChange={(e) =>
-                              handleQuizTitleInputChange(i, quizIndex, e)
-                            }
-                            required
-                            className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                          />
-                          <div className="flex w-full justify-end">
+                          <div className="flex flex-col justify-center gap-5 lg:flex-row lg:items-center">
+                            <input
+                              type="text"
+                              name={`question-${i}-${quizIndex}`}
+                              value={quiz.question}
+                              onChange={(e) =>
+                                handleQuizTitleInputChange(i, quizIndex, e)
+                              }
+                              required
+                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6 lg:w-[80%]"
+                            />
+
                             <button
                               type="button"
-                              className="my-3 rounded-md bg-textLightColor p-2 text-white"
+                              className="my-3 rounded-md bg-textLightColor p-2 text-white lg:w-[20%]"
                               onClick={(e) =>
                                 handleAddQuizOptions(i, quizIndex)
                               }
@@ -377,12 +416,11 @@ const SectionForm = ({
                               Add Options
                             </button>
                           </div>
-
                           <div className="flex flex-wrap gap-3">
                             {quiz.options.map((option, optionIndex) => (
                               <div
                                 key={optionIndex}
-                                className="flex w-full flex-col  xl:w-[49%]"
+                                className="flex w-full flex-col  lg:w-[49%]"
                               >
                                 <label className="text-textLightColor">{`Option ${
                                   optionIndex + 1
@@ -405,6 +443,7 @@ const SectionForm = ({
                                   />
                                   {quiz.options.length > 2 && (
                                     <button
+                                      type="button"
                                       className="rounded-sm border text-xl text-textLightColor"
                                       onClick={() =>
                                         handleRemoveQuizOptions(
@@ -421,7 +460,6 @@ const SectionForm = ({
                               </div>
                             ))}
                           </div>
-
                           {/* Answer input field*/}
                           <hr className="my-3 border xl:w-[100%]" />
                           <div className="flex flex-col">
@@ -441,7 +479,6 @@ const SectionForm = ({
                               className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                             />
                           </div>
-
                           {quizIndex === ssection.quizInputs.length - 1 && (
                             <button
                               type="button"
