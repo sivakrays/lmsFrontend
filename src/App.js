@@ -23,6 +23,7 @@ import SuperAdminLogin from "./Admin/superAdmin/superAdminLogin";
 import AddToCart from "./Pages/AddToCart/AddToCart";
 import { authContext } from "./Context/AuthContext";
 import VideoUpload from "./Components/VideoUpload/VideoUpload";
+import Learning from "./Pages/Learning/Learning";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -57,6 +58,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <MyLearnings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/learning/:id"
+            element={
+              <ProtectedRoute>
+                <Learning />
               </ProtectedRoute>
             }
           />

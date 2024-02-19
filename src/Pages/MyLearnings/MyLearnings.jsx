@@ -26,7 +26,7 @@ const MyLearnings = () => {
             Authorization: `Bearer ${refreshedToken}`,
             Accept: "application/json",
             pageNo: 0,
-            pageSize: 4,
+            pageSize: 6,
             // tenantId: "public",
           },
         };

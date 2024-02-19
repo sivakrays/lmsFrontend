@@ -53,7 +53,6 @@ const MyVideo = () => {
           headers: {
             Authorization: `Bearer ${bearer_token}`,
             courseId: id.id,
-            // tenantId: "public",
           },
         };
 
@@ -163,12 +162,15 @@ const MyVideo = () => {
       accordionDetails &&
       accordionDetails.length > 0 &&
       accordionDetails[accordionDetails.length - 1];
+
     const lastSubSection =
       lastSection &&
       lastSection.subSections &&
       lastSection.subSections > 0 &&
       lastSection.subSections[lastSection.subSections.length - 1];
+
     const lastItemTitle = lastSubSection && lastSubSection.title;
+
     const currentTitle =
       accordionDetails &&
       accordionDetails.length > 0 &&
@@ -231,9 +233,52 @@ const MyVideo = () => {
 
   return (
     <>
-      <div className=" hidden w-full lg:flex ">
+      <div className="  w-full lg:flex ">
         {accordionDetails && accordionDetails.length > 0 ? (
           <>
+            <div className="h-auto w-full lg:w-[70%]">
+              {isQuizClicked ? (
+                <>
+                  <div className="sticky right-0 top-0  h-[110vh] lg:w-full">
+                    <Quiz
+                      setRewardModal={setRewardModal}
+                      setEnergyPoint={setEnergyPoint}
+                      energyPoint={energyPoint}
+                      quizzArray={quizzArray && quizzArray}
+                      subSectionId={subSectionId}
+                      setCurrentPage={setCurrentPage}
+                      currentPage={currentPage}
+                      setBadge={setBadge}
+                      badge={badge}
+                      setUrl={setUrl}
+                      setIsQuizClicked={setIsQuizClicked}
+                    />
+                    {isrewardModal && (
+                      <Modal
+                        isrewardModal={isrewardModal}
+                        setRewardModal={setRewardModal}
+                        energyPoint={energyPoint}
+                        currentIndex={currentIndex}
+                        setCurrentIndex={setCurrentIndex}
+                        isQuizClicked={isQuizClicked}
+                        setIsQuizClicked={setIsQuizClicked}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        setSubSectionLength={setSubSectionLength}
+                        subSectionLength={subSectionLength}
+                        setSubSectionId={setSubSectionId}
+                        subSectionId={subSectionId}
+                        sectionId={sectionId}
+                        handleVideoClick={handleVideoClick}
+                      />
+                    )}
+                  </div>
+                </>
+              ) : (
+                myLearningVideo()
+              )}
+            </div>
+
             <div className="  w-full  pl-1  pt-20 md:pt-28  lg:w-[30%] lg:pt-28">
               <div className=" h-auto " data-testid="accordion">
                 <Accordion
@@ -257,66 +302,6 @@ const MyVideo = () => {
                   activeSection={activeSection}
                 />
               </div>
-              {/* <div
-                className=" float-right mr-3 w-28 cursor-pointer   rounded-md bg-yellowColor p-2"
-                onClick={handleCollapse}
-              >
-                {isVideoAll ? (
-                  <p className=" text-center  text-sm font-semibold text-textColor">
-                    Collapse All
-                  </p>
-                ) : (
-                  <p className="text-center text-sm font-semibold text-textColor">
-                    {" "}
-                    Expand All
-                  </p>
-                )}
-              </div> */}
-            </div>
-
-            <div className="h-auto w-full lg:w-[70%]">
-              {isQuizClicked ? (
-                <>
-                  <div className="sticky right-0 top-0  h-[110vh] lg:w-full">
-                    <Quiz
-                      setRewardModal={setRewardModal}
-                      setEnergyPoint={setEnergyPoint}
-                      energyPoint={energyPoint}
-                      quizzArray={quizzArray && quizzArray}
-                      subSectionId={subSectionId}
-                      setCurrentPage={setCurrentPage}
-                      currentPage={currentPage}
-                      setBadge={setBadge}
-                      badge={badge}
-                      setUrl={setUrl}
-                      // setCurrentIndex={setCurrentIndex}
-                      // currentIndex={currentIndex}
-                      setIsQuizClicked={setIsQuizClicked}
-                    />
-                    {isrewardModal && (
-                      <Modal
-                        isrewardModal={isrewardModal}
-                        setRewardModal={setRewardModal}
-                        energyPoint={energyPoint}
-                        currentIndex={currentIndex}
-                        setCurrentIndex={setCurrentIndex}
-                        isQuizClicked={isQuizClicked}
-                        setIsQuizClicked={setIsQuizClicked}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        setSubSectionLength={setSubSectionLength}
-                        subSectionLength={subSectionLength}
-                        setSubSectionId={setSubSectionId}
-                        subSectionId={subSectionId}
-                        sectionId={sectionId}
-                        handleVideoClick={handleVideoClick}
-                      />
-                    )}
-                  </div>
-                </>
-              ) : (
-                myLearningVideo()
-              )}
             </div>
           </>
         ) : (
@@ -329,91 +314,6 @@ const MyVideo = () => {
               <Loader color={"#334456"} height={"4%"} width={"4%"} />
             </div>
           </>
-        )}
-      </div>
-
-      {/* small device view  */}
-
-      <div className=" flex  w-full flex-col  pt-14 md:pt-20 lg:hidden">
-        {accordionDetails && accordionDetails.length > 0 ? (
-          <>
-            <div className=" mt-6 w-full  ">
-              {isQuizClicked ? (
-                <>
-                  <div className="">
-                    <Quiz
-                      setRewardModal={setRewardModal}
-                      setEnergyPoint={setEnergyPoint}
-                      energyPoint={energyPoint}
-                      quizzArray={quizzArray && quizzArray}
-                      subSectionId={subSectionId}
-                      setCurrentPage={setCurrentPage}
-                      currentPage={currentPage}
-                      setBadge={setBadge}
-                      badge={badge}
-                      setCurrentIndex={setCurrentIndex}
-                      setUrl={setUrl}
-                      currentIndex={currentIndex}
-                      setIsQuizClicked={setIsQuizClicked}
-                    />
-                    {isrewardModal && (
-                      <Modal
-                        isrewardModal={isrewardModal}
-                        setRewardModal={setRewardModal}
-                        energyPoint={energyPoint}
-                        currentIndex={currentIndex}
-                        setCurrentIndex={setCurrentIndex}
-                        isQuizClicked={isQuizClicked}
-                        setIsQuizClicked={setIsQuizClicked}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        setSubSectionLength={setSubSectionLength}
-                        subSectionLength={subSectionLength}
-                        setSubSectionId={setSubSectionId}
-                        subSectionId={subSectionId}
-                        sectionId={sectionId}
-                        handleVideoClick={handleVideoClick}
-                      />
-                    )}
-                  </div>
-                </>
-              ) : (
-                myLearningVideo()
-              )}
-            </div>
-            <div
-              className={` ${
-                isNextButtonVisible ? "mt-20" : "mt-2"
-              } pl-1 lg:mt-2`}
-            >
-              <div className="  h-auto  w-full">
-                <Accordion
-                  accordianDetails={accordionDetails}
-                  path="MyVideo"
-                  setUrl={setUrl}
-                  // isVideoAllOpen={isVideoAll}
-                  handleQuizOpen={handleQuizOpen}
-                  isQuizClicked={isQuizClicked}
-                  setSectionId={setSectionId}
-                  setSubSectionLength={setSubSectionLength}
-                  sectionIndex={sectionIndex}
-                  setSectionIndex={setSectionIndex}
-                  subSectionLength={subSectionLength}
-                  activeVideo={activeVideo}
-                  activeQuizItem={activeQuizItem}
-                  setActiveQuizItem={setActiveQuizItem}
-                  setActiveVideo={setActiveVideo}
-                  handleVideoClick={handleVideoClick}
-                  handleQuizItemClick={handleQuizItemClick}
-                  activeSection={activeSection}
-                />
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex h-[100vh] w-full items-center justify-center">
-            <Loader color={"#334456"} height={"8%"} width={"8%"} />
-          </div>
         )}
       </div>
     </>

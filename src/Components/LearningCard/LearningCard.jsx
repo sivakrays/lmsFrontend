@@ -5,7 +5,8 @@ import star from "../../Assets/courseCard/star.png";
 const LearningCard = ({ cardDetails }) => {
   const navigate = useNavigate();
   const goToVideo = () => {
-    navigate(`/myvideo/${cardDetails.courseId}`);
+    // navigate(`/myvideo/${cardDetails.courseId}`);
+    navigate(`/learning/${cardDetails.courseId}`);
   };
   return (
     <div className="p-4  " onClick={goToVideo} data-testid="learningCard">
