@@ -22,9 +22,9 @@ export const AuthContextProvider = ({ children }) => {
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-  const [totalBronze, setTotalBronze] = useState(storedBronze || "");
-  const [totalSilver, setTotalSilver] = useState(storedSilver || "");
-  const [totalGold, setTotalGold] = useState(storedGold || "");
+  const [totalBronze, setTotalBronze] = useState(storedBronze || null);
+  const [totalSilver, setTotalSilver] = useState(storedSilver || null);
+  const [totalGold, setTotalGold] = useState(storedGold || null);
 
   const [user, setUser] = useState(localStorage.getItem("Current User"));
 
@@ -147,6 +147,9 @@ export const AuthContextProvider = ({ children }) => {
         totalBronze,
         totalSilver,
         totalGold,
+        setTotalBronze,
+        setTotalGold,
+        setTotalSilver,
       }}
     >
       {children}

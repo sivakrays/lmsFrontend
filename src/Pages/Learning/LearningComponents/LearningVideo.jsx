@@ -3,8 +3,6 @@ import { Player } from "video-react";
 import ReactPlayer from "react-player";
 
 const LearningVideo = ({ videoUrl, autoPlayNext, playPrevious, isLast }) => {
-  console.log(videoUrl);
-
   return (
     <React.Fragment>
       <div className="relative">

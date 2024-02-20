@@ -8,19 +8,7 @@ import gold from "../../Assets/reward/Gold Medal.png";
 const BadgeDetail = () => {
   const { totalBronze, totalSilver, totalGold } = useContext(authContext);
 
-  //   const [totalBronze, setTotalBronze] = useState(
-  //     localStorage.getItem("bronze"),
-  //   );
-  //   const [totalSilver, setTotalSilver] = useState(
-  //     localStorage.getItem("silver"),
-  //   );
-  //   const [totalGold, setTotalGold] = useState(localStorage.getItem("gold"));
-
-  //   useEffect(() => {
-  //     setTotalBronze(localStorage.getItem("bronze"));
-  //     setTotalSilver(localStorage.getItem("silver"));
-  //     setTotalGold(localStorage.getItem("gold"));
-  //   }, [isBadgeUpdate]);
+  console.log(totalBronze, totalSilver, totalGold, "from badge");
 
   return (
     <>

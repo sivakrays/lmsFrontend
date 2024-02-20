@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Pagination from "./Pagination";
+import { post } from "../../../ApiCall/ApiCall";
+import { authContext } from "../../../Context/AuthContext";
 
 const LearningQuiz = ({
   quizArray,
@@ -9,9 +11,19 @@ const LearningQuiz = ({
   setClickedOption,
   energyPoints,
   setEnergyPoints,
+  clickedSubSection,
 }) => {
   const [currentAns, setCurrentAns] = useState("");
+  const {
+    setTotalBronze,
+    setTotalSilver,
+    setTotalGold,
+    totalBronze,
+    totalSilver,
+    totalGold,
+  } = useContext(authContext);
 
+  console.log(totalBronze, totalSilver, totalGold, "from Quiz");
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -26,16 +38,89 @@ const LearningQuiz = ({
   const handleNext = () => {
     if (clickedOption === currentAns) {
       setEnergyPoints(energyPoints + 1);
-
+      alert("true");
       setTimeout(() => {
-        setCurrentPage(currentPage + 1);
         setClickedOption("");
+        setCurrentPage(currentPage + 1);
       }, 500);
     } else {
+      alert("false");
+
+      setClickedOption("");
       setCurrentPage(currentPage + 1);
     }
   };
-  const handleSubmit = () => {
+
+  const submitEnergyPoint = () => {
+    setEnergyPoints(energyPoints + 1);
+    console.log(energyPoints);
+  };
+
+  const sendPoints = async (increaseEnergy) => {
+    switch (increaseEnergy) {
+      case 1:
+        var badge = 3;
+        break;
+      case 2:
+        var badge = 2;
+        break;
+      case 3:
+        var badge = 1;
+        break;
+      default:
+        var badge = 0;
+    }
+
+    try {
+      const currentToken = JSON.parse(localStorage.getItem("token"));
+      const userID = localStorage.getItem("userID");
+
+      if (energyPoints !== 0 && badge !== 0) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+
+        const points = {
+          userId: userID,
+          energyPoints: increaseEnergy,
+          badge: badge,
+          subSectionId: clickedSubSection,
+        };
+
+        console.log(points);
+
+        const res = await post("/user/saveBadge", points, config);
+        const bronze = res.data.bronze;
+        const silver = res.data.silver;
+        const gold = res.data.gold;
+        localStorage.setItem("bronze", bronze);
+        localStorage.setItem("silver", silver);
+        localStorage.setItem("gold", gold);
+        // updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
+        // setTotalBronze(res.data.bronze);
+        // setTotalSilver(res.data.silver);
+        // setTotalGold(res.data.gold);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (clickedOption === currentAns) {
+      setEnergyPoints(energyPoints + 1);
+      const increaseEnergy = energyPoints + 1;
+      console.log(increaseEnergy);
+      alert("true", increaseEnergy);
+      sendPoints(increaseEnergy);
+    } else {
+      alert("false");
+      console.log(energyPoints);
+      sendPoints(energyPoints);
+    }
     setTimeout(() => {
       setClickedOption("");
     }, 500);

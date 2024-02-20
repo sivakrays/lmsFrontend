@@ -20,10 +20,7 @@ const Footer = () => {
               <span className="text-lg font-bold text-textColor">desk</span>
             </div>
             <div className="footerDes text-textLightColor">
-              Unveiling the natural genius within each child is our passion at
-              Neetie. Our commitment is to foster and guide young minds with
-              meticulously designed lessons, finely crafted for children between
-              3 and 12 years old.
+              {data[0].footerContent}
             </div>
           </div>
           <div className="p-375px">

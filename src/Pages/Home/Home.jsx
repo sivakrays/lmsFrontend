@@ -1,11 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
 import data from "../../Data/Data";
-import feature1 from "../../Assets/courseCard/c1.png";
-import feature2 from "../../Assets/courseCard/c2.png";
-import feature3 from "../../Assets/courseCard/c3.png";
-
-import hero from "../../Assets/HeroSection/hero.png";
 
 import course1 from "../../Assets/Home/course1.jpg";
 import course2 from "../../Assets/Home/course2.jpg";
@@ -124,23 +119,20 @@ const Home = () => {
         <div className="hero-container mx-auto flex w-[85%] flex-wrap gap-5 sm:gap-0">
           <div className="order-last flex flex-col justify-center gap-5 md:p-7 lg:order-first lg:w-[40%]">
             <p className="dayOne text-4xl text-textColor">
-              Empowering Every Child's Genius
+              {data[0].landingHeading}
             </p>
             <p className="text-lg font-semibold text-textColor">
-              Partnering with Neetie to Unleash Potential
+              {data[0].landingSubHeading}
             </p>
             <p className="text-justify text-sm text-textLightColor">
-              Unveiling the natural genius within each child is our passion at{" "}
-              {data[0].title}. Our commitment is to foster and guide young minds
-              with meticulously designed lessons, finely crafted for children
-              between 3 and 12 years old.
+              {data[0].landingContent}
             </p>
             <div>
               <Button path="/course" name="Explore courses" />
             </div>
           </div>
           <div className="order-first flex justify-center sm:p-9  lg:order-last lg:w-[60%]">
-            <img src={hero} alt="" className="heroImg" />
+            <img src={data[0].landingImg} alt="" className="heroImg" />
           </div>
         </div>
 
@@ -168,18 +160,17 @@ const Home = () => {
           <div className="courseLeft flex flex-col gap-3 rounded border-textColor py-3 sm:mx-auto sm:w-[60%] md:mb-7 md:items-center md:border-2 md:px-2 md:text-center lg:mb-0 lg:ml-4 lg:w-[30%] lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:px-0 lg:py-0">
             <div className="courseSVG ">
               <img
-                src={feature1}
+                src={data[0].featureImg1}
                 alt=""
                 className="w-14 rounded border border-textColor p-1 lg:w-28 xl:w-20   "
               />
             </div>
             <div className="courseDES flex flex-col">
               <div className="desHeading dayOne text-textColor lg:text-sm xl:text-xl">
-                Best Platform
+                {data[0].featureHeading1}
               </div>
               <div className="desText text-textLightColor lg:text-sm ">
-                "Elevating learning journeys with engaging content for young
-                minds."
+                {data[0].featureContent1}
               </div>
             </div>
             <div className="divider hidden h-14 rounded border-r-4 border-textLightColor lg:flex"></div>
@@ -189,18 +180,17 @@ const Home = () => {
           <div className="courseCenter flex flex-col gap-3 rounded border-textColor py-3 sm:mx-auto sm:w-[60%] md:mb-7 md:items-center md:border-2 md:px-2 md:text-center lg:mb-0 lg:w-[30%] lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:px-0 lg:py-0">
             <div className="courseSVG ">
               <img
-                src={feature2}
+                src={data[0].featureImg2}
                 alt=""
                 className="w-14 rounded border border-textColor p-1 lg:w-28 xl:w-20"
               />
             </div>
             <div className="courseDES flex flex-col">
               <div className="desHeading dayOne text-textColor lg:text-sm xl:text-xl">
-                Great materials
+                {data[0].featureHeading2}
               </div>
               <div className="desText text-textLightColor lg:text-sm">
-                "Neetie: Exceptional materials, elevating learning for young
-                minds worldwide.
+                {data[0].featureContent2}
               </div>
             </div>
             <div className="divider hidden h-14 rounded border-r-4 border-textLightColor lg:flex"></div>
@@ -210,18 +200,17 @@ const Home = () => {
           <div className="courseRight flex flex-col gap-3 rounded border-textColor py-3 sm:mx-auto sm:w-[60%] md:mb-7 md:items-center md:border-2 md:px-2 md:text-center lg:mb-0 lg:mr-4 lg:w-[30%] lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:px-0 lg:py-0">
             <div className="courseSVG ">
               <img
-                src={feature3}
+                src={data[0].featureImg3}
                 alt=""
                 className="w-14 rounded border border-textColor p-1 lg:w-28 xl:w-20"
               />
             </div>
             <div className="courseDES flex flex-col">
               <div className="desHeading dayOne text-textColor lg:text-sm xl:text-xl">
-                Professional Course
+                {data[0].featureHeading3}
               </div>
               <div className="desText text-textLightColor lg:text-sm">
-                " Elevating young learners with premium, expert-led professional
-                courses."
+                {data[0].featureContent3}
               </div>
             </div>
           </div>
@@ -231,11 +220,10 @@ const Home = () => {
           className="courseHeading flex flex-col items-center justify-center gap-3 sm:gap-3 md:gap-5 lg:flex-row xl:gap-16 xl:py-14"
         >
           <p className="dayOne text-2xl text-textColor md:text-3xl">
-            Featured Courses
+            {data[0].featureMainHeading}
           </p>
           <p className=" sm:text-md px-4 text-justify text-textLightColor sm:w-[60%] sm:text-center md:w-[45%] md:text-[14px] lg:w-[35%] xl:w-[25%] xl:text-sm">
-            "Explore Neetie's standout courses, expertly designed to ignite
-            curiosity and foster lifelong learning journeys."
+            {data[0].featureMainContent}
           </p>
         </div>
         <div className="cardSection">
@@ -296,7 +284,7 @@ const Home = () => {
       <section className="category pb-16 pt-7">
         <div className="categoryHeading">
           <p className="dayOne p-10 pb-12 text-center text-2xl text-textColor">
-            Feature of this course
+            {data[0].featureCardHeading}
           </p>
         </div>
         <CategorySection />

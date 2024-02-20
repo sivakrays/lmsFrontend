@@ -111,8 +111,8 @@ const DetailsAccordion = ({
                           {subSection.title}
                         </p>
                       </div>
-                      {subSection.quizList &&
-                        subSection.quizList.length > 0 && (
+                      {subSection.quizList[0] &&
+                        subSection.quizList[0].question.length !== 0 && (
                           <div
                             className={`ml-10 flex cursor-pointer px-5 hover:bg-gray-500 hover:text-white  ${
                               clickedQuiz === subSection.quizList[0].quizId
@@ -124,6 +124,7 @@ const DetailsAccordion = ({
                               handleClickQuiz(
                                 subSection.quizList,
                                 subSection.quizList[0].quizId,
+                                subSection.subSectionId,
                               )
                             }
                           >

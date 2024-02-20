@@ -14,7 +14,7 @@ const Learning = () => {
 
   const [isQuizVisible, setIsQuizVisible] = useState(false);
 
-  const [clickedSubSection, setClickedSubSection] = useState("");
+  const [clickedSubSection, setClickedSubSection] = useState(null);
   const [clickedQuiz, setClickedQuiz] = useState("");
 
   const [quizArray, setQuizArray] = useState([]);
@@ -38,15 +38,16 @@ const Learning = () => {
     setEnergyPoints(0);
   };
 
-  const handleClickQuiz = (quiz, quizId) => {
+  const handleClickQuiz = (quiz, quizId, subSectionId) => {
+    setClickedSubSection(subSectionId);
     setCurrentPage(1);
     setIsQuizVisible(true);
     setQuizArray(quiz);
     setClickedQuiz(quizId);
     setClickedOption("");
-    setClickedSubSection("");
     setEnergyPoints(0);
   };
+
   // fetch Course learning details based on courseID
   useEffect(() => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
@@ -82,8 +83,8 @@ const Learning = () => {
             res.data.sections[lastSectionIndex].subSections[lastSubSectionIndex]
               .subSectionId;
 
-          setLastSection(lastSectionId); // Assuming you have separate state variables for IDs
-          setLastSubSection(lastSubSectionId); // Assuming you have separate state variables for IDs
+          setLastSection(lastSectionId);
+          setLastSubSection(lastSubSectionId);
         }
       } catch (err) {
         console.log("error", err);
@@ -197,6 +198,7 @@ const Learning = () => {
                 setClickedOption={setClickedOption}
                 energyPoints={energyPoints}
                 setEnergyPoints={setEnergyPoints}
+                clickedSubSection={clickedSubSection}
               />
             ) : (
               <LearningVideo

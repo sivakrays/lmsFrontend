@@ -14,27 +14,29 @@ import stars from "../../Assets/Promo/Star.png";
 import blueStar from "../../Assets/Promo/blueStar.svg";
 import { Link } from "react-router-dom";
 
+import data from "../../Data/Data";
+
 const PromoVideo = () => {
   const systamaticCard = [
     {
       img: sym1,
-      title: "Organized Syllabus:",
-      des: "Comprehensive, sequential content fostering holistic educational growth.",
+      title: data[0].systematicCardHeading1,
+      des: data[0].systematicCardContent1,
     },
     {
       img: sym2,
-      title: "Structured Curriculum:",
-      des: "Develop comprehensive curriculum, align with educational standards.",
+      title: data[0].systematicCardHeading2,
+      des: data[0].systematicCardContent2,
     },
     {
       img: sym3,
-      title: "Effective Instruction:",
-      des: "Utilize varied teaching methods, encourage interaction, critical thinking.",
+      title: data[0].systematicCardHeading3,
+      des: data[0].systematicCardContent3,
     },
     {
       img: sym4,
-      title: "Continuous Monitoring:",
-      des: "Monitor progress, adapt teaching strategies, cater to needs.",
+      title: data[0].systematicCardHeading4,
+      des: data[0].systematicCardContent4,
     },
   ];
 
@@ -56,16 +58,15 @@ const PromoVideo = () => {
           <img src={stars} alt="" className="animated-element h-8 w-8" />
         </div>
         <p className="promoHeading dayOne pt-6 text-center text-3xl text-textColor">
-          Watch our promo video
+          {data[0].promoHeading}
         </p>
         <p className="mt-4 pb-6 text-center text-xs text-textLightColor">
-          "Discover Neetie's essence in our captivating, defining promotional
-          video."
+          {data[0].promoSubHeading}
         </p>
 
         <div className="video mx-auto flex w-3/4 items-center justify-center py-8">
           <video
-            src={promo}
+            src={data[0].promoVideo}
             width="650"
             height="500"
             controls
@@ -125,7 +126,7 @@ const PromoVideo = () => {
                     to={"/course"}
                     className="mt-1.5 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold text-textColor hover:text-textLightColor sm:mt-3"
                   >
-                    View Course {"->"}
+                    {data[0].systematicCardButtonText} {"->"}
                   </Link>
                 </div>
               </div>

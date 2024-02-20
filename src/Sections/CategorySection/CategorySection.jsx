@@ -5,27 +5,27 @@ import readBook from "../../Assets/category/readBook.png";
 import pencilKid from "../../Assets/category/pencilKid.png";
 import flyingBook from "../../Assets/category/flyingBook.png";
 
+import data from "../../Data/Data";
+
 const CategorySection = () => {
   const categoryData = [
     {
       id: 1,
-      title: "Design",
+      title: data[0].featureBoxHeading1,
       image: pencilKid,
-      des: "Neetie’s Design course immerses students in creative exploration, leveraging industry tools for innovative and impactful solutions.",
+      des: data[0].featureBoxContent1,
     },
     {
       id: 2,
-      title: "Business",
+      title: data[0].featureBoxHeading2,
       image: readBook,
-
-      des: "Neetie’s Business course offers practical insights, real-world case studies, and mentorship for entrepreneurial success.",
+      des: data[0].featureBoxContent2,
     },
     {
       id: 3,
-      title: "Marketing",
+      title: data[0].featureBoxHeading3,
       image: flyingBook,
-
-      des: "Neetie’s Marketing course blends theory with hands-on practice, utilizing industry trends and innovative strategies for success.",
+      des: data[0].featureBoxContent3,
     },
   ];
 
@@ -47,7 +47,7 @@ const CategorySection = () => {
               </h1>
             </div>
             <div className="  md:px-4">
-              <p className="text-textLightColor text-center text-sm ">
+              <p className="text-center text-sm text-textLightColor ">
                 {item.des}
               </p>
             </div>
