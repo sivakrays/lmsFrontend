@@ -23,7 +23,6 @@ const LearningQuiz = ({
     totalGold,
   } = useContext(authContext);
 
-  console.log(totalBronze, totalSilver, totalGold, "from Quiz");
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
