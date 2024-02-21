@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./VideoUpload.css";
 import { post } from "../../ApiCall/ApiCall";
 
-const VideoUpload = ({ courseId, setUploadVideoLink }) => {
+const VideoUpload = ({ courseId, setUploadVideoLink, sectionTitle }) => {
   const [video, setVideo] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -17,7 +17,7 @@ const VideoUpload = ({ courseId, setUploadVideoLink }) => {
 
     try {
       const res = await post(
-        `/user/uploadFile?courseId=${courseId}`,
+        `/user/uploadFile?courseId=${sectionTitle}`,
         formData,
         {
           headers: {

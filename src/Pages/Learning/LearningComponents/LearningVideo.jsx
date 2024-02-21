@@ -3,6 +3,10 @@ import { Player } from "video-react";
 import ReactPlayer from "react-player";
 
 const LearningVideo = ({ videoUrl, autoPlayNext, playPrevious, isLast }) => {
+  const videoEnded = () => {
+    autoPlayNext();
+  };
+
   return (
     <React.Fragment>
       <div className="relative">
@@ -12,7 +16,7 @@ const LearningVideo = ({ videoUrl, autoPlayNext, playPrevious, isLast }) => {
           height={"81vh"}
           url={videoUrl}
           playing={true}
-          onEnded={autoPlayNext}
+          onEnded={videoEnded}
           style={{
             backgroundColor: "#FCFAF0",
           }}

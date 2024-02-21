@@ -30,27 +30,23 @@ const Home = () => {
 
   useEffect(() => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
-    setToken(currentToken);
 
     const fetchCourse = async () => {
       try {
-        const refreshedToken = await checkAndRefreshToken(currentToken);
-        setToken(refreshedToken);
-
         const config = {
           headers: {
-            Authorization: `Bearer ${refreshedToken}`,
+            Authorization: `Bearer ${currentToken}`,
             Accept: "application/json",
             pageNo: 0,
             pageSize: 6,
-            // tenantId: "public",
           },
         };
 
         const res = await get("/user/getAllCourse", config);
         if (res.status === 200 && res.data.content) {
           setLoading(false);
-          setCourseData(res.data.content);
+          if (res.data.content.length !== courseData)
+            setCourseData(res.data.content);
         }
       } catch (err) {
         console.log("error", err);
@@ -62,7 +58,7 @@ const Home = () => {
     } else {
       console.log("Token not present");
     }
-  }, [token]);
+  }, []);
 
   const BeforeLoginData = [
     {

@@ -5,6 +5,7 @@ import { get } from "../../ApiCall/ApiCall";
 import LearningQuiz from "./LearningComponents/LearningQuiz";
 import LearningVideo from "./LearningComponents/LearningVideo";
 import DetailsAccordion from "./LearningComponents/DetailsAccordion";
+import Loader from "../../Components/Loader/Loader";
 
 const Learning = () => {
   const { id } = useParams();
@@ -24,7 +25,12 @@ const Learning = () => {
 
   const [isLast, setIsLast] = useState(null);
 
+  // Section Highlighted state
+  const [clickedAccordion, setClickedAccordion] = useState(-1);
+
   // AutoPlay states
+
+  const [finishContent, setFinishContent] = useState(false);
 
   const [lastSection, setLastSection] = useState(null);
   const [lastSubSection, setLastSubSection] = useState(null);
@@ -48,6 +54,8 @@ const Learning = () => {
     setEnergyPoints(0);
   };
 
+  const [apiLoading, setApiLoading] = useState(true);
+
   // fetch Course learning details based on courseID
   useEffect(() => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
@@ -63,7 +71,9 @@ const Learning = () => {
 
         const res = await get("/user/getCourseById", config);
         setAccordionDetails(res.data.sections);
-
+        if (res) {
+          setApiLoading(false);
+        }
         if (
           res.data.sections.length > 0 &&
           res.data.sections[0].subSections.length > 0
@@ -85,6 +95,7 @@ const Learning = () => {
 
           setLastSection(lastSectionId);
           setLastSubSection(lastSubSectionId);
+          setClickedAccordion(res.data.sections[0].sectionId);
         }
       } catch (err) {
         console.log("error", err);
@@ -124,23 +135,29 @@ const Learning = () => {
       setClickedOption("");
       setClickedQuiz("");
       setEnergyPoints(0);
+
+      // disable the quiz Visible section
+      setIsQuizVisible(false);
     } else {
       // If there is no next subsection in the current section, check if there is a next section
       if (currentSectionIndex + 1 < accordionDetails.length) {
         const nextSection = accordionDetails[currentSectionIndex + 1];
+        console.log(nextSection.sectionId);
         setVideoUrl(nextSection.subSections[0].link);
         setClickedSubSection(nextSection.subSections[0].subSectionId);
         setClickedOption("");
         setClickedQuiz("");
         setEnergyPoints(0);
+        setIsQuizVisible(false);
+        setClickedAccordion(nextSection.sectionId);
       } else {
         // You've reached the end of the course
         setIsLast(true);
+        alert("course Ended");
         console.log("End of the course");
       }
     }
   };
-
   const playPrevious = () => {
     // Find the current section and subsection index
     const currentSectionIndex = accordionDetails.findIndex((section) =>
@@ -177,6 +194,7 @@ const Learning = () => {
         setClickedOption("");
         setClickedQuiz("");
         setEnergyPoints(0);
+        setClickedAccordion(prevSection.sectionId);
       } else {
         // You're already at the beginning of the course
         console.log("Already at the beginning of the course");
@@ -187,47 +205,62 @@ const Learning = () => {
   return (
     <>
       <div className="min-h-screen  sm:pt-28">
-        <div className="flex flex-col lg:flex-row">
-          <div className="lg:w-[72%]">
-            {isQuizVisible === true ? (
-              <LearningQuiz
-                quizArray={quizArray}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                clickedOption={clickedOption}
-                setClickedOption={setClickedOption}
-                energyPoints={energyPoints}
-                setEnergyPoints={setEnergyPoints}
-                clickedSubSection={clickedSubSection}
-              />
-            ) : (
-              <LearningVideo
-                videoUrl={videoUrl}
-                lastSection={lastSection}
-                lastSubSection={lastSubSection}
-                autoPlayNext={autoPlayNext}
-                playPrevious={playPrevious}
-                isLast={isLast}
-              />
-            )}
-          </div>
-          <div className=" right-0 top-28 lg:fixed lg:w-[28%]">
-            <div>
-              <p className="text-textLightColorr flex w-full items-center justify-between  gap-3 border border-b-0 border-gray-200 bg-textColor p-5 font-semibold text-white">
-                Course Contents
-              </p>
+        {apiLoading === true ? (
+          <>
+            <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
+              <Loader color={"#334456"} height={"10%"} width={"10%"} />
+            </div>
 
-              <DetailsAccordion
-                accordionDetails={accordionDetails}
-                setVideoUrl={setVideoUrl}
-                handleClickSubSection={handleClickSubSection}
-                clickedSubSection={clickedSubSection}
-                handleClickQuiz={handleClickQuiz}
-                clickedQuiz={clickedQuiz}
-              />
+            <div className="hidden h-[82vh] w-full items-center justify-center bg-herobg sm:flex">
+              <Loader color={"#334456"} height={"4%"} width={"4%"} />
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col lg:flex-row">
+            <div className="lg:w-[72%]">
+              {isQuizVisible === true ? (
+                <LearningQuiz
+                  quizArray={quizArray}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  clickedOption={clickedOption}
+                  setClickedOption={setClickedOption}
+                  energyPoints={energyPoints}
+                  setEnergyPoints={setEnergyPoints}
+                  clickedSubSection={clickedSubSection}
+                  autoPlayNext={autoPlayNext}
+                />
+              ) : (
+                <LearningVideo
+                  videoUrl={videoUrl}
+                  lastSection={lastSection}
+                  lastSubSection={lastSubSection}
+                  autoPlayNext={autoPlayNext}
+                  playPrevious={playPrevious}
+                  isLast={isLast}
+                />
+              )}
+            </div>
+            <div className=" right-0 top-28 lg:fixed lg:w-[28%]">
+              <div>
+                <p className="text-textLightColorr flex w-full items-center justify-between  gap-3 border border-b-0 border-gray-200 bg-textColor p-5 font-semibold text-white">
+                  Course Contents
+                </p>
+
+                <DetailsAccordion
+                  accordionDetails={accordionDetails}
+                  setVideoUrl={setVideoUrl}
+                  handleClickSubSection={handleClickSubSection}
+                  clickedSubSection={clickedSubSection}
+                  handleClickQuiz={handleClickQuiz}
+                  clickedQuiz={clickedQuiz}
+                  setClickedAccordion={setClickedAccordion}
+                  clickedAccordion={clickedAccordion}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

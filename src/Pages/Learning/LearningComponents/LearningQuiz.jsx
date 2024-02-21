@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import { post } from "../../../ApiCall/ApiCall";
 import { authContext } from "../../../Context/AuthContext";
+import success from "../../../Assets/reward/star.png";
+import confetti from "canvas-confetti";
 
 const LearningQuiz = ({
   quizArray,
@@ -12,6 +14,7 @@ const LearningQuiz = ({
   energyPoints,
   setEnergyPoints,
   clickedSubSection,
+  autoPlayNext,
 }) => {
   const [currentAns, setCurrentAns] = useState("");
   const {
@@ -30,20 +33,58 @@ const LearningQuiz = ({
   const currentQuestions =
     quizArray && quizArray.slice(indexOfFirstItem, indexOfLastItem);
 
+  const [motivationBox, setMotivationalBox] = useState(null);
+
   useEffect(() => {
     setCurrentAns(currentQuestions[0].answer - 1);
   }, [currentQuestions]);
 
+  const starsConfeeti = () => {
+    var defaults = {
+      spread: 360,
+      ticks: 50,
+      gravity: 0,
+      decay: 0.94,
+      startVelocity: 30,
+      colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+    };
+
+    function shoot() {
+      confetti({
+        ...defaults,
+        particleCount: 40,
+        scalar: 1.2,
+        shapes: ["star"],
+      });
+
+      confetti({
+        ...defaults,
+        particleCount: 10,
+        scalar: 0.75,
+        shapes: ["circle"],
+      });
+    }
+
+    setTimeout(shoot, 0);
+    setTimeout(shoot, 100);
+    setTimeout(shoot, 200);
+  };
+
   const handleNext = () => {
     if (clickedOption === currentAns) {
       setEnergyPoints(energyPoints + 1);
-      alert("true");
+      confetti({
+        particleCount: 300,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+      // alert("true");
       setTimeout(() => {
         setClickedOption("");
         setCurrentPage(currentPage + 1);
       }, 500);
     } else {
-      alert("false");
+      // alert("false");
 
       setClickedOption("");
       setCurrentPage(currentPage + 1);
@@ -98,6 +139,10 @@ const LearningQuiz = ({
         localStorage.setItem("bronze", bronze);
         localStorage.setItem("silver", silver);
         localStorage.setItem("gold", gold);
+
+        if (res) {
+          autoPlayNext();
+        }
         // updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
         // setTotalBronze(res.data.bronze);
         // setTotalSilver(res.data.silver);
@@ -108,20 +153,85 @@ const LearningQuiz = ({
     }
   };
 
+  const MotivationalBox = () => {
+    return (
+      <>
+        <div className="relative flex h-[95px] w-[240px]  items-center justify-between rounded-md border-2 border-textColor bg-coursebg p-5 boxShadow">
+          <>
+            <button className="absolute  cursor-pointer text-textLightColor">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2.5"
+                stroke="currentColor"
+                className="h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <div>
+              <img src={success} className="w-16 drop-shadow-xl" />
+            </div>
+            <div>
+              <p className="dayOne text-textColor">Nice Work!</p>
+              <p className="text-sm font-semibold text-textColor">
+                Keep Going :)
+              </p>
+            </div>
+          </>
+
+          <>
+            <button className="absolute right-1 top-1 cursor-pointer text-textLightColor ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2.5"
+                stroke="currentColor"
+                className="h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <div>
+              <img src={success} className="w-16 drop-shadow-xl" />
+            </div>
+            <div>
+              <p className="dayOne text-textColor">Better Luck !</p>
+              <p className="text-sm font-semibold text-textColor">
+                Work Hard :)
+              </p>
+            </div>
+          </>
+        </div>
+      </>
+    );
+  };
+
   const handleSubmit = async () => {
     if (clickedOption === currentAns) {
       setEnergyPoints(energyPoints + 1);
       const increaseEnergy = energyPoints + 1;
       console.log(increaseEnergy);
-      alert("true", increaseEnergy);
+      // alert("true", increaseEnergy);
       sendPoints(increaseEnergy);
     } else {
-      alert("false");
+      // alert("false");
       console.log(energyPoints);
       sendPoints(energyPoints);
     }
     setTimeout(() => {
       setClickedOption("");
+      autoPlayNext();
     }, 500);
   };
 
@@ -174,6 +284,7 @@ const LearningQuiz = ({
           </div>
         ))}
       </div>
+      {/* <MotivationalBox /> */}
     </>
   );
 };

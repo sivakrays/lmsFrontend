@@ -321,6 +321,7 @@ const SectionForm = ({
                         <VideoUpload
                           courseId={courseId}
                           setUploadVideoLink={setUploadVideoLink}
+                          sectionTitle={sectionTitle}
                         />
                       </div>
                     ) : (
