@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Nav from "./Components/Nav/Nav";
@@ -35,10 +35,15 @@ const App = () => {
     }
     return children;
   };
+
+  const bronze = localStorage.getItem("bronze") || 0;
+  const silver = localStorage.getItem("silver") || 0;
+  const gold = localStorage.getItem("gold") || 0;
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Nav />}>
+        <Route element={<Nav bronze={bronze} gold={gold} silver={silver} />}>
           <Route path="/" element={<Home />} />
           <Route path="/course" element={<Course />} />
           <Route path="/login" element={<Login />} />
@@ -61,14 +66,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/learning/:id"
-            element={
-              <ProtectedRoute>
-                <Learning />
-              </ProtectedRoute>
-            }
-          />
+
           <Route path="/profile" element={<Profile />} />
           <Route
             path="/myvideo/:id"
@@ -79,6 +77,14 @@ const App = () => {
             }
           />
         </Route>
+        <Route
+          path="/learning/:id"
+          element={
+            <ProtectedRoute>
+              <Learning />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/video" element={<Video />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/reward" element={<Reward />} />

@@ -36,7 +36,7 @@ const Cart = ({ totalCartItem }) => {
   );
 };
 
-const Nav = () => {
+const Nav = ({ bronze, silver, gold }) => {
   const { totalCartItem } = useContext(cartContext);
   const { logout, isTokenValid, user } = useContext(authContext);
   const location = useLocation();
@@ -68,16 +68,14 @@ const Nav = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  const handleLogOut = () => {
-    logout();
+  const handleLogOut = async () => {
+    await logout();
+
     setTimeout(() => {
+      navigate(0);
       navigate("/");
     }, 500);
   };
-
-  // const navigateTo = (path) => {
-  //   navigate(`${path}`, { replace: true });
-  // };
 
   return (
     <>
@@ -108,7 +106,7 @@ const Nav = () => {
                       key={index}
                     >
                       <Link
-                        // onClick={() => navigateTo(item.path)}
+                        reloadDocument
                         to={item.path}
                         className={`text-md  font-semibold ${
                           currentPath === item.path ? "activeNav" : "nav"
@@ -149,7 +147,7 @@ const Nav = () => {
           <div className="nav_btn  z-10 hidden gap-11  lg:flex">
             {isTokenValid ? (
               <div className="relative flex lg:gap-5 xl:gap-8">
-                <BadgeDetail />
+                <BadgeDetail bronze={bronze} silver={silver} gold={gold} />
                 <Cart totalCartItem={totalCartItem} />
                 <div
                   className=" flex cursor-pointer items-center gap-x-2 "

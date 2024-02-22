@@ -4,6 +4,7 @@ import { post } from "../../../ApiCall/ApiCall";
 import { authContext } from "../../../Context/AuthContext";
 import success from "../../../Assets/reward/star.png";
 import confetti from "canvas-confetti";
+import Reward from "../../../Components/Reward/Reward";
 
 const LearningQuiz = ({
   quizArray,
@@ -15,16 +16,20 @@ const LearningQuiz = ({
   setEnergyPoints,
   clickedSubSection,
   autoPlayNext,
+  setBronze,
+  setSilver,
+  setGold,
+  setIsReward,
 }) => {
   const [currentAns, setCurrentAns] = useState("");
-  const {
-    setTotalBronze,
-    setTotalSilver,
-    setTotalGold,
-    totalBronze,
-    totalSilver,
-    totalGold,
-  } = useContext(authContext);
+  // const {
+  //   setTotalBronze,
+  //   setTotalSilver,
+  //   setTotalGold,
+  //   totalBronze,
+  //   totalSilver,
+  //   totalGold,
+  // } = useContext(authContext);
 
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -38,37 +43,6 @@ const LearningQuiz = ({
   useEffect(() => {
     setCurrentAns(currentQuestions[0].answer - 1);
   }, [currentQuestions]);
-
-  const starsConfeeti = () => {
-    var defaults = {
-      spread: 360,
-      ticks: 50,
-      gravity: 0,
-      decay: 0.94,
-      startVelocity: 30,
-      colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
-    };
-
-    function shoot() {
-      confetti({
-        ...defaults,
-        particleCount: 40,
-        scalar: 1.2,
-        shapes: ["star"],
-      });
-
-      confetti({
-        ...defaults,
-        particleCount: 10,
-        scalar: 0.75,
-        shapes: ["circle"],
-      });
-    }
-
-    setTimeout(shoot, 0);
-    setTimeout(shoot, 100);
-    setTimeout(shoot, 200);
-  };
 
   const handleNext = () => {
     if (clickedOption === currentAns) {
@@ -115,7 +89,7 @@ const LearningQuiz = ({
       const currentToken = JSON.parse(localStorage.getItem("token"));
       const userID = localStorage.getItem("userID");
 
-      if (energyPoints !== 0 && badge !== 0) {
+      if (increaseEnergy !== 0 && badge !== 0) {
         const config = {
           headers: {
             Authorization: `Bearer ${currentToken}`,
@@ -141,12 +115,13 @@ const LearningQuiz = ({
         localStorage.setItem("gold", gold);
 
         if (res) {
-          autoPlayNext();
+          // autoPlayNext();
+          setIsReward(true);
         }
         // updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
-        // setTotalBronze(res.data.bronze);
-        // setTotalSilver(res.data.silver);
-        // setTotalGold(res.data.gold);
+        setBronze(res.data.bronze);
+        setSilver(res.data.silver);
+        setGold(res.data.gold);
       }
     } catch (err) {
       console.log(err);
@@ -223,7 +198,16 @@ const LearningQuiz = ({
       const increaseEnergy = energyPoints + 1;
       console.log(increaseEnergy);
       // alert("true", increaseEnergy);
-      sendPoints(increaseEnergy);
+      confetti({
+        particleCount: 300,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+      setTimeout(() => {
+        setClickedOption("");
+        sendPoints(increaseEnergy);
+        setIsReward(true);
+      }, 500);
     } else {
       // alert("false");
       console.log(energyPoints);
@@ -231,7 +215,8 @@ const LearningQuiz = ({
     }
     setTimeout(() => {
       setClickedOption("");
-      autoPlayNext();
+      setIsReward(true);
+      // autoPlayNext();
     }, 500);
   };
 
@@ -284,7 +269,6 @@ const LearningQuiz = ({
           </div>
         ))}
       </div>
-      {/* <MotivationalBox /> */}
     </>
   );
 };

@@ -93,6 +93,7 @@ const Login = () => {
     if (token != null && token !== "") {
       setTimeout(() => {
         navigate("/");
+        navigate(0);
       }, 1000);
     }
   };

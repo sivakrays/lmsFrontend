@@ -6,6 +6,8 @@ import LearningQuiz from "./LearningComponents/LearningQuiz";
 import LearningVideo from "./LearningComponents/LearningVideo";
 import DetailsAccordion from "./LearningComponents/DetailsAccordion";
 import Loader from "../../Components/Loader/Loader";
+import Nav from "../../Components/Nav/Nav";
+import Reward from "../../Components/Reward/Reward";
 
 const Learning = () => {
   const { id } = useParams();
@@ -28,6 +30,7 @@ const Learning = () => {
   // Section Highlighted state
   const [clickedAccordion, setClickedAccordion] = useState(-1);
 
+  const [isReward, setIsReward] = useState(false);
   // AutoPlay states
 
   const [finishContent, setFinishContent] = useState(false);
@@ -42,6 +45,8 @@ const Learning = () => {
     setClickedOption("");
     setClickedQuiz("");
     setEnergyPoints(0);
+    // reward Visibility state
+    setIsReward(false);
   };
 
   const handleClickQuiz = (quiz, quizId, subSectionId) => {
@@ -52,9 +57,15 @@ const Learning = () => {
     setClickedQuiz(quizId);
     setClickedOption("");
     setEnergyPoints(0);
+    // reward Visibility state
+    setIsReward(false);
   };
 
   const [apiLoading, setApiLoading] = useState(true);
+
+  const [bronze, setBronze] = useState(localStorage.getItem("bronze") || 0);
+  const [silver, setSilver] = useState(localStorage.getItem("silver") || 0);
+  const [gold, setGold] = useState(localStorage.getItem("gold") || 0);
 
   // fetch Course learning details based on courseID
   useEffect(() => {
@@ -204,32 +215,50 @@ const Learning = () => {
 
   return (
     <>
-      <div className="min-h-screen  sm:pt-28">
+      <div className="min-h-screen  ">
+        <Nav bronze={bronze} gold={gold} silver={silver} />
         {apiLoading === true ? (
           <>
             <div className="flex h-[40vh] w-full items-center justify-center sm:hidden">
               <Loader color={"#334456"} height={"10%"} width={"10%"} />
             </div>
 
-            <div className="hidden h-[82vh] w-full items-center justify-center bg-herobg sm:flex">
+            <div className="hidden h-[100vh] w-full items-center justify-center bg-herobg sm:flex">
               <Loader color={"#334456"} height={"4%"} width={"4%"} />
             </div>
           </>
         ) : (
-          <div className="flex flex-col lg:flex-row">
+          <div className="flex flex-col sm:pt-28 lg:flex-row">
             <div className="lg:w-[72%]">
               {isQuizVisible === true ? (
-                <LearningQuiz
-                  quizArray={quizArray}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  clickedOption={clickedOption}
-                  setClickedOption={setClickedOption}
-                  energyPoints={energyPoints}
-                  setEnergyPoints={setEnergyPoints}
-                  clickedSubSection={clickedSubSection}
-                  autoPlayNext={autoPlayNext}
-                />
+                <>
+                  <LearningQuiz
+                    quizArray={quizArray}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    clickedOption={clickedOption}
+                    setClickedOption={setClickedOption}
+                    energyPoints={energyPoints}
+                    setEnergyPoints={setEnergyPoints}
+                    clickedSubSection={clickedSubSection}
+                    autoPlayNext={autoPlayNext}
+                    // Badge Details
+                    setBronze={setBronze}
+                    setSilver={setSilver}
+                    setGold={setGold}
+                    // Reward Visibility state
+                    setIsReward={setIsReward}
+                  />
+                  {isReward === true && (
+                    <>
+                      <Reward
+                        setIsReward={setIsReward}
+                        energyPoints={energyPoints}
+                        autoPlayNext={autoPlayNext}
+                      />
+                    </>
+                  )}
+                </>
               ) : (
                 <LearningVideo
                   videoUrl={videoUrl}
@@ -256,6 +285,8 @@ const Learning = () => {
                   clickedQuiz={clickedQuiz}
                   setClickedAccordion={setClickedAccordion}
                   clickedAccordion={clickedAccordion}
+                  // Reward Visibility state
+                  setIsReward={setIsReward}
                 />
               </div>
             </div>

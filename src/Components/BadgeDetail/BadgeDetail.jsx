@@ -1,45 +1,36 @@
 import React, { useContext, useState, useEffect } from "react";
 import { authContext } from "../../Context/AuthContext";
 
-import bronze from "../../Assets/reward/Bronze Medal.png";
-import silver from "../../Assets/reward/Silver Medal.png";
-import gold from "../../Assets/reward/Gold Medal.png";
+import bronze1 from "../../Assets/reward/Bronze Medal.png";
+import silver1 from "../../Assets/reward/Silver Medal.png";
+import gold1 from "../../Assets/reward/Gold Medal.png";
 
-const BadgeDetail = () => {
+const BadgeDetail = ({ bronze, silver, gold }) => {
   // const { totalBronze, totalSilver, totalGold } = useContext(authContext);
-
-  const [tbronze, setBronze] = useState(0);
-
-  useEffect(() => {
-    let bronzeValue = localStorage.getItem("bronze");
-    if (bronzeValue !== "") {
-      setBronze(bronzeValue);
-    }
-  }, [tbronze]);
 
   return (
     <>
       <div className="flex  items-center justify-evenly lg:gap-4 xl:gap-6  ">
         <div className="flex items-center justify-center gap-2">
           <img
-            src={bronze}
+            src={bronze1}
             className="object-contain lg:h-5 lg:w-5 xl:h-7 xl:w-7"
           ></img>
-          <div>{localStorage.getItem("silver")}</div>
+          <div>{bronze}</div>
         </div>
         <div className="flex items-center justify-center gap-2">
           <img
-            src={silver}
+            src={silver1}
             className="object-contain lg:h-5 lg:w-5 xl:h-7 xl:w-7"
           ></img>
-          <div>{localStorage.getItem("silver")}</div>
+          <div>{silver}</div>
         </div>
         <div className="flex items-center justify-center gap-2">
           <img
-            src={gold}
+            src={gold1}
             className="object-contain lg:h-5 lg:w-5 xl:h-8 xl:w-8"
           ></img>
-          <div>{localStorage.getItem("gold")}</div>
+          <div>{gold}</div>
         </div>
       </div>
     </>

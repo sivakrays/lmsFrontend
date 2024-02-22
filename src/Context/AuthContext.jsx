@@ -80,6 +80,10 @@ export const AuthContextProvider = ({ children }) => {
         setTotalSilver(res.data.silver);
         setTotalGold(res.data.gold);
 
+        localStorage.setItem("bronze", res.data.bronze);
+        localStorage.setItem("silver", res.data.silver);
+        localStorage.setItem("gold", res.data.gold);
+
         // function
         updateBadgeCount(res.data.bronze, res.data.silver, res.data.gold);
         successNotify();

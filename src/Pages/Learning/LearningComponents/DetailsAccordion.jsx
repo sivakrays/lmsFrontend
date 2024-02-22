@@ -10,6 +10,7 @@ const DetailsAccordion = ({
   clickedQuiz,
   clickedAccordion,
   setClickedAccordion,
+  setIsReward,
 }) => {
   const toggleAccordion = (index) => {
     // if (index === clickedAccordion) {
@@ -18,6 +19,7 @@ const DetailsAccordion = ({
     // }
     // setClickedAccordion(index);
     setClickedAccordion(index);
+    setIsReward(false);
   };
 
   return (
