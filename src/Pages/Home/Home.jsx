@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const { isTokenValid } = useContext(authContext);
   const [courseData, setCourseData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const Home = () => {
 
     const fetchCourse = async () => {
       try {
+        setLoading(true);
         const config = {
           headers: {
             Authorization: `Bearer ${currentToken}`,

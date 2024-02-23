@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
-import { post } from "../../ApiCall/ApiCall";
+import { get, post } from "../../ApiCall/ApiCall";
 import { RxCross2 } from "react-icons/rx";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
 import VideoUpload from "../../Components/VideoUpload/VideoUpload";
+import QuizUpload from "../../Components/QuizUpload/QuizUpload";
+import { Link } from "react-router-dom";
 
 const SectionForm = ({
   courseId,
@@ -19,8 +21,8 @@ const SectionForm = ({
 }) => {
   const [sectionTitle, setSectionTitle] = useState("");
   const [uploadVideoLink, setUploadVideoLink] = useState("");
+  const [uploadQuiz, setUploadQuiz] = useState([]);
 
-  console.log(uploadVideoLink);
   const [subSections, setSubSections] = useState([
     {
       SubSectionTitle: "",
@@ -191,7 +193,7 @@ const SectionForm = ({
             title: subSection.SubSectionTitle,
             description: subSection.SubSectionDes,
             link: subSection.VideoLink || uploadVideoLink,
-            quizList: subSection.quizInputs,
+            quizList: subSection.quizInputs.question || uploadQuiz,
           })),
         },
       ];
@@ -365,18 +367,25 @@ const SectionForm = ({
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2 ">
-                      <label className="text-textLightColor">Quiz</label>
-                      <input
-                        type="checkbox"
-                        name="isQuizAvailable"
-                        checked={ssection.isQuizAvailable}
-                        onChange={(e) => handleSubSectionInputChange(i, e)}
-                        className="h-4 w-4 cursor-pointer"
-                      />
+                    <div className="flex w-full justify-between">
+                      <div className="flex items-center gap-2 ">
+                        <label className="text-textLightColor">Quiz</label>
+                      </div>
+                      <div className="flex items-center gap-2 ">
+                        <label className="text-textLightColor">
+                          Upload Quiz
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="isQuizAvailable"
+                          checked={ssection.isQuizAvailable}
+                          onChange={(e) => handleSubSectionInputChange(i, e)}
+                          className="h-4 w-4 cursor-pointer"
+                        />
+                      </div>
                     </div>
                   </div>
-                  {ssection.isQuizAvailable === true && (
+                  {ssection.isQuizAvailable === false ? (
                     <>
                       {ssection.quizInputs.map((quiz, quizIndex) => (
                         <div
@@ -491,6 +500,22 @@ const SectionForm = ({
                           )}
                         </div>
                       ))}
+                    </>
+                  ) : (
+                    <>
+                      <hr className="my-3 border xl:w-[100%]" />
+                      <div className="mt-3 flex w-full items-center justify-end">
+                        <Link
+                          to={
+                            "https://krays-lms-s3.s3.ap-south-1.amazonaws.com/LmsCourse/Quiz/QuizTemplate.xlsx"
+                          }
+                          type="button"
+                          className="text-blue-500 underline"
+                        >
+                          Download Sample File
+                        </Link>
+                      </div>
+                      <QuizUpload setUploadQuiz={setUploadQuiz} />
                     </>
                   )}
                   {subSections.length > 1 && <hr className="my-3 border" />}
