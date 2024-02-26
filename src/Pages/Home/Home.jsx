@@ -126,7 +126,11 @@ const Home = () => {
               {data[0].landingContent}
             </p>
             <div>
-              <Button path="/course" name="Explore courses" />
+              <Button
+                path="/course"
+                name="Explore courses"
+                isTokenValid={isTokenValid}
+              />
             </div>
           </div>
           <div className="order-first flex justify-center sm:p-9  lg:order-last lg:w-[60%]">
@@ -262,7 +266,11 @@ const Home = () => {
               <>
                 {BeforeLoginData.map((course, index) => (
                   <div key={index}>
-                    <CourseCard course={course} path="homeCard" />
+                    <CourseCard
+                      course={course}
+                      path="homeCard"
+                      isTokenValid={isTokenValid}
+                    />
                   </div>
                 ))}
               </>
@@ -273,7 +281,11 @@ const Home = () => {
             </div>
           </div>
           <div className="courseBtn mx-auto flex w-[75%] items-center justify-center pb-12">
-            <Button path="/course" name="Explore courses" />
+            <Button
+              path="/course"
+              name="Explore courses"
+              isTokenValid={isTokenValid}
+            />
           </div>
         </div>
       </section>
@@ -290,11 +302,11 @@ const Home = () => {
 
       {/* Promo and testimonials */}
       <section className="promo">
-        <PromoVideo />
+        <PromoVideo isTokenValid={isTokenValid} />
       </section>
 
       {/* Footer */}
-      <Footer />
+      <Footer isTokenValid={isTokenValid} />
 
       <ToastContainer
         position="top-center"

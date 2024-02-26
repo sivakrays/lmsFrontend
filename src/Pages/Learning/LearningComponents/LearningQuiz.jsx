@@ -22,14 +22,6 @@ const LearningQuiz = ({
   setIsReward,
 }) => {
   const [currentAns, setCurrentAns] = useState("");
-  // const {
-  //   setTotalBronze,
-  //   setTotalSilver,
-  //   setTotalGold,
-  //   totalBronze,
-  //   totalSilver,
-  //   totalGold,
-  // } = useContext(authContext);
 
   const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -41,8 +33,11 @@ const LearningQuiz = ({
   const [motivationBox, setMotivationalBox] = useState(null);
 
   useEffect(() => {
-    setCurrentAns(currentQuestions[0].answer - 1);
+    setCurrentAns(currentQuestions[0].answer);
   }, [currentQuestions]);
+
+  console.log(currentAns);
+  console.log(clickedOption);
 
   const handleNext = () => {
     if (clickedOption === currentAns) {
@@ -197,7 +192,6 @@ const LearningQuiz = ({
       setEnergyPoints(energyPoints + 1);
       const increaseEnergy = energyPoints + 1;
       console.log(increaseEnergy);
-      // alert("true", increaseEnergy);
       confetti({
         particleCount: 300,
         spread: 80,
@@ -205,17 +199,19 @@ const LearningQuiz = ({
       });
       setTimeout(() => {
         setClickedOption("");
+        setCurrentAns("");
         sendPoints(increaseEnergy);
         setIsReward(true);
       }, 500);
     } else {
-      // alert("false");
       console.log(energyPoints);
       sendPoints(energyPoints);
     }
     setTimeout(() => {
       setClickedOption("");
       setIsReward(true);
+      setCurrentAns("");
+
       // autoPlayNext();
     }, 500);
   };
@@ -242,11 +238,11 @@ const LearningQuiz = ({
                   <div key={index} className="">
                     <button
                       className={`q_answer flex w-full cursor-pointer items-center gap-3 rounded-[10px] border  p-2 text-left text-textLightColor duration-300 hover:border-textColor hover:boxShadow sm:w-[90%] xl:w-[90%] ${
-                        index === clickedOption &&
+                        option === clickedOption &&
                         "border-[#008000] boxShadow1 hover:boxShadow1"
                       }
                        `}
-                      onClick={() => setClickedOption(index)}
+                      onClick={() => setClickedOption(option)}
                     >
                       {option}
                     </button>

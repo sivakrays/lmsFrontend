@@ -7,7 +7,7 @@ import twitter from "../../Assets/Footer/twitter.svg";
 import instagram from "../../Assets/Footer/instagram.svg";
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+const Footer = ({ isTokenValid }) => {
   return (
     <div>
       <footer className="footer bg-coursebg  py-9">
@@ -31,10 +31,12 @@ const Footer = () => {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/course">Featured Courses</Link>
+                  <Link to={isTokenValid ? "/course" : ""}>
+                    Featured Courses
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/contact">Contact</Link>
+                  <Link to={isTokenValid ? "/contact" : ""}>Contact</Link>
                 </li>
               </ul>
             </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Users.css";
 import { Link } from "react-router-dom";
 import data from "../../Data/Data";
-import { get, post } from "../../ApiCall/ApiCall";
+import { del, get, post } from "../../ApiCall/ApiCall";
 import CreationModal from "./CreationModal";
 import UserCreationModal from "./UserCreationModal";
 import { ToastContainer, toast } from "react-toastify";
@@ -136,6 +136,59 @@ const Users = () => {
     }
   };
 
+  const [deleteLoader, setDeleteLoader] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
+
+  const handleDelete = async (tenantId) => {
+    setClickedItem(tenantId);
+    setDeleteLoader(true);
+    console.log(tenantId);
+    try {
+      switch (role) {
+        case "owner":
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              tenantId: localStorage.getItem("tenantId"),
+              id: tenantId,
+              pageNo: parseInt(pageNo),
+              pageSize: pageSize,
+            },
+          };
+          const response = await del(`/admin/deleteTenantById`, config);
+          setDeleteLoader(false);
+          if (response.status === 200 && response.data.content) {
+            setAllUsers(response.data.content);
+            setTotalPage(response.data.totalPages);
+            setTotalCourses(response.data.totalElements);
+          }
+          break;
+        case "manager":
+          const config1 = {
+            headers: {
+              "Content-Type": "application/json",
+              tenantId: localStorage.getItem("tenantId"),
+              userId: tenantId,
+              pageNo: parseInt(pageNo),
+              pageSize: pageSize,
+            },
+          };
+          const res = await del(`/auth/deleteUserById`, config1);
+          setDeleteLoader(false);
+          if (res.status === 200 && res.data.content) {
+            setAllUsers(res.data.content);
+            setTotalPage(res.data.totalPages);
+            setTotalCourses(res.data.totalElements);
+          }
+          break;
+        default:
+          break;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen w-full bg-herobg">
@@ -201,7 +254,6 @@ const Users = () => {
 
                             <div className="w-1/4 overflow-scroll  pl-3">
                               <p>
-                                {" "}
                                 {role === "owner"
                                   ? `${tenant.tenantId}`
                                   : `${tenant.role}`}
@@ -217,7 +269,40 @@ const Users = () => {
                             </div>
 
                             <div className="w-1/4 overflow-scroll">
-                              <p>Action</p>
+                              <button
+                                onClick={() => handleDelete(tenant.id)}
+                                type="button"
+                              >
+                                {deleteLoader === true &&
+                                clickedItem === tenant.id ? (
+                                  <>
+                                    <span className="flex w-[100px] items-center justify-center object-cover">
+                                      <Loader
+                                        color={"#334455"}
+                                        height={"25%"}
+                                        width={"25%"}
+                                      />
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <svg
+                                      className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      ></path>
+                                    </svg>
+                                  </>
+                                )}
+                              </button>
                             </div>
                           </div>
                         </div>

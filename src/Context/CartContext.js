@@ -17,33 +17,6 @@ export const CartContextProvider = ({ children }) => {
 
   const appToken = localStorage.getItem("token");
 
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-  //       if (appToken) {
-  //         const refreshedToken = await checkAndRefreshToken(
-  //           JSON.parse(appToken),
-  //         );
-  //         const config = {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${refreshedToken}`,
-  //             userId: userId,
-  //           },
-  //         };
-
-  //         const res = await get("/user/getCartByUserId", config);
-  //         setCartData(res.data);
-  //         console.log("get all response", res.data);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
-  //   fetchCartData();
-  // }, [cartUpdated]);
-
   useEffect(() => {
     setTotalCartItem(cartData.length);
     const calculatedTotal =

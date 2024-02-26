@@ -9,7 +9,7 @@ import { cartContext } from "../../Context/CartContext";
 const Cart = ({ totalCartItem }) => {
   return (
     <>
-      <Link to={"addToCart"}>
+      <Link to={"/addToCart"}>
         <div className="flex  cursor-pointer items-center justify-center">
           <div className="relative scale-75">
             <svg
@@ -27,7 +27,7 @@ const Cart = ({ totalCartItem }) => {
               />
             </svg>
             <span className="absolute -top-2 left-4 rounded-full bg-red-500 p-0.5 px-2 text-sm text-red-50">
-              {totalCartItem}
+              {totalCartItem || localStorage.getItem("cartItems")}
             </span>
           </div>
         </div>
@@ -58,8 +58,8 @@ const Nav = ({ bronze, silver, gold }) => {
   };
   const unAuthorizedMenuItem = [
     { name: "Home", path: "/" },
-    { name: "Featured Course", path: "/course" },
-    { name: "Contact", path: "/contact" },
+    { name: "Featured Course", path: "" },
+    { name: "Contact", path: "" },
   ];
   const authorizedMenuItem = [
     { name: "Home", path: "/" },

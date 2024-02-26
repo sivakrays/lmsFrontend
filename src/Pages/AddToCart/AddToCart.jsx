@@ -66,6 +66,7 @@ const AddToCart = () => {
           if (res.data.length > 0) {
             setCartLoading(false);
             setCartData(res.data);
+            localStorage.setItem("cartItems", res.data.length);
           } else {
             navigate("/");
           }
@@ -98,6 +99,7 @@ const AddToCart = () => {
       successNotify("Successfully Deleted!");
       setCartUpdated(!cartUpdated);
       console.log("del response", res.data);
+      localStorage.setItem("cartItems", res.data.length);
       setCartData(res.data);
     } catch (err) {
       console.log(err);

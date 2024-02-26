@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 
 import data from "../../Data/Data";
 
-const PromoVideo = () => {
+const PromoVideo = ({ isTokenValid }) => {
   const systamaticCard = [
     {
       img: sym1,
@@ -123,7 +123,7 @@ const PromoVideo = () => {
                     {card.des}
                   </p>
                   <Link
-                    to={"/course"}
+                    to={isTokenValid ? "/course" : ""}
                     className="mt-1.5 w-[105px] cursor-pointer rounded-md border-2 border-dotted p-1 text-xs font-semibold text-textColor hover:text-textLightColor sm:mt-3"
                   >
                     {data[0].systematicCardButtonText} {"->"}

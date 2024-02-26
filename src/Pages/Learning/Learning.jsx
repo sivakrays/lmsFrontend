@@ -169,6 +169,7 @@ const Learning = () => {
       }
     }
   };
+
   const playPrevious = () => {
     // Find the current section and subsection index
     const currentSectionIndex = accordionDetails.findIndex((section) =>

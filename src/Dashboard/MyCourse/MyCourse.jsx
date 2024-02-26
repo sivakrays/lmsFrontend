@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CourseForm from "./CourseForm";
 import SectionForm from "./SectionForm";
-import { get } from "../../ApiCall/ApiCall";
+import { del, get } from "../../ApiCall/ApiCall";
 import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 import Loader from "../../Components/Loader/Loader";
 import "./MyCourse.css";
@@ -110,8 +110,6 @@ const MyCourse = () => {
             userId: localStorage.getItem("userID"),
             pageNo: pageNo,
             pageSize: pageSize,
-            // userId: 2,
-            // tenantId: "public",
           },
         };
 
@@ -126,20 +124,7 @@ const MyCourse = () => {
         } else if (res.status === 200 && res.data.content.length === 0) {
           setEmptyData(true);
         }
-
-        // if (res.status === 204) {
-        //   setEmptyData(true);
-        // } else {
-        //   setEmptyData(false);
-        //   setTotalPage(res.data.totalPages);
-        //   setTotalCourses(res.data.totalElements);
-        //   setCouresData(res.data.content);
-        // }
       } catch (err) {
-        // setApiLoading(false);
-        // if (err.message === "Network Error") {
-        //   errorNotify("Poor network Connection!");
-        // }
         const error = err.response;
         console.log(err);
       }
@@ -159,6 +144,39 @@ const MyCourse = () => {
   const paginate = (pageNo) => {
     if (pageNo >= 0 && pageNo <= totalpage) {
       setPageNo(pageNo);
+    }
+  };
+
+  const [deleteLoader, setDeleteLoader] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
+
+  const handleDelete = async (courseId) => {
+    const currentToken = JSON.parse(localStorage.getItem("token"));
+    setClickedItem(courseId);
+    setDeleteLoader(true);
+    console.log(courseId);
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentToken}`,
+          courseId: courseId,
+          pageNo: pageNo,
+          pageSize: pageSize,
+        },
+      };
+      const res = await del(`/user/deleteCourseById`, config);
+      setDeleteLoader(false);
+      if (res.status === 200 && res.data.content.length > 0) {
+        setTotalPage(res.data.totalPages);
+        setTotalCourses(res.data.totalElements);
+        setCouresData(res.data.content);
+        setEmptyData(false);
+      } else if (res.status === 200 && res.data.content.length === 0) {
+        setEmptyData(true);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -210,6 +228,12 @@ const MyCourse = () => {
                   Author
                 </p>
               </div>
+
+              <div className="w-1/4">
+                <p className="heading text-[15px] font-semibold uppercase text-textColor">
+                  Action
+                </p>
+              </div>
             </div>
 
             <div className="rounded-b-md bg-white">
@@ -251,6 +275,43 @@ const MyCourse = () => {
 
                         <div className="w-1/4 ">
                           <p>{data.authorName}</p>
+                        </div>
+
+                        <div className="w-1/4 ">
+                          <button
+                            onClick={() => handleDelete(data.courseId)}
+                            type="button"
+                          >
+                            {deleteLoader === true &&
+                            clickedItem === data.courseId ? (
+                              <>
+                                <span className="flex w-[100px] items-center justify-center object-cover">
+                                  <Loader
+                                    color={"#334455"}
+                                    height={"25%"}
+                                    width={"25%"}
+                                  />
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <svg
+                                  className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </>
+                            )}
+                          </button>
                         </div>
                       </div>
                     </div>

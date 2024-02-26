@@ -7,6 +7,7 @@ import Loader from "../../Components/Loader/Loader";
 import VideoUpload from "../../Components/VideoUpload/VideoUpload";
 import QuizUpload from "../../Components/QuizUpload/QuizUpload";
 import { Link } from "react-router-dom";
+import SelectField from "../../Components/CommonSelectField/SelectField";
 
 const SectionForm = ({
   courseId,
@@ -32,6 +33,8 @@ const SectionForm = ({
       quizInputs: [{ key: 1, question: "", options: ["", ""], answer: "" }],
     },
   ]);
+
+  console.log(subSections[0].quizInputs.length);
 
   const [deserror, setDesError] = useState(false);
 
@@ -189,12 +192,24 @@ const SectionForm = ({
           title: sectionTitle,
           // course_id: localStorage.getItem("Current Upload CourseId"),
           courseId: courseId,
-          subSections: subSections.map((subSection) => ({
-            title: subSection.SubSectionTitle,
-            description: subSection.SubSectionDes,
-            link: subSection.VideoLink || uploadVideoLink,
-            quizList: subSection.quizInputs.question || uploadQuiz,
-          })),
+          subSections: subSections.map((subSection) => {
+            console.log(subSection.quizInputs.length);
+            if (subSection.quizInputs.length > 1) {
+              return {
+                title: subSection.SubSectionTitle,
+                description: subSection.SubSectionDes,
+                link: subSection.VideoLink || uploadVideoLink,
+                quizList: subSection.quizInputs,
+              };
+            } else {
+              return {
+                title: subSection.SubSectionTitle,
+                description: subSection.SubSectionDes,
+                link: subSection.VideoLink || uploadVideoLink,
+                quizList: uploadQuiz,
+              };
+            }
+          }),
         },
       ];
 
@@ -231,6 +246,8 @@ const SectionForm = ({
       console.log(loading);
     }
   };
+
+  const formStyle = "flex w-full flex-col ";
   return (
     <div className="relative mx-auto mb-8  mt-8 w-full rounded-md bg-white shadow sm:w-3/4 sm:p-8">
       <button
@@ -474,9 +491,19 @@ const SectionForm = ({
                           <hr className="my-3 border xl:w-[100%]" />
                           <div className="flex flex-col">
                             <label className="text-textLightColor">
-                              {`Answer Of - ${quizIndex + 1} Question`}
+                              {`Answer`}
                             </label>
-                            <input
+                            <SelectField
+                              name={`answer-${i}-${quizIndex}`}
+                              value={quiz.answer}
+                              onChange={(e) =>
+                                handleQuizAnswerInputChange(i, quizIndex, e)
+                              }
+                              options={quiz.options}
+                              required
+                              formStyle={formStyle}
+                            />
+                            {/* <input
                               type="text"
                               name={`answer-${i}-${quizIndex}`}
                               value={quiz.answer}
@@ -487,7 +514,7 @@ const SectionForm = ({
                               title="Only Accept the Number"
                               required
                               className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                            />
+                            /> */}
                           </div>
                           {quizIndex === ssection.quizInputs.length - 1 && (
                             <button
