@@ -1,32 +1,27 @@
 import React, { useState } from "react";
-import { post } from "../../ApiCall/ApiCall";
 
-const QuizUpload = ({ setUploadQuiz }) => {
-  const [quiz, setQuiz] = useState();
-  const [uploadProgress, setUploadProgress] = useState(0);
+const VideoSave = ({ handleVideoUpload }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const currentToken = JSON.parse(localStorage.getItem("token"));
-  const handleQuizUpload = async () => {
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      console.log("No file selected.");
+      return;
+    }
+
     setUploading(true);
 
     const formData = new FormData();
-    formData.append("file", quiz);
+    formData.append("file", selectedFile);
 
     try {
-      const res = await post(`/user/uploadQuizCsv`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${currentToken}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent;
-          const percentCompleted = Math.round((loaded * 100) / total);
-          setUploadProgress(percentCompleted);
-        },
-      });
-      setUploadQuiz(res.data);
-      console.log(res.data);
+      await handleVideoUpload(formData);
     } catch (error) {
       console.error("Error uploading video:", error);
     } finally {
@@ -36,27 +31,25 @@ const QuizUpload = ({ setUploadQuiz }) => {
 
   return (
     <div>
-      <div className="mt-3 flex gap-3">
+      <div className="flex gap-3">
         <label htmlFor="file-input" className="sr-only">
           Choose file
         </label>
         <input
           type="file"
-          name="file-input"
           id="file-input"
           className="focus:textColor focus:border-grey-200 block w-full rounded-lg border border-gray-200 text-sm shadow-sm file:me-4 file:border-0 file:bg-gray-50 file:px-4 file:py-3 focus:z-10 disabled:pointer-events-none disabled:opacity-50 "
-          onChange={(e) => setQuiz(e.target.files[0])}
+          onChange={handleFileChange}
         />
-
         <button
           className="border-grey-400 rounded-md border px-3"
           type="button"
-          onClick={() => handleQuizUpload()}
+          onClick={handleUpload}
+          disabled={uploading}
         >
-          Upload
+          {uploading ? "Uploading..." : "Upload"}
         </button>
       </div>
-
       {uploading && (
         <div className="progress-container">
           <div className="progress-bar" style={{ width: `${uploadProgress}%` }}>
@@ -68,4 +61,4 @@ const QuizUpload = ({ setUploadQuiz }) => {
   );
 };
 
-export default QuizUpload;
+export default VideoSave;

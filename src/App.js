@@ -24,6 +24,7 @@ import AddToCart from "./Pages/AddToCart/AddToCart";
 import { authContext } from "./Context/AuthContext";
 import VideoUpload from "./Components/VideoUpload/VideoUpload";
 import Learning from "./Pages/Learning/Learning";
+import UploadSection from "./Dashboard/MyCourse/UploadSection";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -86,6 +87,7 @@ const App = () => {
           }
         />
         <Route path="/video" element={<Video />} />
+        <Route path="/upload" element={<UploadSection />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/reward" element={<Reward />} />
         <Route path="/dashboard" element={<Dashboard />} />

@@ -1,6 +1,8 @@
 import React from "react";
 
 import badge from "../../Assets/Badge/Badge.png";
+import silver from "../../Assets/Badge/Silver.png";
+import bronze from "../../Assets/Badge/Bronze.png";
 
 import "./Reward.css";
 

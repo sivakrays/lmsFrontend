@@ -30,7 +30,8 @@ const LearningQuiz = ({
   const currentQuestions =
     quizArray && quizArray.slice(indexOfFirstItem, indexOfLastItem);
 
-  const [motivationBox, setMotivationalBox] = useState(null);
+  const [isBoxVisibile, setIsBoxVisibile] = useState(false);
+  const [IsCorrect, setIsCorrect] = useState(false);
 
   useEffect(() => {
     setCurrentAns(currentQuestions[0].answer);
@@ -47,22 +48,23 @@ const LearningQuiz = ({
         spread: 80,
         origin: { y: 0.6 },
       });
-      // alert("true");
+      setIsCorrect(true);
+      setIsBoxVisibile(true);
       setTimeout(() => {
+        setIsBoxVisibile(false);
         setClickedOption("");
         setCurrentPage(currentPage + 1);
-      }, 500);
+      }, 1000);
     } else {
-      // alert("false");
+      setIsBoxVisibile(true);
+      setIsCorrect(false);
 
-      setClickedOption("");
-      setCurrentPage(currentPage + 1);
+      setTimeout(() => {
+        setIsBoxVisibile(false);
+        setClickedOption("");
+        setCurrentPage(currentPage + 1);
+      }, 1000);
     }
-  };
-
-  const submitEnergyPoint = () => {
-    setEnergyPoints(energyPoints + 1);
-    console.log(energyPoints);
   };
 
   const sendPoints = async (increaseEnergy) => {
@@ -123,65 +125,76 @@ const LearningQuiz = ({
     }
   };
 
-  const MotivationalBox = () => {
+  const MotivationalBox = ({ setIsBoxVisibile }) => {
     return (
       <>
         <div className="relative flex h-[95px] w-[240px]  items-center justify-between rounded-md border-2 border-textColor bg-coursebg p-5 boxShadow">
-          <>
-            <button className="absolute  cursor-pointer text-textLightColor">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2.5"
-                stroke="currentColor"
-                className="h-4 w-4"
+          {IsCorrect === true ? (
+            <>
+              <button
+                className="absolute right-0 top-0 cursor-pointer p-1 text-textLightColor"
+                onClick={() => setIsBoxVisibile(false)}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-            <div>
-              <img src={success} className="w-16 drop-shadow-xl" />
-            </div>
-            <div>
-              <p className="dayOne text-textColor">Nice Work!</p>
-              <p className="text-sm font-semibold text-textColor">
-                Keep Going :)
-              </p>
-            </div>
-          </>
-
-          <>
-            <button className="absolute right-1 top-1 cursor-pointer text-textLightColor ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2.5"
-                stroke="currentColor"
-                className="h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-            <div>
-              <img src={success} className="w-16 drop-shadow-xl" />
-            </div>
-            <div>
-              <p className="dayOne text-textColor">Better Luck !</p>
-              <p className="text-sm font-semibold text-textColor">
-                Work Hard :)
-              </p>
-            </div>
-          </>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2.5"
+                  stroke="currentColor"
+                  className="h-4 w-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <div>
+                <img src={success} className="w-16 drop-shadow-xl" />
+              </div>
+              <div>
+                <p className="dayOne text-textColor">Nice Work!</p>
+                <p className="text-sm font-semibold text-textColor">
+                  Keep Going :)
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              <>
+                <button
+                  className="absolute right-0 top-0 cursor-pointer p-1 text-textLightColor"
+                  onClick={() => setIsBoxVisibile(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2.5"
+                    stroke="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                <div>
+                  <img src={success} className="w-16 drop-shadow-xl" />
+                </div>
+                <div>
+                  <p className="dayOne text-textColor">Work Hard!</p>
+                  <p className="text-sm font-semibold text-textColor">
+                    Keep Going :)
+                  </p>
+                </div>
+              </>
+            </>
+          )}
         </div>
       </>
     );
@@ -189,6 +202,8 @@ const LearningQuiz = ({
 
   const handleSubmit = async () => {
     if (clickedOption === currentAns) {
+      setIsBoxVisibile(true);
+      setIsCorrect(true);
       setEnergyPoints(energyPoints + 1);
       const increaseEnergy = energyPoints + 1;
       console.log(increaseEnergy);
@@ -198,6 +213,7 @@ const LearningQuiz = ({
         origin: { y: 0.6 },
       });
       setTimeout(() => {
+        setIsBoxVisibile(false);
         setClickedOption("");
         setCurrentAns("");
         sendPoints(increaseEnergy);
@@ -206,6 +222,13 @@ const LearningQuiz = ({
     } else {
       console.log(energyPoints);
       sendPoints(energyPoints);
+
+      setIsBoxVisibile(true);
+      setIsCorrect(false);
+
+      setTimeout(() => {
+        setIsBoxVisibile(false);
+      }, 1000);
     }
     setTimeout(() => {
       setClickedOption("");
@@ -250,7 +273,12 @@ const LearningQuiz = ({
                 ))}
               </div>
             </div>
-            <div className="w-full md:w-full md:max-w-3xl">
+            <div className="relative w-full md:w-full md:max-w-3xl">
+              <div className="absolute -right-12 -top-28">
+                {isBoxVisibile === true && (
+                  <MotivationalBox setIsBoxVisibile={setIsBoxVisibile} />
+                )}
+              </div>
               <Pagination
                 quizArray={quizArray}
                 id={q.key}

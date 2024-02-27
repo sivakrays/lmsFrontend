@@ -170,7 +170,7 @@ const Nav = ({ bronze, silver, gold }) => {
                       : "hidden"
                   }`}
                 >
-                  <Link to="profile">
+                  <Link to="/profile">
                     <div
                       className="cursor-pointer p-2 font-semibold text-textColor hover:bg-herobg"
                       onClick={handleProfile}
@@ -322,7 +322,7 @@ const Nav = ({ bronze, silver, gold }) => {
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
-                  <Link to="login">
+                  <Link to="/login">
                     <button
                       className="text-md font-semiboldnuppercase cursor-pointer rounded-[10px] border-2 border-solid border-textColor bg-textColor px-6 py-1.5 text-white"
                       onClick={handleToggle}

@@ -30,6 +30,7 @@ const SectionForm = ({
       SubSectionDes: "",
       VideoLink: "",
       isQuizAvailable: false,
+      disableQuiz: false,
       quizInputs: [{ key: 1, question: "", options: ["", ""], answer: "" }],
     },
   ]);
@@ -387,6 +388,13 @@ const SectionForm = ({
                     <div className="flex w-full justify-between">
                       <div className="flex items-center gap-2 ">
                         <label className="text-textLightColor">Quiz</label>
+                        <input
+                          type="checkbox"
+                          name="disableQuiz"
+                          checked={ssection.disableQuiz}
+                          onChange={(e) => handleSubSectionInputChange(i, e)}
+                          className="h-4 w-4 cursor-pointer"
+                        />
                       </div>
                       <div className="flex items-center gap-2 ">
                         <label className="text-textLightColor">
@@ -402,108 +410,111 @@ const SectionForm = ({
                       </div>
                     </div>
                   </div>
-                  {ssection.isQuizAvailable === false ? (
+                  {ssection.disableQuiz === true && (
                     <>
-                      {ssection.quizInputs.map((quiz, quizIndex) => (
-                        <div
-                          key={quizIndex}
-                          className="flex w-full flex-col xl:w-[100%]"
-                        >
-                          <hr className="my-3 border xl:w-[100%]" />
-                          {ssection.quizInputs.length > 1 && ( // Check if there are more than one quiz inputs
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveQuiz(i, quizIndex)}
+                      {" "}
+                      {ssection.isQuizAvailable === false ? (
+                        <>
+                          {ssection.quizInputs.map((quiz, quizIndex) => (
+                            <div
+                              key={quizIndex}
+                              className="flex w-full flex-col xl:w-[100%]"
                             >
-                              Remove Quiz
-                            </button>
-                          )}
-                          <label className="text-textLightColor">
-                            {`Question - ${quizIndex + 1} `}
-                          </label>
-                          <div className="flex flex-col justify-center gap-5 lg:flex-row lg:items-center">
-                            <input
-                              type="text"
-                              name={`question-${i}-${quizIndex}`}
-                              value={quiz.question}
-                              onChange={(e) =>
-                                handleQuizTitleInputChange(i, quizIndex, e)
-                              }
-                              required
-                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6 lg:w-[80%]"
-                            />
+                              <hr className="my-3 border xl:w-[100%]" />
+                              {ssection.quizInputs.length > 1 && ( // Check if there are more than one quiz inputs
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveQuiz(i, quizIndex)}
+                                >
+                                  Remove Quiz
+                                </button>
+                              )}
+                              <label className="text-textLightColor">
+                                {`Question - ${quizIndex + 1} `}
+                              </label>
+                              <div className="flex flex-col justify-center gap-5 lg:flex-row lg:items-center">
+                                <input
+                                  type="text"
+                                  name={`question-${i}-${quizIndex}`}
+                                  value={quiz.question}
+                                  onChange={(e) =>
+                                    handleQuizTitleInputChange(i, quizIndex, e)
+                                  }
+                                  required
+                                  className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6 lg:w-[80%]"
+                                />
 
-                            <button
-                              type="button"
-                              className="my-3 rounded-md bg-textLightColor p-2 text-white lg:w-[20%]"
-                              onClick={(e) =>
-                                handleAddQuizOptions(i, quizIndex)
-                              }
-                            >
-                              Add Options
-                            </button>
-                          </div>
-                          <div className="flex flex-wrap gap-3">
-                            {quiz.options.map((option, optionIndex) => (
-                              <div
-                                key={optionIndex}
-                                className="flex w-full flex-col  lg:w-[49%]"
-                              >
-                                <label className="text-textLightColor">{`Option ${
-                                  optionIndex + 1
-                                }`}</label>
-                                <div className="flex items-center gap-3">
-                                  <input
-                                    type="text"
-                                    name={`option-${i}-${quizIndex}-${optionIndex}`}
-                                    value={option}
-                                    onChange={(e) =>
-                                      handleQuizOptionsInputChange(
-                                        i,
-                                        quizIndex,
-                                        optionIndex,
-                                        e,
-                                      )
-                                    }
-                                    required
-                                    className="w-full rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                                  />
-                                  {quiz.options.length > 2 && (
-                                    <button
-                                      type="button"
-                                      className="rounded-sm border text-xl text-textLightColor"
-                                      onClick={() =>
-                                        handleRemoveQuizOptions(
-                                          i,
-                                          quizIndex,
-                                          optionIndex,
-                                        )
-                                      }
-                                    >
-                                      <RxCross2 />
-                                    </button>
-                                  )}
-                                </div>
+                                <button
+                                  type="button"
+                                  className="my-3 rounded-md bg-textLightColor p-2 text-white lg:w-[20%]"
+                                  onClick={(e) =>
+                                    handleAddQuizOptions(i, quizIndex)
+                                  }
+                                >
+                                  Add Options
+                                </button>
                               </div>
-                            ))}
-                          </div>
-                          {/* Answer input field*/}
-                          <hr className="my-3 border xl:w-[100%]" />
-                          <div className="flex flex-col">
-                            <label className="text-textLightColor">
-                              {`Answer`}
-                            </label>
-                            <SelectField
-                              name={`answer-${i}-${quizIndex}`}
-                              value={quiz.answer}
-                              onChange={(e) =>
-                                handleQuizAnswerInputChange(i, quizIndex, e)
-                              }
-                              options={quiz.options}
-                              required
-                              formStyle={formStyle}
-                            />
-                            {/* <input
+                              <div className="flex flex-wrap gap-3">
+                                {quiz.options.map((option, optionIndex) => (
+                                  <div
+                                    key={optionIndex}
+                                    className="flex w-full flex-col  lg:w-[49%]"
+                                  >
+                                    <label className="text-textLightColor">{`Option ${
+                                      optionIndex + 1
+                                    }`}</label>
+                                    <div className="flex items-center gap-3">
+                                      <input
+                                        type="text"
+                                        name={`option-${i}-${quizIndex}-${optionIndex}`}
+                                        value={option}
+                                        onChange={(e) =>
+                                          handleQuizOptionsInputChange(
+                                            i,
+                                            quizIndex,
+                                            optionIndex,
+                                            e,
+                                          )
+                                        }
+                                        required
+                                        className="w-full rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                      />
+                                      {quiz.options.length > 2 && (
+                                        <button
+                                          type="button"
+                                          className="rounded-sm border text-xl text-textLightColor"
+                                          onClick={() =>
+                                            handleRemoveQuizOptions(
+                                              i,
+                                              quizIndex,
+                                              optionIndex,
+                                            )
+                                          }
+                                        >
+                                          <RxCross2 />
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                              {/* Answer input field*/}
+                              <hr className="my-3 border xl:w-[100%]" />
+                              <div className="flex flex-col">
+                                <label className="text-textLightColor">
+                                  {`Answer`}
+                                </label>
+                                <SelectField
+                                  name={`answer-${i}-${quizIndex}`}
+                                  value={quiz.answer}
+                                  onChange={(e) =>
+                                    handleQuizAnswerInputChange(i, quizIndex, e)
+                                  }
+                                  options={quiz.options}
+                                  required
+                                  formStyle={formStyle}
+                                />
+                                {/* <input
                               type="text"
                               name={`answer-${i}-${quizIndex}`}
                               value={quiz.answer}
@@ -515,34 +526,36 @@ const SectionForm = ({
                               required
                               className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
                             /> */}
-                          </div>
-                          {quizIndex === ssection.quizInputs.length - 1 && (
-                            <button
+                              </div>
+                              {quizIndex === ssection.quizInputs.length - 1 && (
+                                <button
+                                  type="button"
+                                  className="my-3 rounded-md bg-textLightColor p-2 text-white"
+                                  onClick={(e) => handleAddQuiz(i)}
+                                >
+                                  Add Quiz
+                                </button>
+                              )}
+                            </div>
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          <hr className="my-3 border xl:w-[100%]" />
+                          <div className="mt-3 flex w-full items-center justify-end">
+                            <Link
+                              to={
+                                "https://krays-lms-s3.s3.ap-south-1.amazonaws.com/LmsCourse/Quiz/QuizTemplate.xlsx"
+                              }
                               type="button"
-                              className="my-3 rounded-md bg-textLightColor p-2 text-white"
-                              onClick={(e) => handleAddQuiz(i)}
+                              className="text-blue-500 underline"
                             >
-                              Add Quiz
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <hr className="my-3 border xl:w-[100%]" />
-                      <div className="mt-3 flex w-full items-center justify-end">
-                        <Link
-                          to={
-                            "https://krays-lms-s3.s3.ap-south-1.amazonaws.com/LmsCourse/Quiz/QuizTemplate.xlsx"
-                          }
-                          type="button"
-                          className="text-blue-500 underline"
-                        >
-                          Download Sample File
-                        </Link>
-                      </div>
-                      <QuizUpload setUploadQuiz={setUploadQuiz} />
+                              Download Sample File
+                            </Link>
+                          </div>
+                          <QuizUpload setUploadQuiz={setUploadQuiz} />
+                        </>
+                      )}
                     </>
                   )}
                   {subSections.length > 1 && <hr className="my-3 border" />}
