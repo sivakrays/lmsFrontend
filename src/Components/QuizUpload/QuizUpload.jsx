@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { post } from "../../ApiCall/ApiCall";
 
-const QuizUpload = ({ setUploadQuiz }) => {
+const QuizUpload = ({ setUploadQuiz, subSections, setSubSections, i }) => {
   const [quiz, setQuiz] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -25,8 +25,12 @@ const QuizUpload = ({ setUploadQuiz }) => {
           setUploadProgress(percentCompleted);
         },
       });
+
+      const updatedSubSections = [...subSections];
+      updatedSubSections[i].quizInputs = res.data;
+      setSubSections(updatedSubSections);
       setUploadQuiz(res.data);
-      console.log(res.data);
+      console.log(updatedSubSections);
     } catch (error) {
       console.error("Error uploading video:", error);
     } finally {

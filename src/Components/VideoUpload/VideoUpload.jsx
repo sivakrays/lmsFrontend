@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import "./VideoUpload.css";
 import { post } from "../../ApiCall/ApiCall";
 
-const VideoUpload = ({ courseId, setUploadVideoLink, sectionTitle }) => {
+const VideoUpload = ({
+  setUploadVideoLink,
+  sectionTitle,
+  subSections,
+  setSubSections,
+  i,
+}) => {
   const [video, setVideo] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -32,8 +38,11 @@ const VideoUpload = ({ courseId, setUploadVideoLink, sectionTitle }) => {
         },
       );
 
+      const updatedSubSections = [...subSections];
+      updatedSubSections[i].VideoLink = res.data;
+      setSubSections(updatedSubSections);
       setUploadVideoLink(res.data);
-      console.log(res.data);
+      console.log(updatedSubSections);
     } catch (error) {
       console.error("Error uploading video:", error);
     } finally {

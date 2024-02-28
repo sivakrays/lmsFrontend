@@ -35,7 +35,7 @@ const SectionForm = ({
     },
   ]);
 
-  console.log(subSections[0].quizInputs.length);
+  // console.log(subSections[0].quizInputs.length);
 
   const [deserror, setDesError] = useState(false);
 
@@ -193,24 +193,12 @@ const SectionForm = ({
           title: sectionTitle,
           // course_id: localStorage.getItem("Current Upload CourseId"),
           courseId: courseId,
-          subSections: subSections.map((subSection) => {
-            console.log(subSection.quizInputs.length);
-            if (subSection.quizInputs.length > 1) {
-              return {
-                title: subSection.SubSectionTitle,
-                description: subSection.SubSectionDes,
-                link: subSection.VideoLink || uploadVideoLink,
-                quizList: subSection.quizInputs,
-              };
-            } else {
-              return {
-                title: subSection.SubSectionTitle,
-                description: subSection.SubSectionDes,
-                link: subSection.VideoLink || uploadVideoLink,
-                quizList: uploadQuiz,
-              };
-            }
-          }),
+          subSections: subSections.map((subSection) => ({
+            title: subSection.SubSectionTitle,
+            description: subSection.SubSectionDes,
+            link: subSection.VideoLink,
+            quizList: subSection.quizInputs,
+          })),
         },
       ];
 
@@ -342,6 +330,9 @@ const SectionForm = ({
                           courseId={courseId}
                           setUploadVideoLink={setUploadVideoLink}
                           sectionTitle={sectionTitle}
+                          subSections={subSections}
+                          setSubSections={setSubSections}
+                          i={i}
                         />
                       </div>
                     ) : (
@@ -514,18 +505,6 @@ const SectionForm = ({
                                   required
                                   formStyle={formStyle}
                                 />
-                                {/* <input
-                              type="text"
-                              name={`answer-${i}-${quizIndex}`}
-                              value={quiz.answer}
-                              onChange={(e) =>
-                                handleQuizAnswerInputChange(i, quizIndex, e)
-                              }
-                              pattern="^[0-9]"
-                              title="Only Accept the Number"
-                              required
-                              className="rounded-md border bg-dashboardLightColor py-2 pl-1 text-textColor placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                            /> */}
                               </div>
                               {quizIndex === ssection.quizInputs.length - 1 && (
                                 <button
@@ -553,7 +532,16 @@ const SectionForm = ({
                               Download Sample File
                             </Link>
                           </div>
-                          <QuizUpload setUploadQuiz={setUploadQuiz} />
+                          <QuizUpload
+                            setUploadQuiz={setUploadQuiz}
+                            /* UploadQuiz */
+                            courseId={courseId}
+                            setUploadVideoLink={setUploadVideoLink}
+                            sectionTitle={sectionTitle}
+                            subSections={subSections}
+                            setSubSections={setSubSections}
+                            i={i}
+                          />
                         </>
                       )}
                     </>
