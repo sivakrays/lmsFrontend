@@ -1,5 +1,4 @@
 import React from "react";
-import Tv from "../../../Assets/coursedetails/tv.svg";
 import { FcIdea } from "react-icons/fc";
 
 const DetailsAccordion = ({
@@ -11,15 +10,21 @@ const DetailsAccordion = ({
   clickedAccordion,
   setClickedAccordion,
   setIsReward,
+  // find Previous Id
+  setCurrentSectionId,
+  prevSectionIdRef,
+  currentSectionId,
+  setPrevSectionId,
 }) => {
-  const toggleAccordion = (index) => {
-    // if (index === clickedAccordion) {
-    //   setClickedAccordion(-1);
-    //   return;
-    // }
-    // setClickedAccordion(index);
-    setClickedAccordion(index);
+  const toggleAccordion = (sectionId) => {
+    setClickedAccordion(sectionId);
     setIsReward(false);
+
+    // Find Previous SectionId
+    setCurrentSectionId(sectionId);
+    prevSectionIdRef.current = currentSectionId;
+    setPrevSectionId(prevSectionIdRef.current);
+    console.log("previous Section", prevSectionIdRef.current);
   };
 
   return (

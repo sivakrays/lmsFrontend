@@ -72,7 +72,6 @@ const Nav = ({ bronze, silver, gold }) => {
     await logout();
 
     setTimeout(() => {
-      navigate(0);
       navigate("/");
     }, 500);
   };
@@ -296,7 +295,7 @@ const Nav = ({ bronze, silver, gold }) => {
                 </Link>
               </li>
             )}
-            {isTokenValid && localStorage.getItem("role") === "Admin" ? (
+            {isTokenValid && localStorage.getItem("role") === "admin" ? (
               <>
                 <Link to="/dashboard">
                   <div

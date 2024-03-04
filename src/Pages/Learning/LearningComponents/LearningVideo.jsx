@@ -1,8 +1,58 @@
-import React, { useState } from "react";
-import { Player } from "video-react";
+import { post } from "jquery";
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
+import { checkAndRefreshToken } from "../../../utils/RefreshToken/RefreshToken";
 
-const LearningVideo = ({ videoUrl, autoPlayNext, playPrevious, isLast }) => {
+const LearningVideo = ({
+  videoUrl,
+  autoPlayNext,
+  playPrevious,
+  isLast,
+  userId,
+  courseId,
+  sectionId,
+  subSectionId,
+}) => {
+  const [playedTime, setPlayedTime] = useState(0);
+
+  const handleProgress = (state) => {
+    const currentSecondsWhole = Math.round(state.playedSeconds);
+    setPlayedTime(currentSecondsWhole);
+    console.log(currentSecondsWhole);
+  };
+
+  const sendPlayedSecondsToApi = async () => {
+    if (playedTime > 0) {
+      console.log("previously played Seconds", playedTime);
+      const currentToken = JSON.parse(localStorage.getItem("token"));
+      try {
+        const refreshedToken = await checkAndRefreshToken(currentToken);
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshedToken}`,
+          },
+        };
+
+        const data = {
+          userId: userId,
+          courseId: courseId,
+          sectionId: sectionId,
+          subSectionId: subSectionId,
+          playedSeconds: playedTime,
+          watched: true,
+        };
+
+        console.log(data);
+
+        const res = await post("/user/saveCourseVideoDuration", data, config);
+        console.log(res.data);
+      } catch (err) {
+        console.log("error");
+      }
+    }
+  };
+
   const videoEnded = () => {
     autoPlayNext();
   };
@@ -16,7 +66,9 @@ const LearningVideo = ({ videoUrl, autoPlayNext, playPrevious, isLast }) => {
           height={"81vh"}
           url={videoUrl}
           playing={true}
+          onReady={sendPlayedSecondsToApi}
           onEnded={videoEnded}
+          onProgress={handleProgress}
           style={{
             backgroundColor: "#FCFAF0",
           }}
@@ -28,9 +80,7 @@ const LearningVideo = ({ videoUrl, autoPlayNext, playPrevious, isLast }) => {
             },
           }}
         />
-        {/* <Player>
-        <source src={`${videoUrl}`} />
-      </Player> */}
+
         {/* Play Previous Functionality */}
         <div
           className={`absolute left-0 top-[50%] cursor-pointer rounded-sm border-0 bg-textLightColor text-white`}

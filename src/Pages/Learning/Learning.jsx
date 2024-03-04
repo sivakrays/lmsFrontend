@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Learning.css";
 import { useParams } from "react-router-dom";
 import { get } from "../../ApiCall/ApiCall";
@@ -8,9 +8,12 @@ import DetailsAccordion from "./LearningComponents/DetailsAccordion";
 import Loader from "../../Components/Loader/Loader";
 import Nav from "../../Components/Nav/Nav";
 import Reward from "../../Components/Reward/Reward";
+import { authContext } from "../../Context/AuthContext";
 
 const Learning = () => {
   const { id } = useParams();
+
+  const { userId } = useContext(authContext);
 
   const [accordionDetails, setAccordionDetails] = useState([]);
   const [videoUrl, setVideoUrl] = useState(null);
@@ -29,7 +32,6 @@ const Learning = () => {
 
   // Section Highlighted state
   const [clickedAccordion, setClickedAccordion] = useState(-1);
-
   const [isReward, setIsReward] = useState(false);
   // AutoPlay states
 
@@ -38,15 +40,35 @@ const Learning = () => {
   const [lastSection, setLastSection] = useState(null);
   const [lastSubSection, setLastSubSection] = useState(null);
 
+  // find Previous Id States
+
+  const prevSectionIdRef = useRef(0);
+  const prevSubSectionIdRef = useRef(0);
+
+  const [currentSectionId, setCurrentSectionId] = useState(0);
+  const [currentSubSectionId, setCurrentSubSectionId] = useState(0);
+
+  const [prevSectionId, setPrevSectionId] = useState(0);
+  const [prevSubSectionId, setPrevSubSectionId] = useState(0);
+
   const handleClickSubSection = (videoLink, subSectionId) => {
     setIsQuizVisible(false);
     setVideoUrl(videoLink);
+
     setClickedSubSection(subSectionId);
     setClickedOption("");
     setClickedQuiz("");
     setEnergyPoints(0);
     // reward Visibility state
     setIsReward(false);
+
+    // find previous
+    prevSubSectionIdRef.current = currentSubSectionId;
+    setCurrentSubSectionId(subSectionId);
+
+    console.log("clicked subsection", subSectionId);
+    setPrevSubSectionId(prevSubSectionIdRef.current);
+    console.log("previous SubSection", prevSubSectionIdRef.current);
   };
 
   const handleClickQuiz = (quiz, quizId, subSectionId) => {
@@ -91,6 +113,10 @@ const Learning = () => {
         ) {
           setVideoUrl(res.data.sections[0].subSections[0].link);
           setClickedSubSection(
+            res.data.sections[0].subSections[0].subSectionId,
+          );
+          setCurrentSectionId(res.data.sections[0].sectionId);
+          setCurrentSubSectionId(
             res.data.sections[0].subSections[0].subSectionId,
           );
 
@@ -268,6 +294,12 @@ const Learning = () => {
                   autoPlayNext={autoPlayNext}
                   playPrevious={playPrevious}
                   isLast={isLast}
+                  /*send Seconds data*/
+                  accordionDetails={accordionDetails}
+                  userId={userId}
+                  courseId={id}
+                  sectionId={prevSectionId}
+                  subSectionId={prevSubSectionId}
                 />
               )}
             </div>
@@ -288,6 +320,11 @@ const Learning = () => {
                   clickedAccordion={clickedAccordion}
                   // Reward Visibility state
                   setIsReward={setIsReward}
+                  // find previousID
+                  setCurrentSectionId={setCurrentSectionId}
+                  prevSectionIdRef={prevSectionIdRef}
+                  currentSectionId={currentSectionId}
+                  setPrevSectionId={setPrevSectionId}
                 />
               </div>
             </div>
