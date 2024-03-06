@@ -25,6 +25,8 @@ import { authContext } from "./Context/AuthContext";
 import VideoUpload from "./Components/VideoUpload/VideoUpload";
 import Learning from "./Pages/Learning/Learning";
 import UploadSection from "./Dashboard/MyCourse/UploadSection";
+import UploadPage from "./Dashboard/UploadPage/UploadPage";
+import DragableWidget from "./Dashboard/DragableWidget/DragableWidget";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -91,14 +93,16 @@ const App = () => {
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/reward" element={<Reward />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        // SideNavigation
         <Route element={<SideBar />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/courses" element={<MyCourse />} />
           <Route path="/users" element={<Users />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/upload" element={<Upload />} />
+          <Route path="/uploadPage" element={<UploadPage />} />
         </Route>
-
+        <Route path="/drag" element={<DragableWidget />} />
         <Route path="/superAdmin" element={<SuperAdminLogin />} />
         <Route path="/tenantAdmin" element={<SuperAdminLogin />} />
         <Route path="/videoUpload" element={<VideoUpload />} />

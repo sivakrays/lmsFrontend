@@ -66,6 +66,7 @@ const AddToCart = () => {
           if (res.data.length > 0) {
             setCartLoading(false);
             setCartData(res.data);
+            console.log(res.data.length);
             localStorage.setItem("cartItems", res.data.length);
           } else {
             navigate("/");

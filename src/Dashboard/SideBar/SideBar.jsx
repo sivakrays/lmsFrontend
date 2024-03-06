@@ -10,6 +10,7 @@ import { RiUploadCloud2Fill } from "react-icons/ri";
 import { Tooltip } from "react-tooltip";
 import { IoLogOut } from "react-icons/io5";
 import { authContext } from "../../Context/AuthContext";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 const BottomBar = ({ role }) => {
   return (
@@ -97,11 +98,18 @@ const SideBar = () => {
               </Link>
             </li>
             {role === "admin" && (
-              <li>
-                <Link to={"/courses"}>
-                  <FaLayerGroup className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link to={"/courses"}>
+                    <FaLayerGroup className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/uploadPage"}>
+                    <FaCloudUploadAlt className="mx-auto h-7 w-9 cursor-pointer text-herobg" />
+                  </Link>
+                </li>
+              </>
             )}
 
             <li>

@@ -55,6 +55,7 @@ export const AuthContextProvider = ({ children }) => {
         email: email,
         password: password,
         tenantId: tenant,
+        // tenantId: "public",
       },
     };
 
@@ -75,6 +76,8 @@ export const AuthContextProvider = ({ children }) => {
         setUserId(res.data.userId);
         setToken(actualToken);
         setUser(res.data.name);
+
+        localStorage.setItem("cartItems", res.data.cartCount);
 
         setTotalBronze(res.data.bronze);
         setTotalSilver(res.data.silver);
