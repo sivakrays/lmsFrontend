@@ -16,6 +16,7 @@ const FormInput = (props) => {
     handleChange,
     handleDropdownChange,
     isButtonClicked,
+    iconButton, // Declare iconButton variable
     ...inputProps
   } = props;
   const handleFocus = (e) => {
@@ -115,7 +116,7 @@ const FormInput = (props) => {
                 />
               </>
             ) : (
-              <div className="flex  flex-col rounded-lg  sm:max-w-md">
+              <div className="relative flex flex-col rounded-lg  sm:max-w-md">
                 <input
                   id={label}
                   data-testid="inputBox"
@@ -127,6 +128,11 @@ const FormInput = (props) => {
                   type={type}
                   disabled={isButtonClicked === true}
                 />
+                <div>
+                  {iconButton && (
+                    <div className="absolute right-3 top-2">{iconButton}</div>
+                  )}
+                </div>
                 <span
                   className="errSpan mt-2 text-sm text-red-800"
                   data-testid="errMsg"

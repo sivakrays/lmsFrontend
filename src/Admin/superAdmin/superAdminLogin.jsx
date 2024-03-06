@@ -5,8 +5,14 @@ import { post } from "../../ApiCall/ApiCall";
 import logo1 from "../../Assets/Admin/kraysLogoNoBg.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const SuperAdminLogin = () => {
+  // handleShowPassword is used for hide and show the password
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -214,16 +220,28 @@ const SuperAdminLogin = () => {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    //required
-                    value={loginData.password.trim()}
-                    onChange={handleInputchange}
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      id="password"
+                      placeholder="••••••••"
+                      className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                      //required
+                      value={loginData.password.trim()}
+                      onChange={handleInputchange}
+                    />
+                    <div className="absolute right-3 top-4 flex items-center">
+                      <button
+                        type="button"
+                        onClick={handleShowPassword}
+                        className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                      >
+                        {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                      </button>
+                    </div>
+                  </div>
+
                   {passwordError && (
                     <p className="mt-1 text-[10px] text-red-600 ">
                       {passwordError}
