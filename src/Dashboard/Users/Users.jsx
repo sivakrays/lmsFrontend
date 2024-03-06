@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Pagination from "../../Components/Pagination/Pagination";
 import Loader from "../../Components/Loader/Loader";
 import "./Users.css";
+import DeleteConfirmation from "../../Components/DeleteConfirmation/DeleteConfirmation";
 
 const UserModal = ({
   role,
@@ -149,7 +150,7 @@ const Users = () => {
           const config = {
             headers: {
               "Content-Type": "application/json",
-              tenantId: localStorage.getItem("tenantId"),
+              tenantId: "public",
               id: tenantId,
               pageNo: parseInt(pageNo),
               pageSize: pageSize,
@@ -189,6 +190,20 @@ const Users = () => {
     }
   };
 
+  const [isDeleteConfirmation, setIsDeleteConformation] = useState(false);
+
+  // handle yes function for what happened when i click the yes in delete confirmation box
+  const handleYes = () => {
+    handleDelete(clickedItem);
+    setIsDeleteConformation(false);
+  };
+
+  // handle no function for the delete the confirmation message box no button
+  const handleNo = () => {
+    setIsDeleteConformation(false);
+    setDeleteLoader(false);
+  };
+
   return (
     <>
       <div className="min-h-screen w-full bg-herobg">
@@ -198,7 +213,7 @@ const Users = () => {
               Users
             </h2>
             <h4 className="text-textLightColor">
-              Welcome to{" "}
+              Welcome to
               <Link to="/" className="dayOne">
                 {data[0].title}
               </Link>{" "}
@@ -270,7 +285,12 @@ const Users = () => {
 
                             <div className="w-1/4 overflow-scroll">
                               <button
-                                onClick={() => handleDelete(tenant.id)}
+                                // onClick={() => handleDelete(tenant.id)}
+                                onClick={() => {
+                                  setDeleteLoader(true);
+                                  setIsDeleteConformation(true);
+                                  setClickedItem(tenant.id);
+                                }}
                                 type="button"
                               >
                                 {deleteLoader === true &&
@@ -286,20 +306,22 @@ const Users = () => {
                                   </>
                                 ) : (
                                   <>
-                                    <svg
-                                      className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                      ></path>
-                                    </svg>
+                                    <button>
+                                      <svg
+                                        className="h-8 w-8 rounded-full bg-red-100 p-1 text-red-600"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        ></path>
+                                      </svg>
+                                    </button>
                                   </>
                                 )}
                               </button>
@@ -314,6 +336,14 @@ const Users = () => {
                         pageNo={pageNo}
                         totalpage={totalpage}
                       />
+
+                      {/* delete confirmation messagebox */}
+                      {isDeleteConfirmation === true && (
+                        <DeleteConfirmation
+                          handleNo={handleNo}
+                          handleYes={handleYes}
+                        />
+                      )}
                     </>
                   ) : (
                     <>

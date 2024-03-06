@@ -76,6 +76,8 @@ export const AuthContextProvider = ({ children }) => {
         setToken(actualToken);
         setUser(res.data.name);
 
+        localStorage.setItem("cartItems", res.data.cartCount);
+
         setTotalBronze(res.data.bronze);
         setTotalSilver(res.data.silver);
         setTotalGold(res.data.gold);

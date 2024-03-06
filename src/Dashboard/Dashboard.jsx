@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import data from "../Data/Data";
 
 const DashBoardContent = () => {
+  const role = localStorage.getItem("role");
   return (
     <>
       <div className="min-h-screen w-full bg-herobg">
@@ -15,9 +16,13 @@ const DashBoardContent = () => {
             </h2>
             <h4 className="text-textLightColor">
               Welcome to{" "}
-              <Link to="/" className="dayOne">
-                {data[0].title}
-              </Link>{" "}
+              {role === "admin" ? (
+                <Link to="/" className="dayOne">
+                  {data[0].title}
+                </Link>
+              ) : (
+                <>{data[0].title}</>
+              )}{" "}
               Dashboard
             </h4>
           </div>

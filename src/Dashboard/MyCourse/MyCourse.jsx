@@ -10,6 +10,7 @@ import { checkAndRefreshToken } from "../../utils/RefreshToken/RefreshToken";
 import Loader from "../../Components/Loader/Loader";
 import "./MyCourse.css";
 import Pagination from "../../Components/Pagination/Pagination";
+import DeleteConfirmation from "../../Components/DeleteConfirmation/DeleteConfirmation";
 
 const UploadModal = ({
   setIsCourseUpload,
@@ -150,6 +151,21 @@ const MyCourse = () => {
   const [deleteLoader, setDeleteLoader] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
 
+  const [isDeleteConfirmation, setIsDeleteConformation] = useState(false);
+
+  // handle yes function for what happened when i click the yes in delete confirmation box
+  const handleYes = () => {
+    handleDelete(clickedItem);
+
+    setIsDeleteConformation(false);
+  };
+
+  // handle no function for the delete the confirmation message box no button
+  const handleNo = () => {
+    setIsDeleteConformation(false);
+    setDeleteLoader(false);
+  };
+
   const handleDelete = async (courseId) => {
     const currentToken = JSON.parse(localStorage.getItem("token"));
     setClickedItem(courseId);
@@ -179,6 +195,8 @@ const MyCourse = () => {
       console.log(err);
     }
   };
+
+  console.log("clicked Item", clickedItem);
 
   return (
     <>
@@ -279,7 +297,14 @@ const MyCourse = () => {
 
                         <div className="w-1/4 ">
                           <button
-                            onClick={() => handleDelete(data.courseId)}
+                            onClick={() =>
+                              // handleDelete(data.courseId)
+                              {
+                                setDeleteLoader(true);
+                                setIsDeleteConformation(true);
+                                setClickedItem(data.courseId);
+                              }
+                            }
                             type="button"
                           >
                             {deleteLoader === true &&
@@ -324,6 +349,14 @@ const MyCourse = () => {
                       pageNo={pageNo}
                       totalpage={totalpage}
                     />
+
+                    {/* delete confirmation messagebox */}
+                    {isDeleteConfirmation === true && (
+                      <DeleteConfirmation
+                        handleNo={handleNo}
+                        handleYes={handleYes}
+                      />
+                    )}
                   </div>
                 </>
               )}

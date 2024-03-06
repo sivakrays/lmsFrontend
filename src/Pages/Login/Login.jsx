@@ -3,12 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../../Components/FormInput/FormInput";
 import { authContext } from "../../Context/AuthContext";
 import { ToastContainer } from "react-toastify";
-
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 import { get, post } from "../../ApiCall/ApiCall";
 
 const Login = () => {
+  // handleShowPassword is used for hide and show the password
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -53,7 +58,7 @@ const Login = () => {
       id: 2,
       name: "password",
       label: "Password",
-      type: "password",
+      type: showPassword ? "text" : "password",
       errorMsg:
         "Password must be at least 6 characters long and include one digit and one special character",
       required: true,
@@ -118,6 +123,14 @@ const Login = () => {
               options={options}
               handleDropdownChange={handleDropdownChange}
               isButtonClicked={isButtonClicked}
+              // Pass the icon button for password visibility
+              iconButton={
+                input.name === "password" && (
+                  <button type="button" onClick={handleShowPassword}>
+                    {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                  </button>
+                )
+              }
             />
           ))}
 
