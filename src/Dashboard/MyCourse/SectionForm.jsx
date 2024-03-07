@@ -501,7 +501,9 @@ const SectionForm = ({
                                   onChange={(e) =>
                                     handleQuizAnswerInputChange(i, quizIndex, e)
                                   }
-                                  options={quiz.options}
+                                  options={quiz.options.filter(
+                                    (option) => option !== "",
+                                  )} // Filter out empty strings
                                   required
                                   formStyle={formStyle}
                                 />

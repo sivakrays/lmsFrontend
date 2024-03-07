@@ -1,12 +1,16 @@
 import React from "react";
 
 import badge from "../../Assets/Badge/Badge.png";
+import badge1 from "../../Assets/Badge/Silver.png";
+import badge2 from "../../Assets/Badge/Bronze.png";
 import silver from "../../Assets/Badge/Silver.png";
 import bronze from "../../Assets/Badge/Bronze.png";
 
 import "./Reward.css";
 
 const Reward = ({ setIsReward, energyPoints, autoPlayNext }) => {
+  console.log(energyPoints);
+
   return (
     <>
       <div className="absolute top-0 min-h-screen w-[72%] bg-herobg ">
@@ -35,13 +39,35 @@ const Reward = ({ setIsReward, energyPoints, autoPlayNext }) => {
             </p>
           </div>
           <div className="mx-auto  flex w-[300px] items-center justify-center">
-            <img src={badge} alt="reward1" className="h-56 drop-shadow-2xl" />
+            {energyPoints === 3 && (
+              <img src={badge} alt="reward1" className="h-56 drop-shadow-2xl" />
+            )}
+            {energyPoints === 2 && (
+              <img
+                src={badge1}
+                alt="reward1"
+                className="h-56 drop-shadow-2xl"
+              />
+            )}
+            {energyPoints === 1 && (
+              <img
+                src={badge2}
+                alt="reward1"
+                className="h-56 drop-shadow-2xl"
+              />
+            )}
+            {energyPoints === 0 && (
+              <img src={badge} alt="reward1" className="h-56 drop-shadow-2xl" />
+            )}
           </div>
           <div className="rewardContent mx-auto mt-5 flex w-[300px] flex-col gap-4 ">
             <p className="flex flex-col items-center gap-2 text-gray-500">
               <span>Well done! You have earned,</span>
               <span className="text-xl font-semibold">
-                Enthusiast - Gold Badge
+                {energyPoints === 3 && " Enthusiast - Gold Badge"}
+                {energyPoints === 2 && "Admirer - Silver Badge"}
+                {energyPoints === 1 && "Supporter - Bronze Badge"}
+                {energyPoints === 0 && "Diligent - Work hard!"}
               </span>
             </p>
           </div>

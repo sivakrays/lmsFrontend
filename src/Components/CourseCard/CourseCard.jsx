@@ -13,7 +13,8 @@ import Loader from "../Loader/Loader";
 
 const CourseCard = ({ course, path }) => {
   const { isTokenValid, userId, token } = useContext(authContext);
-  const { setCartUpdated, cartUpdated, setCartData } = useContext(cartContext);
+  const { setCartUpdated, cartUpdated, setCartData, setTotalCartItem } =
+    useContext(cartContext);
 
   const navigate = useNavigate();
   const errorNotify = (err) =>
@@ -87,6 +88,9 @@ const CourseCard = ({ course, path }) => {
         setCartLoading(false);
         successNotify();
         setCartData(res.data);
+        console.log(res.data.length);
+        setTotalCartItem(res.data.length);
+        localStorage.setItem("cartItems", res.data.length);
         console.log(res);
       } else {
         errorNotify("Course alredy exsist!");

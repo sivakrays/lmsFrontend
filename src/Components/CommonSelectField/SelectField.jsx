@@ -43,7 +43,8 @@ const SelectField = ({
       </select>
       {error && (
         <p className="mt-1 text-sm text-red-500">
-          Please select a {label.toLowerCase()}
+          Please select a value
+          {/* {label.toLowerCase()} */}
         </p>
       )}
     </div>

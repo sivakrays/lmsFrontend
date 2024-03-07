@@ -166,10 +166,12 @@ const AddToCart = () => {
       name: "KraysInfotech",
       description: "Thanks for Purchasing",
       orderID: orderID,
-      // handler: function (response) {
-      //   alert(response.razorpay_payment_id);
-      //   alert("Payment Success");
-      // },
+      handler: function (response) {
+        // alert(response.razorpay_payment_id);
+        // alert("Payment Success");
+        handleEmptyCart();
+        navigate("/mylearnings");
+      },
 
       // prefill: {
       //   name: whose payment details ,
@@ -221,6 +223,29 @@ const AddToCart = () => {
     console.log("submited", ID);
     setDeleteLoading(true);
     // handleDelete(ID);
+  };
+
+  const handleEmptyCart = async () => {
+    try {
+      const refreshedToken = await checkAndRefreshToken(JSON.parse(appToken));
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshedToken}`,
+        },
+      };
+
+      const res = await del(
+        `/user/deleteCartByUserId?userId=${userId}`,
+        config,
+      );
+      console.log(res.data);
+      localStorage.setItem("cartItems", 0);
+      setTotalCartItem(0);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

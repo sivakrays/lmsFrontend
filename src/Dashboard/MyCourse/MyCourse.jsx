@@ -300,8 +300,8 @@ const MyCourse = () => {
                             onClick={() =>
                               // handleDelete(data.courseId)
                               {
-                                setDeleteLoader(true);
                                 setIsDeleteConformation(true);
+                                setDeleteLoader(true);
                                 setClickedItem(data.courseId);
                               }
                             }
